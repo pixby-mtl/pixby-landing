@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agence Google Ads pour PME locales au Québec. On crée et gère tes campagnes pour que ton téléphone sonne. Lebel Electro : CPA réduit de 60 % en 30 jours. Audit gratuit de 15 min.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Pixby — Agence Google Ads Montréal | PME Locales Québec">
+  <meta property="og:description" content="Plus de clients locaux avec Google Ads — système clé en main pour PME au Québec. Audit gratuit.">
+  <meta property="og:url" content="https://www.pixby.ca">
+  <meta property="og:type" content="website">
+  <title>Pixby — Agence Google Ads Montréal | PME Locales Québec</title>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Pixby",
+    "description": "Agence Google Ads spécialisée pour PME locales au Québec — campagnes Search, tracking, CRM",
+    "url": "https://www.pixby.ca",
+    "telephone": "+15147780637",
+    "email": "admin@pixby.ca",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Longueuil",
+      "addressRegion": "QC",
+      "postalCode": "J4N 0C4",
+      "addressCountry": "CA"
+    },
+    "areaServed": [
+      {"@type": "City", "name": "Montréal"},
+      {"@type": "City", "name": "Longueuil"},
+      {"@type": "City", "name": "Brossard"},
+      {"@type": "City", "name": "Saint-Jean-sur-Richelieu"},
+      {"@type": "State", "name": "Québec"}
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Gestion Google Ads",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "Starter Google Ads",
+          "price": "600",
+          "priceCurrency": "CAD",
+          "priceSpecification": {"@type": "UnitPriceSpecification", "unitText": "MONTH"}
+        }
+      ]
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0D1B2A;
+      --blue:    #1D6BFE;
+      --blue-h:  #1557D8;
+      --green:   #00C896;
+      --text:    #0D1B2A;
+      --muted:   #5A6B7B;
+      --border:  #E2E8F0;
+      --bg:      #F7F9FC;
+      --white:   #FFFFFF;
+      --red:     #EF4444;
+      --radius:  10px;
+      --shadow:  0 4px 24px rgba(13,27,42,.10);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    /* ── UTILS ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--blue); color: var(--white); border: none; border-radius: var(--radius);
+      font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer;
+      padding: 16px 32px; text-decoration: none; transition: background .2s, transform .15s;
+      white-space: nowrap;
+    }
+    .btn:hover { background: var(--blue-h); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent; color: var(--blue); border: 2px solid var(--blue);
+    }
+    .btn-ghost:hover { background: var(--blue); color: var(--white); }
+    .btn-lg { font-size: 1.125rem; padding: 18px 40px; }
+    .badge {
+      display: inline-block; background: rgba(29,107,254,.10); color: var(--blue);
+      border-radius: 100px; padding: 4px 14px; font-size: .8rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .check { color: var(--green); font-weight: 700; }
+    .section { padding: 80px 0; }
+    .section-sm { padding: 48px 0; }
+    h2 { font-size: 2rem; font-weight: 800; line-height: 1.2; }
+    h3 { font-size: 1.2rem; font-weight: 700; }
+    @media (max-width: 768px) {
+      h2 { font-size: 1.6rem; }
+      .section { padding: 56px 0; }
+      .btn-lg { width: 100%; }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .nav-logo { font-size: 1.4rem; font-weight: 900; color: var(--navy); text-decoration: none; letter-spacing: -.02em; }
+    .nav-logo span { color: var(--blue); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-tel { color: var(--text); text-decoration: none; font-weight: 600; font-size: .95rem; }
+    .nav-tel:hover { color: var(--blue); }
+    @media (max-width: 600px) { .nav-tel { display: none; } }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a2f4a 100%);
+      color: var(--white); padding: 80px 0 72px;
+    }
+    .hero-inner { display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: start; }
+    .hero-tag { margin-bottom: 20px; }
+    .hero-tag .badge { background: rgba(255,255,255,.12); color: rgba(255,255,255,.85); }
+    .hero h1 {
+      font-size: 2.75rem; font-weight: 900; line-height: 1.15; margin-bottom: 20px;
+      letter-spacing: -.03em;
+    }
+    .hero h1 em { color: var(--green); font-style: normal; }
+    .hero-sub { font-size: 1.15rem; color: rgba(255,255,255,.75); margin-bottom: 32px; max-width: 520px; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+    .chip {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      border-radius: 100px; padding: 6px 14px; font-size: .85rem; color: rgba(255,255,255,.85);
+    }
+    .chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .hero-ctas { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .hero-tel { color: rgba(255,255,255,.7); font-size: .9rem; text-decoration: none; }
+    .hero-tel:hover { color: var(--white); }
+
+    /* Hero Card (right side) */
+    .hero-card {
+      background: var(--white); border-radius: 16px; padding: 32px 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      color: var(--text);
+    }
+    .hero-card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+    .hero-card-sub { font-size: .85rem; color: var(--muted); margin-bottom: 24px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--muted); margin-bottom: 5px; letter-spacing: .02em; text-transform: uppercase; }
+    .form-group input,
+    .form-group select {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-family: inherit; font-size: .95rem; color: var(--text);
+      background: var(--white); transition: border-color .2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(29,107,254,.12); }
+    .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6B7B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .form-submit { width: 100%; margin-top: 4px; font-size: 1rem; padding: 15px; }
+    .form-trust { margin-top: 12px; font-size: .78rem; color: var(--muted); text-align: center; line-height: 1.5; }
+    .form-trust strong { color: var(--text); }
+    .disqualified { display: none; background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 8px; padding: 16px; margin-top: 8px; font-size: .88rem; color: #92400E; }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.1rem; }
+      .hero-card { order: -1; }
+    }
+    @media (max-width: 600px) { .hero { padding: 40px 0 48px; } .hero h1 { font-size: 1.8rem; } }
+
+    /* ── STATS BAR ── */
+    .stats-bar { background: var(--navy); padding: 36px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .stat { text-align: center; padding: 0 24px; border-right: 1px solid rgba(255,255,255,.1); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-size: 2.2rem; font-weight: 900; color: var(--white); line-height: 1; }
+    .stat-num span { color: var(--green); }
+    .stat-label { font-size: .82rem; color: rgba(255,255,255,.55); margin-top: 4px; }
+    @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 24px; } .stat:nth-child(2) { border-right: none; } .stat:last-child, .stat:nth-last-child(2) { border-bottom: none; } }
+
+    /* ── PROBLEM ── */
+    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .problem-card { background: var(--bg); border-radius: var(--radius); padding: 28px 24px; border: 1px solid var(--border); }
+    .problem-icon { font-size: 2rem; margin-bottom: 14px; }
+    .problem-card h3 { margin-bottom: 8px; }
+    .problem-card p { font-size: .9rem; color: var(--muted); }
+    @media (max-width: 700px) { .problem-grid { grid-template-columns: 1fr; } }
+
+    /* ── PROOF ── */
+    .proof { background: var(--bg); }
+    .proof-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .proof-label { font-size: .82rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 12px; }
+    .proof h2 { margin-bottom: 16px; }
+    .proof-quote {
+      background: var(--white); border-radius: var(--radius); padding: 24px;
+      border-left: 4px solid var(--green); box-shadow: var(--shadow);
+      font-style: italic; color: var(--muted); font-size: .95rem; margin-top: 24px;
+    }
+    .proof-quote cite { display: block; margin-top: 10px; font-style: normal; font-weight: 600; color: var(--text); font-size: .85rem; }
+    .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .result-card { background: var(--white); border-radius: var(--radius); padding: 24px 20px; text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .result-before { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .result-val { font-size: 2rem; font-weight: 900; line-height: 1; }
+    .result-val.bad { color: var(--red); }
+    .result-val.good { color: var(--green); }
+    .result-label { font-size: .82rem; color: var(--muted); margin-top: 4px; }
+    .result-arrow { grid-column: 1/-1; text-align: center; font-size: 2rem; color: var(--muted); margin: -4px 0; }
+    @media (max-width: 800px) { .proof-inner { grid-template-columns: 1fr; } }
+
+    /* ── HOW IT WORKS ── */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+    .step { position: relative; }
+    .step-num {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--blue);
+      color: var(--white); font-weight: 900; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .step h3 { margin-bottom: 8px; }
+    .step p { font-size: .9rem; color: var(--muted); }
+    .step-connector {
+      position: absolute; top: 24px; right: -16px; width: 32px; height: 2px;
+      background: var(--border); display: none;
+    }
+    @media (min-width: 700px) { .step:not(:last-child) .step-connector { display: block; } }
+    @media (max-width: 700px) { .steps { grid-template-columns: 1fr; } }
+
+    /* ── INCLUDES ── */
+    .includes { background: var(--bg); }
+    .includes-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .includes-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
+    .includes-list li { display: flex; gap: 14px; align-items: flex-start; }
+    .includes-list .ico { width: 28px; height: 28px; border-radius: 8px; background: rgba(29,107,254,.1); color: var(--blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+    .includes-list .info strong { display: block; font-size: .95rem; }
+    .includes-list .info span { font-size: .85rem; color: var(--muted); }
+    .pricing-box {
+      background: var(--white); border-radius: 16px; padding: 36px 32px;
+      border: 2px solid var(--blue); box-shadow: var(--shadow);
+    }
+    .pricing-name { font-size: .82rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 12px; }
+    .pricing-price { font-size: 2.6rem; font-weight: 900; line-height: 1; }
+    .pricing-price span { font-size: 1rem; font-weight: 500; color: var(--muted); }
+    .pricing-note { font-size: .85rem; color: var(--muted); margin-top: 6px; margin-bottom: 24px; }
+    .pricing-items { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .pricing-items li { display: flex; gap: 10px; font-size: .9rem; }
+    .pricing-items li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    @media (max-width: 800px) { .includes-inner { grid-template-columns: 1fr; } }
+
+    /* ── FORM SECTION (standalone) ── */
+    .form-section { background: linear-gradient(135deg, var(--navy) 0%, #1a2f4a 100%); color: var(--white); }
+    .form-section-inner { display: grid; grid-template-columns: 1fr 460px; gap: 64px; align-items: center; }
+    .form-pitch h2 { color: var(--white); margin-bottom: 16px; }
+    .form-pitch p { color: rgba(255,255,255,.7); margin-bottom: 24px; }
+    .form-pitch-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .form-pitch-list li { display: flex; gap: 10px; font-size: .9rem; color: rgba(255,255,255,.8); }
+    .form-pitch-list li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .form-box { background: var(--white); border-radius: 16px; padding: 36px 32px; color: var(--text); }
+    .form-box-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 4px; }
+    .form-box-sub { font-size: .85rem; color: var(--muted); margin-bottom: 24px; }
+    @media (max-width: 900px) { .form-section-inner { grid-template-columns: 1fr; } .form-pitch { text-align: center; } }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 720px; margin: 48px auto 0; display: flex; flex-direction: column; gap: 0; }
+    details {
+      border-bottom: 1px solid var(--border);
+    }
+    details:first-child { border-top: 1px solid var(--border); }
+    summary {
+      padding: 20px 0; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      list-style: none; gap: 16px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+"; font-size: 1.4rem; color: var(--blue); font-weight: 300;
+      flex-shrink: 0; transition: transform .2s;
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    .faq-answer { padding: 0 0 20px; font-size: .93rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── FINAL CTA ── */
+    .final-cta { text-align: center; padding: 80px 0; }
+    .final-cta h2 { margin-bottom: 16px; }
+    .final-cta p { color: var(--muted); max-width: 500px; margin: 0 auto 36px; }
+    .final-cta-btns { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy); color: rgba(255,255,255,.5); padding: 36px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { color: var(--white); font-weight: 900; font-size: 1.2rem; text-decoration: none; letter-spacing: -.02em; }
+    .footer-logo span { color: var(--green); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: rgba(255,255,255,.5); text-decoration: none; font-size: .85rem; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: .8rem; width: 100%; text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.08); margin-top: 8px; }
+
+    /* ── SUCCESS STATE ── */
+    .form-success { display: none; text-align: center; padding: 24px 0; }
+    .form-success .check-circle { width: 60px; height: 60px; border-radius: 50%; background: rgba(0,200,150,.15); color: var(--green); font-size: 1.8rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .form-success h3 { margin-bottom: 8px; }
+    .form-success p { font-size: .9rem; color: var(--muted); }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">Pix<span>by</span></a>
+    <div class="nav-right">
+      <a href="tel:+15147780637" class="nav-tel">📞 514-778-0637</a>
+      <a href="#formulaire" class="btn" style="padding:10px 20px;font-size:.9rem;">Audit gratuit</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- Left: copy -->
+      <div>
+        <div class="hero-tag">
+          <span class="badge">Agence Google Ads — Montréal &amp; Québec</span>
+        </div>
+        <h1>Tes clients te cherchent sur Google.<br><em>On s'assure qu'ils t'appellent toi.</em></h1>
+        <p class="hero-sub">Campagnes Google Ads clé en main pour PME locales au Québec. Tracking, CRM, rapports. Pas d'excuse — juste des résultats mesurables.</p>
+        <div class="hero-chips">
+          <span class="chip"><span class="dot"></span>CPA -60% en 30 jours (Lebel Electro)</span>
+          <span class="chip"><span class="dot"></span>Basé à Longueuil, Rive-Sud</span>
+          <span class="chip"><span class="dot"></span>Zéro sous-traitance à l'étranger</span>
+          <span class="chip"><span class="dot"></span>Résultats en 14 jours ou on ajuste</span>
+        </div>
+        <div class="hero-ctas">
+          <a href="#formulaire" class="btn btn-lg">Réserver mon audit gratuit →</a>
+        </div>
+        <p style="margin-top:14px;font-size:.82rem;color:rgba(255,255,255,.45);">Appel de 15 min · Aucun engagement · Réponse en moins de 24h</p>
+      </div>
+
+      <!-- Right: form card -->
+      <div class="hero-card" id="formulaire">
+        <div class="hero-card-title">Audit Google Ads gratuit — 15 min</div>
+        <div class="hero-card-sub">On analyse ta situation et te dit exactement ce que ça prend.</div>
+
+        <form id="auditForm" novalidate>
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input type="text" id="prenom" name="prenom" placeholder="Alexandre" required>
+          </div>
+          <div class="form-group">
+            <label for="telephone">Téléphone *</label>
+            <input type="tel" id="telephone" name="telephone" placeholder="514-555-0000" required>
+          </div>
+          <div class="form-group">
+            <label for="industrie">Ton industrie *</label>
+            <select id="industrie" name="industrie" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="toiture">Toiture</option>
+              <option value="plomberie">Plomberie</option>
+              <option value="hvac">Chauffage / Climatisation (HVAC)</option>
+              <option value="electricien">Électricien</option>
+              <option value="renovation">Rénovation générale</option>
+              <option value="electromenager">Réparation électroménager</option>
+              <option value="clotures">Clôtures / Terrasses</option>
+              <option value="autre">Autre service local</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="budget">Budget pub mensuel disponible *</label>
+            <select id="budget" name="budget" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="moins500">Moins de 500 $/mois</option>
+              <option value="500-1500">500 – 1 500 $/mois</option>
+              <option value="1500plus">1 500 $/mois et plus</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="situation">Situation actuelle *</label>
+            <select id="situation" name="situation" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="jamais">Jamais fait de pub Google</option>
+              <option value="essaye">J'ai essayé seul — pas de résultats</option>
+              <option value="agence">J'ai une agence — les résultats déçoivent</option>
+            </select>
+          </div>
+
+          <div class="disqualified" id="msgDisqualified">
+            <strong>Pas encore tout à fait là...</strong><br>
+            Un budget de moins de 500 $/mois en pub est trop limité pour qu'on livre de vrais résultats avec Google Ads. Reviens nous voir quand tu es prêt à investir. On est là.
+          </div>
+
+          <button type="submit" class="btn form-submit" id="submitBtn">
+            Réserver mon audit gratuit →
+          </button>
+          <p class="form-trust">
+            <strong>Note :</strong> Pixby est à partir de <strong>600 $/mois</strong> + budget pub séparé.<br>
+            L'audit est gratuit — aucune pression, aucun engagement.
+          </p>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="check-circle">✓</div>
+          <h3>Parfait, on se parle bientôt !</h3>
+          <p>Tu vas recevoir un lien de réservation dans les prochaines minutes. Vérifie tes textos et courriels.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ STATS BAR ══════════════ -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num"><span>10</span>$</div>
+        <div class="stat-label">CPA moyen client actuel</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>-60</span>%</div>
+        <div class="stat-label">Réduction du coût par lead en 30 jours</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Campagnes avec tracking validé</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">14<span>j</span></div>
+        <div class="stat-label">Délai pour premiers résultats</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PROBLEM ══════════════ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 8px;">
+      <span class="badge">Le vrai problème</span>
+      <h2 style="margin-top:14px;">Pourquoi la plupart des PME perdent leur argent sur Google Ads</h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <h3>Budget gaspillé sur les mauvais clics</h3>
+        <p>Sans liste de mots-clés négatifs solide et ciblage précis, Google envoie ton budget vers des gens qui ne sont pas des clients potentiels.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📊</div>
+        <h3>Zéro idée de ce qui fonctionne</h3>
+        <p>Pas de tracking = pas de données. Tu sais que tu dépenses de l'argent mais tu ignores combien de clients ça te génère réellement.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🏃</div>
+        <h3>L'agence configure et disparaît</h3>
+        <p>Beaucoup d'agences lancent les campagnes et ne les touchent plus. Google Ads, ça s'optimise chaque semaine — sinon ça se dégrade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PROOF ══════════════ -->
+<section class="section proof">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto 56px;">
+      <span class="badge">Résultats réels — clients actuels</span>
+      <h2 style="margin-top:14px;">Des chiffres, pas des promesses</h2>
+    </div>
+
+    <!-- Case 1: Lebel Electro -->
+    <div class="proof-inner" style="margin-bottom:64px;">
+      <div>
+        <div class="proof-label">Réparation électroménager — Rive-Sud</div>
+        <h2>Lebel Electro : de 25 $ à 10 $ par lead en 30 jours</h2>
+        <p style="color:var(--muted);margin:16px 0 0;font-size:.95rem;">
+          Avant Pixby, le coût par lead était de 25 $. En 30 jours : restructuration du ciblage, nettoyage des mots-clés, optimisation du tracking. Résultat : <strong>CPA réduit de 60 %</strong>, volume de leads doublé pour le même budget.
+        </p>
+        <div class="proof-quote">
+          "On voit vraiment la différence — le téléphone sonne plus et les clients qui appellent sont des vrais clients dans notre secteur."
+          <cite>— Isabel Vincent, Lebel Electro</cite>
+        </div>
+      </div>
+      <div>
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-before">Avant Pixby</div>
+            <div class="result-val bad">25 $</div>
+            <div class="result-label">Coût par lead</div>
+          </div>
+          <div class="result-card">
+            <div class="result-before">Après 30 jours</div>
+            <div class="result-val good">10 $</div>
+            <div class="result-label">Coût par lead</div>
+          </div>
+          <div class="result-arrow">↓ <span style="font-size:1rem;font-weight:700;color:var(--green)">-60 %</span></div>
+          <div class="result-card">
+            <div class="result-before">Avant</div>
+            <div class="result-val bad">24</div>
+            <div class="result-label">Leads / mois</div>
+          </div>
+          <div class="result-card">
+            <div class="result-before">Après 30 jours</div>
+            <div class="result-val good">53</div>
+            <div class="result-label">Leads / mois</div>
+          </div>
+        </div>
+        <p style="text-align:center;font-size:.78rem;color:var(--muted);margin-top:14px;">Données Google Ads réelles — même budget, meilleure performance.</p>
+      </div>
+    </div>
+
+    <!-- Case 2 + 3: side by side -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+      <!-- Toiture Rive-Sud -->
+      <div style="background:var(--white);border-radius:14px;padding:32px;border:1px solid var(--border);box-shadow:var(--shadow);">
+        <div class="proof-label" style="margin-bottom:10px;">Toiture — Rive-Sud de Montréal</div>
+        <h3 style="font-size:1.15rem;margin-bottom:12px;">Entrepreneur en toiture : 18 leads en première semaine</h3>
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:18px;">
+          Compte lancé sans historique Google Ads. On a ciblé les recherches "remplacement toit urgence" et "soumission toiture" avec un budget de 800 $/mois. Dès la 1ère semaine : 18 appels qualifiés.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px;">
+          <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px 8px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--green)">18</div>
+            <div style="font-size:.72rem;color:var(--muted)">Leads sem. 1</div>
+          </div>
+          <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px 8px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--blue)">44 $</div>
+            <div style="font-size:.72rem;color:var(--muted)">Coût / lead</div>
+          </div>
+          <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px 8px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--navy)">800 $</div>
+            <div style="font-size:.72rem;color:var(--muted)">Budget / mois</div>
+          </div>
+        </div>
+        <div class="proof-quote" style="margin-top:0;font-size:.84rem;">
+          "J'avais jamais fait de pub avant. Première semaine, j'avais déjà assez de leads pour remplir mon mois."
+          <cite style="font-size:.78rem;">— Entrepreneur toiture, Longueuil</cite>
+        </div>
+      </div>
+
+      <!-- Salon Bilk -->
+      <div style="background:var(--white);border-radius:14px;padding:32px;border:1px solid var(--border);box-shadow:var(--shadow);">
+        <div class="proof-label" style="margin-bottom:10px;">Beauté &amp; Salon — Montréal</div>
+        <h3 style="font-size:1.15rem;margin-bottom:12px;">Salon Bilk : de 0 pub à 35 nouveaux clients en 30 jours</h3>
+        <p style="font-size:.88rem;color:var(--muted);margin-bottom:18px;">
+          Salon de coiffure haut de gamme à Montréal. Aucune présence Google Ads. On a ciblé "coiffeur montréal", extensions de cils et colorations tendance. 35 nouveaux clients en 30 jours avec un CPA de 22 $.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px;">
+          <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px 8px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--green)">35</div>
+            <div style="font-size:.72rem;color:var(--muted)">Clients / mois</div>
+          </div>
+          <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px 8px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--blue)">22 $</div>
+            <div style="font-size:.72rem;color:var(--muted)">Coût / client</div>
+          </div>
+          <div style="text-align:center;background:var(--bg);border-radius:8px;padding:14px 8px;">
+            <div style="font-size:1.5rem;font-weight:900;color:var(--navy)">+420 %</div>
+            <div style="font-size:.72rem;color:var(--muted)">ROI estimé</div>
+          </div>
+        </div>
+        <div class="proof-quote" style="margin-top:0;font-size:.84rem;">
+          "En un mois, j'ai eu plus de nouveaux clients qu'avec 6 mois de posts Instagram."
+          <cite style="font-size:.78rem;">— Propriétaire, Salon Bilk, Montréal</cite>
+        </div>
+      </div>
+
+    </div>
+
+    <style>
+      @media (max-width: 700px) {
+        .proof-cases-grid { grid-template-columns: 1fr !important; }
+      }
+    </style>
+
+  </div>
+</section>
+
+<!-- ══════════════ HOW IT WORKS ══════════════ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;max-width:600px;margin:0 auto;">
+      <span class="badge">Comment ça marche</span>
+      <h2 style="margin-top:14px;">De zéro à des leads qualifiés en 14 jours</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-connector"></div>
+        <h3>Audit &amp; Stratégie (Jour 1–3)</h3>
+        <p>On analyse ton marché, tes compétiteurs, tes mots-clés. On t'explique exactement ce qu'on va faire et pourquoi.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-connector"></div>
+        <h3>Tracking &amp; Lancement (Jour 4–7)</h3>
+        <p>On installe le tracking (Google Ads + GTM + appels). Zéro campagne lancée sans tracking validé. Puis on crée et lance les campagnes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Optimisation continue</h3>
+        <p>Chaque semaine : mots-clés négatifs, ajustements d'enchères, analyse des termes. Rapport complet le 1er de chaque mois.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ INCLUDES ══════════════ -->
+<section class="section includes">
+  <div class="container">
+    <div class="includes-inner">
+      <div>
+        <span class="badge">Ce qui est inclus</span>
+        <h2 style="margin-top:14px;">Tout. Dans un seul partenaire.</h2>
+        <p style="color:var(--muted);margin-top:12px;margin-bottom:0;font-size:.95rem;">Pas de surprise. Pas de frais cachés. Un forfait qui couvre tout ce dont tu as besoin pour que Google Ads fonctionne vraiment.</p>
+        <ul class="includes-list">
+          <li>
+            <span class="ico">🎯</span>
+            <div class="info">
+              <strong>Création et gestion des campagnes Search</strong>
+              <span>Annonces, mots-clés, groupes d'annonces, extensions</span>
+            </div>
+          </li>
+          <li>
+            <span class="ico">📈</span>
+            <div class="info">
+              <strong>Tracking complet (GTM + Google Ads + appels)</strong>
+              <span>Tu sais exactement combien de clients viennent de Google</span>
+            </div>
+          </li>
+          <li>
+            <span class="ico">🔍</span>
+            <div class="info">
+              <strong>Optimisation hebdomadaire</strong>
+              <span>Mots-clés négatifs, enchères, Quality Score, termes de recherche</span>
+            </div>
+          </li>
+          <li>
+            <span class="ico">📋</span>
+            <div class="info">
+              <strong>Rapport mensuel clair</strong>
+              <span>Leads générés, coût par lead, performance — le 1er du mois</span>
+            </div>
+          </li>
+          <li>
+            <span class="ico">💬</span>
+            <div class="info">
+              <strong>Accès direct à Alex (pas un bot, pas un stagiaire)</strong>
+              <span>Questions, ajustements, nouvelles idées — réponse rapide</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="pricing-box">
+          <div class="pricing-name">Forfait Starter</div>
+          <div class="pricing-price">600 $<span> / mois</span></div>
+          <p class="pricing-note">+ 1 000 $ de frais de mise en place unique · Budget pub séparé (500–1 500 $/mois recommandé)</p>
+          <ul class="pricing-items">
+            <li>Campagnes Search Google Ads</li>
+            <li>Tracking &amp; conversions installé</li>
+            <li>Optimisation hebdomadaire</li>
+            <li>Rapport mensuel détaillé</li>
+            <li>Support direct (SMS / email)</li>
+            <li>Minimum 3 mois — puis mois à mois</li>
+          </ul>
+          <a href="#formulaire" class="btn" style="width:100%;justify-content:center;">Démarrer avec Pixby →</a>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:12px;text-align:center;">Le budget pub reste dans <strong>ton compte Google</strong> — tu le contrôles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FORM SECTION (milieu page) ══════════════ -->
+<section class="section form-section">
+  <div class="container">
+    <div class="form-section-inner">
+
+      <div class="form-pitch">
+        <h2>Prêt à savoir combien ça te coûte de ne pas faire de Google Ads ?</h2>
+        <p>On fait un audit gratuit de 15 minutes. On regarde ton marché, ce que font tes compétiteurs, et on te dit exactement ce que tu rates comme leads chaque semaine.</p>
+        <ul class="form-pitch-list">
+          <li>Aucun engagement — juste une conversation honnête</li>
+          <li>On te dit si Google Ads est le bon move pour toi</li>
+          <li>Si on travaille ensemble, premières annonces en 7 jours</li>
+          <li>Résultats mesurables dès le premier mois</li>
+        </ul>
+      </div>
+
+      <div class="form-box">
+        <div class="form-box-title">Audit gratuit — 15 minutes</div>
+        <div class="form-box-sub">On répond en moins de 24h. Aucune pression.</div>
+
+        <form id="auditForm2" novalidate>
+          <div class="form-group">
+            <label for="prenom2">Prénom *</label>
+            <input type="text" id="prenom2" name="prenom" placeholder="Alexandre" required>
+          </div>
+          <div class="form-group">
+            <label for="telephone2">Téléphone *</label>
+            <input type="tel" id="telephone2" name="telephone" placeholder="514-555-0000" required>
+          </div>
+          <div class="form-group">
+            <label for="industrie2">Ton industrie *</label>
+            <select id="industrie2" name="industrie" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="toiture">Toiture</option>
+              <option value="plomberie">Plomberie</option>
+              <option value="hvac">Chauffage / Climatisation (HVAC)</option>
+              <option value="electricien">Électricien</option>
+              <option value="renovation">Rénovation générale</option>
+              <option value="electromenager">Réparation électroménager</option>
+              <option value="clotures">Clôtures / Terrasses</option>
+              <option value="autre">Autre service local</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="budget2">Budget pub mensuel disponible *</label>
+            <select id="budget2" name="budget" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="moins500">Moins de 500 $/mois</option>
+              <option value="500-1500">500 – 1 500 $/mois</option>
+              <option value="1500plus">1 500 $/mois et plus</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="situation2">Situation actuelle *</label>
+            <select id="situation2" name="situation" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="jamais">Jamais fait de pub Google</option>
+              <option value="essaye">J'ai essayé seul — pas de résultats</option>
+              <option value="agence">J'ai une agence — les résultats déçoivent</option>
+            </select>
+          </div>
+
+          <div class="disqualified" id="msgDisqualified2"></div>
+
+          <button type="submit" class="btn form-submit" id="submitBtn2">
+            Réserver mon audit gratuit →
+          </button>
+          <p class="form-trust">
+            <strong>Note :</strong> Pixby est à partir de <strong>600 $/mois</strong> + budget pub séparé.<br>
+            L'audit est gratuit — aucune pression, aucun engagement.
+          </p>
+        </form>
+
+        <div class="form-success" id="formSuccess2">
+          <div class="check-circle">✓</div>
+          <h3>Parfait, on se parle bientôt !</h3>
+          <p>Tu vas recevoir un lien de réservation dans les prochaines minutes. Vérifie tes textos et courriels.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center;">
+      <span class="badge">Questions fréquentes</span>
+      <h2 style="margin-top:14px;">Ce que les entrepreneurs nous demandent</h2>
+    </div>
+    <div class="faq-list">
+
+      <details>
+        <summary>C'est quoi exactement le budget pub "séparé" ?</summary>
+        <div class="faq-answer">
+          Le budget pub, c'est l'argent que Google va dépenser pour afficher tes annonces. Ce montant reste dans <strong>ton compte Google Ads</strong> — tu le contrôles, tu peux l'augmenter ou le réduire. Les 600 $/mois de Pixby, c'est nos frais de gestion : on crée, optimise et surveille tes campagnes. Les deux sont séparés.
+        </div>
+      </details>
+
+      <details>
+        <summary>En combien de temps je vois des résultats ?</summary>
+        <div class="faq-answer">
+          Les premières annonces sont en ligne dans les 7 jours suivant la signature. Les premiers appels arrivent généralement dans les 14 premiers jours. La campagne s'optimise au fil des semaines — le mois 2 est toujours meilleur que le mois 1.
+        </div>
+      </details>
+
+      <details>
+        <summary>Pourquoi un minimum de 3 mois ?</summary>
+        <div class="faq-answer">
+          Google Ads prend du temps pour apprendre. L'algorithme Smart Bidding a besoin de données pour optimiser les enchères vers les bons clients. En 3 mois, on a suffisamment de données pour vraiment travailler. Un mois, c'est juste le démarrage.
+        </div>
+      </details>
+
+      <details>
+        <summary>Je travaille déjà avec une agence. Pourquoi changer ?</summary>
+        <div class="faq-answer">
+          Bonne question. Si ton CPA (coût par lead) baisse chaque mois, que tu reçois un rapport clair le 1er du mois, et que tu peux parler directement à quelqu'un qui comprend ton industrie — reste où tu es. Si ce n'est pas le cas, c'est une bonne raison de regarder tes options. L'audit gratuit te donnera une idée très claire de ce qui peut être amélioré.
+        </div>
+      </details>
+
+      <details>
+        <summary>Tu travailles avec n'importe quelle industrie ?</summary>
+        <div class="faq-answer">
+          On se spécialise dans les PME de services locaux au Québec : toiture, plomberie, HVAC, électricien, rénovation, réparation électroménager, clôtures, et autres services où le client cherche "près de moi" ou dans une ville spécifique. Si ton business est local et que tu vends un service, on peut probablement t'aider.
+        </div>
+      </details>
+
+      <details>
+        <summary>Qu'est-ce qui se passe si ça ne fonctionne pas ?</summary>
+        <div class="faq-answer">
+          On s'ajuste. Si les résultats ne sont pas au rendez-vous dans les 30 premiers jours, on refait l'analyse ensemble — gratuitement — et on change la stratégie. Google Ads, ça se mesure : si quelque chose ne performe pas, les données le montrent et on agit dessus.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FINAL CTA ══════════════ -->
+<section class="final-cta" style="background:var(--bg);">
+  <div class="container">
+    <h2>Pendant que tu lis ça, tes compétiteurs reçoivent des appels.</h2>
+    <p>L'audit gratuit de 15 minutes te coûte rien. Mais chaque semaine sans campagne bien configurée, c'est des leads qui vont ailleurs.</p>
+    <div class="final-cta-btns">
+      <a href="#formulaire" class="btn btn-lg">Réserver mon audit gratuit →</a>
+      <a href="tel:+15147780637" class="btn btn-lg btn-ghost">📞 514-778-0637</a>
+    </div>
+    <p style="margin-top:20px;font-size:.82rem;color:var(--muted);">Réponse en moins de 24h · Basé à Longueuil · Aucune sous-traitance</p>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-logo">Pix<span>by</span></a>
+      <div class="footer-links">
+        <a href="tel:+15147780637">514-778-0637</a>
+        <a href="mailto:admin@pixby.ca">admin@pixby.ca</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      © 2026 Pixby — Agence Google Ads pour PME locales au Québec · Longueuil, QC
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════ JS ══════════════ -->
+<script>
+  // ── Form handler (shared logic for both forms)
+  function setupForm(formId, budgetId, disqualifiedId, successId, submitBtnId) {
+    const form      = document.getElementById(formId);
+    const budgetSel = document.getElementById(budgetId);
+    const msgDis    = document.getElementById(disqualifiedId);
+    const success   = document.getElementById(successId);
+    const btn       = document.getElementById(submitBtnId);
+    if (!form) return;
+
+    // Budget pre-qualification check
+    budgetSel.addEventListener('change', function() {
+      if (this.value === 'moins500') {
+        msgDis.style.display = 'block';
+        msgDis.innerHTML = '<strong>Pas encore tout à fait là...</strong><br>Un budget de moins de 500 $/mois en pub est trop limité pour qu\'on livre de vrais résultats. Reviens nous voir quand tu es prêt à investir — on sera là.';
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+      } else {
+        msgDis.style.display = 'none';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Basic validation
+      const prenom = form.querySelector('[name="prenom"]').value.trim();
+      const tel    = form.querySelector('[name="telephone"]').value.trim();
+      const ind    = form.querySelector('[name="industrie"]').value;
+      const bud    = form.querySelector('[name="budget"]').value;
+      const sit    = form.querySelector('[name="situation"]').value;
+
+      if (!prenom || !tel || !ind || !bud || !sit) {
+        alert('Remplis tous les champs s\'il te plaît.');
+        return;
+      }
+      if (bud === 'moins500') return;
+
+      // Visual feedback
+      btn.textContent = 'Envoi en cours...';
+      btn.disabled = true;
+
+      // ── GHL Contact creation via API
+      // IMPORTANT: Replace this with your GHL form embed OR keep this
+      // fetch call and move the API key to a backend proxy for security.
+      const payload = {
+        locationId: 'nOKP2se5Yu47dcgLrUmm',
+        firstName:  prenom,
+        phone:      tel,
+        customField: {
+          industrie: ind,
+          budget:    bud,
+          situation: sit,
+          source:    'Google Ads Landing Page'
+        },
+        tags: ['google-ads-landing', ind, bud]
+      };
+
+      // Redirect to booking page (works now, replace with API call later)
+      const bookingUrl = 'https://www.pixby.ca/book-an-appointment' +
+        '?firstName=' + encodeURIComponent(prenom) +
+        '&phone='     + encodeURIComponent(tel) +
+        '&source=google-ads-lp';
+
+      setTimeout(function() {
+        form.style.display = 'none';
+        success.style.display = 'block';
+        // Redirect after showing success
+        setTimeout(function() {
+          window.location.href = bookingUrl;
+        }, 2500);
+      }, 800);
+    });
+  }
+
+  setupForm('auditForm',  'budget',  'msgDisqualified',  'formSuccess',  'submitBtn');
+  setupForm('auditForm2', 'budget2', 'msgDisqualified2', 'formSuccess2', 'submitBtn2');
+
+  // ── Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
