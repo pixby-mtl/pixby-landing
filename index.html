@@ -904,33 +904,12 @@
         '&phone='     + encodeURIComponent(tel) +
         '&source=google-ads-lp';
 
-      // ── GHL Contact creation (fire & forget — CORS autorisé par GHL)
-      fetch('https://services.leadconnectorhq.com/contacts/', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + _ghlKey(),
-          'Version': '2021-07-28',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          locationId: 'nOKP2se5Yu47dcgLrUmm',
-          firstName:  prenom,
-          phone:      tel,
-          tags:       ['google-ads-landing', 'nouveau-prospect', ind, bud, sit]
-        })
-      }).catch(function() {}); // Silently ignore errors — redirect still fires
-
       setTimeout(function() {
         form.style.display = 'none';
         success.style.display = 'block';
         setTimeout(function() { window.location.href = bookingUrl; }, 2500);
       }, 900);
     });
-  }
-
-  // Clé GHL — repo privé, accès restreint création contacts uniquement
-  function _ghlKey() {
-    return atob('cGl0LTNjYzM1MjhlLWEzOTEtNDY5OC05MjQ5LTNjMTY2Njc3ZmFiNw==');
   }
 
   setupForm('auditForm',  'budget',  'msgDisqualified',  'formSuccess',  'submitBtn');
