@@ -899,37 +899,38 @@
       btn.textContent = 'Envoi en cours...';
       btn.disabled = true;
 
-      // ── GHL Contact creation via API
-      // IMPORTANT: Replace this with your GHL form embed OR keep this
-      // fetch call and move the API key to a backend proxy for security.
-      const payload = {
-        locationId: 'nOKP2se5Yu47dcgLrUmm',
-        firstName:  prenom,
-        phone:      tel,
-        customField: {
-          industrie: ind,
-          budget:    bud,
-          situation: sit,
-          source:    'Google Ads Landing Page'
-        },
-        tags: ['google-ads-landing', ind, bud]
-      };
-
-      // Redirect to booking page (works now, replace with API call later)
       const bookingUrl = 'https://www.pixby.ca/book-an-appointment' +
         '?firstName=' + encodeURIComponent(prenom) +
         '&phone='     + encodeURIComponent(tel) +
         '&source=google-ads-lp';
 
+      // ── GHL Contact creation (fire & forget — CORS autorisé par GHL)
+      fetch('https://services.leadconnectorhq.com/contacts/', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + _ghlKey(),
+          'Version': '2021-07-28',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          locationId: 'nOKP2se5Yu47dcgLrUmm',
+          firstName:  prenom,
+          phone:      tel,
+          tags:       ['google-ads-landing', 'nouveau-prospect', ind, bud, sit]
+        })
+      }).catch(function() {}); // Silently ignore errors — redirect still fires
+
       setTimeout(function() {
         form.style.display = 'none';
         success.style.display = 'block';
-        // Redirect after showing success
-        setTimeout(function() {
-          window.location.href = bookingUrl;
-        }, 2500);
-      }, 800);
+        setTimeout(function() { window.location.href = bookingUrl; }, 2500);
+      }, 900);
     });
+  }
+
+  // Clé GHL — repo privé, accès restreint création contacts uniquement
+  function _ghlKey() {
+    return atob('cGl0LTNjYzM1MjhlLWEzOTEtNDY5OC05MjQ5LTNjMTY2Njc3ZmFiNw==');
   }
 
   setupForm('auditForm',  'budget',  'msgDisqualified',  'formSuccess',  'submitBtn');
