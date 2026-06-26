@@ -1,2 +1,3 @@
-# pixby-landing
-Pixby — Landing page Google Ads
+# Pixby — Landing Page Google Ads
+
+Page live sur https://ads.pixby.ca
