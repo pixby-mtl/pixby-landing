@@ -32,8 +32,22 @@
   <meta name="geo.region" content="CA-QC">
   <meta name="geo.placename" content="Montréal">
 
-  <!-- GTM — placeholder, remplacer GTM-XXXXXXX par le vrai ID -->
-  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script> -->
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KQLNBJ99');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google Analytics 4 — G-RH9Z0XC8WV -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RH9Z0XC8WV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RH9Z0XC8WV', { 'page_location': window.location.href });
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -632,8 +646,10 @@
   </script>
 </head>
 <body>
-<!-- GTM noscript — remplacer GTM-XXXXXXX -->
-<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQLNBJ99"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <div id="progress-bar"></div>
 <div id="cursor"></div>
@@ -1184,14 +1200,24 @@
     prenom.style.border = ''; telEl.style.border = '';
     btn.disabled = true; btn.textContent = 'Redirection…';
 
-    /* Événement GTM / GA4 — déclenche conversion */
+    /* Événement GTM + GA4 — déclenche conversion */
     window.dataLayer = window.dataLayer || [];
+    var budgetVal = document.getElementById('budget') ? document.getElementById('budget').value : '';
+    var indVal = document.getElementById('industrie') ? document.getElementById('industrie').value : '';
     window.dataLayer.push({
       event: 'generate_lead',
       form_name: 'hero_audit',
-      budget: document.getElementById('budget') ? document.getElementById('budget').value : '',
-      industry: document.getElementById('industrie') ? document.getElementById('industrie').value : ''
+      budget: budgetVal,
+      industry: indVal
     });
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        event_category: 'formulaire',
+        event_label: 'hero_audit',
+        budget: budgetVal,
+        industry: indVal
+      });
+    }
 
     form.style.display = 'none'; suc.style.display = 'block';
 
