@@ -4,8 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pixby — Agence Google Ads Montréal | PME locales au Québec</title>
-  <meta name="description" content="Pixby gère vos campagnes Google Ads et génère des leads qualifiés au meilleur coût. PME locales au Québec. Audit gratuit de 30 minutes.">
+  <meta name="description" content="Pixby gère tes campagnes Google Ads et génère des leads qualifiés au meilleur coût. PME locales au Québec. Audit gratuit 30 min — sans engagement.">
   <link rel="canonical" href="https://ads.pixby.ca">
+
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ads.pixby.ca">
+  <meta property="og:title" content="Pixby — Agence Google Ads Montréal | PME locales au Québec">
+  <meta property="og:description" content="Tes clients te cherchent sur Google. Pixby gère tes campagnes et génère de vrais appels. Audit gratuit 30 min.">
+  <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
+  <meta property="og:locale" content="fr_CA">
+  <meta property="og:site_name" content="Pixby">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pixby — Agence Google Ads Montréal">
+  <meta name="twitter:description" content="Tes clients te cherchent sur Google. Pixby génère de vrais appels pour PME locales au Québec.">
+  <meta name="twitter:image" content="https://ads.pixby.ca/assets/og-image.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+
+  <!-- Robots -->
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Pixby — Alexander Guanchez">
+  <meta name="geo.region" content="CA-QC">
+  <meta name="geo.placename" content="Montréal">
+
+  <!-- GTM — placeholder, remplacer GTM-XXXXXXX par le vrai ID -->
+  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXXX');</script> -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -603,6 +632,8 @@
   </script>
 </head>
 <body>
+<!-- GTM noscript — remplacer GTM-XXXXXXX -->
+<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
 
 <div id="progress-bar"></div>
 <div id="cursor"></div>
@@ -1148,12 +1179,27 @@
     e.preventDefault();
     var p = prenom.value.trim();
     var t = telEl.value.trim();
-    if (!p || !t) { alert('Prénom et téléphone requis.'); return; }
+    if (!p) { prenom.style.border = '2px solid #ef4444'; prenom.focus(); return; }
+    if (!t) { telEl.style.border = '2px solid #ef4444'; telEl.focus(); return; }
+    prenom.style.border = ''; telEl.style.border = '';
     btn.disabled = true; btn.textContent = 'Redirection…';
+
+    /* Événement GTM / GA4 — déclenche conversion */
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'generate_lead',
+      form_name: 'hero_audit',
+      budget: document.getElementById('budget') ? document.getElementById('budget').value : '',
+      industry: document.getElementById('industrie') ? document.getElementById('industrie').value : ''
+    });
+
     form.style.display = 'none'; suc.style.display = 'block';
-    window.location.href = 'https://calendly.com/admin-pixby/30min'
-      + '?name=' + encodeURIComponent(p)
-      + '&a1='   + encodeURIComponent(t);
+
+    setTimeout(function() {
+      window.location.href = 'https://calendly.com/admin-pixby/30min'
+        + '?name=' + encodeURIComponent(p)
+        + '&a1='   + encodeURIComponent(t);
+    }, 400);
   });
 
   /* FAQ */
