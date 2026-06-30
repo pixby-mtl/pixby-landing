@@ -81,7 +81,7 @@
       --ff-b:      'Inter', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       font-family: var(--ff-b);
@@ -90,6 +90,7 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       cursor: none;
+      overflow-x: hidden;
     }
 
     /* ── SCROLL PROGRESS ── */
@@ -304,10 +305,69 @@
     .f-success p { font-size: .83rem; color: #777; }
 
     @media (max-width: 960px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-      .hero { padding: 110px 20px 0; min-height: auto; }
-      .hero-form-card { border-radius: var(--r-xl); padding: 32px 24px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 100px 20px 56px; min-height: auto; }
+      .hero-form-card { border-radius: var(--r-xl); padding: 32px 24px 36px; }
       .hero-scroll-hint { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      /* Global */
+      .container, .s-inner { padding: 0 16px; }
+
+      /* Hero */
+      .hero { padding: 80px 16px 48px; }
+      .hero h1 { font-size: 1.55rem; line-height: 1.28; margin-bottom: 18px; }
+      .hero-sub { font-size: .93rem; line-height: 1.65; margin-bottom: 28px; }
+      .hero-badge-pill { font-size: .68rem; padding: 4px 12px; margin-bottom: 20px; }
+      .hero-kicker { margin-bottom: 20px; }
+
+      /* Stats — vertical stack */
+      .hero-stats { flex-direction: column; }
+      .hero-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); padding: 16px 20px; }
+      .hero-stat:last-child { border-bottom: none; }
+      .hero-stat .n { font-size: 1.7rem; }
+
+      /* Form card */
+      .hero-form-card { padding: 24px 18px 28px; border-radius: 20px; }
+      .hero-form-head h2 { font-size: 1.1rem; }
+
+      /* Section titles */
+      .ttl { font-size: 1.4rem; line-height: 1.22; }
+      .sub { font-size: .9rem; }
+      .s-lbl { font-size: .62rem; }
+
+      /* Sections padding */
+      .s-inner { padding-top: 56px; padding-bottom: 56px; }
+
+      /* Pain cards */
+      .pain-grid { gap: 16px; }
+      .pain-card { padding: 24px 20px; }
+
+      /* Steps */
+      .step { padding: 24px 20px; }
+
+      /* Results numbers */
+      .num { font-size: 2.8rem; }
+      .nums-grid { grid-template-columns: 1fr; gap: 1px; }
+
+      /* Case study */
+      .case-left, .case-right { padding: 24px 18px; }
+      .met-row { flex-wrap: wrap; gap: 8px; }
+
+      /* Pricing */
+      .price-card { padding: 28px 20px; }
+
+      /* FAQ */
+      .faq { margin-top: 32px; }
+      .faq-q { font-size: .9rem; padding: 18px 16px; }
+
+      /* Footer */
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .footer-links { flex-direction: column; gap: 8px; }
+
+      /* Float CTA — add bottom padding so content not hidden */
+      .fcta, .pricing, .faq-sec { padding-bottom: 80px; }
     }
 
     /* ── DASHBOARD STRIP ── */
