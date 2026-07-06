@@ -804,6 +804,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option value="toiture">Toiture</option>
             <option value="plomberie">Plomberie</option>
             <option value="hvac">HVAC / Climatisation</option>
+            <option value="electromenager">Réparation d'électroménagers</option>
             <option value="electricien">Électricien</option>
             <option value="renovation">Rénovation</option>
             <option value="paysagement">Paysagement</option>
@@ -955,7 +956,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="ttl ttl-w reveal">Des chiffres <span class="grad-t">réels</span>, pas des promesses</h2>
     <div class="nums-grid">
       <div class="num-card reveal">
-        <div class="num-big n-t" data-count="53" data-suffix="">53</div>
+        <div class="num-big n-t">53</div>
         <div class="num-lbl">leads en juin 2026</div>
         <div class="num-src">Lebel Electro (vs 24 en mai)</div>
       </div>
@@ -965,7 +966,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="num-src">25 $ → 10 $ par lead</div>
       </div>
       <div class="num-card reveal reveal-delay-2">
-        <div class="num-big n-b" data-count="121" data-suffix="%">121%</div>
+        <div class="num-big n-b">121%</div>
         <div class="num-lbl">augmentation des leads</div>
         <div class="num-src">En 30 jours d'optimisation</div>
       </div>
@@ -978,12 +979,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="s-inner">
     <span class="eyebrow reveal">Cas client réel</span>
     <h2 class="ttl reveal">Un seul client. Des vrais chiffres.</h2>
-    <p class="sub reveal">On ne montre que ce qu'on peut prouver. Voici le compte Lebel Electro — un électricien montréalais géré par Pixby depuis mai 2026.</p>
+    <p class="sub reveal">On ne montre que ce qu'on peut prouver. Voici le compte Lebel Electro — spécialiste en réparation d'électroménagers dans la région de Montréal, géré par Pixby depuis mai 2026.</p>
 
     <div class="case-featured reveal">
       <div class="case-featured-inner">
         <div class="case-left">
-          <span class="case-pill">Électricien · Montréal</span>
+          <span class="case-pill">Réparation d'électroménagers · Montréal</span>
           <h3>Lebel Electro</h3>
           <div class="case-loc">📍 Région de Montréal · Client actif depuis mai 2026</div>
           <div class="case-mets">
@@ -1045,6 +1046,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="niche">🏠 Toiture</div>
       <div class="niche">🔧 Plomberie</div>
       <div class="niche">❄️ HVAC / Climatisation</div>
+      <div class="niche">🔌 Réparation d'électroménagers</div>
       <div class="niche">⚡ Électricien</div>
       <div class="niche">🏗️ Rénovation</div>
       <div class="niche">🌿 Paysagement</div>
@@ -1198,29 +1200,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   reveals.forEach(function(el) { ro.observe(el); });
 
-  /* Counter animation */
-  function animCount(el, target, suffix) {
-    var start = 0; var dur = 1800; var startTime = null;
-    function step(ts) {
-      if (!startTime) startTime = ts;
-      var progress = Math.min((ts - startTime) / dur, 1);
-      var ease = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.round(ease * target) + (suffix || '');
-      if (progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  var countEls = document.querySelectorAll('.num-big[data-count]');
-  var countRo = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) {
-        var el = e.target;
-        animCount(el, parseInt(el.dataset.count), el.dataset.suffix || '');
-        countRo.unobserve(el);
-      }
-    });
-  }, { threshold: 0.5 });
-  countEls.forEach(function(el) { countRo.observe(el); });
 
   /* Form */
   var form   = document.getElementById('auditForm');
