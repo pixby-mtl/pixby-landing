@@ -51,7 +51,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -78,7 +78,7 @@
       --r-lg:      22px;
       --r-xl:      32px;
       --ff-d:      'Syne', sans-serif;
-      --ff-b:      'Inter', sans-serif;
+      --ff-b:      'Instrument Sans', sans-serif;
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; }
@@ -89,7 +89,6 @@
       background: var(--white);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      cursor: none;
       overflow-x: hidden;
     }
 
@@ -99,25 +98,6 @@
       background: linear-gradient(90deg, var(--teal), var(--blue));
       z-index: 999; width: 0%; transition: width .1s linear;
     }
-
-    /* ── CUSTOM CURSOR ── */
-    #cursor {
-      position: fixed; width: 12px; height: 12px;
-      background: var(--teal); border-radius: 50%;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform .15s, background .2s, width .2s, height .2s;
-      mix-blend-mode: screen;
-    }
-    #cursor-trail {
-      position: fixed; width: 36px; height: 36px;
-      border: 1px solid rgba(26,155,176,.35);
-      border-radius: 50%; pointer-events: none; z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform .35s cubic-bezier(.22,1,.36,1), opacity .2s;
-    }
-    a:hover ~ #cursor, button:hover ~ #cursor { width: 20px; height: 20px; background: var(--orange); }
-    @media (hover: none) { #cursor, #cursor-trail { display: none; } body { cursor: auto; } }
 
     /* ── NAV ── */
     .nav {
@@ -149,9 +129,9 @@
       padding: 12px 24px; border-radius: var(--r-sm);
       text-decoration: none; white-space: nowrap;
       transition: all .2s;
-      box-shadow: 0 4px 20px rgba(245,93,53,.45);
+      box-shadow: 0 4px 16px rgba(245,93,53,.22);
     }
-    .nav-cta:hover { background: var(--orange-dk); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(245,93,53,.55); }
+    .nav-cta:hover { background: var(--orange-dk); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,93,53,.3); }
     @media (max-width: 560px) { .nav-phone .txt { display: none; } .nav-cta { padding: 10px 16px; font-size: .82rem; } }
 
     /* ── HERO ── */
@@ -209,16 +189,12 @@
 
     .hero h1 {
       font-family: var(--ff-d);
-      font-size: clamp(1.5rem, 2.4vw, 2.2rem);
-      font-weight: 800; line-height: 1.25;
+      font-size: clamp(1.75rem, 2.9vw, 2.6rem);
+      font-weight: 800; line-height: 1.18;
       letter-spacing: -.01em; color: white;
       margin-bottom: 28px;
     }
-    .hero h1 .grad {
-      background: linear-gradient(135deg, var(--yellow) 0%, #ff9a3c 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .hero h1 .grad { color: var(--yellow); }
 
     .hero-sub {
       font-size: 1.08rem; color: rgba(255,255,255,.58);
@@ -291,11 +267,11 @@
       width: 100%; padding: 17px;
       background: var(--orange); color: white;
       font-size: 1rem; font-weight: 700; font-family: var(--ff-b); letter-spacing: .01em;
-      border: none; border-radius: 11px; cursor: none;
+      border: none; border-radius: 11px; cursor: pointer;
       margin-top: 4px; transition: all .2s;
-      box-shadow: 0 4px 22px rgba(245,93,53,.4);
+      box-shadow: 0 4px 16px rgba(245,93,53,.22);
     }
-    .btn-submit:hover:not(:disabled) { background: var(--orange-dk); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(245,93,53,.55); }
+    .btn-submit:hover:not(:disabled) { background: var(--orange-dk); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,93,53,.3); }
     .btn-submit:disabled { opacity: .45; cursor: default; }
     .f-privacy { text-align: center; font-size: .69rem; color: #c0c8d4; margin: 10px 0 22px; }
     .f-privacy a { color: #aab3c0; text-decoration: underline; }
@@ -389,7 +365,7 @@
     .dash-float-num { font-family: var(--ff-d); font-size: 2.2rem; font-weight: 800; color: var(--dark); letter-spacing: -.045em; line-height: 1; }
     .dash-float-num span { color: var(--green); }
     .dash-float-sub { font-size: .73rem; color: #aaa; margin-top: 4px; }
-    .dash-badge { position: absolute; top: -10px; left: -10px; background: var(--orange); color: white; font-size: .66rem; font-weight: 700; padding: 4px 14px; border-radius: 999px; letter-spacing: .04em; box-shadow: 0 4px 14px rgba(245,93,53,.4); }
+    .dash-badge { position: absolute; top: -10px; left: -10px; background: var(--orange); color: white; font-size: .66rem; font-weight: 700; padding: 4px 14px; border-radius: 999px; letter-spacing: .04em; box-shadow: 0 4px 12px rgba(245,93,53,.28); }
     @media (max-width: 700px) { .dash-img { height: 240px; } .dash-float { right: 12px; bottom: -16px; min-width: 160px; padding: 12px 14px; } }
 
     /* ── MARQUEE TRUST ── */
@@ -401,11 +377,12 @@
     .marquee-track:hover { animation-play-state: paused; }
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     .marquee-item { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; font-size: .84rem; font-weight: 600; color: var(--dark); }
-    .marquee-ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .85rem; flex-shrink: 0; }
-    .mic-b { background: rgba(4,99,166,.07); }
-    .mic-t { background: rgba(26,155,176,.07); }
-    .mic-o { background: rgba(245,93,53,.07); }
-    .mic-y { background: rgba(247,190,44,.09); }
+    .marquee-ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .marquee-ic .ic { width: 15px; height: 15px; }
+    .mic-b { background: rgba(4,99,166,.07); color: var(--blue); }
+    .mic-t { background: rgba(26,155,176,.07); color: var(--teal); }
+    .mic-o { background: rgba(245,93,53,.07); color: var(--orange); }
+    .mic-y { background: rgba(247,190,44,.09); color: #c98f0a; }
     .marquee-sep { width: 4px; height: 4px; border-radius: 50%; background: #d8dde8; flex-shrink: 0; }
 
     /* ── SHARED ── */
@@ -434,10 +411,8 @@
       line-height: 1.2; margin-bottom: 18px;
     }
     .ttl-w { color: white; }
-    .ttl .grad-t {
-      background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
+    .ttl .grad-t { color: var(--blue); }
+    .ttl-w .grad-t { color: var(--teal); }
 
     .sub { font-size: 1.02rem; color: #6a7a94; line-height: 1.76; max-width: 640px; }
     .sub-w { color: rgba(255,255,255,.58); }
@@ -462,7 +437,11 @@
     .pain-card:nth-child(1) { border-top-color: var(--orange); }
     .pain-card:nth-child(2) { border-top-color: var(--teal); }
     .pain-card:nth-child(3) { border-top-color: var(--blue); }
-    .pain-ico { font-size: 2.2rem; margin-bottom: 18px; }
+    .pain-ico { margin-bottom: 18px; }
+    .pain-ico .ic { width: 34px; height: 34px; stroke-width: 1.7; }
+    .pain-card:nth-child(1) .pain-ico { color: var(--orange); }
+    .pain-card:nth-child(2) .pain-ico { color: var(--teal); }
+    .pain-card:nth-child(3) .pain-ico { color: var(--blue); }
     .pain-card h3 { font-family: var(--ff-d); font-size: 1.05rem; font-weight: 800; color: var(--dark); margin-bottom: 12px; line-height: 1.3; }
     .pain-card p { font-size: .87rem; color: #6a7a94; line-height: 1.72; }
     @media (max-width: 780px) { .pain-grid { grid-template-columns: 1fr; } .s { padding: 56px 20px; } }
@@ -593,6 +572,7 @@
       transition: all .2s; box-shadow: 0 2px 8px rgba(0,0,0,.03);
     }
     .niche:hover { border-color: var(--teal); background: rgba(26,155,176,.04); transform: translateY(-2px); }
+    .niche .ic { width: 16px; height: 16px; color: var(--teal); stroke-width: 1.8; }
 
     /* ── IMG PLACEHOLDER ── */
     .img-placeholder {
@@ -628,7 +608,7 @@
       position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
       background: var(--orange); color: white; font-size: .66rem; font-weight: 700;
       letter-spacing: .06em; text-transform: uppercase; padding: 4px 18px; border-radius: 999px;
-      white-space: nowrap; box-shadow: 0 4px 16px rgba(245,93,53,.45);
+      white-space: nowrap; box-shadow: 0 4px 14px rgba(245,93,53,.3);
     }
     .p-tier { font-size: .69rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
     .p-card.feat .p-tier { color: rgba(255,255,255,.4); }
@@ -651,8 +631,8 @@
     .p-btn { display: block; text-align: center; padding: 14px; border-radius: var(--r-sm); font-weight: 700; font-size: .9rem; text-decoration: none; transition: all .2s; }
     .p-btn.out { border: 2px solid var(--blue); color: var(--blue); background: transparent; }
     .p-btn.out:hover { background: var(--blue); color: white; }
-    .p-btn.sol { background: var(--orange); color: white; border: 2px solid var(--orange); box-shadow: 0 4px 20px rgba(245,93,53,.4); }
-    .p-btn.sol:hover { background: var(--orange-dk); box-shadow: 0 8px 28px rgba(245,93,53,.55); }
+    .p-btn.sol { background: var(--orange); color: white; border: 2px solid var(--orange); box-shadow: 0 4px 16px rgba(245,93,53,.22); }
+    .p-btn.sol:hover { background: var(--orange-dk); box-shadow: 0 8px 24px rgba(245,93,53,.3); }
     @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr; } }
 
     /* ── FAQ ── */
@@ -661,7 +641,7 @@
     .faq-q {
       width: 100%; background: none; border: none; padding: 24px 0; text-align: left;
       font-size: 1rem; font-weight: 600; color: var(--dark);
-      cursor: none; font-family: var(--ff-b);
+      cursor: pointer; font-family: var(--ff-b);
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
       transition: color .18s;
     }
@@ -680,9 +660,9 @@
       background: var(--orange); color: white; font-weight: 700; font-size: 1.05rem; letter-spacing: .01em;
       padding: 18px 40px; border-radius: var(--r-sm); text-decoration: none;
       transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
-      box-shadow: 0 6px 32px rgba(245,93,53,.5);
+      box-shadow: 0 6px 24px rgba(245,93,53,.28);
     }
-    .btn-main:hover { background: var(--orange-dk); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(245,93,53,.6); }
+    .btn-main:hover { background: var(--orange-dk); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,93,53,.35); }
     .btn-sec { color: rgba(255,255,255,.65); font-size: .95rem; font-weight: 600; text-decoration: none; padding: 18px 18px; display: inline-flex; align-items: center; gap: 7px; transition: color .18s; }
     .btn-sec:hover { color: white; }
 
@@ -698,7 +678,15 @@
     .float-cta { display: none; }
     @media (max-width: 680px) {
       .float-cta { display: block; position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 300; }
-      .float-cta a { display: block; background: var(--orange); color: white; text-align: center; padding: 17px; border-radius: 13px; font-weight: 700; font-size: .97rem; text-decoration: none; box-shadow: 0 8px 32px rgba(245,93,53,.5); }
+      .float-cta a { display: block; background: var(--orange); color: white; text-align: center; padding: 17px; border-radius: 13px; font-weight: 700; font-size: .97rem; text-decoration: none; box-shadow: 0 8px 28px rgba(245,93,53,.32); }
+    }
+
+    /* ── ICONS ── */
+    .ic {
+      width: 16px; height: 16px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0; display: inline-block; vertical-align: middle;
     }
 
     /* ── UTILS ── */
@@ -716,9 +704,34 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<!-- ═══ SVG ICON SPRITE ════════════════════════════════════════════ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-banknote" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+  <symbol id="i-trend-down" viewBox="0 0 24 24"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24"><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></symbol>
+  <symbol id="i-hammer" viewBox="0 0 24 24"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9L18.4 10l-2.7-4.5c-.3-.5-.9-.8-1.5-.8H9.8c-.6 0-1.2.3-1.5.8L5.6 10l-2.1 1.1C2.7 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/></symbol>
+  <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></symbol>
+  <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+</svg>
+
 <div id="progress-bar"></div>
-<div id="cursor"></div>
-<div id="cursor-trail"></div>
 
 <!-- ═══ NAV ═══════════════════════════════════════════════════════ -->
 <nav class="nav" id="mainNav">
@@ -823,15 +836,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </select>
         </div>
         <div class="f-disq" id="msgDis">
-          ✅ Parfait — on va te montrer exactement ce qui est possible avec ton budget lors de l'audit.
+          <svg class="ic" style="width:13px;height:13px;color:#166534;margin-right:4px;"><use href="#i-check"/></svg>Parfait — on va te montrer exactement ce qui est possible avec ton budget lors de l'audit.
         </div>
         <button class="btn-submit" id="submitBtn" type="submit">
           Réserver mon audit gratuit →
         </button>
-        <p class="f-privacy">🔒 Confidentiel · Zéro vente · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
+        <p class="f-privacy"><svg class="ic" style="width:11px;height:11px;margin-right:3px;"><use href="#i-lock"/></svg>Confidentiel · Zéro vente · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
       </form>
       <div class="f-success" id="fSuccess">
-        <div class="ico">✅</div>
+        <div class="ico"><svg class="ic" style="width:46px;height:46px;color:var(--green);stroke-width:1.8;"><use href="#i-check"/></svg></div>
         <h3>On t'envoie vers le calendrier…</h3>
         <p>Choisis ton créneau et c'est parti.</p>
       </div>
@@ -860,30 +873,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ MARQUEE TRUST ══════════════════════════════════════════════ -->
 <div class="trust-marquee">
   <div class="marquee-track" id="marqueeTrack">
-    <div class="marquee-item"><div class="marquee-ic mic-b">🏆</div>Google Partner certifié</div>
+    <div class="marquee-item"><div class="marquee-ic mic-b"><svg class="ic"><use href="#i-award"/></svg></div>Google Partner certifié</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-t">📍</div>Basé à Montréal, QC</div>
+    <div class="marquee-item"><div class="marquee-ic mic-t"><svg class="ic"><use href="#i-pin"/></svg></div>Basé à Montréal, QC</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-o">⚡</div>PME locales seulement</div>
+    <div class="marquee-item"><div class="marquee-ic mic-o"><svg class="ic"><use href="#i-zap"/></svg></div>PME locales seulement</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-y">📊</div>Résultats 100 % mesurables</div>
+    <div class="marquee-item"><div class="marquee-ic mic-y"><svg class="ic"><use href="#i-chart"/></svg></div>Résultats 100 % mesurables</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-b">🎯</div>Zéro frais cachés</div>
+    <div class="marquee-item"><div class="marquee-ic mic-b"><svg class="ic"><use href="#i-target"/></svg></div>Zéro frais cachés</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-t">📞</div>Rapport mensuel inclus</div>
+    <div class="marquee-item"><div class="marquee-ic mic-t"><svg class="ic"><use href="#i-phone"/></svg></div>Rapport mensuel inclus</div>
     <div class="marquee-sep"></div>
     <!-- duplicate for seamless loop -->
-    <div class="marquee-item"><div class="marquee-ic mic-b">🏆</div>Google Partner certifié</div>
+    <div class="marquee-item"><div class="marquee-ic mic-b"><svg class="ic"><use href="#i-award"/></svg></div>Google Partner certifié</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-t">📍</div>Basé à Montréal, QC</div>
+    <div class="marquee-item"><div class="marquee-ic mic-t"><svg class="ic"><use href="#i-pin"/></svg></div>Basé à Montréal, QC</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-o">⚡</div>PME locales seulement</div>
+    <div class="marquee-item"><div class="marquee-ic mic-o"><svg class="ic"><use href="#i-zap"/></svg></div>PME locales seulement</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-y">📊</div>Résultats 100 % mesurables</div>
+    <div class="marquee-item"><div class="marquee-ic mic-y"><svg class="ic"><use href="#i-chart"/></svg></div>Résultats 100 % mesurables</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-b">🎯</div>Zéro frais cachés</div>
+    <div class="marquee-item"><div class="marquee-ic mic-b"><svg class="ic"><use href="#i-target"/></svg></div>Zéro frais cachés</div>
     <div class="marquee-sep"></div>
-    <div class="marquee-item"><div class="marquee-ic mic-t">📞</div>Rapport mensuel inclus</div>
+    <div class="marquee-item"><div class="marquee-ic mic-t"><svg class="ic"><use href="#i-phone"/></svg></div>Rapport mensuel inclus</div>
     <div class="marquee-sep"></div>
   </div>
 </div>
@@ -896,17 +909,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="sub reveal">La majorité des PME gaspillent leur budget Google Ads sur des clics qui ne convertiront jamais.</p>
     <div class="pain-grid">
       <div class="pain-card reveal">
-        <div class="pain-ico">💸</div>
+        <div class="pain-ico"><svg class="ic"><use href="#i-banknote"/></svg></div>
         <h3>Tu paies pour des clics qui ne valent rien</h3>
         <p>Tes annonces apparaissent pour des recherches trop larges. Tu paies pour des visiteurs qui cherchent quelque chose de complètement différent de ce que tu offres.</p>
       </div>
       <div class="pain-card reveal reveal-delay-1">
-        <div class="pain-ico">📉</div>
+        <div class="pain-ico"><svg class="ic"><use href="#i-trend-down"/></svg></div>
         <h3>Tes compétiteurs mangent ta visibilité</h3>
         <p>Sans optimisation continue, ta campagne perd du terrain chaque semaine. D'autres agences optimisent les comptes de tes rivaux pendant que le tien stagne.</p>
       </div>
       <div class="pain-card reveal reveal-delay-2">
-        <div class="pain-ico">🤷</div>
+        <div class="pain-ico"><svg class="ic"><use href="#i-help"/></svg></div>
         <h3>Personne ne t'explique ce qui se passe vraiment</h3>
         <p>Ton agence envoie des rapports incompréhensibles. Les résultats stagnent. Et tu n'as aucune idée si tu perds ou gagnes de l'argent sur chaque client acquis.</p>
       </div>
@@ -986,7 +999,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="case-left">
           <span class="case-pill">Réparation d'électroménagers · Montréal</span>
           <h3>Lebel Electro</h3>
-          <div class="case-loc">📍 Région de Montréal · Client actif depuis mai 2026</div>
+          <div class="case-loc"><svg class="ic" style="width:13px;height:13px;color:var(--teal);margin-right:2px;"><use href="#i-pin"/></svg>Région de Montréal · Client actif depuis mai 2026</div>
           <div class="case-mets">
             <div class="case-met">
               <span class="met-lbl">Leads par mois</span>
@@ -1027,34 +1040,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="niche-photos reveal">
       <div>
         <div class="img-placeholder" id="toiture-ph" style="height:230px;width:100%;display:flex;">
-          <span class="ph-ico">📷</span><span class="ph-name">photo-toiture.jpg</span>
+          <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-toiture.jpg</span>
         </div>
         <img src="assets/photo-toiture.jpg" alt="Entrepreneur en toiture au Québec"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('toiture-ph').style.display='none'">
       </div>
       <div>
-        <div class="img-placeholder" id="electricien-ph" style="height:230px;width:100%;display:flex;">
-          <span class="ph-ico">📷</span><span class="ph-name">photo-electricien.jpg</span>
+        <div class="img-placeholder" id="electromenager-ph" style="height:230px;width:100%;display:flex;">
+          <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-electromenager.jpg</span>
         </div>
-        <img src="assets/photo-electricien.jpg" alt="Électricien PME locale Québec"
+        <img src="assets/photo-electromenager.jpg" alt="Technicien en réparation d'électroménagers — PME locale au Québec"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
-             onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electricien-ph').style.display='none'">
+             onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electromenager-ph').style.display='none'">
       </div>
     </div>
     <div class="niche-wrap mt-md">
-      <div class="niche">🏠 Toiture</div>
-      <div class="niche">🔧 Plomberie</div>
-      <div class="niche">❄️ HVAC / Climatisation</div>
-      <div class="niche">🔌 Réparation d'électroménagers</div>
-      <div class="niche">⚡ Électricien</div>
-      <div class="niche">🏗️ Rénovation</div>
-      <div class="niche">🌿 Paysagement</div>
-      <div class="niche">🦷 Clinique / Dentiste</div>
-      <div class="niche">🚗 Carrosserie / Auto</div>
-      <div class="niche">🏋️ Gym / Santé</div>
-      <div class="niche">🍽️ Restaurant livraison</div>
-      <div class="niche">+ toute PME locale</div>
+      <div class="niche"><svg class="ic"><use href="#i-home"/></svg> Toiture</div>
+      <div class="niche"><svg class="ic"><use href="#i-wrench"/></svg> Plomberie</div>
+      <div class="niche"><svg class="ic"><use href="#i-snow"/></svg> HVAC / Climatisation</div>
+      <div class="niche"><svg class="ic"><use href="#i-plug"/></svg> Réparation d'électroménagers</div>
+      <div class="niche"><svg class="ic"><use href="#i-zap"/></svg> Électricien</div>
+      <div class="niche"><svg class="ic"><use href="#i-hammer"/></svg> Rénovation</div>
+      <div class="niche"><svg class="ic"><use href="#i-leaf"/></svg> Paysagement</div>
+      <div class="niche"><svg class="ic"><use href="#i-cross"/></svg> Clinique / Dentiste</div>
+      <div class="niche"><svg class="ic"><use href="#i-car"/></svg> Carrosserie / Auto</div>
+      <div class="niche"><svg class="ic"><use href="#i-dumbbell"/></svg> Gym / Santé</div>
+      <div class="niche"><svg class="ic"><use href="#i-utensils"/></svg> Restaurant livraison</div>
+      <div class="niche"><svg class="ic"><use href="#i-plus"/></svg> toute PME locale</div>
     </div>
   </div>
 </section>
@@ -1139,7 +1152,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="reveal">Un audit gratuit de 30 minutes. On te dit exactement ce qui manque et ce qu'on ferait. Sans pression, sans bullshit.</p>
     <div class="fcta-btns reveal">
       <a href="#audit" class="btn-main">Réserver mon audit gratuit →</a>
-      <a href="tel:5147780637" class="btn-sec">📞 514-778-0637</a>
+      <a href="tel:5147780637" class="btn-sec"><svg class="ic" style="width:15px;height:15px;"><use href="#i-phone"/></svg> 514-778-0637</a>
     </div>
   </div>
 </section>
@@ -1164,20 +1177,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ JS ══════════════════════════════════════════════════════════ -->
 <script>
 (function() {
-  /* Cursor */
-  var cur = document.getElementById('cursor');
-  var trail = document.getElementById('cursor-trail');
-  var mx = 0, my = 0, tx = 0, ty = 0;
-  document.addEventListener('mousemove', function(e) {
-    mx = e.clientX; my = e.clientY;
-    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-  });
-  (function animTrail() {
-    tx += (mx - tx) * .12; ty += (my - ty) * .12;
-    trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
-    requestAnimationFrame(animTrail);
-  })();
-
   /* Scroll progress */
   var pb = document.getElementById('progress-bar');
   window.addEventListener('scroll', function() {
