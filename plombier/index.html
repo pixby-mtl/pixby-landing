@@ -1262,6 +1262,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
     }
 
+    /* Envoi du lead dans GHL (webhook) — fire and forget, n'empêche jamais la redirection */
+    try {
+      fetch('https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/e25fdf73-fb35-4596-811a-2f8818553601', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        keepalive: true,
+        body: JSON.stringify({
+          first_name: p,
+          phone: t,
+          email: document.getElementById('email') ? document.getElementById('email').value.trim() : '',
+          type_entreprise: indVal,
+          budget_pub: budgetVal,
+          page_source: window.location.href,
+          form_name: (window.location.pathname.replace(/\//g, '') || 'accueil')
+        })
+      });
+    } catch (err) {}
+
     form.style.display = 'none'; suc.style.display = 'block';
 
     setTimeout(function() {
