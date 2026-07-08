@@ -39,7 +39,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,7 +53,7 @@
       --white: #FFFFFF; --green: #16a34a;
       --glass: rgba(255,255,255,.06); --glass-b: rgba(255,255,255,.10);
       --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 32px;
-      --ff-d: 'Syne', sans-serif; --ff-b: 'Instrument Sans', sans-serif;
+      --ff-d: 'Space Grotesk', sans-serif; --ff-b: 'Instrument Sans', sans-serif;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -291,7 +291,7 @@
   <section id="scan">
     <div class="scan-ring"></div>
     <div class="scan-step" id="ss1"><span class="chk">✓</span>Analyse des recherches Google dans ta région…</div>
-    <div class="scan-step" id="ss2"><span class="chk">✓</span>Calcul du prix du clic dans ton marché…</div>
+    <div class="scan-step" id="ss2"><span class="chk">✓</span>Calcul de la valeur moyenne d'un contrat dans ton secteur…</div>
     <div class="scan-step" id="ss3"><span class="chk">✓</span>Estimation de ton potentiel de leads…</div>
   </section>
 
@@ -309,9 +309,9 @@
         <div class="tile-sub">personnes qui cherchent tes services dans ta région chaque mois</div>
       </div>
       <div class="tile t2">
-        <div class="tile-tag">Prix du clic dans ton marché</div>
-        <div class="tile-val" id="tCpc"></div>
-        <div class="tile-sub">ce que les annonceurs de ton secteur paient en haut de page</div>
+        <div class="tile-tag">Valeur moyenne d'un contrat</div>
+        <div class="tile-val" id="tValue"></div>
+        <div class="tile-sub">ballpark une fois le client signé — ton secteur, Québec</div>
       </div>
       <div class="tile t3">
         <div class="tile-tag">Ton potentiel de leads / mois</div>
@@ -418,14 +418,14 @@
   /* Données réelles — Google Ads Keyword Planner, Québec (20123), FR, juillet 2026.
      Format : [mot-clé, recherches/mois, CPC bas $, CPC haut $] */
   var DATA = {
-    toiture:        { label:"Toiture", kws:[["toiture",4400,3.84,16.67],["couvreur",1600,3.58,15.21],["réfection toit",170,4.13,15.33],["réparation toiture",170,2.54,14.85],["refaire sa toiture",10,2.31,11.32]] },
-    plomberie:      { label:"Plomberie", kws:[["plombier",8100,1.81,8.11],["plombier urgence",1000,2.08,8.52],["remplacement chauffe-eau",390,1.43,5.54],["débouchage drain",320,1.85,8.54]] },
-    hvac:           { label:"HVAC / Thermopompe", kws:[["thermopompe",22200,1.33,7.25],["climatisation",5400,2.34,10.93],["installation thermopompe",1300,2.50,14.41],["réparation thermopompe",1000,1.71,7.23]] },
-    electromenager: { label:"Réparation d'électroménagers", kws:[["réparation électroménagers",4400,0.94,5.08],["réparation laveuse",1600,1.02,5.12],["réparation lave-vaisselle",1600,1.04,5.76],["réparation réfrigérateur",590,0.97,5.14]] },
-    electricien:    { label:"Électricien", kws:[["électricien",8100,2.16,8.46],["panneau électrique",1900,0.16,3.02],["installation borne de recharge",590,1.39,5.55],["maître électricien",110,2.18,6.10]] },
-    renovation:     { label:"Rénovation", kws:[["rénovation salle de bain",1900,1.41,6.70],["rénovation cuisine",1600,1.51,6.49],["entrepreneur rénovation",320,1.61,7.88],["rénovation sous-sol",210,1.75,7.94]] },
-    paysagement:    { label:"Paysagement", kws:[["paysagiste",9900,1.29,4.69],["aménagement paysager",3600,1.05,3.69],["pavé uni",2900,0.41,3.05],["terrassement",1300,1.59,4.91]] },
-    dentiste:       { label:"Dentiste / Clinique", kws:[["dentiste",27100,1.70,7.26],["invisalign",12100,1.49,8.03],["nettoyage dentaire prix",590,0.85,2.40],["blanchiment des dents",390,0.91,2.79]] }
+    toiture:        { label:"Toiture", avgValue:[8000,15000], kws:[["toiture",4400,3.84,16.67],["couvreur",1600,3.58,15.21],["réfection toit",170,4.13,15.33],["réparation toiture",170,2.54,14.85],["refaire sa toiture",10,2.31,11.32]] },
+    plomberie:      { label:"Plomberie", avgValue:[350,900], kws:[["plombier",8100,1.81,8.11],["plombier urgence",1000,2.08,8.52],["remplacement chauffe-eau",390,1.43,5.54],["débouchage drain",320,1.85,8.54]] },
+    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], kws:[["thermopompe",22200,1.33,7.25],["climatisation",5400,2.34,10.93],["installation thermopompe",1300,2.50,14.41],["réparation thermopompe",1000,1.71,7.23]] },
+    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], kws:[["réparation électroménagers",4400,0.94,5.08],["réparation laveuse",1600,1.02,5.12],["réparation lave-vaisselle",1600,1.04,5.76],["réparation réfrigérateur",590,0.97,5.14]] },
+    electricien:    { label:"Électricien", avgValue:[2000,6000], kws:[["électricien",8100,2.16,8.46],["panneau électrique",1900,0.16,3.02],["installation borne de recharge",590,1.39,5.55],["maître électricien",110,2.18,6.10]] },
+    renovation:     { label:"Rénovation", avgValue:[20000,100000], kws:[["rénovation salle de bain",1900,1.41,6.70],["rénovation cuisine",1600,1.51,6.49],["entrepreneur rénovation",320,1.61,7.88],["rénovation sous-sol",210,1.75,7.94]] },
+    paysagement:    { label:"Paysagement", avgValue:[3000,15000], kws:[["paysagiste",9900,1.29,4.69],["aménagement paysager",3600,1.05,3.69],["pavé uni",2900,0.41,3.05],["terrassement",1300,1.59,4.91]] },
+    dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], kws:[["dentiste",27100,1.70,7.26],["invisalign",12100,1.49,8.03],["nettoyage dentaire prix",590,0.85,2.40],["blanchiment des dents",390,0.91,2.79]] }
   };
   var REGIONS = { mtl:"Grand Montréal", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
@@ -435,6 +435,7 @@
 
   function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
   function money(n){ return n.toFixed(2).replace('.', ',') + ' $'; }
+  function moneyRange(lo,hi){ return fmt(lo) + ' $ – ' + fmt(hi) + ' $'; }
   function budgetRange(b){ return b < 500 ? 'moins500' : b <= 1500 ? '500-1500' : b <= 3000 ? '1500-3000' : '3000plus'; }
 
   /* sélections */
@@ -475,6 +476,7 @@
     var volReg = Math.max(10, Math.round(volTot*sel.mult/10)*10);
     var clics = sel.budget/cpcMid;
     calc = { d:d, volReg:volReg, cpcLow:cpcLow, cpcHigh:cpcHigh, cpcMid:cpcMid,
+             valLow:d.avgValue[0], valHigh:d.avgValue[1],
              leadsLow:Math.max(1,Math.floor(clics*0.05)), leadsHigh:Math.max(2,Math.ceil(clics*0.12)) };
   }
 
@@ -492,7 +494,7 @@
     document.getElementById('resTitle').textContent = calc.d.label;
     document.getElementById('resRegion').textContent = REGIONS[sel.r] + ' · basé sur les données réelles Google Ads';
     document.getElementById('tVol').textContent = '~' + fmt(calc.volReg);
-    document.getElementById('tCpc').textContent = money(calc.cpcLow) + ' – ' + money(calc.cpcHigh);
+    document.getElementById('tValue').textContent = moneyRange(calc.valLow, calc.valHigh);
     renderLeads();
     document.getElementById('budgetVal2').textContent = fmt(sel.budget);
     document.getElementById('budget2').value = sel.budget;
