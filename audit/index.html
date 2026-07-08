@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Google Ads instantané — Pixby | Ton marché en 60 secondes</title>
+  <meta name="description" content="Découvre en 60 secondes combien de clients cherchent tes services sur Google au Québec : volumes réels, CPC de ton marché, potentiel de leads. Gratuit.">
+  <link rel="canonical" href="https://ads.pixby.ca/audit/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ads.pixby.ca/audit/">
+  <meta property="og:title" content="Audit Google Ads instantané — combien de clients te cherchent ?">
+  <meta property="og:description" content="Données réelles Google : volumes de recherche, CPC et potentiel de leads pour ton métier au Québec. Gratuit, 60 secondes.">
+  <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
+  <meta property="og:locale" content="fr_CA">
+  <meta property="og:site_name" content="Pixby">
+
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/favicon.png">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Pixby — Alexander Guanchez">
+  <meta name="geo.region" content="CA-QC">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KQLNBJ99');</script>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RH9Z0XC8WV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RH9Z0XC8WV', { 'page_location': window.location.href });
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0463A6; --blue-lt: #1579c2;
+      --teal: #1A9BB0; --teal-dk: #127a8a;
+      --orange: #F55D35; --orange-dk: #d4461f;
+      --yellow: #F7BE2C;
+      --offwhite: #F5F1EA; --grey: #BDC5D6;
+      --dark: #253858; --deep: #0b1623; --deep2: #111c2b;
+      --white: #FFFFFF; --green: #16a34a;
+      --glass: rgba(255,255,255,.06); --glass-b: rgba(255,255,255,.10);
+      --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 32px;
+      --ff-d: 'Syne', sans-serif; --ff-b: 'Instrument Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--ff-b); color: var(--white);
+      background: var(--deep); line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .nav { position: fixed; top:0; left:0; right:0; z-index:500; background: rgba(11,22,35,.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
+    .nav-inner { max-width:1080px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:70px; }
+    .nav-logo img { height:46px; display:block; }
+    .nav-phone { font-size:.86rem; font-weight:600; color:rgba(255,255,255,.65); text-decoration:none; }
+    .nav-phone:hover { color:#fff; }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 118px 24px 80px; }
+
+    .badge {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+      color: var(--teal); background: rgba(26,155,176,.12); border:1px solid rgba(26,155,176,.3);
+      padding: 7px 16px; border-radius: 999px; margin-bottom: 22px;
+    }
+    .badge .dot { width:7px; height:7px; border-radius:50%; background: var(--green); animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.9rem,4.6vw,3.1rem); line-height:1.12; letter-spacing:-.01em; max-width:760px; }
+    h1 .hl { color: var(--yellow); }
+    .sub { font-size:1.06rem; color:rgba(255,255,255,.6); margin-top:16px; max-width:600px; }
+
+    /* ── ÉTAPE 1 : SÉLECTION ── */
+    .panel {
+      background: var(--deep2); border:1px solid var(--glass-b);
+      border-radius: var(--r-lg); padding: 34px; margin-top: 40px;
+    }
+    .q-label { font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+    .q-num { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:8px; background:var(--teal); color:#fff; font-family:var(--ff-b); font-size:.8rem; font-weight:700; flex-shrink:0; }
+
+    .metier-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; margin-bottom:30px; }
+    .m-card {
+      display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+      background: var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-md);
+      padding:16px 14px; cursor:pointer; transition:all .18s; color:rgba(255,255,255,.85);
+      font-family:var(--ff-b); font-size:.88rem; font-weight:600; text-align:left;
+    }
+    .m-card svg { width:22px; height:22px; stroke:var(--teal); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    .m-card:hover { border-color:var(--teal); transform:translateY(-2px); }
+    .m-card.sel { background:rgba(26,155,176,.16); border-color:var(--teal); color:#fff; box-shadow:0 0 0 1px var(--teal); }
+
+    .region-row { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:30px; }
+    .r-pill {
+      background:var(--glass); border:1px solid var(--glass-b); border-radius:999px;
+      padding:9px 18px; cursor:pointer; color:rgba(255,255,255,.8);
+      font-family:var(--ff-b); font-size:.86rem; font-weight:600; transition:all .18s;
+    }
+    .r-pill:hover { border-color:var(--teal); }
+    .r-pill.sel { background:rgba(26,155,176,.16); border-color:var(--teal); color:#fff; box-shadow:0 0 0 1px var(--teal); }
+
+    .slider-box { margin-bottom:32px; }
+    .slider-val { font-family:var(--ff-d); font-weight:800; font-size:1.7rem; color:var(--yellow); margin-bottom:8px; }
+    .slider-val small { font-size:.85rem; color:rgba(255,255,255,.5); font-family:var(--ff-b); font-weight:500; }
+    input[type=range] { width:100%; max-width:440px; accent-color:var(--orange); height:6px; cursor:pointer; }
+
+    .btn {
+      display:inline-block; background:var(--orange); color:#fff; border:none; cursor:pointer;
+      font-family:var(--ff-b); font-weight:700; font-size:1rem; letter-spacing:.01em;
+      padding:16px 34px; border-radius:var(--r-sm); text-decoration:none;
+      transition:all .2s; box-shadow:0 4px 16px rgba(245,93,53,.22);
+    }
+    .btn:hover:not(:disabled) { background:var(--orange-dk); transform:translateY(-1px); box-shadow:0 8px 24px rgba(245,93,53,.3); }
+    .btn:disabled { opacity:.4; cursor:default; }
+    .btn-hint { font-size:.8rem; color:rgba(255,255,255,.4); margin-top:10px; }
+
+    /* ── SCAN ── */
+    #scan { display:none; text-align:center; padding:70px 20px; }
+    .scan-ring { width:64px; height:64px; margin:0 auto 30px; border-radius:50%; border:3px solid rgba(26,155,176,.2); border-top-color:var(--teal); animation:spin .9s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .scan-step { font-size:1rem; color:rgba(255,255,255,.45); margin:12px 0; transition:color .3s; display:flex; align-items:center; justify-content:center; gap:10px; }
+    .scan-step.done { color:#fff; }
+    .scan-step .chk { opacity:0; color:var(--green); font-weight:700; }
+    .scan-step.done .chk { opacity:1; }
+
+    /* ── RÉSULTATS ── */
+    #results { display:none; }
+    .res-head { margin:46px 0 26px; }
+    .res-head h2 { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.5rem,3.4vw,2.2rem); }
+    .res-head h2 span { color:var(--teal); }
+    .res-head p { color:rgba(255,255,255,.55); margin-top:6px; font-size:.95rem; }
+
+    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+    .tile {
+      background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md);
+      padding:26px 24px; position:relative; overflow:hidden;
+    }
+    .tile::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+    .tile.t1::before { background:var(--teal); } .tile.t2::before { background:var(--yellow); } .tile.t3::before { background:var(--orange); }
+    .tile-tag { font-size:.66rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:10px; }
+    .tile-val { font-family:var(--ff-d); font-weight:800; font-size:2rem; line-height:1.1; }
+    .tile.t1 .tile-val { color:var(--teal); } .tile.t2 .tile-val { color:var(--yellow); } .tile.t3 .tile-val { color:var(--orange); }
+    .tile-sub { font-size:.82rem; color:rgba(255,255,255,.5); margin-top:8px; }
+
+    .sim { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:26px 24px; margin-top:14px; }
+    .sim-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .sim-label { font-size:.9rem; color:rgba(255,255,255,.65); font-weight:600; }
+    .sim-out { font-family:var(--ff-d); font-weight:800; font-size:1.35rem; color:var(--green); }
+
+    /* table mots-clés */
+    .kw-box { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; position:relative; }
+    .kw-box h3 { font-family:var(--ff-d); font-size:1.02rem; padding:22px 24px 4px; }
+    .kw-box .src { font-size:.75rem; color:rgba(255,255,255,.4); padding:0 24px 14px; }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    th { text-align:left; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); padding:10px 24px; border-bottom:1px solid var(--glass-b); font-weight:700; }
+    th:last-child, td:last-child { text-align:right; }
+    td { padding:13px 24px; border-bottom:1px solid rgba(255,255,255,.05); }
+    td.kw { font-weight:600; }
+    td.vol { color:var(--teal); font-weight:700; }
+    td.cpc { color:rgba(255,255,255,.7); }
+    tr.blurred td { filter:blur(6px); user-select:none; pointer-events:none; }
+
+    .lock-overlay {
+      position:absolute; left:0; right:0; bottom:0; padding:46px 24px 26px; text-align:center;
+      background:linear-gradient(to bottom, rgba(17,28,43,0), rgba(17,28,43,.96) 55%);
+    }
+    .lock-overlay p { font-size:.9rem; color:rgba(255,255,255,.75); margin-bottom:14px; font-weight:600; }
+
+    /* ── FORM GATE ── */
+    #gate { margin-top:14px; }
+    .gate-card {
+      background:var(--white); color:var(--dark); border-radius:var(--r-lg);
+      padding:36px; max-width:520px;
+    }
+    .gate-card h3 { font-family:var(--ff-d); font-weight:800; font-size:1.3rem; margin-bottom:6px; }
+    .gate-card > p { font-size:.85rem; color:#888; margin-bottom:22px; }
+    .f-row { margin-bottom:16px; }
+    .f-row label { display:block; font-size:.8rem; font-weight:700; margin-bottom:6px; }
+    .f-row input {
+      width:100%; padding:13px 15px; border:1.5px solid #dde2ea; border-radius:var(--r-sm);
+      font-family:var(--ff-b); font-size:.95rem; color:var(--dark); background:#fafbfc; outline:none; transition:border .2s;
+    }
+    .f-row input:focus { border-color:var(--teal); background:#fff; }
+    .f-privacy { font-size:.72rem; color:#999; margin-top:12px; }
+    .f-privacy a { color:#999; }
+
+    /* ── POST-UNLOCK ── */
+    #unlocked { display:none; margin-top:26px; }
+    .plan { background:rgba(26,155,176,.08); border:1px solid rgba(26,155,176,.3); border-radius:var(--r-md); padding:28px 26px; }
+    .plan h3 { font-family:var(--ff-d); font-size:1.15rem; margin-bottom:14px; }
+    .plan li { list-style:none; display:flex; gap:10px; margin-bottom:10px; font-size:.93rem; color:rgba(255,255,255,.8); }
+    .plan li::before { content:'✓'; color:var(--green); font-weight:800; }
+    .cal-cta { text-align:center; margin-top:30px; }
+    .cal-cta .btn { font-size:1.05rem; padding:18px 40px; }
+    .cal-cta p { font-size:.82rem; color:rgba(255,255,255,.45); margin-top:10px; }
+
+    /* autre métier */
+    #manual { display:none; }
+
+    footer { border-top:1px solid var(--glass-b); padding:26px 24px; text-align:center; font-size:.78rem; color:rgba(255,255,255,.35); }
+    footer a { color:rgba(255,255,255,.5); }
+    .disclaimer { font-size:.72rem; color:rgba(255,255,255,.32); margin-top:22px; max-width:720px; }
+
+    @media (max-width:560px) {
+      .panel { padding:24px 18px; }
+      .metier-grid { grid-template-columns:repeat(2,1fr); }
+      .gate-card { padding:26px 20px; }
+      th, td { padding-left:14px; padding-right:14px; }
+    }
+  </style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQLNBJ99" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-roof" viewBox="0 0 24 24"><path d="M3 12L12 4l9 8"/><path d="M5 10v9h14v-9"/></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 8h11a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/></symbol>
+  <symbol id="i-wash" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 6h.01M11 6h.01"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></symbol>
+  <symbol id="i-hammer" viewBox="0 0 24 24"><path d="M14 5l6 6-2 2-6-6z"/><path d="M12 7L4 15l3 3 8-8"/><path d="M16 3l4 4"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 20c0-9 5-14 14-15-1 9-6 14-14 15z"/><path d="M5 20c3-4 6-7 10-9"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></symbol>
+  <symbol id="i-case" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></symbol>
+</svg>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="../"><img src="../assets/logo.png" alt="Pixby"></a>
+    <a class="nav-phone" href="tel:5147780637">514-778-0637</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ÉTAPE 1 -->
+  <section id="step1">
+    <div class="badge"><span class="dot"></span>Audit instantané · Données réelles Google</div>
+    <h1>Combien de clients te cherchent sur Google <span class="hl">en ce moment</span> ?</h1>
+    <p class="sub">Réponds à 3 questions. On te montre les vraies données de ton marché au Québec : recherches par mois, prix du clic, potentiel de leads. Gratuit, 60 secondes.</p>
+
+    <div class="panel">
+      <div class="q-label"><span class="q-num">1</span>Ton métier</div>
+      <div class="metier-grid" id="metierGrid">
+        <button class="m-card" data-m="toiture"><svg><use href="#i-roof"/></svg>Toiture</button>
+        <button class="m-card" data-m="plomberie"><svg><use href="#i-drop"/></svg>Plomberie</button>
+        <button class="m-card" data-m="hvac"><svg><use href="#i-wind"/></svg>HVAC / Thermopompe</button>
+        <button class="m-card" data-m="electromenager"><svg><use href="#i-wash"/></svg>Réparation d'électroménagers</button>
+        <button class="m-card" data-m="electricien"><svg><use href="#i-zap"/></svg>Électricien</button>
+        <button class="m-card" data-m="renovation"><svg><use href="#i-hammer"/></svg>Rénovation</button>
+        <button class="m-card" data-m="paysagement"><svg><use href="#i-leaf"/></svg>Paysagement</button>
+        <button class="m-card" data-m="dentiste"><svg><use href="#i-smile"/></svg>Dentiste / Clinique</button>
+        <button class="m-card" data-m="autre"><svg><use href="#i-case"/></svg>Autre PME locale</button>
+      </div>
+
+      <div class="q-label"><span class="q-num">2</span>Ta région</div>
+      <div class="region-row" id="regionRow">
+        <button class="r-pill" data-r="mtl" data-mult="0.50">Grand Montréal</button>
+        <button class="r-pill" data-r="qc" data-mult="0.10">Québec / Lévis</button>
+        <button class="r-pill" data-r="gat" data-mult="0.05">Gatineau</button>
+        <button class="r-pill" data-r="sher" data-mult="0.06">Sherbrooke</button>
+        <button class="r-pill" data-r="autre" data-mult="0.07">Autre région</button>
+        <button class="r-pill" data-r="tout" data-mult="1">Tout le Québec</button>
+      </div>
+
+      <div class="q-label"><span class="q-num">3</span>Ton budget pub mensuel</div>
+      <div class="slider-box">
+        <div class="slider-val"><span id="budgetVal">1 000</span> $ <small>/ mois</small></div>
+        <input type="range" id="budget" min="500" max="5000" step="100" value="1000">
+      </div>
+
+      <button class="btn" id="goBtn" disabled>Lancer mon audit →</button>
+      <p class="btn-hint">Aucune inscription requise pour voir les premiers résultats.</p>
+    </div>
+  </section>
+
+  <!-- SCAN -->
+  <section id="scan">
+    <div class="scan-ring"></div>
+    <div class="scan-step" id="ss1"><span class="chk">✓</span>Analyse des recherches Google dans ta région…</div>
+    <div class="scan-step" id="ss2"><span class="chk">✓</span>Calcul du prix du clic dans ton marché…</div>
+    <div class="scan-step" id="ss3"><span class="chk">✓</span>Estimation de ton potentiel de leads…</div>
+  </section>
+
+  <!-- RÉSULTATS -->
+  <section id="results">
+    <div class="res-head">
+      <h2>Ton marché : <span id="resTitle"></span></h2>
+      <p id="resRegion"></p>
+    </div>
+
+    <div class="tiles">
+      <div class="tile t1">
+        <div class="tile-tag">Recherches Google / mois</div>
+        <div class="tile-val" id="tVol"></div>
+        <div class="tile-sub">personnes qui cherchent tes services dans ta région chaque mois</div>
+      </div>
+      <div class="tile t2">
+        <div class="tile-tag">Prix du clic dans ton marché</div>
+        <div class="tile-val" id="tCpc"></div>
+        <div class="tile-sub">ce que les annonceurs de ton secteur paient en haut de page</div>
+      </div>
+      <div class="tile t3">
+        <div class="tile-tag">Ton potentiel de leads / mois</div>
+        <div class="tile-val" id="tLeads"></div>
+        <div class="tile-sub">appels et demandes estimés avec ton budget<span id="tBudgetEcho"></span></div>
+      </div>
+    </div>
+
+    <div class="sim">
+      <div class="sim-row">
+        <div>
+          <div class="sim-label">Ajuste ton budget et regarde ton potentiel bouger :</div>
+          <div class="slider-val" style="font-size:1.25rem; margin:8px 0 4px;"><span id="budgetVal2">1 000</span> $ <small>/ mois</small></div>
+          <input type="range" id="budget2" min="500" max="5000" step="100" value="1000">
+        </div>
+        <div style="text-align:right;">
+          <div class="sim-label">Leads potentiels</div>
+          <div class="sim-out" id="simLeads"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kw-box">
+      <h3>Les mots-clés que tes futurs clients tapent sur Google</h3>
+      <div class="src">Données Google Ads Keyword Planner · Québec · mises à jour juillet 2026</div>
+      <table id="kwTable">
+        <thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Prix du clic</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="lock-overlay" id="lockOverlay">
+        <p>🔒 Débloque le rapport complet + ton plan d'action personnalisé</p>
+        <button class="btn" id="unlockBtn">Débloquer gratuitement →</button>
+      </div>
+    </div>
+
+    <!-- GATE -->
+    <div id="gate" style="display:none;">
+      <div class="gate-card">
+        <h3>Ton rapport complet, gratuit.</h3>
+        <p>On débloque le tableau + on te prépare un plan d'action pour ton entreprise. Zéro spam, zéro vente forcée.</p>
+        <form id="gateForm">
+          <div class="f-row"><label for="gPrenom">Ton prénom *</label><input type="text" id="gPrenom" placeholder="Alexandre" autocomplete="given-name"></div>
+          <div class="f-row"><label for="gTel">Téléphone *</label><input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel"></div>
+          <div class="f-row"><label for="gEmail">Courriel</label><input type="email" id="gEmail" placeholder="toi@tonentreprise.ca" autocomplete="email"></div>
+          <button class="btn" type="submit" id="gateBtn" style="width:100%;">Voir mon rapport complet →</button>
+          <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- POST UNLOCK -->
+    <div id="unlocked">
+      <div class="plan">
+        <h3>Ce qu'on ferait pour toi, concrètement :</h3>
+        <ul>
+          <li>Campagne Google Ads ciblée sur les mots-clés ci-dessus, dans ta région, en français</li>
+          <li>Tracking complet des appels et formulaires — tu vois chaque lead et ce qu'il t'a coûté</li>
+          <li>Optimisation continue pour baisser ton coût par lead mois après mois</li>
+          <li>Rapport clair le 1er de chaque mois : dépenses, leads, résultats</li>
+        </ul>
+      </div>
+      <div class="cal-cta">
+        <a class="btn" id="calBtn" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Réserver mon 30 min avec Alexander →</a>
+        <p>Gratuit · Sans engagement · On regarde ton marché ensemble</p>
+      </div>
+    </div>
+
+    <p class="disclaimer">Estimations basées sur les données réelles de Google Ads Keyword Planner pour la province de Québec (juillet 2026). La répartition régionale est estimée selon le poids démographique de chaque région. Le potentiel de leads suppose une campagne bien structurée avec un taux de conversion de 5 à 12 % (moyenne des campagnes locales). Les résultats réels varient selon le site web, la concurrence et la saison.</p>
+  </section>
+
+  <!-- AUTRE MÉTIER -->
+  <section id="manual">
+    <div class="res-head">
+      <h2>Ton secteur mérite un audit sur mesure.</h2>
+      <p>Notre base instantanée couvre 8 métiers. Pour le tien, Alexander fait l'analyse à la main — mêmes données réelles Google, livrée en 24 h. Gratuit.</p>
+    </div>
+    <div class="gate-card" style="margin-top:26px;">
+      <h3>Reçois ton audit en 24 h</h3>
+      <p>Volumes de recherche, prix du clic et potentiel de leads pour TON métier, dans TA région.</p>
+      <form id="manualForm">
+        <div class="f-row"><label for="mPrenom">Ton prénom *</label><input type="text" id="mPrenom" placeholder="Alexandre"></div>
+        <div class="f-row"><label for="mTel">Téléphone *</label><input type="tel" id="mTel" placeholder="514-000-0000"></div>
+        <div class="f-row"><label for="mMetier">Ton métier / secteur *</label><input type="text" id="mMetier" placeholder="Ex. : nettoyage commercial"></div>
+        <div class="f-row"><label for="mEmail">Courriel</label><input type="email" id="mEmail" placeholder="toi@tonentreprise.ca"></div>
+        <button class="btn" type="submit" style="width:100%;">Recevoir mon audit gratuit →</button>
+        <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
+      </form>
+      <div id="manualOk" style="display:none; text-align:center; padding:20px 0 6px;">
+        <div style="font-size:2rem;">✓</div>
+        <h3 style="margin:8px 0 4px;">Reçu !</h3>
+        <p style="font-size:.9rem; color:#666;">Ton audit arrive d'ici 24 h. Tu veux aller plus vite ? <a href="https://calendly.com/admin-pixby/30min" style="color:var(--orange); font-weight:700;">Réserve 30 min maintenant</a>.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  © 2026 Pixby · Montréal · <a href="tel:5147780637">514-778-0637</a> · <a href="../">ads.pixby.ca</a> · <a href="../politique-confidentialite.html">Confidentialité</a>
+</footer>
+
+<script>
+(function(){
+  /* Données réelles — Google Ads Keyword Planner, Québec (20123), FR, juillet 2026.
+     Format : [mot-clé, recherches/mois, CPC bas $, CPC haut $] */
+  var DATA = {
+    toiture:        { label:"Toiture", kws:[["toiture",4400,3.84,16.67],["couvreur",1600,3.58,15.21],["réfection toit",170,4.13,15.33],["réparation toiture",170,2.54,14.85],["refaire sa toiture",10,2.31,11.32]] },
+    plomberie:      { label:"Plomberie", kws:[["plombier",8100,1.81,8.11],["plombier urgence",1000,2.08,8.52],["remplacement chauffe-eau",390,1.43,5.54],["débouchage drain",320,1.85,8.54]] },
+    hvac:           { label:"HVAC / Thermopompe", kws:[["thermopompe",22200,1.33,7.25],["climatisation",5400,2.34,10.93],["installation thermopompe",1300,2.50,14.41],["réparation thermopompe",1000,1.71,7.23]] },
+    electromenager: { label:"Réparation d'électroménagers", kws:[["réparation électroménagers",4400,0.94,5.08],["réparation laveuse",1600,1.02,5.12],["réparation lave-vaisselle",1600,1.04,5.76],["réparation réfrigérateur",590,0.97,5.14]] },
+    electricien:    { label:"Électricien", kws:[["électricien",8100,2.16,8.46],["panneau électrique",1900,0.16,3.02],["installation borne de recharge",590,1.39,5.55],["maître électricien",110,2.18,6.10]] },
+    renovation:     { label:"Rénovation", kws:[["rénovation salle de bain",1900,1.41,6.70],["rénovation cuisine",1600,1.51,6.49],["entrepreneur rénovation",320,1.61,7.88],["rénovation sous-sol",210,1.75,7.94]] },
+    paysagement:    { label:"Paysagement", kws:[["paysagiste",9900,1.29,4.69],["aménagement paysager",3600,1.05,3.69],["pavé uni",2900,0.41,3.05],["terrassement",1300,1.59,4.91]] },
+    dentiste:       { label:"Dentiste / Clinique", kws:[["dentiste",27100,1.70,7.26],["invisalign",12100,1.49,8.03],["nettoyage dentaire prix",590,0.85,2.40],["blanchiment des dents",390,0.91,2.79]] }
+  };
+  var REGIONS = { mtl:"Grand Montréal", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
+  var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
+
+  var sel = { m:null, r:null, mult:0, budget:1000 };
+  var calc = {};
+
+  function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function money(n){ return n.toFixed(2).replace('.', ',') + ' $'; }
+  function budgetRange(b){ return b < 500 ? 'moins500' : b <= 1500 ? '500-1500' : b <= 3000 ? '1500-3000' : '3000plus'; }
+
+  /* sélections */
+  document.querySelectorAll('.m-card').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.m-card').forEach(function(x){ x.classList.remove('sel'); });
+      this.classList.add('sel'); sel.m = this.dataset.m; check();
+    });
+  });
+  document.querySelectorAll('.r-pill').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.r-pill').forEach(function(x){ x.classList.remove('sel'); });
+      this.classList.add('sel'); sel.r = this.dataset.r; sel.mult = parseFloat(this.dataset.mult); check();
+    });
+  });
+  var bud = document.getElementById('budget');
+  bud.addEventListener('input', function(){ sel.budget = +this.value; document.getElementById('budgetVal').textContent = fmt(sel.budget); });
+  function check(){ document.getElementById('goBtn').disabled = !(sel.m && sel.r); }
+
+  /* lancement */
+  document.getElementById('goBtn').addEventListener('click', function(){
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event:'audit_start', metier: sel.m, region: sel.r, budget: sel.budget });
+    document.getElementById('step1').style.display = 'none';
+    if (sel.m === 'autre') { document.getElementById('manual').style.display = 'block'; window.scrollTo(0,0); return; }
+    document.getElementById('scan').style.display = 'block';
+    window.scrollTo(0,0);
+    ['ss1','ss2','ss3'].forEach(function(id,i){
+      setTimeout(function(){ document.getElementById(id).classList.add('done'); }, 700*(i+1));
+    });
+    setTimeout(showResults, 2600);
+  });
+
+  function compute(){
+    var d = DATA[sel.m], volTot = 0, wLow = 0, wHigh = 0;
+    d.kws.forEach(function(k){ volTot += k[1]; wLow += k[2]*k[1]; wHigh += k[3]*k[1]; });
+    var cpcLow = wLow/volTot, cpcHigh = wHigh/volTot, cpcMid = (cpcLow+cpcHigh)/2;
+    var volReg = Math.max(10, Math.round(volTot*sel.mult/10)*10);
+    var clics = sel.budget/cpcMid;
+    calc = { d:d, volReg:volReg, cpcLow:cpcLow, cpcHigh:cpcHigh, cpcMid:cpcMid,
+             leadsLow:Math.max(1,Math.floor(clics*0.05)), leadsHigh:Math.max(2,Math.ceil(clics*0.12)) };
+  }
+
+  function renderLeads(){
+    compute();
+    document.getElementById('tLeads').textContent = calc.leadsLow + ' à ' + calc.leadsHigh;
+    document.getElementById('tBudgetEcho').textContent = ' de ' + fmt(sel.budget) + ' $/mois';
+    document.getElementById('simLeads').textContent = calc.leadsLow + ' à ' + calc.leadsHigh + ' / mois';
+  }
+
+  function showResults(){
+    compute();
+    document.getElementById('scan').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('resTitle').textContent = calc.d.label;
+    document.getElementById('resRegion').textContent = REGIONS[sel.r] + ' · basé sur les données réelles Google Ads';
+    document.getElementById('tVol').textContent = '~' + fmt(calc.volReg);
+    document.getElementById('tCpc').textContent = money(calc.cpcLow) + ' – ' + money(calc.cpcHigh);
+    renderLeads();
+    document.getElementById('budgetVal2').textContent = fmt(sel.budget);
+    document.getElementById('budget2').value = sel.budget;
+
+    var tb = document.querySelector('#kwTable tbody'); tb.innerHTML = '';
+    calc.d.kws.forEach(function(k,i){
+      var tr = document.createElement('tr');
+      if (i >= 2) tr.className = 'blurred';
+      tr.innerHTML = '<td class="kw">'+k[0]+'</td><td class="vol">'+fmt(k[1])+'</td><td class="cpc">'+money(k[2])+' – '+money(k[3])+'</td>';
+      tb.appendChild(tr);
+    });
+    window.scrollTo(0,0);
+  }
+
+  document.getElementById('budget2').addEventListener('input', function(){
+    sel.budget = +this.value;
+    document.getElementById('budgetVal2').textContent = fmt(sel.budget);
+    renderLeads();
+  });
+
+  /* gate */
+  document.getElementById('unlockBtn').addEventListener('click', function(){
+    document.getElementById('gate').style.display = 'block';
+    document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
+  });
+
+  function sendLead(payload){
+    try {
+      fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
+    } catch(e){}
+  }
+
+  document.getElementById('gateForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var p = document.getElementById('gPrenom'), t = document.getElementById('gTel');
+    if (!p.value.trim()) { p.style.border='2px solid #ef4444'; p.focus(); return; }
+    if (!t.value.trim()) { t.style.border='2px solid #ef4444'; t.focus(); return; }
+    p.style.border=''; t.style.border='';
+    document.getElementById('gateBtn').disabled = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event:'generate_lead', form_name:'audit_60s', budget: budgetRange(sel.budget), industry: sel.m });
+    if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_60s', budget: budgetRange(sel.budget), industry: sel.m });
+
+    sendLead({
+      first_name: p.value.trim(), phone: t.value.trim(),
+      email: document.getElementById('gEmail').value.trim(),
+      type_entreprise: sel.m, budget_pub: budgetRange(sel.budget),
+      region: REGIONS[sel.r], budget_exact: sel.budget + '$',
+      audit_volume: '~' + fmt(calc.volReg) + ' recherches/mois',
+      audit_leads: calc.leadsLow + '-' + calc.leadsHigh + ' leads/mois',
+      page_source: window.location.href, form_name: 'audit-60s'
+    });
+
+    document.querySelectorAll('#kwTable tr.blurred').forEach(function(r){ r.classList.remove('blurred'); });
+    document.getElementById('lockOverlay').style.display = 'none';
+    document.getElementById('gate').style.display = 'none';
+    var u = document.getElementById('unlocked'); u.style.display = 'block';
+    document.getElementById('calBtn').href = 'https://calendly.com/admin-pixby/30min?name=' + encodeURIComponent(p.value.trim()) + '&a1=' + encodeURIComponent(t.value.trim());
+    u.scrollIntoView({ behavior:'smooth' });
+  });
+
+  /* autre métier — audit manuel */
+  document.getElementById('manualForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var p = document.getElementById('mPrenom'), t = document.getElementById('mTel'), m = document.getElementById('mMetier');
+    if (!p.value.trim()) { p.style.border='2px solid #ef4444'; p.focus(); return; }
+    if (!t.value.trim()) { t.style.border='2px solid #ef4444'; t.focus(); return; }
+    if (!m.value.trim()) { m.style.border='2px solid #ef4444'; m.focus(); return; }
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event:'generate_lead', form_name:'audit_60s_manuel', budget: budgetRange(sel.budget), industry: m.value.trim() });
+    if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_60s_manuel', budget: budgetRange(sel.budget), industry: m.value.trim() });
+
+    sendLead({
+      first_name: p.value.trim(), phone: t.value.trim(),
+      email: document.getElementById('mEmail').value.trim(),
+      type_entreprise: m.value.trim(), budget_pub: budgetRange(sel.budget),
+      region: REGIONS[sel.r] || '', budget_exact: sel.budget + '$',
+      page_source: window.location.href, form_name: 'audit-60s-manuel'
+    });
+
+    this.style.display = 'none';
+    document.getElementById('manualOk').style.display = 'block';
+  });
+})();
+</script>
+</body>
+</html>
