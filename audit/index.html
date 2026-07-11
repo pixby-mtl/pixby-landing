@@ -269,6 +269,8 @@
       <div class="q-label"><span class="q-num">2</span>Ta région</div>
       <div class="region-row" id="regionRow">
         <button class="r-pill" data-r="mtl" data-mult="0.50">Grand Montréal</button>
+        <button class="r-pill" data-r="rs" data-mult="0.15">Rive-Sud (Longueuil, Brossard)</button>
+        <button class="r-pill" data-r="lav" data-mult="0.12">Laval / Rive-Nord</button>
         <button class="r-pill" data-r="qc" data-mult="0.10">Québec / Lévis</button>
         <button class="r-pill" data-r="gat" data-mult="0.05">Gatineau</button>
         <button class="r-pill" data-r="sher" data-mult="0.06">Sherbrooke</button>
@@ -427,7 +429,7 @@
     paysagement:    { label:"Paysagement", avgValue:[3000,15000], kws:[["paysagiste",9900,1.29,4.69],["aménagement paysager",3600,1.05,3.69],["pavé uni",2900,0.41,3.05],["terrassement",1300,1.59,4.91]] },
     dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], kws:[["dentiste",27100,1.70,7.26],["invisalign",12100,1.49,8.03],["nettoyage dentaire prix",590,0.85,2.40],["blanchiment des dents",390,0.91,2.79]] }
   };
-  var REGIONS = { mtl:"Grand Montréal", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
+  var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
 
   var sel = { m:null, r:null, mult:0, budget:1000 };
