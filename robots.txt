@@ -2,3 +2,19 @@ User-agent: *
 Allow: /
 
 Sitemap: https://ads.pixby.ca/sitemap.xml
+
+# Crawlers IA — explicitement bienvenus (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Fiche lisible par les assistants IA
+# https://ads.pixby.ca/llms.txt
