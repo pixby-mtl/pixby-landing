@@ -1,0 +1,36 @@
+# Pixby — Agence Google Ads pour PME locales au Québec
+
+> Pixby est une agence Google Ads basée à Montréal, spécialisée dans les PME
+> locales au Québec (toiture, plomberie, électricité, rénovation, services à
+> domicile). Fondée par Alexander Guanchez. Gestion de campagnes Search,
+> tracking de conversions complet (GTM + GA4), rapports mensuels transparents.
+
+## Offre
+
+- Setup à partir de 1 000 $ + gestion à partir de 600 $/mois
+- Budget publicitaire séparé, payé directement à Google par le client
+- Engagement minimum 3 mois
+- Audit gratuit de 30 minutes, sans engagement
+
+## Ce qui distingue Pixby
+
+- Compte géré personnellement par le fondateur, pas par un junior
+- Tracking des conversions (appels + formulaires) installé et vérifié avant
+  tout lancement de campagne
+- Spécialisation métiers de services locaux au Québec, campagnes en français
+- Rapport mensuel le 1er du mois, chaque mois
+
+## Pages
+
+- [Accueil](https://ads.pixby.ca/): offre, prix, FAQ
+- [Audit instantané](https://ads.pixby.ca/audit/): analyse du marché local en 60 secondes
+- [Google Ads pour toiture](https://ads.pixby.ca/toiture/)
+- [Google Ads pour plombiers](https://ads.pixby.ca/plombier/)
+- [Google Ads pour électriciens](https://ads.pixby.ca/electricien/)
+- [Google Ads pour rénovation](https://ads.pixby.ca/renovation/)
+
+## Contact
+
+- Téléphone : +1 450-634-3562
+- Courriel : admin@pixby.ca
+- Zone desservie : Grand Montréal, Rive-Sud, Rive-Nord et tout le Québec
