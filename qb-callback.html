@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QuickBooks — Callback OAuth</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  body { font-family: -apple-system, sans-serif; background: #F7F3EC; color: #253858; padding: 40px; max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 20px; }
+  .box { background: #fff; border: 1px solid #BDC5D6; border-radius: 8px; padding: 16px; margin: 12px 0; }
+  label { display: block; font-size: 12px; color: #5DA6C2; text-transform: uppercase; margin-bottom: 4px; }
+  .value { font-family: monospace; font-size: 14px; word-break: break-all; user-select: all; }
+  .empty { color: #F55D35; }
+  button { background: #0463A6; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>Autorisation QuickBooks reçue</h1>
+  <p>Copie les valeurs ci-dessous dans le terminal quand <code>setup_qb_oauth.py</code> les demande.</p>
+
+  <div class="box">
+    <label>code</label>
+    <div class="value" id="code">—</div>
+    <button onclick="copyVal('code')">Copier</button>
+  </div>
+
+  <div class="box">
+    <label>realmId</label>
+    <div class="value" id="realmId">—</div>
+    <button onclick="copyVal('realmId')">Copier</button>
+  </div>
+
+  <p><em>Tu peux fermer cette page une fois les deux valeurs copiées.</em></p>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  for (const key of ['code', 'realmId']) {
+    const el = document.getElementById(key);
+    const val = params.get(key);
+    if (val) {
+      el.textContent = val;
+    } else {
+      el.textContent = 'absent de l\'URL';
+      el.classList.add('empty');
+    }
+  }
+  function copyVal(id) {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text);
+  }
+</script>
+</body>
+</html>
