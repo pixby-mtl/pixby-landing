@@ -1228,26 +1228,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     prenom.style.border = ''; telEl.style.border = '';
     btn.disabled = true; btn.textContent = 'Redirection…';
 
-    /* Événement GTM + GA4 — déclenche conversion */
-    window.dataLayer = window.dataLayer || [];
+    /* Envoi du lead dans GHL (webhook) — fire and forget, n'empêche jamais la redirection */
     var budgetVal = document.getElementById('budget') ? document.getElementById('budget').value : '';
     var indVal = document.getElementById('industrie') ? document.getElementById('industrie').value : '';
-    window.dataLayer.push({
-      event: 'generate_lead',
-      form_name: 'hero_audit_plomberie',
-      budget: budgetVal,
-      industry: indVal
-    });
-    if (typeof gtag === 'function') {
-      gtag('event', 'generate_lead', {
-        event_category: 'formulaire',
-        event_label: 'hero_audit_plomberie',
-        budget: budgetVal,
-        industry: indVal
-      });
-    }
-
-    /* Envoi du lead dans GHL (webhook) — fire and forget, n'empêche jamais la redirection */
     try {
       fetch('https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7', {
         method: 'POST',
@@ -1267,11 +1250,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     form.style.display = 'none'; suc.style.display = 'block';
 
-    setTimeout(function() {
+    var redirected = false;
+    function redirectToCalendly() {
+      if (redirected) return;
+      redirected = true;
       window.location.href = 'https://calendly.com/admin-pixby/30min'
         + '?name=' + encodeURIComponent(p)
         + '&a1='   + encodeURIComponent(t);
-    }, 400);
+    }
+
+    /* Événement GTM + GA4 — déclenche conversion. On attend que le tag Google Ads
+       ait fini de partir (eventCallback) avant de rediriger, avec 1500ms de filet
+       de sécurité (eventTimeout) pour ne jamais bloquer l'utilisateur. Un setTimeout
+       fixe trop court (ex. 400ms) coupait la requête de conversion avant qu'elle parte
+       sur connexion lente. Filet additionnel à 3000ms au cas où GTM serait bloqué
+       (ad-blocker) et ne se charge jamais du tout. */
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'generate_lead',
+      form_name: 'hero_audit_plomberie',
+      budget: budgetVal,
+      industry: indVal,
+      eventCallback: redirectToCalendly,
+      eventTimeout: 1500
+    });
+    setTimeout(redirectToCalendly, 3000);
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        event_category: 'formulaire',
+        event_label: 'hero_audit_plomberie',
+        budget: budgetVal,
+        industry: indVal
+      });
+    }
   });
 
   /* FAQ */
