@@ -12,6 +12,11 @@
 - Engagement minimum 3 mois
 - Audit gratuit de 30 minutes, sans engagement
 
+## Options à la carte (sans Google Ads)
+
+- Lead Recovery seul (rappel automatique des appels manqués) : 300 $ + 150 $/mois
+- Landing page dédiée : 500 $ pour un client Ads existant, 900-1 200 $ standalone
+
 ## Ce qui distingue Pixby
 
 - Compte géré personnellement par le fondateur, pas par un junior
@@ -37,6 +42,9 @@
 
 - Lebel Electro (réparation d'électroménagers, Rive-Sud) : 93 appels et demandes
   en 30 jours à 8,01 $ par demande (juin-juillet 2026, données Google Ads).
+- Toiture Montérégie (couvreur) : 43 conversions (formulaires + appels) sur la
+  saison hiver 2025-2026 (novembre à mars), coût par conversion réduit de
+  106 $ à 33 $ au fil de l'optimisation (données Google Ads réelles).
 
 ## Contact
 
