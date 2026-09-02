@@ -427,23 +427,26 @@
     /* ── PAIN ── */
     .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
     .pain-card {
-      background: white; border-radius: var(--r-xl);
-      padding: 36px 28px;
-      box-shadow: 0 2px 24px rgba(0,0,0,.04), 0 0 0 1px rgba(0,0,0,.025);
-      border-top: 3px solid;
+      position: relative; overflow: hidden;
+      background: var(--deep); border-radius: var(--r-xl);
+      padding: 36px 28px 32px;
+      box-shadow: 0 2px 24px rgba(11,22,35,.12);
       transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
     }
-    .pain-card:hover { transform: translateY(-6px); box-shadow: 0 16px 56px rgba(0,0,0,.1); }
-    .pain-card:nth-child(1) { border-top-color: var(--orange); }
-    .pain-card:nth-child(2) { border-top-color: var(--teal); }
-    .pain-card:nth-child(3) { border-top-color: var(--blue); }
-    .pain-ico { margin-bottom: 18px; }
-    .pain-ico .ic { width: 34px; height: 34px; stroke-width: 1.7; }
+    .pain-card:hover { transform: translateY(-6px); box-shadow: 0 20px 56px rgba(11,22,35,.28); }
+    .pain-num {
+      position: absolute; top: -.28em; right: 20px;
+      font-family: var(--ff-d); font-weight: 700; font-size: 5.2rem;
+      color: rgba(255,255,255,.05); line-height: 1; letter-spacing: -.03em;
+      pointer-events: none;
+    }
+    .pain-ico { position: relative; margin-bottom: 22px; }
+    .pain-ico .ic { width: 26px; height: 26px; stroke-width: 1.8; }
     .pain-card:nth-child(1) .pain-ico { color: var(--orange); }
     .pain-card:nth-child(2) .pain-ico { color: var(--teal); }
-    .pain-card:nth-child(3) .pain-ico { color: var(--blue); }
-    .pain-card h3 { font-family: var(--ff-d); font-size: 1.05rem; font-weight: 800; color: var(--dark); margin-bottom: 12px; line-height: 1.3; }
-    .pain-card p { font-size: .87rem; color: #6a7a94; line-height: 1.72; }
+    .pain-card:nth-child(3) .pain-ico { color: #6fa8dc; }
+    .pain-card h3 { position: relative; font-family: var(--ff-d); font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.3; }
+    .pain-card p { position: relative; font-size: .87rem; color: rgba(255,255,255,.6); line-height: 1.72; }
     @media (max-width: 780px) { .pain-grid { grid-template-columns: 1fr; } .s { padding: 56px 20px; } }
 
     /* ── HOW IT WORKS ── */
@@ -900,16 +903,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="sub reveal">La majorité des PME gaspillent leur budget Google Ads sur des clics qui ne convertiront jamais.</p>
     <div class="pain-grid">
       <div class="pain-card reveal">
+        <div class="pain-num">01</div>
         <div class="pain-ico"><svg class="ic"><use href="#i-banknote"/></svg></div>
         <h3>Tu paies pour des clics qui ne valent rien</h3>
         <p>Tes annonces apparaissent pour des recherches trop larges. Tu paies pour des visiteurs qui cherchent quelque chose de complètement différent de ce que tu offres.</p>
       </div>
       <div class="pain-card reveal reveal-delay-1">
+        <div class="pain-num">02</div>
         <div class="pain-ico"><svg class="ic"><use href="#i-trend-down"/></svg></div>
         <h3>Tes compétiteurs mangent ta visibilité</h3>
         <p>Sans optimisation continue, ta campagne perd du terrain chaque semaine. D'autres agences optimisent les comptes de tes rivaux pendant que le tien stagne.</p>
       </div>
       <div class="pain-card reveal reveal-delay-2">
+        <div class="pain-num">03</div>
         <div class="pain-ico"><svg class="ic"><use href="#i-help"/></svg></div>
         <h3>Personne ne t'explique ce qui se passe vraiment</h3>
         <p>Ton agence envoie des rapports incompréhensibles. Les résultats stagnent. Et tu n'as aucune idée si tu perds ou gagnes de l'argent sur chaque client acquis.</p>
