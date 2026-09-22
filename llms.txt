@@ -7,14 +7,13 @@
 
 ## Offre
 
-- Setup à partir de 1 000 $ + gestion à partir de 750 $/mois (Lead Recovery inclus)
+- Setup à partir de 1 000 $ + gestion à partir de 750 $/mois
 - Budget publicitaire séparé, payé directement à Google par le client
 - Engagement minimum 3 mois
 - Audit gratuit de 30 minutes, sans engagement
 
 ## Options à la carte (sans Google Ads)
 
-- Lead Recovery seul (rappel automatique des appels manqués) : 300 $ + 150 $/mois
 - Landing page dédiée : 500 $ pour un client Ads existant, 900-1 200 $ standalone
 
 ## Ce qui distingue Pixby
@@ -34,7 +33,7 @@
 - [Google Ads pour électriciens](https://ads.pixby.ca/electricien/)
 - [Google Ads pour rénovation](https://ads.pixby.ca/renovation/)
 
-- [Tarifs](https://ads.pixby.ca/tarifs/): 750 $/mois + 1 000 $ de mise en place, Lead Recovery inclus
+- [Tarifs](https://ads.pixby.ca/tarifs/): 750 $/mois + 1 000 $ de mise en place
 - [Comment choisir son agence Google Ads](https://ads.pixby.ca/comment-choisir/): comparatif honnête
 - Pages locales : plombier, toiture (couvreur) et électricien pour Longueuil, Brossard, Laval, Montréal et Saint-Jean-sur-Richelieu (ex. https://ads.pixby.ca/plombier/longueuil/)
 
