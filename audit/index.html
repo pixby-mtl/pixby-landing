@@ -565,6 +565,33 @@
   function budgetRange(b){ return b < 500 ? 'moins500' : b <= 1500 ? '500-1500' : b <= 3000 ? '1500-3000' : '3000plus'; }
   function dl(payload){ window.dataLayer = window.dataLayer || []; window.dataLayer.push(payload); }
 
+  /* ============================================================
+     UTM — capture à l'arrivée, persiste en sessionStorage pour
+     survivre à travers tout le funnel (même onglet), transmis dans
+     chaque payload webhook GHL. Convention documentée dans
+     coordination/GROWTH_ENGINE.md. Ne jamais écraser un UTM déjà
+     capturé cette session par une visite sans UTM (ex: recharge de
+     page) — on garde la première source qui a amené le visiteur.
+     ============================================================ */
+  function captureUtm(){
+    var params = new URLSearchParams(window.location.search);
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var hasNew = keys.some(function(k){ return params.get(k); });
+    if (hasNew) {
+      var utm = {};
+      keys.forEach(function(k){ utm[k] = params.get(k) || ''; });
+      utm.gclid = params.get('gclid') || '';
+      try { sessionStorage.setItem('pixby_utm', JSON.stringify(utm)); } catch(e){}
+      return utm;
+    }
+    try {
+      var stored = sessionStorage.getItem('pixby_utm');
+      if (stored) return JSON.parse(stored);
+    } catch(e){}
+    return { utm_source:'direct', utm_medium:'none', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+  }
+  var UTM = captureUtm();
+
   dl({ event:'audit_view' });
 
   function buildSequence(){
@@ -767,6 +794,9 @@
   });
 
   function sendLead(payload){
+    payload.utm_source = UTM.utm_source; payload.utm_medium = UTM.utm_medium;
+    payload.utm_campaign = UTM.utm_campaign; payload.utm_content = UTM.utm_content;
+    payload.utm_term = UTM.utm_term; payload.gclid = UTM.gclid;
     try {
       fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
     } catch(e){}
