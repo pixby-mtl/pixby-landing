@@ -526,22 +526,22 @@
 (function(){
   /* ============================================================
      DONNÉES MARCHÉ — Google Ads Keyword Planner, Québec (20123), FR.
-     KW_AS_OF : date des données. Actuellement figée en dur (juillet 2026).
-     TODO (non bloquant pour V2, voir handoff) : automatiser le refresh
-     périodique de DATA + KW_AS_OF via un script lecture-seule Keyword
-     Planner API, au lieu de laisser ce bloc statique indéfiniment.
+     KW_AS_OF : date des données. Rafraîchie manuellement le 2026-09-24 via
+     ~/pixby-ads-api/keyword_data_audit.py (réel, Google Ads API). Automatisation
+     mensuelle du refresh proposée mais pas encore construite (voir TASKS.md) --
+     nécessite validation explicite avant d'autoriser un push auto en prod.
      Format kws : [mot-clé, recherches/mois, CPC bas $, CPC haut $]
      ============================================================ */
-  var KW_AS_OF = 'juillet 2026';
+  var KW_AS_OF = 'septembre 2026';
   var DATA = {
-    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,3.84,16.67],["couvreur",1600,3.58,15.21],["réfection toit",170,4.13,15.33],["réparation toiture",170,2.54,14.85],["refaire sa toiture",10,2.31,11.32]] },
-    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false, kws:[["plombier",8100,1.81,8.11],["plombier urgence",1000,2.08,8.52],["remplacement chauffe-eau",390,1.43,5.54],["débouchage drain",320,1.85,8.54]] },
-    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true, kws:[["thermopompe",22200,1.33,7.25],["climatisation",5400,2.34,10.93],["installation thermopompe",1300,2.50,14.41],["réparation thermopompe",1000,1.71,7.23]] },
-    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false, kws:[["réparation électroménagers",4400,0.94,5.08],["réparation laveuse",1600,1.02,5.12],["réparation lave-vaisselle",1600,1.04,5.76],["réparation réfrigérateur",590,0.97,5.14]] },
-    electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true, kws:[["électricien",8100,2.16,8.46],["panneau électrique",1900,0.16,3.02],["installation borne de recharge",590,1.39,5.55],["maître électricien",110,2.18,6.10]] },
-    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true, kws:[["rénovation salle de bain",1900,1.41,6.70],["rénovation cuisine",1600,1.51,6.49],["entrepreneur rénovation",320,1.61,7.88],["rénovation sous-sol",210,1.75,7.94]] },
-    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false, kws:[["paysagiste",9900,1.29,4.69],["aménagement paysager",3600,1.05,3.69],["pavé uni",2900,0.41,3.05],["terrassement",1300,1.59,4.91]] },
-    dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false, kws:[["dentiste",27100,1.70,7.26],["invisalign",12100,1.49,8.03],["nettoyage dentaire prix",590,0.85,2.40],["blanchiment des dents",390,0.91,2.79]] }
+    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.2,24.17],["fibro ciment",2900,0.32,2.15],["couvreur",1300,4.87,20.21],["tuile",880,0.31,1.4],["charpente",880,2.29,11.04]] },
+    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.53,11.19],["plomberie",8100,2.02,7.92],["plombier à proximité",4400,2.07,10.32],["plombier expert",1900,1.89,7.88],["plomberie rive sud",1300,2.09,12.08]] },
+    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.07,11.16],["air climatisé portatif",12100,0.19,0.61],["air climatiseur portatif",12100,0.19,0.61],["air climatisé",9900,0.67,10.08],["air climatisation",9900,0.67,10.08]] },
+    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.4],["reparer electromenager",4400,1.08,4.4],["reparation electromenager autour de moi",1900,0.92,3.36],["réparation laveuse",1600,1.31,7.11],["reparer laveuse",1600,1.31,7.11]] },
+    electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true,  kws:[["électricien",8100,2.86,11.61],["panneau électrique",1900,0.18,4.98],["électricien à proximité",1600,3.54,12.0],["electricien autour de moi",1300,2.27,9.61],["maitre electricien",720,2.65,10.61]] },
+    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true,  kws:[["soumission rénovations",8100,1.63,11.7],["rénovation salle de bain",1900,2.26,9.28],["refection salle de bain",1900,2.26,9.28],["renover une salle de bain",1900,2.26,9.28],["renover la salle de bain",1900,2.26,9.28]] },
+    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false,  kws:[["paysagiste",9900,2.05,8.36],["aménagement paysager",2900,1.63,6.67],["pavé uni",2900,1.14,6.64],["pavage uni",2900,1.14,6.64],["paysagement",2400,2.46,8.82]] },
+    dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false,  kws:[["dentiste",27100,2.48,12.0],["orthodontiste",5400,2.16,7.7],["blanchiment dentaire",2900,1.31,3.44],["couronne dentaire",2900,1.09,3.45],["implant dentaire",2400,1.24,6.61]] }
   };
   var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
