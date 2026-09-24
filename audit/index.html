@@ -444,7 +444,7 @@
       <h3>Les mots-clés que tes futurs clients tapent sur Google</h3>
       <div class="src" id="kwSrc"></div>
       <table id="kwTable">
-        <thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Prix du clic</th></tr></thead>
+        <thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Enchère haut de page*</th></tr></thead>
         <tbody></tbody>
       </table>
       <div class="lock-overlay" id="lockOverlay">
@@ -498,7 +498,7 @@
     </div>
     <div class="gate-card" style="margin-top:26px;">
       <h3>Reçois ton audit en 24 h</h3>
-      <p>Volumes de recherche, prix du clic et potentiel de leads pour TON métier, dans TA région.</p>
+      <p>Volumes de recherche, enchères haut de page et potentiel de leads pour TON métier, dans TA région.</p>
       <form id="manualForm">
         <div class="f-row"><label for="mPrenom">Ton prénom *</label><input type="text" id="mPrenom" placeholder="Alexandre"></div>
         <div class="f-row"><label for="mEntreprise">Nom de ton entreprise *</label><input type="text" id="mEntreprise" placeholder="Ex. Nettoyage ABC"></div>
@@ -593,6 +593,17 @@
   var UTM = captureUtm();
 
   dl({ event:'audit_view' });
+
+  /* Paramètre ?parcours=existant|demarrage — présélection de la Q1 depuis un
+     lien homepage (AuditPathSelector), toujours modifiable par le visiteur. */
+  (function preselectParcours(){
+    var parcours = new URLSearchParams(window.location.search).get('parcours');
+    if (parcours !== 'existant' && parcours !== 'demarrage') return;
+    var target = parcours === 'existant' ? 'oui' : 'non';
+    var btn = document.querySelector('#step0 .choice-big[data-ads="' + target + '"]');
+    if (btn) btn.classList.add('sel');
+    dl({ event: 'audit_view_preselected', parcours: parcours });
+  })();
 
   function buildSequence(){
     var s = ['stepMetier','stepRegion'];
@@ -746,7 +757,7 @@
     renderLeads();
     document.getElementById('budgetVal2').textContent = fmt(sel.budget);
     document.getElementById('budget2').value = sel.budget;
-    document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + ').';
+    document.getElementById('kwSrc').textContent = '*Enchère haut de page = fourchette Google Ads Keyword Planner pour apparaître en haut des résultats, pas ton coût par clic réel une fois la campagne optimisée. Données pour ton marché (Québec, ' + KW_AS_OF + ').';
 
     /* callout CAC — uniquement branche OUI */
     var callout = document.getElementById('cacCallout');
@@ -771,10 +782,10 @@
     });
 
     document.getElementById('disclaimerText').textContent =
-      'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + '). ' +
-      'La répartition régionale est estimée selon le poids démographique de chaque région. ' +
+      'Volumes et enchères haut de page : données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + '). L\'enchère haut de page n\'est pas ton coût par clic réel. ' +
+      'Demande régionale : ESTIMATION RÉGIONALE répartie selon le poids démographique de chaque région, pas une mesure directe. ' +
       'Le potentiel de leads est une ESTIMATION qui suppose une campagne bien structurée avec un taux de conversion de 5 à 12 % (moyenne des campagnes locales) — jamais un résultat garanti. ' +
-      'Les résultats réels varient selon le site web, la concurrence et la saison.';
+      'Ce diagnostic en ligne ne constitue pas une vérification de ton compte Google Ads. Les résultats réels varient selon le site web, la concurrence et la saison.';
 
     dl({ event:'audit_results_viewed', metier: sel.m, region: sel.r, has_google_ads: sel.hasAds });
     window.scrollTo(0,0);
