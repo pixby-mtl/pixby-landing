@@ -56,6 +56,15 @@
       --ff-d: 'Space Grotesk', sans-serif; --ff-b: 'Instrument Sans', sans-serif;
     }
     html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
     body {
       font-family: var(--ff-b); color: var(--white);
       background: var(--deep); line-height: 1.6;
@@ -595,13 +604,18 @@
   dl({ event:'audit_view' });
 
   /* Paramètre ?parcours=existant|demarrage — présélection de la Q1 depuis un
-     lien homepage (AuditPathSelector), toujours modifiable par le visiteur. */
+     lien homepage (AuditPathSelector). Met à jour sel.hasAds (l'état réel
+     utilisé par buildSequence/applyAdaptiveCta/payload GHL), pas seulement
+     le style visuel — sinon l'état et l'UI divergent tant que le visiteur
+     n'a pas encore cliqué. Reste entièrement modifiable : cliquer l'autre
+     bouton écrase sel.hasAds normalement via le listener #step0 existant. */
   (function preselectParcours(){
     var parcours = new URLSearchParams(window.location.search).get('parcours');
     if (parcours !== 'existant' && parcours !== 'demarrage') return;
     var target = parcours === 'existant' ? 'oui' : 'non';
     var btn = document.querySelector('#step0 .choice-big[data-ads="' + target + '"]');
     if (btn) btn.classList.add('sel');
+    sel.hasAds = target;
     dl({ event: 'audit_view_preselected', parcours: parcours });
   })();
 

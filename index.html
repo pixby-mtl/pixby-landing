@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pixby — Agence Google Ads Montréal | PME locales au Québec</title>
-  <meta name="description" content="Pixby gère tes campagnes Google Ads et génère des leads qualifiés au meilleur coût. PME locales au Québec. Audit gratuit 30 min — sans engagement.">
+  <meta name="description" content="Pixby gère tes campagnes Google Ads et t'aide à comprendre ce que tu investis pour gagner un client. PME locales au Québec. Lance ton audit gratuit en ligne — sans engagement.">
   <link rel="canonical" href="https://ads.pixby.ca">
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ads.pixby.ca">
   <meta property="og:title" content="Pixby — Agence Google Ads Montréal | PME locales au Québec">
-  <meta property="og:description" content="Tes clients te cherchent sur Google. Pixby gère tes campagnes et génère de vrais appels. Audit gratuit 30 min.">
+  <meta property="og:description" content="Combien te coûte réellement un client signé ? Pixby gère tes campagnes Google Ads pour des PME locales au Québec. Audit gratuit en ligne, sans engagement.">
   <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
   <meta property="og:locale" content="fr_CA">
   <meta property="og:site_name" content="Pixby">
@@ -19,7 +19,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Pixby — Agence Google Ads Montréal">
-  <meta name="twitter:description" content="Tes clients te cherchent sur Google. Pixby génère de vrais appels pour PME locales au Québec.">
+  <meta name="twitter:description" content="Tes clients te cherchent sur Google. Pixby génère de vrais appels pour PME locales au Québec. Audit gratuit en ligne.">
   <meta name="twitter:image" content="https://ads.pixby.ca/assets/og-image.jpg">
 
   <!-- Favicon -->
@@ -97,6 +97,21 @@
     html { scroll-behavior: smooth; overflow-x: hidden; }
     section[id], div[id] { scroll-margin-top: 96px; }
 
+    /* Mouvement réduit — toutes les infos restent visibles sans animation
+       (spec section 8). Coupe transitions/animations/scroll fluide partout,
+       et force le contenu .reveal visible immédiatement (pas d'attente sur
+       l'IntersectionObserver). */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
     body {
       font-family: var(--ff-b);
       color: var(--dark);
@@ -146,7 +161,7 @@
       box-shadow: 0 4px 16px rgba(245,93,53,.22);
     }
     .nav-cta:hover { background: var(--orange-dk); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,93,53,.3); }
-    @media (max-width: 560px) { .nav-phone .txt { display: none; } .nav-cta { padding: 10px 16px; font-size: .82rem; } }
+    @media (max-width: 560px) { .nav-phone .txt { display: none; } .nav-cta { padding: 13px 16px; font-size: .82rem; } }
 
     /* ── HERO ── */
     .hero {
@@ -556,6 +571,12 @@
     .num-lbl { font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.7); line-height: 1.45; }
     .num-src { font-size: .68rem; color: rgba(255,255,255,.28); margin-top: 5px; }
     @media (max-width: 780px) { .nums-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* Doit rester APRÈS la règle 780px ci-dessus : à ≤480px les deux media queries
+       sont vraies en même temps, et sans cet ordre le repeat(2,1fr) de 780px
+       gagne en cascade et fait déborder la 3e carte à l'horizontale (trouvé en
+       testant réellement 320px -- exactement le chevauchement de breakpoints
+       documenté dans le spec). */
+    @media (max-width: 480px) { .nums-grid { grid-template-columns: 1fr; } }
 
     /* ── DASHBOARD (in results) ── */
     .dash-result {
@@ -1232,7 +1253,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="float-cta">
-  <a href="/audit/">Audit gratuit — Lancer →</a>
+  <a href="/audit/" data-placement="mobile_float_cta">Audit gratuit — Lancer →</a>
 </div>
 
 <!-- ═══ JS ══════════════════════════════════════════════════════════ -->
