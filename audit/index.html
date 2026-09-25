@@ -413,7 +413,7 @@
   <section class="step-section" id="stepCac">
     <div class="panel">
       <div class="q-label"><span class="q-num">6</span>Sais-tu combien te coûte réellement un <u>client signé</u> grâce à Google Ads ?</div>
-      <p class="q-sub" style="margin-bottom:20px;">Pas le coût par clic ou par lead — le vrai coût du dernier contrat que t'as signé grâce à Google.</p>
+      <p class="q-sub" style="margin-bottom:20px;">Pas le coût par clic ou par lead — ce que tu as dépensé (média + gestion) sur une période, divisé par le nombre de clients signés sur cette même période.</p>
       <div class="choice-row" id="cacRow">
         <button class="choice-pill" data-v="oui">Oui, je le sais précisément</button>
         <button class="choice-pill" data-v="pas_certain">Pas vraiment certain</button>
@@ -426,15 +426,15 @@
   <section class="step-section" id="stepCacDetail">
     <div class="panel">
       <div class="q-label"><span class="q-num">7</span>Ton coût par client signé (facultatif)</div>
-      <p class="q-sub" style="margin-bottom:16px;">Ta déclaration sert à préparer la conversation — ce n'est pas une mesure vérifiée à cette étape.</p>
+      <p class="q-sub" style="margin-bottom:16px;">Ta déclaration sert à préparer la conversation — ce n'est pas une mesure vérifiée à cette étape. Prends une période, additionne les dépenses média + gestion sur cette période, divise par le nombre de clients signés sur cette même période.</p>
       <div class="f-row" style="max-width:260px;">
-        <label for="cacAmount">Montant approximatif ($)</label>
+        <label for="cacAmount">Résultat approximatif ($ par client signé)</label>
         <input type="number" id="cacAmount" inputmode="decimal" min="0" placeholder="Ex. 850" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
       </div>
+      <p class="q-sub" style="margin:10px 0 6px; font-size:.82rem;">Sur quelle période as-tu calculé ce chiffre ?</p>
       <div class="choice-row" id="cacPeriodRow" style="margin-top:6px;">
-        <button class="choice-pill" data-v="dernier_client">Dernier client signé</button>
-        <button class="choice-pill" data-v="mensuel">Moyenne mensuelle</button>
-        <button class="choice-pill" data-v="annuel">Moyenne annuelle</button>
+        <button class="choice-pill" data-v="mensuel">Dernier mois complet (dépenses ÷ clients signés ce mois-là)</button>
+        <button class="choice-pill" data-v="annuel">12 derniers mois (dépenses ÷ clients signés sur l'année)</button>
       </div>
       <div class="step-actions">
         <button class="btn" id="cacDetailNext">Continuer →</button>
@@ -486,7 +486,7 @@
           <div class="tile t2">
             <div class="tile-tag">Valeur moyenne d'un contrat — estimation interne Pixby</div>
             <div class="tile-val" id="tValue"></div>
-            <div class="tile-sub">Non sourcé Keyword Planner : ballpark Alexander à partir de dossiers similaires, à valider avec toi au rendez-vous — pas une donnée Google.</div>
+            <div class="tile-sub">Non sourcé Keyword Planner, provenance non vérifiée à ce stade — estimation interne Pixby à confirmer avec toi au rendez-vous, pas une donnée Google.</div>
           </div>
         </div>
         <p class="limit-note" id="provinceNote"></p>
@@ -665,7 +665,7 @@
   var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +", inconnu:"Je ne sais pas" };
   var GESTION_LABELS = { moi:"Moi-même", employe:"Un employé", freelancer:"Un freelancer", agence:"Une agence" };
   var CAC_LABELS = { oui:"Oui, précisément", pas_certain:"Pas vraiment certain", non:"Non, aucune idée" };
-  var CAC_PERIOD_LABELS = { dernier_client:"dernier client signé", mensuel:"moyenne mensuelle", annuel:"moyenne annuelle" };
+  var CAC_PERIOD_LABELS = { mensuel:"dernier mois complet, dépenses ÷ clients signés ce mois-là", annuel:"12 derniers mois, dépenses ÷ clients signés sur l'année" };
 
   /* Trois cartes — branche A, règles figées (pas une note de compte, des vérifications à faire) */
   var CARDS_A = {
@@ -1016,7 +1016,7 @@
             '<div><div class="k">Géré par</div><div class="v">' + esc(GESTION_LABELS[sel.gestion] || '') + '</div></div>' +
           '</div></div>' +
         '<div class="card measure-block"><div class="eyebrow" style="color:var(--orange);">Le vrai chiffre qui compte</div><p class="msg">' + cacLine + '</p>' +
-          '<p class="fine"><strong>Définition :</strong> le CAC (coût d’acquisition client), c’est le coût total — média + gestion — divisé par le nombre de clients réellement <u>signés</u>. Jamais un coût par lead, jamais un coût par clic, peu importe la période choisie.</p>' +
+          '<p class="fine"><strong>Définition :</strong> le CAC (coût d’acquisition client) = dépenses totales (média + gestion) sur une période, divisées par le nombre de clients réellement <u>signés</u> sur cette même période. Jamais un coût par lead, jamais un coût par clic, jamais le coût d’un seul client isolé.</p>' +
           '<p class="fine">Aucune note de santé de compte n\'est calculée sans données vérifiées.</p></div>' +
         '<div class="cards-3">' + renderCardsA() + '</div>';
       document.getElementById('agendaList').innerHTML =
@@ -1199,7 +1199,7 @@
     if (state === 'submitting') { btn.disabled = true; btn.textContent = 'Envoi en cours…'; err.style.display = 'none'; }
     else if (state === 'error') {
       btn.disabled = false; btn.textContent = 'Réessayer →';
-      err.innerHTML = (message || 'La demande n’a pas pu être envoyée.') + ' Réessaie, ou <a href="' + CALENDLY_URL + '" target="_blank" rel="noopener">réserve directement ton rendez-vous</a>.';
+      err.innerHTML = (message || 'La demande n’a pas pu être envoyée.') + ' Réessaie, ou <a href="' + trackedCalendlyUrl() + '" target="_blank" rel="noopener">réserve directement ton rendez-vous</a>.';
       err.style.display = 'block';
     } else if (state === 'idle') { btn.disabled = false; btn.textContent = 'Envoyer →'; err.style.display = 'none'; }
   }
@@ -1243,6 +1243,26 @@
      ============================================================ */
   var calendlyLoading = null;
   var bookingConfirmed = false;
+  /* URL Calendly trackée (UTM + audit_id dans utm_term) — DOIT être utilisée
+     pour TOUTE ouverture de Calendly (popup, fallback script, liens statiques
+     de secours, lien de secours après échec d'envoi), pas seulement le
+     chemin JS nominal, sinon le lien lead↔réservation se perd dès que le
+     visiteur passe par un de ces chemins alternatifs. */
+  function trackedCalendlyUrl(){
+    return CALENDLY_URL + '?utm_source=' + encodeURIComponent(UTM.first.utm_source||'') +
+           '&utm_medium=' + encodeURIComponent(UTM.first.utm_medium||'') +
+           '&utm_campaign=' + encodeURIComponent(UTM.first.utm_campaign||'') +
+           '&utm_term=' + encodeURIComponent(AUDIT_ID);
+  }
+  function applyTrackedCalendlyHrefs(){
+    ['calBtn','calBtnManual','calFallback','calFallbackManual'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      var link = el.tagName === 'A' ? el : el.querySelector('a');
+      if (link) link.href = trackedCalendlyUrl();
+    });
+  }
+  applyTrackedCalendlyHrefs();
   function loadCalendlyScript(){
     if (calendlyLoading) return calendlyLoading;
     calendlyLoading = new Promise(function(resolve, reject){
@@ -1273,14 +1293,11 @@
   function openCalendly(btnEl, fallbackId, prefill){
     dl({ event:'calendly_clicked' });
     loadCalendlyScript().then(function(Calendly){
-      var url = CALENDLY_URL + '?utm_source=' + encodeURIComponent(UTM.first.utm_source||'') +
-                '&utm_medium=' + encodeURIComponent(UTM.first.utm_medium||'') +
-                '&utm_campaign=' + encodeURIComponent(UTM.first.utm_campaign||'') +
-                '&utm_term=' + encodeURIComponent(AUDIT_ID);
-      Calendly.initPopupWidget({ url: url, prefill: prefill || {} });
+      Calendly.initPopupWidget({ url: trackedCalendlyUrl(), prefill: prefill || {} });
     }).catch(function(){
+      applyTrackedCalendlyHrefs();
       document.getElementById(fallbackId).style.display = 'block';
-      window.open(CALENDLY_URL, '_blank', 'noopener');
+      window.open(trackedCalendlyUrl(), '_blank', 'noopener');
     });
   }
   document.getElementById('calBtn').addEventListener('click', function(e){
