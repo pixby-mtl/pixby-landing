@@ -253,6 +253,16 @@
 
     .sim-fictional-banner { background:rgba(247,190,44,.1); border:1px solid rgba(247,190,44,.35); border-radius:var(--r-sm); padding:10px 14px; font-size:.8rem; color:var(--yellow); margin-bottom:14px; }
 
+    .sim-highlights { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:16px; }
+    .sim-highlights .tile { padding:20px 18px; }
+    .sim-highlights .tile-val { font-size:1.35rem; overflow-wrap:anywhere; }
+    .sim-compare-row { display:grid; grid-template-columns:minmax(115px,180px) 1fr auto; align-items:center; gap:10px; margin:12px 0; font-size:.82rem; }
+    .sim-compare-track { background:var(--glass); border-radius:6px; min-height:14px; overflow:hidden; }
+    .sim-compare-fill { display:block; min-height:14px; border-radius:6px; background:var(--teal); }
+    .sim-compare-fill.cost { background:var(--orange); }
+    .sim-compare-note { font-size:.78rem; color:rgba(255,255,255,.6); margin-top:8px; }
+    @media (max-width:560px) { .sim-compare-row { grid-template-columns:1fr auto; } .sim-compare-track { grid-column:1 / -1; grid-row:2; } }
+
     /* market accordion */
     details.market { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; }
     details.market > summary { cursor:pointer; padding:18px 22px; font-family:var(--ff-d); font-weight:700; font-size:.95rem; list-style:none; display:flex; justify-content:space-between; align-items:center; min-height:44px; }
@@ -1366,6 +1376,43 @@
       ' La capacité réelle de dépenser le montant simulé dans ta zone reste inconnue.</div>' + firstMonth + '</div>';
   }
 
+  function renderSimHighlights(data){
+    var central = data.scenarios.central.metrics;
+    var ready = !data.essentialMissing && central.N != null && central.N > 0 && central.M != null;
+    var clients = ready ? central.N.toFixed(1).replace('.', ',') : '—';
+    var cac = ready ? fmtMoneyDec(central.cacCompletNext) : '—';
+    var seuil = ready ? central.cplMediaBrutMaxNext > 0 ? fmtMoneyDec(central.cplMediaBrutMaxNext) : 'Aucun budget média rentable' : '—';
+    var note = ready ? 'Simulation, pas une prévision de clients réels.' : 'À valider avec tes chiffres et la demande locale.';
+    return '<div class="sim-highlights" role="group" aria-label="Repères du scénario central">' +
+      '<div class="tile t1"><div class="tile-tag">Clients signés / mois</div><div class="tile-val">' + clients + '</div><div class="tile-sub">Espérance du modèle. ' + note + '</div></div>' +
+      '<div class="tile t2"><div class="tile-tag">CAC complet / client, mois suivants</div><div class="tile-val">' + cac + '</div><div class="tile-sub">' + (data.feesMode === 'avec' ? 'Média et gestion Pixby inclus.' : 'Média seul, frais Pixby exclus.') + '</div></div>' +
+      '<div class="tile t1"><div class="tile-tag">CPL média brut maximal</div><div class="tile-val">' + seuil + '</div><div class="tile-sub">Mois suivants, frais fixes inclus. Premier mois détaillé ci-dessous.</div></div></div>';
+  }
+
+  function renderSimComparison(data){
+    var central = data.scenarios.central.metrics;
+    if (data.essentialMissing || !(central.N > 0) || !(central.M >= 0) || !(central.cacCompletNext >= 0)) return '';
+    var max = Math.max(central.M, central.cacCompletNext, 1);
+    var marginWidth = Math.max(0, Math.min(100, Math.round(100 * central.M / max)));
+    var costWidth = Math.max(0, Math.min(100, Math.round(100 * central.cacCompletNext / max)));
+    return '<div class="card"><div class="eyebrow">Seuil par client — scénario central, mois suivants</div>' +
+      '<p class="sim-compare-note">Montants calculés avec tes hypothèses. La demande et la dépense réelle dans ta zone ne sont pas vérifiées.</p>' +
+      '<div class="sim-compare-row"><span>Marge disponible</span><span class="sim-compare-track"><span class="sim-compare-fill" style="width:' + marginWidth + '%"></span></span><strong>' + fmtMoneyDec(central.M) + '</strong></div>' +
+      '<div class="sim-compare-row"><span>CAC complet</span><span class="sim-compare-track"><span class="sim-compare-fill cost" style="width:' + costWidth + '%"></span></span><strong>' + fmtMoneyDec(central.cacCompletNext) + '</strong></div>' +
+      '<p class="sim-compare-note">' + (central.M > central.cacCompletNext ? 'Marge disponible supérieure au CAC simulé.' : 'CAC simulé égal ou supérieur à la marge disponible.') + (data.feesMode === 'avec' ? ' Vérifie aussi le coût de mise en place du premier mois.' : ' Ce scénario exclut les frais Pixby.') + '</p></div>';
+  }
+
+  function renderSimNextActions(verdict){
+    var items = verdict.key === 'a_valider'
+      ? ['Remplacer les exemples et taux manquants par tes données réelles', 'Vérifier la demande et le CPC dans ta zone de service', 'Fixer un budget test et un seuil d’arrêt avant de dépenser']
+      : verdict.key === 'ne_pas_lancer' || verdict.key === 'fragile'
+        ? ['Revoir la marge disponible par contrat et le coût d’acquisition maximum', 'Valider CPC et volume réellement accessibles dans ta zone', 'Attendre un seuil viable avant de lancer une campagne']
+        : ['Valider CPC et demande locale avant d’engager ce budget', 'Mesurer le taux réel de contacts et de signatures durant le test', 'Fixer le budget test, sa durée et ses critères d’arrêt'];
+    return '<div class="card"><div class="eyebrow">Tes trois prochaines vérifications</div><ul class="steps-3">' + items.map(function(item,i){
+      return '<li><span class="num">' + (i+1) + '</span><div>' + esc(item) + '</div></li>';
+    }).join('') + '</ul></div>';
+  }
+
   function renderFunnel(m, qMode){
     return '<div class="funnel">' +
       '<div class="funnel-step"><div class="n">' + fmtCount(m.C) + '</div><div class="l">Clics</div></div>' +
@@ -1448,10 +1495,13 @@
     if (data.exploratory) html += '<div class="sim-fictional-banner">Mode exploratoire : seuls les taux manquants utilisent des exemples non sourcés (clic → contact : 5 %, qualification : 50 %, signature : 15 %). Verdict « À valider » tant que tes vrais taux ne sont pas renseignés.</div>';
     if (data.demandUnsupported) html += '<p class="limit-note">Les clics de ce scénario dépassent même la somme brute des mots-clés retenus pour la province. Cette liste partielle ne suffit pas à prévoir la demande de ta zone; verdict « À valider ».</p>';
     html += renderVerdictBanner(verdict, data);
+    html += renderSimHighlights(data);
+    html += renderSimComparison(data);
     html += renderHypothesisPanel();
     html += renderCapacityNote(data.capacity);
     html += '<div class="card"><div class="eyebrow">Scénario central — entonnoir</div>' + renderFunnel(data.scenarios.central.metrics, data.qMode) + renderCostBreakdown(data.scenarios.central.metrics, data.S, data.feesMode, data.capacity) + '</div>';
     html += '<div class="card"><div class="eyebrow">Trois scénarios</div>' + renderScenarioTable(data) + '</div>';
+    html += renderSimNextActions(verdict);
     document.getElementById('simRoot').innerHTML = html;
   }
 
