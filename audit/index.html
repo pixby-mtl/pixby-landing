@@ -216,6 +216,41 @@
 
     .limit-note { font-size:.82rem; color:rgba(255,255,255,.55); background:var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:12px 16px; margin-top:14px; }
 
+    /* ── SIMULATEUR ÉCONOMIQUE (branche NON) ── */
+    .verdict-banner { border-radius:var(--r-md); padding:22px 24px; margin-bottom:16px; border:1px solid; }
+    .verdict-banner.v-ok { background:rgba(22,163,74,.12); border-color:rgba(22,163,74,.4); }
+    .verdict-banner.v-caution { background:rgba(247,190,44,.1); border-color:rgba(247,190,44,.4); }
+    .verdict-banner.v-bad { background:rgba(239,68,68,.1); border-color:rgba(239,68,68,.4); }
+    .verdict-banner .eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; opacity:.75; }
+    .verdict-banner .verdict-title { font-family:var(--ff-d); font-weight:800; font-size:1.2rem; }
+    .verdict-banner .verdict-sub { font-size:.85rem; color:rgba(255,255,255,.65); margin-top:6px; }
+
+    .hyp-panel { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:22px 24px; margin-bottom:16px; }
+    .hyp-panel h4 { font-family:var(--ff-d); font-size:.95rem; margin-bottom:14px; }
+    .hyp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+    .hyp-field label { display:block; font-size:.72rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+    .hyp-field input { width:100%; padding:10px 12px; border:1.5px solid var(--glass-b); border-radius:var(--r-sm); background:var(--glass); color:#fff; font-family:var(--ff-b); font-size:16px; }
+    .hyp-field .unit { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:4px; }
+
+    .scenario-table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:6px; }
+    .scenario-table th { text-align:left; font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.45); padding:9px 10px; border-bottom:1px solid var(--glass-b); }
+    .scenario-table td { padding:10px; border-bottom:1px solid rgba(255,255,255,.05); }
+    .scenario-table td.metric-label { color:rgba(255,255,255,.55); }
+    .scenario-table th.scen-central { color:var(--teal); }
+    .scenario-table th.scen-favorable { color:var(--green); }
+
+    .funnel { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:14px 0; }
+    .funnel-step { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:10px 16px; text-align:center; min-width:90px; }
+    .funnel-step .n { font-family:var(--ff-d); font-weight:800; font-size:1.15rem; color:var(--teal); }
+    .funnel-step .l { font-size:.68rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+    .funnel-arrow { color:rgba(255,255,255,.3); font-size:1rem; }
+
+    .cost-breakdown { background:var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:14px 16px; margin-top:10px; font-size:.85rem; }
+    .cost-breakdown .row { display:flex; justify-content:space-between; padding:4px 0; }
+    .cost-breakdown .row.total { border-top:1px solid var(--glass-b); margin-top:6px; padding-top:8px; font-weight:700; }
+
+    .sim-fictional-banner { background:rgba(247,190,44,.1); border:1px solid rgba(247,190,44,.35); border-radius:var(--r-sm); padding:10px 14px; font-size:.8rem; color:var(--yellow); margin-bottom:14px; }
+
     /* market accordion */
     details.market { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; }
     details.market > summary { cursor:pointer; padding:18px 22px; font-family:var(--ff-d); font-weight:700; font-size:.95rem; list-style:none; display:flex; justify-content:space-between; align-items:center; min-height:44px; }
@@ -454,6 +489,66 @@
     </div>
   </section>
 
+  <!-- STEP ÉCONOMIE DU CONTRAT (branche NON) — entrées du simulateur P1.3 -->
+  <section class="step-section" id="stepEconomie">
+    <div class="panel">
+      <div class="q-label"><span class="q-num">5</span>L'économie de ton contrat</div>
+      <p class="q-sub" style="margin-bottom:20px;">Sert à calculer le coût par client maximum que ton offre peut absorber. Tout reste modifiable après, sans recommencer.</p>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simCpc">Ton hypothèse de coût par clic ($)</label>
+        <input type="number" id="simCpc" inputmode="decimal" min="0" step="0.01" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+        <p style="font-size:.74rem; color:rgba(255,255,255,.4); margin-top:5px;">Pré-rempli depuis la plage d'enchères Google Ads (haut de page) pour ton secteur — c'est TON hypothèse à ajuster, pas un CPC observé.</p>
+      </div>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simV">Valeur moyenne du premier contrat, avant taxes ($)</label>
+        <input type="number" id="simV" inputmode="decimal" min="0" placeholder="Ex. 3000" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+      </div>
+      <button class="btn btn-ghost" id="simVUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas — montre-moi un exemple fictif</button>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simM">Marge contributive après coûts de réalisation (%)</label>
+        <input type="number" id="simM" inputmode="decimal" min="0" max="100" placeholder="Ex. 40" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+      </div>
+      <button class="btn btn-ghost" id="simMUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas ma marge</button>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simV2">Taux de conversion clic → contact (%)</label>
+        <input type="number" id="simV2" inputmode="decimal" min="0" max="100" placeholder="Ex. 8" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+      </div>
+
+      <div class="q-sub" style="margin:6px 0 8px; font-size:.85rem;">As-tu une étape de qualification distincte entre "contact" et "client signé" ?</div>
+      <div class="choice-row" id="simQModeRow" style="margin-bottom:14px;">
+        <button class="choice-pill" data-v="oui">Oui, je filtre mes contacts avant de les traiter</button>
+        <button class="choice-pill" data-v="non">Non, je traite tous mes contacts directement</button>
+      </div>
+
+      <div id="simQBlock" style="display:none;">
+        <div class="f-row" style="max-width:320px;">
+          <label for="simQ">Part de contacts qualifiés (%)</label>
+          <input type="number" id="simQ" inputmode="decimal" min="0" max="100" placeholder="Ex. 75" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+        </div>
+      </div>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simT" id="simTLabel">Taux de signature parmi tes contacts qualifiés (%)</label>
+        <input type="number" id="simT" inputmode="decimal" min="0" max="100" placeholder="Ex. 25" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+      </div>
+      <button class="btn btn-ghost" id="simTUnknown" type="button" style="padding:8px 0;">Je ne sais pas mes taux — mode exploratoire</button>
+
+      <div class="q-sub" style="margin:14px 0 8px; font-size:.85rem;">Le résultat inclut-il la gestion Pixby (1 000 $ + 750 $/mois) ?</div>
+      <div class="choice-row" id="simFeesRow" style="margin-bottom:6px;">
+        <button class="choice-pill" data-v="avec">Avec Pixby (1 000 $ + 750 $/mois)</button>
+        <button class="choice-pill" data-v="media_seul">Média seul, sans gestion</button>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn" id="economieNext">Voir mon simulateur →</button>
+      </div>
+    </div>
+  </section>
+
   <!-- SCAN -->
   <section id="scan" aria-live="polite">
     <div class="scan-ring"></div>
@@ -680,17 +775,31 @@
       { t:"Identifier la contrainte de croissance : demande, budget ou efficacité", d:"On situe ce qui limite réellement ta croissance avant de changer quoi que ce soit." }
     ]
   };
-  var STEPS_B = [
-    { t:"Valider la demande locale", d:"Confirmer qu'il y a assez de recherches réelles dans ta zone pour justifier une campagne." },
-    { t:"Calculer le seuil de rentabilité", d:"Déterminer le coût par client maximum que ton offre peut absorber, marge incluse." },
-    { t:"Définir un test et ses critères d'arrêt", d:"Un budget test, une durée, et un seuil clair pour arrêter ou continuer — avant de dépenser." }
-  ];
+  /* ============================================================
+     SIMULATEUR ÉCONOMIQUE (P1.3, branche NON) — constantes
+     ============================================================ */
+  var SIM_SETUP_ONCE = 1000;      // frais Pixby premier mois seulement
+  var SIM_MGMT_MONTHLY = 750;     // frais Pixby chaque mois
+  var SIM_FICTIONAL_V = 3000;     // exemple fictif générique, jamais avgValue (spec P1.3)
+  /* Prudent/favorable = variation appliquée à l'hypothèse centrale déclarée
+     par le visiteur, PAS une donnée de marché sourcée. Documenté et affiché
+     comme tel partout où ces scénarios apparaissent. */
+  var SIM_SCENARIO_MULT = {
+    prudent:   { rate: 0.70, cpc: 1.15 },
+    central:   { rate: 1,    cpc: 1 },
+    favorable: { rate: 1.30, cpc: 0.85 }
+  };
+  /* Mode exploratoire : ancres rondes non sourcées, utilisées seulement si
+     le visiteur ne connaît aucun de ses taux. Verdict forcé "À valider". */
+  var SIM_EXPLORATORY = { v: 0.05, q: 0.50, t: 0.15 };
 
   /* ============================================================
      ÉTAT + WIZARD
      ============================================================ */
   var sel = { hasAds:null, m:null, metierLabel:null, manualPath:false, r:null, budget:1000,
-              budgetActuel:null, gestion:null, cac:null, cacAmount:'', cacPeriod:null };
+              budgetActuel:null, gestion:null, cac:null, cacAmount:'', cacPeriod:null,
+              simCpc:null, simV:null, simVFictional:false, simM:null, simV2:null,
+              simQMode:null, simQ:null, simT:null, simTUnknown:false, simFeesMode:'avec' };
   var calc = {};
   var seq = [];
   var stepIdx = 0;
@@ -751,10 +860,11 @@
      ============================================================ */
   function buildSequence(){
     if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel','stepGestion','stepCac','stepCacDetail'];
-    return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel'];
+    return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel','stepEconomie'];
   }
   function shouldSkip(id){
     if (id === 'stepCacDetail') return sel.cac !== 'oui';
+    if (id === 'stepEconomie') return sel.manualPath;
     return false;
   }
   function effectiveIndex(i){
@@ -942,12 +1052,83 @@
   document.getElementById('budget').addEventListener('input', function(){
     sel.budget = +this.value; document.getElementById('budgetVal').textContent = fmt(sel.budget);
   });
-  document.getElementById('budgetPotentielNext').addEventListener('click', nextStep);
+  document.getElementById('budgetPotentielNext').addEventListener('click', function(){
+    var d = DATA[sel.m];
+    if (d && sel.simCpc == null) {
+      var wLow = 0, wHigh = 0, vol = 0;
+      d.kws.forEach(function(k){ vol += k[1]; wLow += k[2]*k[1]; wHigh += k[3]*k[1]; });
+      sel.simCpc = Math.round(((wLow/vol + wHigh/vol) / 2) * 100) / 100;
+      document.getElementById('simCpc').value = sel.simCpc;
+    }
+    nextStep();
+  });
 
   function budgetSummaryLabel(){
     if (sel.hasAds === 'oui') return BUDGET_LABELS[sel.budgetActuel] || 'Inconnu';
     return fmt(sel.budget) + ' $/mois envisagé';
   }
+
+  /* ============================================================
+     STEP ÉCONOMIE DU CONTRAT (branche NON) — entrées du simulateur
+     ============================================================ */
+  document.getElementById('simCpc').addEventListener('input', function(){
+    sel.simCpc = this.value === '' ? null : +this.value;
+  });
+  document.getElementById('simV').addEventListener('input', function(){
+    sel.simV = this.value === '' ? null : +this.value;
+    sel.simVFictional = false;
+    this.style.borderColor = '';
+  });
+  document.getElementById('simVUnknown').addEventListener('click', function(){
+    sel.simV = SIM_FICTIONAL_V; sel.simVFictional = true;
+    var input = document.getElementById('simV');
+    input.value = SIM_FICTIONAL_V; input.style.borderColor = 'var(--yellow)';
+  });
+  document.getElementById('simM').addEventListener('input', function(){
+    sel.simM = this.value === '' ? null : +this.value;
+  });
+  document.getElementById('simMUnknown').addEventListener('click', function(){
+    sel.simM = null;
+    document.getElementById('simM').value = '';
+  });
+  document.getElementById('simV2').addEventListener('input', function(){
+    sel.simV2 = this.value === '' ? null : +this.value;
+  });
+  document.querySelectorAll('#simQModeRow .choice-pill').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('#simQModeRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
+      this.classList.add('sel'); sel.simQMode = this.dataset.v;
+      document.getElementById('simQBlock').style.display = sel.simQMode === 'oui' ? 'block' : 'none';
+      document.getElementById('simTLabel').textContent = sel.simQMode === 'oui'
+        ? 'Taux de signature parmi tes contacts qualifiés (%)'
+        : 'Taux de signature parmi tes contacts (%)';
+    });
+  });
+  document.getElementById('simQ').addEventListener('input', function(){
+    sel.simQ = this.value === '' ? null : +this.value;
+  });
+  document.getElementById('simT').addEventListener('input', function(){
+    sel.simT = this.value === '' ? null : +this.value;
+    sel.simTUnknown = false;
+    this.style.borderColor = '';
+  });
+  document.getElementById('simTUnknown').addEventListener('click', function(){
+    sel.simTUnknown = true; sel.simT = null; sel.simQ = null;
+    document.getElementById('simT').value = '';
+    document.getElementById('simT').style.borderColor = 'var(--yellow)';
+  });
+  document.querySelectorAll('#simFeesRow .choice-pill').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('#simFeesRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
+      this.classList.add('sel'); sel.simFeesMode = this.dataset.v;
+    });
+  });
+  // état par défaut visible au premier chargement de l'étape
+  document.querySelector('#simQModeRow .choice-pill[data-v="oui"]').classList.add('sel');
+  sel.simQMode = 'oui';
+  document.getElementById('simQBlock').style.display = 'block';
+  document.querySelector('#simFeesRow .choice-pill[data-v="avec"]').classList.add('sel');
+  document.getElementById('economieNext').addEventListener('click', nextStep);
 
   /* ============================================================
      ÉDITER MES RÉPONSES — retour au début du parcours en gardant sel
@@ -995,11 +1176,232 @@
       return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>Vérification</dt><dd>' + esc(c.t) + '</dd><dt>Pourquoi</dt><dd>' + esc(c.d) + '</dd></dl></div>';
     }).join('');
   }
-  function renderStepsB(){
-    return STEPS_B.map(function(s,i){
-      return '<li><span class="num">' + (i+1) + '</span><div><strong>' + esc(s.t) + '</strong><div style="font-size:.85rem;color:rgba(255,255,255,.6);margin-top:3px;">' + esc(s.d) + '</div></div></li>';
-    }).join('');
+  /* ============================================================
+     SIMULATEUR ÉCONOMIQUE (P1.3) — moteur de calcul.
+     Toutes les divisions sont protégées : une valeur manquante ou nulle
+     donne `null`, jamais un 0 $ trompeur. `feesMode==='avec'` inclut
+     systématiquement 1000 $ (premier mois) + 750 $/mois (gestion Pixby),
+     jamais caché dans un petit texte — voir cost-breakdown.
+     ============================================================ */
+  function fmtMoney(n){ return (n == null || !isFinite(n)) ? '—' : fmt(n) + ' $'; }
+  function fmtMoneyDec(n){ return (n == null || !isFinite(n)) ? '—' : n.toFixed(2).replace('.', ',') + ' $'; }
+  function fmtPct(n){ return (n == null || !isFinite(n)) ? '—' : (Math.round(n*1000)/10).toString().replace('.', ',') + ' %'; }
+  function fmtCount(n){ return (n == null || !isFinite(n)) ? '—' : fmt(n); }
+
+  function computeSimScenario(inp){
+    var S = inp.S, cpc = inp.cpc, v = inp.v, qMode = inp.qMode, q = inp.q, t = inp.t, V = inp.V, m = inp.m, feesMode = inp.feesMode;
+    var out = {};
+    var C = (cpc > 0 && S > 0) ? S / cpc : null;
+    var L = (C != null && v != null) ? C * v : null;
+    var Qc = (L != null) ? (qMode === 'oui' ? (q != null ? L * q : null) : L) : null;
+    var N = (Qc != null && t != null) ? Qc * t : null;
+    var M = (V != null && m != null) ? V * m : null;
+    var totalFirst = feesMode === 'avec' ? S + SIM_MGMT_MONTHLY + SIM_SETUP_ONCE : S;
+    var totalNext = feesMode === 'avec' ? S + SIM_MGMT_MONTHLY : S;
+    out.C = C; out.L = L; out.Q = Qc; out.N = N; out.M = M;
+    out.totalFirst = totalFirst; out.totalNext = totalNext;
+    out.cplBrut = (L > 0) ? S / L : null;
+    out.cplQualifie = (Qc > 0) ? S / Qc : null;
+    out.cacMedia = (N > 0) ? S / N : null;
+    out.cacCompletFirst = (N > 0) ? totalFirst / N : null;
+    out.cacCompletNext = (N > 0) ? totalNext / N : null;
+    out.margeFirst = (M != null && N != null) ? N * M - totalFirst : null;
+    out.margeNext = (M != null && N != null) ? N * M - totalNext : null;
+    out.clientsEquilibreFirst = (M > 0) ? Math.ceil(totalFirst / M) : null;
+    out.clientsEquilibreNext = (M > 0) ? Math.ceil(totalNext / M) : null;
+    var qEff = qMode === 'oui' ? (q != null ? q : null) : 1;
+    out.cplQualifieMax = (M != null && t != null) ? M * t : null;
+    out.cplBrutMax = (M != null && t != null && qEff != null) ? M * qEff * t : null;
+    out.rentableOngoing = out.margeNext != null ? out.margeNext > 0 : null;
+    return out;
   }
+
+  function buildScenarios(){
+    var qMode = sel.simQMode || 'non';
+    var tBase = sel.simT != null ? sel.simT/100 : null;
+    var exploratory = (tBase == null);
+    var vBase = exploratory ? SIM_EXPLORATORY.v : (sel.simV2 != null ? sel.simV2/100 : null);
+    var qBase = exploratory ? SIM_EXPLORATORY.q : (sel.simQ != null ? sel.simQ/100 : null);
+    if (exploratory) tBase = SIM_EXPLORATORY.t;
+    var cpcBase = sel.simCpc;
+    var V = sel.simV;
+    var m = (sel.simM != null) ? sel.simM/100 : null;
+    var S = sel.budget;
+    var feesMode = sel.simFeesMode || 'avec';
+    var essentialMissing = exploratory || cpcBase == null || V == null || m == null;
+
+    var scenarios = {};
+    ['prudent','central','favorable'].forEach(function(key){
+      var mult = SIM_SCENARIO_MULT[key];
+      var cpc = cpcBase != null ? Math.max(0.01, cpcBase * mult.cpc) : null;
+      var v = vBase != null ? Math.min(1, vBase * mult.rate) : null;
+      var q = qBase != null ? Math.min(1, qBase * mult.rate) : null;
+      var t = tBase != null ? Math.min(1, tBase * mult.rate) : null;
+      scenarios[key] = { cpc:cpc, v:v, q:q, t:t, qMode:qMode,
+        metrics: computeSimScenario({ S:S, cpc:cpc, v:v, qMode:qMode, q:q, t:t, V:V, m:m, feesMode:feesMode }) };
+    });
+    return { scenarios:scenarios, exploratory:exploratory, essentialMissing:essentialMissing, V:V, m:m, S:S, feesMode:feesMode, qMode:qMode };
+  }
+
+  function computeVerdict(data){
+    if (data.essentialMissing) return { key:'a_valider', label:'À valider', tone:'caution' };
+    var pr = data.scenarios.prudent.metrics.rentableOngoing;
+    var ce = data.scenarios.central.metrics.rentableOngoing;
+    var fa = data.scenarios.favorable.metrics.rentableOngoing;
+    if (pr === true) return { key:'potentiel', label:'Potentiel à tester', tone:'ok' };
+    if (ce === true) return { key:'test_controle', label:'Test contrôlé à envisager', tone:'caution' };
+    if (fa === true) return { key:'fragile', label:'Économie fragile', tone:'caution' };
+    return { key:'ne_pas_lancer', label:'Ne pas lancer avec ces hypothèses', tone:'bad' };
+  }
+
+  function renderHypothesisPanel(){
+    function field(id, label, val, unit){
+      return '<div class="hyp-field"><label for="' + id + '">' + label + '</label>' +
+        '<input type="number" id="' + id + '" data-field="' + id + '" value="' + (val==null?'':val) + '" inputmode="decimal">' +
+        '<div class="unit">' + unit + '</div></div>';
+    }
+    var html = '<div class="hyp-panel"><h4>Ajuste tes hypothèses — recalcule automatiquement, sans recommencer</h4><div class="hyp-grid">' +
+      field('hypBudget', 'Budget média', sel.budget, '$ / mois') +
+      field('hypCpc', 'CPC hypothétique', sel.simCpc, '$ / clic — ton hypothèse, pas un CPC observé') +
+      field('hypV', 'Valeur du contrat', sel.simV, '$ avant taxes' + (sel.simVFictional ? ' (exemple fictif)' : '')) +
+      field('hypM', 'Marge contributive', sel.simM, '%') +
+      field('hypV2', 'Conversion clic → contact', sel.simV2, '%') +
+      (sel.simQMode === 'oui' ? field('hypQ', 'Contacts qualifiés', sel.simQ, '%') : '') +
+      field('hypT', 'Taux de signature', sel.simT, sel.simQMode === 'oui' ? '% des qualifiés' : '% des contacts') +
+      '</div></div>';
+    return html;
+  }
+
+  function renderVerdictBanner(verdict){
+    var toneClass = verdict.tone === 'ok' ? 'v-ok' : verdict.tone === 'bad' ? 'v-bad' : 'v-caution';
+    var sub = {
+      a_valider: 'Il manque une hypothèse essentielle (CPC, valeur de contrat, marge, ou tes taux) — ou tu es en mode exploratoire. Complète le panneau ci-dessous pour un verdict réel.',
+      potentiel: 'Même dans le scénario prudent, l’économie reste positive une fois Pixby payé.',
+      test_controle: 'Le scénario central est rentable, mais le prudent ne l’est pas — un test contrôlé avec critères d’arrêt clairs a du sens avant d’engager plus.',
+      fragile: 'Seul le scénario favorable est rentable — l’économie ne supporte pas grand-chose si la réalité est moins bonne que prévu.',
+      ne_pas_lancer: 'Même le scénario favorable est déficitaire avec ces hypothèses. Ne pas lancer tant que les chiffres ne changent pas.'
+    }[verdict.key];
+    return '<div class="verdict-banner ' + toneClass + '"><div class="eyebrow">Verdict — aucun verdict ne garantit la rentabilité réelle</div>' +
+      '<div class="verdict-title">' + esc(verdict.label) + '</div><div class="verdict-sub">' + esc(sub) + '</div></div>';
+  }
+
+  function renderFunnel(m){
+    return '<div class="funnel">' +
+      '<div class="funnel-step"><div class="n">' + fmtCount(m.C) + '</div><div class="l">Clics</div></div>' +
+      '<div class="funnel-arrow">→</div>' +
+      '<div class="funnel-step"><div class="n">' + fmtCount(m.L) + '</div><div class="l">Contacts</div></div>' +
+      '<div class="funnel-arrow">→</div>' +
+      '<div class="funnel-step"><div class="n">' + fmtCount(m.Q) + '</div><div class="l">Qualifiés</div></div>' +
+      '<div class="funnel-arrow">→</div>' +
+      '<div class="funnel-step"><div class="n">' + (m.N != null ? m.N.toFixed(1).replace('.',',') : '—') + '</div><div class="l">Clients (espérance)</div></div>' +
+      '</div>' +
+      (m.N === 0 || (m.N != null && m.N < 0.5) ? '<p class="limit-note">Avec ces hypothèses : aucun client prévu ce mois-ci ; CAC non calculable — ce n’est pas 0 $, c’est une absence de résultat attendu.</p>' : '');
+  }
+
+  function renderCostBreakdown(m, S, feesMode){
+    var rows = '<div class="row"><span>Média (budget déclaré)</span><span>' + fmtMoney(S) + '</span></div>';
+    if (feesMode === 'avec') {
+      rows += '<div class="row"><span>Gestion Pixby — mise en place (1er mois seulement)</span><span>' + fmtMoney(SIM_SETUP_ONCE) + '</span></div>';
+      rows += '<div class="row"><span>Gestion Pixby — mensuel</span><span>' + fmtMoney(SIM_MGMT_MONTHLY) + '</span></div>';
+    } else {
+      rows += '<div class="row"><span colspan="2" style="color:rgba(255,255,255,.5);">Scénario média seul — frais de gestion Pixby non inclus</span></div>';
+    }
+    rows += '<div class="row total"><span>Coût total 1er mois</span><span>' + fmtMoney(m.totalFirst) + '</span></div>';
+    rows += '<div class="row total"><span>Coût total mois suivants</span><span>' + fmtMoney(m.totalNext) + '</span></div>';
+    return '<div class="cost-breakdown">' + rows + '</div>';
+  }
+
+  function renderScenarioTable(data){
+    var order = ['prudent','central','favorable'];
+    var labels = { prudent:'Prudent', central:'Central', favorable:'Favorable' };
+    var rateRow = function(label, unit, getter){
+      return '<tr><td class="metric-label">' + label + '</td>' + order.map(function(k){
+        var s = data.scenarios[k];
+        return '<td>' + getter(s) + '</td>';
+      }).join('') + '</tr>';
+    };
+    var metricRow = function(label, getter){
+      return '<tr><td class="metric-label">' + label + '</td>' + order.map(function(k){
+        return '<td>' + getter(data.scenarios[k].metrics) + '</td>';
+      }).join('') + '</tr>';
+    };
+    var head = '<tr><th>Hypothèses &amp; résultats</th>' + order.map(function(k){
+      return '<th class="scen-' + k + '">' + labels[k] + '</th>';
+    }).join('') + '</tr>';
+    var provenanceRow = '<tr><td class="metric-label">Provenance</td>' + order.map(function(k){
+      return '<td style="font-size:.72rem;color:rgba(255,255,255,.4);">' + (k === 'central' ? 'ton hypothèse déclarée' : 'variation ±30 % de ton hypothèse centrale — simulation, pas une donnée de marché') + '</td>';
+    }).join('') + '</tr>';
+    var rows = [
+      rateRow('CPC hypothétique', '$', function(s){ return fmtMoneyDec(s.cpc); }),
+      rateRow('Conversion clic→contact', '%', function(s){ return fmtPct(s.v); }),
+      rateRow('Contacts qualifiés', '%', function(s){ return s.qMode === 'oui' ? fmtPct(s.q) : 'n/a (pas de filtre)'; }),
+      rateRow('Taux de signature', '%', function(s){ return fmtPct(s.t); }),
+      metricRow('Clics / mois', function(m){ return fmtCount(m.C); }),
+      metricRow('Contacts / mois', function(m){ return fmtCount(m.L); }),
+      metricRow('Clients signés (espérance)', function(m){ return m.N != null ? m.N.toFixed(1).replace('.',',') : '—'; }),
+      metricRow('CPL brut / qualifié', function(m){ return fmtMoneyDec(m.cplBrut) + ' / ' + fmtMoneyDec(m.cplQualifie); }),
+      metricRow('CAC média', function(m){ return fmtMoneyDec(m.cacMedia); }),
+      metricRow('CAC complet (1er mois / suivants)', function(m){ return fmtMoneyDec(m.cacCompletFirst) + ' / ' + fmtMoneyDec(m.cacCompletNext); }),
+      metricRow('Marge après acquisition (1er / suivants)', function(m){ return fmtMoney(m.margeFirst) + ' / ' + fmtMoney(m.margeNext); }),
+      metricRow('Clients pour l’équilibre (1er / suivants)', function(m){ return fmtCount(m.clientsEquilibreFirst) + ' / ' + fmtCount(m.clientsEquilibreNext); }),
+      metricRow('CPL qualifié maximum rentable', function(m){ return fmtMoneyDec(m.cplQualifieMax); }),
+      metricRow('CPL brut maximum rentable', function(m){ return fmtMoneyDec(m.cplBrutMax); })
+    ].join('');
+    return '<div class="table-scroll"><table class="scenario-table"><thead>' + head + provenanceRow + '</thead><tbody>' + rows + '</tbody></table></div>' +
+      '<p class="limit-note">Les clients signés sont une espérance de modèle (moyenne statistique), pas une promesse — un mois donné peut tomber à 0 ou dépasser cette moyenne. Aucun scénario ne garantit la rentabilité réelle.</p>';
+  }
+
+  function renderDemandWarning(centralC){
+    if (!calc || !calc.d || !centralC.C) return '';
+    var kwCount = calc.d.kws.length;
+    if (centralC.C > (calc.volTot || 0) && calc.volTot > 0) {
+      return '<p class="limit-note">⚠️ Ce budget impliquerait environ ' + fmtCount(centralC.C) + ' clics/mois pour ' + esc(DATA[sel.m].label) + ', à comparer aux ' + kwCount + ' mots-clés retenus (volume brut non dédupliqué, repère grossier — pas une limite exacte). Ça peut dépasser la demande réellement disponible dans ta zone : à valider avant d’engager ce budget.</p>';
+    }
+    return '';
+  }
+
+  function renderSimulator(){
+    var data = buildScenarios();
+    var verdict = computeVerdict(data);
+    var html = '';
+    if (sel.simVFictional) html += '<div class="sim-fictional-banner">Exemple fictif utilisé pour la valeur du contrat (' + fmtMoney(SIM_FICTIONAL_V) + ') — remplace-la dans le panneau ci-dessous par ta vraie valeur pour un résultat qui te concerne.</div>';
+    if (data.exploratory) html += '<div class="sim-fictional-banner">Mode exploratoire : tes taux de conversion ne sont pas fournis, remplacés par des ancres rondes non sourcées (5 % / 50 % / 15 %) juste pour illustrer le calcul. Verdict forcé à « À valider » tant que tu n’as pas donné tes vrais taux.</div>';
+    html += renderVerdictBanner(verdict);
+    html += renderHypothesisPanel();
+    html += '<div class="card"><div class="eyebrow">Scénario central — entonnoir</div>' + renderFunnel(data.scenarios.central.metrics) + renderCostBreakdown(data.scenarios.central.metrics, data.S, data.feesMode) + '</div>';
+    html += renderDemandWarning(data.scenarios.central.metrics);
+    html += '<div class="card"><div class="eyebrow">Trois scénarios</div>' + renderScenarioTable(data) + '</div>';
+    document.getElementById('simRoot').innerHTML = html;
+  }
+
+  var simRenderTimer = null;
+  function scheduleSimRender(){
+    if (simRenderTimer) clearTimeout(simRenderTimer);
+    simRenderTimer = setTimeout(function(){
+      simRenderTimer = null;
+      var active = document.activeElement;
+      var activeId = active && active.id;
+      var selStart = active && active.selectionStart;
+      renderSimulator();
+      if (activeId) {
+        var el = document.getElementById(activeId);
+        if (el) { el.focus(); if (selStart != null && el.setSelectionRange) { try { el.setSelectionRange(selStart, selStart); } catch(e){} } }
+      }
+    }, 350);
+  }
+  document.addEventListener('input', function(e){
+    var f = e.target && e.target.dataset && e.target.dataset.field;
+    if (!f) return;
+    var val = e.target.value === '' ? null : +e.target.value;
+    if (f === 'hypBudget') { sel.budget = val != null ? val : 0; }
+    else if (f === 'hypCpc') { sel.simCpc = val; }
+    else if (f === 'hypV') { sel.simV = val; sel.simVFictional = false; }
+    else if (f === 'hypM') { sel.simM = val; }
+    else if (f === 'hypV2') { sel.simV2 = val; }
+    else if (f === 'hypQ') { sel.simQ = val; }
+    else if (f === 'hypT') { sel.simT = val; }
+    scheduleSimRender();
+  });
 
   function renderResultsBody(){
     var body = document.getElementById('resultsBody');
@@ -1031,12 +1433,12 @@
             '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
             '<div><div class="k">Budget envisagé</div><div class="v">' + fmt(sel.budget) + ' $/mois</div></div>' +
           '</div></div>' +
-        '<ul class="steps-3">' + renderStepsB() + '</ul>' +
-        '<p class="limit-note">La simulation économique complète (clients attendus, seuil de rentabilité chiffré) arrive dans une prochaine version. On ne t\'affiche pas un nombre de clients ou une rentabilité qu\'on ne peut pas encore calculer honnêtement.</p>';
+        '<div id="simRoot"></div>';
+      renderSimulator();
       document.getElementById('agendaList').innerHTML =
-        '<li>Ton métier, ta zone et ton budget envisagé (ci-dessus)</li>' +
-        '<li>La demande réelle et le budget minimum pour un test</li>' +
-        '<li>Ce qu\'on regarde avant de dépenser un dollar</li>';
+        '<li>Ton métier, ta zone, ton budget et tes hypothèses économiques (ci-dessus)</li>' +
+        '<li>Le verdict et les scénarios à valider ensemble</li>' +
+        '<li>Le budget test et les critères d\'arrêt avant de dépenser</li>';
     }
   }
 
@@ -1120,15 +1522,23 @@
   }
 
   /* ============================================================
-     LEAD SCORING — transparent, pondérations documentées dans
-     coordination/AUDIT_LEAD_ENGINE.md. Chaque signal est un booléen
-     nommé, le score est une somme simple. Seuils inchangés en P0
-     (revue des seuils prévue en P1.4).
+     LEAD SCORING v2 (2026-09-25, revue P1.4) — transparent, pondérations
+     documentées dans coordination/AUDIT_LEAD_ENGINE.md. Chaque signal est
+     un booléen nommé, le score est une somme simple.
+     CORRECTIF P1.4 : v1 plafonnait structurellement la branche NON à 25
+     points (10 budget + 10 secteur + 5 site), sous GOOD_FIT=35 — aucun
+     prospect NON ne pouvait donc jamais atteindre GOOD_FIT, quelle que
+     soit la qualité réelle de son dossier. v2 ajoute des signaux propres
+     à la branche NON, dérivés du simulateur économique (P1.3) : un
+     prospect NON avec une économie viable en scénario prudent doit
+     pouvoir atteindre GOOD_FIT/PRIORITY au même titre qu'un prospect OUI
+     bien qualifié. Seuils inchangés (PRIORITY/GOOD_FIT/NURTURE).
      ============================================================ */
   var SCORE_WEIGHTS = {
     google_ads_active: 30, spend_1000_2000: 8, spend_2000_5000: 15, spend_5000_10000: 20,
     spend_10000_plus: 25, agency_or_freelancer_managed: 15, unknown_customer_acquisition_cost: 20,
-    high_value_sector: 10, established_business: 5, high_budget_intent_no_ads: 10
+    high_value_sector: 10, established_business: 5, high_budget_intent_no_ads: 10,
+    viable_economics_prudent: 25, viable_economics_central: 15, contract_value_and_margin_known: 10
   };
   var TIER_THRESHOLDS = { PRIORITY: 65, GOOD_FIT: 35, NURTURE: 15 };
 
@@ -1145,8 +1555,17 @@
       if (sel.cac === 'non' || sel.cac === 'pas_certain') {
         signals.push('unknown_customer_acquisition_cost'); score += SCORE_WEIGHTS.unknown_customer_acquisition_cost;
       }
-    } else if (sel.budget >= 2000) {
-      signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads;
+    } else {
+      if (sel.budget >= 2000) { signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads; }
+      if (sel.simV != null && !sel.simVFictional && sel.simM != null) {
+        signals.push('contract_value_and_margin_known'); score += SCORE_WEIGHTS.contract_value_and_margin_known;
+      }
+      if (!sel.manualPath) {
+        var simData = buildScenarios();
+        var verdict = computeVerdict(simData);
+        if (verdict.key === 'potentiel') { signals.push('viable_economics_prudent'); score += SCORE_WEIGHTS.viable_economics_prudent; }
+        else if (verdict.key === 'test_controle') { signals.push('viable_economics_central'); score += SCORE_WEIGHTS.viable_economics_central; }
+      }
     }
     if (DATA[sel.m] && DATA[sel.m].highValue) { signals.push('high_value_sector'); score += SCORE_WEIGHTS.high_value_sector; }
     if (siteWeb && siteWeb.trim()) { signals.push('established_business'); score += SCORE_WEIGHTS.established_business; }
@@ -1156,6 +1575,9 @@
     if (signals.indexOf('google_ads_active') > -1) reasonParts.push('fait déjà de la pub Google Ads');
     if (signals.indexOf('agency_or_freelancer_managed') > -1) reasonParts.push('géré par ' + (sel.gestion === 'agence' ? 'une agence' : 'un freelancer'));
     if (signals.indexOf('unknown_customer_acquisition_cost') > -1) reasonParts.push('ne connaît pas son coût par client signé');
+    if (signals.indexOf('viable_economics_prudent') > -1) reasonParts.push('économie rentable même en scénario prudent');
+    if (signals.indexOf('viable_economics_central') > -1) reasonParts.push('économie rentable en scénario central');
+    if (signals.indexOf('contract_value_and_margin_known') > -1) reasonParts.push('connaît sa valeur de contrat et sa marge');
     if (signals.indexOf('high_value_sector') > -1) reasonParts.push('secteur à forte valeur de contrat');
     return { score:score, tier:tier, signals:signals, reason: reasonParts.length ? reasonParts.join(', ') : 'signaux faibles — prospect à nurturer' };
   }
@@ -1327,6 +1749,9 @@
         site = document.getElementById('gSite');
     var siteWeb = site.value.trim();
     var scoring = computeLeadScore(siteWeb);
+    var simData = (sel.hasAds !== 'oui' && !sel.manualPath) ? buildScenarios() : null;
+    var simVerdict = simData ? computeVerdict(simData) : null;
+    var simC = simData ? simData.scenarios.central.metrics : null;
 
     setSubmitState('gateForm','gateBtn','gateSubmitError','submitting');
 
@@ -1342,6 +1767,18 @@
       cac_declared_amount: sel.cacAmount || '', cac_declared_period: sel.cacPeriod ? CAC_PERIOD_LABELS[sel.cacPeriod] : '',
       audit_volume_qc: calc.volTot != null ? ('~' + fmt(calc.volTot) + ' recherches/mois (Québec, BRUT non dédupliqué — usage interne, pas pour le prospect)') : '',
       audit_kw_count: calc.d ? calc.d.kws.length : '',
+      sim_verdict: simVerdict ? simVerdict.label : '',
+      sim_exploratory: simData ? String(simData.exploratory) : '',
+      sim_fees_mode: simData ? simData.feesMode : '',
+      sim_cpc_hypothese: sel.simCpc != null ? sel.simCpc : '',
+      sim_valeur_contrat: sel.simV != null ? (sel.simV + (sel.simVFictional ? ' (exemple fictif)' : '')) : '',
+      sim_marge_pct: sel.simM != null ? sel.simM : '',
+      sim_conversion_pct: sel.simV2 != null ? sel.simV2 : '',
+      sim_taux_signature_pct: sel.simT != null ? sel.simT : '',
+      sim_clients_central: simC && simC.N != null ? simC.N.toFixed(1) : '',
+      sim_cac_media_central: simC && simC.cacMedia != null ? Math.round(simC.cacMedia) : '',
+      sim_cac_complet_next_central: simC && simC.cacCompletNext != null ? Math.round(simC.cacCompletNext) : '',
+      sim_marge_apres_next_central: simC && simC.margeNext != null ? Math.round(simC.margeNext) : '',
       lead_score: scoring.score, lead_tier: scoring.tier,
       lead_signals: scoring.signals.join(','), lead_reason: scoring.reason,
       page_source: window.location.href, form_name: 'audit-p0'
