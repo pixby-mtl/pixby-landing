@@ -275,6 +275,11 @@
     .gate-card { background:var(--white); color:var(--dark); border-radius:var(--r-lg); padding:36px; max-width:520px; }
     .gate-card h3 { font-family:var(--ff-d); font-weight:800; font-size:1.3rem; margin-bottom:6px; }
     .gate-card > p { font-size:.85rem; color:#666; margin-bottom:22px; }
+    .gate-card .qual-label { font-size:.8rem; font-weight:700; color:var(--dark); margin:14px 0 8px; }
+    .gate-card .choice-row { margin-bottom:4px; }
+    .gate-card .choice-pill { background:#f3f5f8; border-color:#dde2ea; color:#3a4256; }
+    .gate-card .choice-pill:hover { border-color:var(--teal); }
+    .gate-card .choice-pill.sel { background:rgba(26,155,176,.12); border-color:var(--teal); color:var(--dark); box-shadow:0 0 0 1px var(--teal); }
     .f-row { margin-bottom:16px; }
     .f-row label { display:block; font-size:.8rem; font-weight:700; margin-bottom:6px; }
     .f-row input {
@@ -587,7 +592,7 @@
           </div>
         </div>
         <p class="limit-note" id="provinceNote"></p>
-        <p class="limit-note">Nombre de leads prévisionnel non affiché : on n'a pas encore de CPC réel ou de forecast Google Ads pour ton compte. On le calcule ensemble au rendez-vous, avec de vraies hypothèses.</p>
+        <p class="limit-note">Cette section montre seulement les données de marché sourcées Google — aucune projection de leads ou de clients n'est calculée ici. Si un simulateur avec tes hypothèses (CPC, conversion, clients) apparaît plus haut sur cette page, il reste basé sur TES estimations, pas sur un CPC réel observé ou un forecast Google Ads validé.</p>
         <div class="table-scroll">
           <table id="kwTable">
             <caption class="sr-only">Mots-clés retenus pour ton secteur</caption>
@@ -626,6 +631,29 @@
             <input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel">
           </div>
           <div class="f-row"><label for="gSite">Site web (optionnel)</label><input type="text" id="gSite" placeholder="tonentreprise.ca" autocomplete="url"></div>
+
+          <p class="qual-label">Pour préparer le rendez-vous (facultatif) :</p>
+          <p class="qual-label" style="font-weight:500; color:#666; margin-top:-4px;">Es-tu décisionnaire, ou as-tu accès à la personne qui décide ?</p>
+          <div class="choice-row" id="qDecideurRow">
+            <button type="button" class="choice-pill" data-v="decideur">Oui, je décide</button>
+            <button type="button" class="choice-pill" data-v="acces">J'ai accès au décisionnaire</button>
+            <button type="button" class="choice-pill" data-v="non">Non / pas encore</button>
+          </div>
+
+          <p class="qual-label" style="font-weight:500; color:#666;">Tu peux gérer de nouveaux appels/demandes rapidement si ça augmente ?</p>
+          <div class="choice-row" id="qCapaciteRow">
+            <button type="button" class="choice-pill" data-v="oui">Oui</button>
+            <button type="button" class="choice-pill" data-v="pas_sur">Pas sûr</button>
+            <button type="button" class="choice-pill" data-v="non">Non</button>
+          </div>
+
+          <p class="qual-label" style="font-weight:500; color:#666;">Tu veux démarrer dans combien de temps ?</p>
+          <div class="choice-row" id="qUrgenceRow" style="margin-bottom:16px;">
+            <button type="button" class="choice-pill" data-v="90j">Dans les 90 jours</button>
+            <button type="button" class="choice-pill" data-v="plus_tard">Plus tard</button>
+            <button type="button" class="choice-pill" data-v="inconnu">Je ne sais pas</button>
+          </div>
+
           <button class="btn" type="submit" id="gateBtn" style="width:100%;">Envoyer →</button>
           <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
         </form>
@@ -744,15 +772,22 @@
      sourcées Google.
      ============================================================ */
   var KW_AS_OF = 'septembre 2026';
+  /* Rafraîchi le 2026-09-25 via ~/pixby-ads-api/keyword_data_audit.py, CORRIGÉ pour
+     utiliser le compte Pixby autorisé (9014867803, google-ads.yaml) au lieu du compte
+     client Lebel Electro utilisé jusque-là — voir revue Codex P1.2. Tous les mots-clés
+     retenus ci-dessous ont été recroisés un par un contre ce nouveau tirage : mêmes
+     volumes, enchères à quelques centimes près (bruit normal Keyword Planner). Zone
+     toujours province (20123) — la dimension par région n'est pas encore faite, voir
+     le commentaire détaillé en tête de keyword_data_audit.py. */
   var DATA = {
-    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.2,24.17],["couvreur",1300,4.87,20.21]] },
-    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.53,11.19],["plombier à proximité",4400,2.07,10.32],["plombier expert",1900,1.89,7.88],["plomberie rive sud",1300,2.09,12.08]] },
-    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.07,11.16],["air climatisé",9900,0.67,10.08]] },
-    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.4],["reparation electromenager autour de moi",1900,0.92,3.36],["réparation laveuse",1600,1.31,7.11]] },
-    electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true,  kws:[["électricien",8100,2.86,11.61],["panneau électrique",1900,0.18,4.98],["électricien à proximité",1600,3.54,12.0],["electricien autour de moi",1300,2.27,9.61],["maitre electricien",720,2.65,10.61]] },
-    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true,  kws:[["soumission rénovations",8100,1.63,11.7],["rénovation salle de bain",1900,2.26,9.28]] },
-    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false,  kws:[["paysagiste",9900,2.05,8.36],["aménagement paysager",2900,1.63,6.67],["pavé uni",2900,1.14,6.64],["paysagement",2400,2.46,8.82]] },
-    dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false,  kws:[["dentiste",27100,2.48,12.0],["orthodontiste",5400,2.16,7.7],["blanchiment dentaire",2900,1.31,3.44],["couronne dentaire",2900,1.09,3.45],["implant dentaire",2400,1.24,6.61]] }
+    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.22,24.23],["couvreur",1300,4.88,20.26]] },
+    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.54,11.22],["plombier à proximité",4400,2.08,10.34],["plombier expert",1900,1.9,7.9],["plomberie rive sud",1300,2.1,12.11]] },
+    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.08,11.19],["air climatisé",9900,0.67,10.1]] },
+    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.42],["reparation electromenager autour de moi",1900,0.92,3.37],["réparation laveuse",1600,1.31,7.13]] },
+    electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true,  kws:[["électricien",8100,2.87,11.64],["panneau électrique",1900,0.18,4.99],["électricien à proximité",1600,3.55,12.04],["electricien autour de moi",1300,2.28,9.64],["maitre electricien",720,2.66,10.64]] },
+    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true,  kws:[["soumission rénovations",8100,1.63,11.73],["rénovation salle de bain",1900,2.27,9.3]] },
+    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false,  kws:[["paysagiste",9900,2.06,8.38],["aménagement paysager",2900,1.63,6.69],["pavé uni",2900,1.14,6.66],["paysagement",2400,2.47,8.85]] },
+    dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false,  kws:[["dentiste",27100,2.49,12.03],["orthodontiste",5400,2.16,7.73],["blanchiment dentaire",2900,1.32,3.45],["couronne dentaire",2900,1.09,3.46],["implant dentaire",2400,1.24,6.63]] }
   };
   var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
@@ -801,7 +836,8 @@
   var sel = { hasAds:null, m:null, metierLabel:null, manualPath:false, r:null, budget:1000,
               budgetActuel:null, gestion:null, cac:null, cacAmount:'', cacPeriod:null,
               simCpc:null, simV:null, simVFictional:false, simM:null, simV2:null,
-              simQMode:null, simQ:null, simT:null, simTUnknown:false, simFeesMode:'avec' };
+              simQMode:null, simQ:null, simT:null, simTUnknown:false, simFeesMode:'avec',
+              qDecideur:null, qCapacite:null, qUrgence:null };
   var calc = {};
   var seq = [];
   var stepIdx = 0;
@@ -1218,6 +1254,31 @@
     return out;
   }
 
+  /* ============================================================
+     CAPACITÉ DE DÉPENSE — B (budget disponible, déclaré par le visiteur)
+     n'est PAS automatiquement la dépense réelle S utilisée dans le calcul.
+     Spec P1.3 : "S est la dépense média projetée, qui peut être inférieure
+     au budget B." Sans accès au Forecast API de Google (jamais disponible
+     depuis cette page statique), on ne PRÉTEND pas prévoir la capacité
+     réelle du marché — on se contente d'un repère grossier : le volume de
+     mots-clés retenu (calc.volTot, brut, non dédupliqué) × le CPC hypothèse.
+     - Pas de CPC ou pas de volume retenu -> capacité INCONNUE, on utilise
+       S=B par défaut mais on l'affiche comme non vérifié, jamais comme une
+       prévision.
+     - B dépasse ce repère -> S est PLAFONNÉ à ce repère pour TOUT le calcul
+       (pas seulement un avertissement à côté d'un calcul qui ignore le
+       plafond) : un verdict positif ne peut plus s'appuyer sur un budget
+       que la demande ne peut probablement pas absorber.
+     ============================================================ */
+  function computeSpendCapacity(B, cpc){
+    if (cpc == null || cpc <= 0 || !calc || !calc.volTot || calc.volTot <= 0) {
+      return { S:B, B:B, capacityKnown:false, capped:false, sMax:null };
+    }
+    var sMax = Math.round(calc.volTot * cpc);
+    if (B > sMax) return { S:sMax, B:B, capacityKnown:true, capped:true, sMax:sMax };
+    return { S:B, B:B, capacityKnown:true, capped:false, sMax:sMax };
+  }
+
   function buildScenarios(){
     var qMode = sel.simQMode || 'non';
     var tBase = sel.simT != null ? sel.simT/100 : null;
@@ -1228,9 +1289,13 @@
     var cpcBase = sel.simCpc;
     var V = sel.simV;
     var m = (sel.simM != null) ? sel.simM/100 : null;
-    var S = sel.budget;
     var feesMode = sel.simFeesMode || 'avec';
-    var essentialMissing = exploratory || cpcBase == null || V == null || m == null;
+    /* Une valeur de contrat FICTIVE ne doit jamais fonder un verdict positif
+       présenté comme réel — voir revue Codex. */
+    var essentialMissing = exploratory || cpcBase == null || V == null || m == null || sel.simVFictional;
+
+    var capacity = computeSpendCapacity(sel.budget, cpcBase);
+    var S = capacity.S;
 
     var scenarios = {};
     ['prudent','central','favorable'].forEach(function(key){
@@ -1242,7 +1307,7 @@
       scenarios[key] = { cpc:cpc, v:v, q:q, t:t, qMode:qMode,
         metrics: computeSimScenario({ S:S, cpc:cpc, v:v, qMode:qMode, q:q, t:t, V:V, m:m, feesMode:feesMode }) };
     });
-    return { scenarios:scenarios, exploratory:exploratory, essentialMissing:essentialMissing, V:V, m:m, S:S, feesMode:feesMode, qMode:qMode };
+    return { scenarios:scenarios, exploratory:exploratory, essentialMissing:essentialMissing, V:V, m:m, S:S, feesMode:feesMode, qMode:qMode, capacity:capacity };
   }
 
   function computeVerdict(data){
@@ -1300,8 +1365,16 @@
       (m.N === 0 || (m.N != null && m.N < 0.5) ? '<p class="limit-note">Avec ces hypothèses : aucun client prévu ce mois-ci ; CAC non calculable — ce n’est pas 0 $, c’est une absence de résultat attendu.</p>' : '');
   }
 
-  function renderCostBreakdown(m, S, feesMode){
-    var rows = '<div class="row"><span>Média (budget déclaré)</span><span>' + fmtMoney(S) + '</span></div>';
+  function renderCostBreakdown(m, S, feesMode, capacity){
+    var rows = '';
+    if (capacity && capacity.capped) {
+      rows += '<div class="row"><span>Budget disponible (déclaré)</span><span>' + fmtMoney(capacity.B) + '</span></div>';
+      rows += '<div class="row"><span>Dépense utilisée dans ce calcul (plafonnée par la demande)</span><span>' + fmtMoney(S) + '</span></div>';
+    } else if (capacity && !capacity.capacityKnown) {
+      rows += '<div class="row"><span>Budget disponible (déclaré) — capacité de dépense inconnue</span><span>' + fmtMoney(S) + '</span></div>';
+    } else {
+      rows += '<div class="row"><span>Média (budget déclaré)</span><span>' + fmtMoney(S) + '</span></div>';
+    }
     if (feesMode === 'avec') {
       rows += '<div class="row"><span>Gestion Pixby — mise en place (1er mois seulement)</span><span>' + fmtMoney(SIM_SETUP_ONCE) + '</span></div>';
       rows += '<div class="row"><span>Gestion Pixby — mensuel</span><span>' + fmtMoney(SIM_MGMT_MONTHLY) + '</span></div>';
@@ -1353,11 +1426,13 @@
       '<p class="limit-note">Les clients signés sont une espérance de modèle (moyenne statistique), pas une promesse — un mois donné peut tomber à 0 ou dépasser cette moyenne. Aucun scénario ne garantit la rentabilité réelle.</p>';
   }
 
-  function renderDemandWarning(centralC){
-    if (!calc || !calc.d || !centralC.C) return '';
-    var kwCount = calc.d.kws.length;
-    if (centralC.C > (calc.volTot || 0) && calc.volTot > 0) {
-      return '<p class="limit-note">⚠️ Ce budget impliquerait environ ' + fmtCount(centralC.C) + ' clics/mois pour ' + esc(DATA[sel.m].label) + ', à comparer aux ' + kwCount + ' mots-clés retenus (volume brut non dédupliqué, repère grossier — pas une limite exacte). Ça peut dépasser la demande réellement disponible dans ta zone : à valider avant d’engager ce budget.</p>';
+  function renderCapacityNote(capacity){
+    if (!capacity) return '';
+    if (capacity.capped) {
+      return '<p class="limit-note">⚠️ Capacité de dépense limitée par la demande : ton budget disponible (' + fmtMoney(capacity.B) + '/mois) dépasse ce que ' + esc(DATA[sel.m].label) + ' peut plausiblement absorber selon le volume de mots-clés retenu (repère grossier, brut non dédupliqué). Le calcul ci-dessous utilise ' + fmtMoney(capacity.S) + '/mois — le surplus déclaré ne serait probablement pas dépensé efficacement à ce volume de recherches, sans qu’on puisse le confirmer avec certitude sans un vrai forecast Google Ads.</p>';
+    }
+    if (!capacity.capacityKnown) {
+      return '<p class="limit-note">Capacité de dépense : <strong>inconnue</strong>. On ne peut pas vérifier si la demande absorbe ce budget sans CPC hypothèse renseigné ou sans repère de volume pour ce secteur. Le calcul utilise ton budget déclaré tel quel — ce n’est pas une confirmation que ce montant se dépensera efficacement.</p>';
     }
     return '';
   }
@@ -1366,12 +1441,12 @@
     var data = buildScenarios();
     var verdict = computeVerdict(data);
     var html = '';
-    if (sel.simVFictional) html += '<div class="sim-fictional-banner">Exemple fictif utilisé pour la valeur du contrat (' + fmtMoney(SIM_FICTIONAL_V) + ') — remplace-la dans le panneau ci-dessous par ta vraie valeur pour un résultat qui te concerne.</div>';
+    if (sel.simVFictional) html += '<div class="sim-fictional-banner">Exemple fictif utilisé pour la valeur du contrat (' + fmtMoney(SIM_FICTIONAL_V) + ') — remplace-la dans le panneau ci-dessous par ta vraie valeur. Verdict forcé à « À valider » tant qu’elle reste fictive : un chiffre inventé ne peut pas fonder une conclusion présentée comme réelle.</div>';
     if (data.exploratory) html += '<div class="sim-fictional-banner">Mode exploratoire : tes taux de conversion ne sont pas fournis, remplacés par des ancres rondes non sourcées (5 % / 50 % / 15 %) juste pour illustrer le calcul. Verdict forcé à « À valider » tant que tu n’as pas donné tes vrais taux.</div>';
     html += renderVerdictBanner(verdict);
     html += renderHypothesisPanel();
-    html += '<div class="card"><div class="eyebrow">Scénario central — entonnoir</div>' + renderFunnel(data.scenarios.central.metrics) + renderCostBreakdown(data.scenarios.central.metrics, data.S, data.feesMode) + '</div>';
-    html += renderDemandWarning(data.scenarios.central.metrics);
+    html += renderCapacityNote(data.capacity);
+    html += '<div class="card"><div class="eyebrow">Scénario central — entonnoir</div>' + renderFunnel(data.scenarios.central.metrics) + renderCostBreakdown(data.scenarios.central.metrics, data.S, data.feesMode, data.capacity) + '</div>';
     html += '<div class="card"><div class="eyebrow">Trois scénarios</div>' + renderScenarioTable(data) + '</div>';
     document.getElementById('simRoot').innerHTML = html;
   }
@@ -1492,7 +1567,9 @@
       'Estimations basées sur les données Google Ads Keyword Planner (Québec, ' + KW_AS_OF + '). ' +
       'Le volume est une moyenne historique de recherches, pas un compteur en direct ni un nombre de personnes. ' +
       'Les enchères affichées sont la plage de haut de page Google (Top of page bid), pas un CPC observé ni un prix garanti du clic. ' +
-      'Aucun nombre de leads ou de clients n’est projeté tant qu’un CPC réel ou un forecast Google Ads n’a pas été validé. ' +
+      (sel.hasAds === 'oui'
+        ? 'Aucun nombre de leads ou de clients n’est projeté ici tant qu’un CPC réel ou un forecast Google Ads n’a pas été validé sur ton compte. '
+        : 'Le nombre de clients signés dans le simulateur ci-dessous est une espérance de modèle calculée à partir de TES hypothèses (CPC, conversion, marge) — pas un CPC réel observé ni un forecast Google Ads, et aucun scénario ne garantit ce résultat. ') +
       'Les variantes lexicales quasi identiques à volume identique ont été retirées manuellement (ex. « plombier »/« plomberie »), mais sans le regroupement officiel de variantes proches de Google — un total resterait potentiellement inexact, d’où l’absence de somme affichée ; seul le détail par mot-clé ci-dessous est garanti fidèle aux données extraites. ' +
       'La « valeur moyenne d’un contrat » est une estimation interne Pixby (non issue de Keyword Planner), à valider avec toi.';
 
@@ -1524,23 +1601,44 @@
   }
 
   /* ============================================================
-     LEAD SCORING v2 (2026-09-25, revue P1.4) — transparent, pondérations
-     documentées dans coordination/AUDIT_LEAD_ENGINE.md. Chaque signal est
-     un booléen nommé, le score est une somme simple.
-     CORRECTIF P1.4 : v1 plafonnait structurellement la branche NON à 25
-     points (10 budget + 10 secteur + 5 site), sous GOOD_FIT=35 — aucun
-     prospect NON ne pouvait donc jamais atteindre GOOD_FIT, quelle que
-     soit la qualité réelle de son dossier. v2 ajoute des signaux propres
-     à la branche NON, dérivés du simulateur économique (P1.3) : un
-     prospect NON avec une économie viable en scénario prudent doit
-     pouvoir atteindre GOOD_FIT/PRIORITY au même titre qu'un prospect OUI
-     bien qualifié. Seuils inchangés (PRIORITY/GOOD_FIT/NURTURE).
+     LEAD SCORING v3 (2026-09-25, revue Codex P1.4) — transparent,
+     pondérations documentées dans coordination/AUDIT_LEAD_ENGINE.md.
+     Chaque signal est un booléen nommé, le score est une somme simple.
+
+     CORRECTIF v2 (P1.4 initial) : v1 plafonnait structurellement la
+     branche NON à 25 points, sous GOOD_FIT=35. v2 a ajouté des signaux
+     dérivés du simulateur économique (P1.3) pour la branche NON.
+
+     CORRECTIF v3 (revue Codex) : v2 gardait deux signaux que la SPEC
+     invalide explicitement et qu'on a retirés du calcul :
+     - "établi = a un site web" (established_business, +5) : la SPEC dit
+       noir sur blanc "un site web n'est pas une preuve suffisante
+       d'entreprise établie". Le site reste collecté (utile pour Alexander)
+       mais n'est plus un signal de score.
+     - "ne connaît pas son CAC" traité comme signal de QUALITÉ (+20) : la
+       SPEC dit "l'absence de CAC est un angle de diagnostic, pas une
+       preuve de qualité commerciale". Le signal reste enregistré (utile
+       pour savoir quoi vérifier au rendez-vous) mais ne rapporte plus de
+       points — l'ignorance n'est pas en soi une preuve que le prospect
+       est un bon client.
+     v3 les remplace par les vrais critères commerciaux listés en P1.4 :
+     décisionnaire ou accès au décisionnaire, capacité d'assumer la
+     gestion des nouveaux leads, besoin dans les 90 jours (3 questions
+     facultatives ajoutées au formulaire de rendez-vous, communes aux
+     deux parcours). "Entreprise en activité" et "service/zone desservis"
+     restent des vérifications qu'Alexander fait au rendez-vous — un nom
+     d'entreprise ou un métier auto-déclarés dans un formulaire ne
+     constituent pas une vérification, donc pas de signal chiffré pour
+     ces deux critères ici (pas de fausse précision).
+     Seuils inchangés (PRIORITY/GOOD_FIT/NURTURE).
      ============================================================ */
   var SCORE_WEIGHTS = {
     google_ads_active: 30, spend_1000_2000: 8, spend_2000_5000: 15, spend_5000_10000: 20,
-    spend_10000_plus: 25, agency_or_freelancer_managed: 15, unknown_customer_acquisition_cost: 20,
-    high_value_sector: 10, established_business: 5, high_budget_intent_no_ads: 10,
-    viable_economics_prudent: 25, viable_economics_central: 15, contract_value_and_margin_known: 10
+    spend_10000_plus: 25, agency_or_freelancer_managed: 15,
+    high_value_sector: 10, high_budget_intent_no_ads: 10,
+    viable_economics_prudent: 25, viable_economics_central: 15, contract_value_and_margin_known: 10,
+    decision_maker_direct: 15, decision_maker_access: 8,
+    management_capacity_ok: 10, urgency_90_days: 12
   };
   var TIER_THRESHOLDS = { PRIORITY: 65, GOOD_FIT: 35, NURTURE: 15 };
 
@@ -1555,7 +1653,7 @@
         signals.push('agency_or_freelancer_managed'); score += SCORE_WEIGHTS.agency_or_freelancer_managed;
       }
       if (sel.cac === 'non' || sel.cac === 'pas_certain') {
-        signals.push('unknown_customer_acquisition_cost'); score += SCORE_WEIGHTS.unknown_customer_acquisition_cost;
+        signals.push('unknown_customer_acquisition_cost'); // enregistré, non chiffré (voir commentaire ci-dessus)
       }
     } else {
       if (sel.budget >= 2000) { signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads; }
@@ -1570,16 +1668,24 @@
       }
     }
     if (DATA[sel.m] && DATA[sel.m].highValue) { signals.push('high_value_sector'); score += SCORE_WEIGHTS.high_value_sector; }
-    if (siteWeb && siteWeb.trim()) { signals.push('established_business'); score += SCORE_WEIGHTS.established_business; }
+    if (siteWeb && siteWeb.trim()) { signals.push('website_provided'); } // informatif seulement, non chiffré
+    if (sel.qDecideur === 'decideur') { signals.push('decision_maker_direct'); score += SCORE_WEIGHTS.decision_maker_direct; }
+    else if (sel.qDecideur === 'acces') { signals.push('decision_maker_access'); score += SCORE_WEIGHTS.decision_maker_access; }
+    if (sel.qCapacite === 'oui') { signals.push('management_capacity_ok'); score += SCORE_WEIGHTS.management_capacity_ok; }
+    if (sel.qUrgence === '90j') { signals.push('urgency_90_days'); score += SCORE_WEIGHTS.urgency_90_days; }
 
     var tier = score >= TIER_THRESHOLDS.PRIORITY ? 'PRIORITY' : score >= TIER_THRESHOLDS.GOOD_FIT ? 'GOOD_FIT' : score >= TIER_THRESHOLDS.NURTURE ? 'NURTURE' : 'LOW_FIT';
     var reasonParts = [];
     if (signals.indexOf('google_ads_active') > -1) reasonParts.push('fait déjà de la pub Google Ads');
     if (signals.indexOf('agency_or_freelancer_managed') > -1) reasonParts.push('géré par ' + (sel.gestion === 'agence' ? 'une agence' : 'un freelancer'));
-    if (signals.indexOf('unknown_customer_acquisition_cost') > -1) reasonParts.push('ne connaît pas son coût par client signé');
+    if (signals.indexOf('unknown_customer_acquisition_cost') > -1) reasonParts.push('ne connaît pas son coût par client signé (angle de diagnostic, pas un signal de qualité)');
     if (signals.indexOf('viable_economics_prudent') > -1) reasonParts.push('économie rentable même en scénario prudent');
     if (signals.indexOf('viable_economics_central') > -1) reasonParts.push('économie rentable en scénario central');
     if (signals.indexOf('contract_value_and_margin_known') > -1) reasonParts.push('connaît sa valeur de contrat et sa marge');
+    if (signals.indexOf('decision_maker_direct') > -1) reasonParts.push('décisionnaire direct');
+    else if (signals.indexOf('decision_maker_access') > -1) reasonParts.push('accès au décisionnaire');
+    if (signals.indexOf('management_capacity_ok') > -1) reasonParts.push('capacité de gérer de nouveaux leads');
+    if (signals.indexOf('urgency_90_days') > -1) reasonParts.push('besoin dans les 90 jours');
     if (signals.indexOf('high_value_sector') > -1) reasonParts.push('secteur à forte valeur de contrat');
     return { score:score, tier:tier, signals:signals, reason: reasonParts.length ? reasonParts.join(', ') : 'signaux faibles — prospect à nurturer' };
   }
@@ -1733,6 +1839,18 @@
     openCalendly(this, 'calFallbackManual', { name: this.dataset.name || '', email: this.dataset.email || '' });
   });
 
+  /* Qualification commerciale (SPEC P1.4) — facultatif, ne bloque jamais
+     l'envoi du formulaire. */
+  [['qDecideurRow','qDecideur'], ['qCapaciteRow','qCapacite'], ['qUrgenceRow','qUrgence']].forEach(function(pair){
+    var rowId = pair[0], field = pair[1];
+    document.querySelectorAll('#' + rowId + ' .choice-pill').forEach(function(c){
+      c.addEventListener('click', function(){
+        document.querySelectorAll('#' + rowId + ' .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
+        this.classList.add('sel'); sel[field] = this.dataset.v;
+      });
+    });
+  });
+
   /* ============================================================
      SOUMISSION — formulaire principal (gate)
      ============================================================ */
@@ -1781,6 +1899,8 @@
       sim_cac_media_central: simC && simC.cacMedia != null ? Math.round(simC.cacMedia) : '',
       sim_cac_complet_next_central: simC && simC.cacCompletNext != null ? Math.round(simC.cacCompletNext) : '',
       sim_marge_apres_next_central: simC && simC.margeNext != null ? Math.round(simC.margeNext) : '',
+      sim_capacite_depense: simData ? (simData.capacity.capped ? 'plafonnée par la demande' : simData.capacity.capacityKnown ? 'ok' : 'inconnue') : '',
+      qual_decideur: sel.qDecideur || '', qual_capacite_gestion: sel.qCapacite || '', qual_urgence_90j: sel.qUrgence || '',
       lead_score: scoring.score, lead_tier: scoring.tier,
       lead_signals: scoring.signals.join(','), lead_reason: scoring.reason,
       page_source: window.location.href, form_name: 'audit-p0'
