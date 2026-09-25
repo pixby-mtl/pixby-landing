@@ -479,14 +479,14 @@
         <div class="badge-soft badge" style="margin-bottom:14px;">Volume estimé de recherches, moyenne historique</div>
         <div class="tiles" style="margin-bottom:14px;">
           <div class="tile t1">
-            <div class="tile-tag">Recherches Google / mois (Québec)</div>
-            <div class="tile-val" id="tVol"></div>
-            <div class="tile-sub">moyenne historique — des recherches, pas des personnes uniques</div>
+            <div class="tile-tag">Mots-clés retenus (Québec) — source Keyword Planner</div>
+            <div class="tile-val" id="tVol" style="font-size:1.3rem;"></div>
+            <div class="tile-sub">Total non affiché : sans le regroupement officiel de variantes proches de Google, une somme serait potentiellement inexacte. Détail vérifiable ligne par ligne ci-dessous.</div>
           </div>
           <div class="tile t2">
-            <div class="tile-tag">Valeur moyenne d'un contrat</div>
+            <div class="tile-tag">Valeur moyenne d'un contrat — estimation interne Pixby</div>
             <div class="tile-val" id="tValue"></div>
-            <div class="tile-sub">ballpark une fois le client signé — ton secteur, Québec</div>
+            <div class="tile-sub">Non sourcé Keyword Planner : ballpark Alexander à partir de dossiers similaires, à valider avec toi au rendez-vous — pas une donnée Google.</div>
           </div>
         </div>
         <p class="limit-note" id="provinceNote"></p>
@@ -630,17 +630,26 @@
      DONNÉES MARCHÉ — Google Ads Keyword Planner, Québec (20123), FR.
      KW_AS_OF : date des données. Rafraîchie manuellement le 2026-09-24 via
      ~/pixby-ads-api/keyword_data_audit.py (réel, Google Ads API).
-     NETTOYAGE P0 (2026-09-24) : retrait des mots-clés hors intention de service
-     (matériaux/produits/DIY) et des variantes quasi identiques additionnées sans
-     dédoublonnage réel (même volume rapporté par Google). Liste volontairement
-     plus courte mais honnête ; P1 reprend une dédup propre via keyword_data_audit.py.
+     NETTOYAGE P0 (2026-09-24, revu 2026-09-25 suite revue Codex) : retrait des
+     mots-clés hors intention de service (matériaux/produits/DIY) et des
+     variantes LEXICALES quasi identiques à volume identique (ex. "plombier"/
+     "plomberie", "air climatisé"/"air climatisation") retirées manuellement.
+     Ce n'est PAS un dédoublonnage vérifié par le regroupement officiel de
+     variantes proches de Google (P1 reprend ça proprement via
+     keyword_data_audit.py) — c'est pourquoi aucun total sommé n'est affiché
+     au visiteur (voir tVol), seulement le détail par mot-clé et un compte de
+     lignes retenues. Liste volontairement plus courte mais honnête.
      Format kws : [mot-clé, recherches/mois, enchère basse $, enchère haute $]
      (bornes = "Top of page bid" Google, PAS un CPC observé ni un prix garanti)
+     "avgValue" (valeur moyenne d'un contrat) N'EST PAS une donnée Keyword
+     Planner : c'est une estimation interne Pixby, affichée avec ce label
+     explicite dans l'UI pour ne jamais être confondue avec les données
+     sourcées Google.
      ============================================================ */
   var KW_AS_OF = 'septembre 2026';
   var DATA = {
     toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.2,24.17],["couvreur",1300,4.87,20.21]] },
-    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.53,11.19],["plomberie",8100,2.02,7.92],["plombier à proximité",4400,2.07,10.32],["plombier expert",1900,1.89,7.88],["plomberie rive sud",1300,2.09,12.08]] },
+    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.53,11.19],["plombier à proximité",4400,2.07,10.32],["plombier expert",1900,1.89,7.88],["plomberie rive sud",1300,2.09,12.08]] },
     hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.07,11.16],["air climatisé",9900,0.67,10.08]] },
     electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.4],["reparation electromenager autour de moi",1900,0.92,3.36],["réparation laveuse",1600,1.31,7.11]] },
     electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true,  kws:[["électricien",8100,2.86,11.61],["panneau électrique",1900,0.18,4.98],["électricien à proximité",1600,3.54,12.0],["electricien autour de moi",1300,2.27,9.61],["maitre electricien",720,2.65,10.61]] },
@@ -780,7 +789,18 @@
     window.scrollTo(0,0);
     focusHeading(id);
   }
+  /* Anti-course : un clic rapide (double-clic mobile, changement d'avis)
+     annule le déclenchement précédent au lieu d'empiler deux avancées. */
+  var pendingAdvanceTimer = null;
+  function cancelPendingAdvance(){
+    if (pendingAdvanceTimer) { clearTimeout(pendingAdvanceTimer); pendingAdvanceTimer = null; }
+  }
+  function scheduleAdvance(delay){
+    cancelPendingAdvance();
+    pendingAdvanceTimer = setTimeout(function(){ pendingAdvanceTimer = null; nextStep(); }, delay);
+  }
   function goToStep(i){
+    cancelPendingAdvance();
     while (i < seq.length && shouldSkip(seq[i])) i++;
     stepIdx = i;
     if (i >= seq.length) {
@@ -795,11 +815,13 @@
     goToStep(stepIdx+1);
   }
   function goBack(){
+    cancelPendingAdvance();
     if (stepIdx <= 0) {
       seq = []; stepIdx = 0;
       document.getElementById('heroTop').style.display = '';
       document.getElementById('progress').innerHTML = '';
       document.getElementById('progressLabel').textContent = '';
+      document.querySelectorAll('#step0 .choice-big').forEach(function(b){ b.disabled = false; });
       showStep('step0');
       return;
     }
@@ -811,9 +833,28 @@
   }
   document.getElementById('backBtn').addEventListener('click', goBack);
 
-  /* step0 — Google Ads oui/non */
+  /* Repart d'un état propre quand on (re)choisit la branche OUI/NON : un
+     changement de parcours après un Retour ne doit garder AUCUNE réponse
+     de la branche abandonnée (ex. CAC déclaré côté OUI qui fuiterait dans
+     le lead de la branche NON). */
+  function resetBranchState(){
+    sel.m = null; sel.metierLabel = null; sel.manualPath = false; sel.r = null;
+    sel.budget = 1000; sel.budgetActuel = null; sel.gestion = null;
+    sel.cac = null; sel.cacAmount = ''; sel.cacPeriod = null;
+    document.querySelectorAll('.m-card.sel, .r-pill.sel, .choice-pill.sel').forEach(function(x){ x.classList.remove('sel'); });
+    var budgetInput = document.getElementById('budget');
+    if (budgetInput) { budgetInput.value = 1000; document.getElementById('budgetVal').textContent = '1 000'; }
+    var cacAmountInput = document.getElementById('cacAmount');
+    if (cacAmountInput) cacAmountInput.value = '';
+  }
+
+  /* step0 — Google Ads oui/non. Boutons désactivés après le premier clic
+     pour éviter qu'un double-tap déclenche les deux branches. */
   document.querySelectorAll('#step0 .choice-big').forEach(function(c){
     c.addEventListener('click', function(){
+      if (this.disabled) return;
+      document.querySelectorAll('#step0 .choice-big').forEach(function(b){ b.disabled = true; });
+      resetBranchState();
       sel.hasAds = this.dataset.ads;
       dl({ event: sel.hasAds === 'oui' ? 'google_ads_yes' : 'google_ads_no' });
       dl({ event:'audit_started' });
@@ -834,7 +875,7 @@
       sel.m = this.dataset.m;
       sel.metierLabel = this.textContent.trim();
       sel.manualPath = !DATA[sel.m];
-      setTimeout(nextStep, 220);
+      scheduleAdvance(220);
     });
   });
 
@@ -843,7 +884,7 @@
     c.addEventListener('click', function(){
       document.querySelectorAll('.r-pill').forEach(function(x){ x.classList.remove('sel'); });
       this.classList.add('sel'); sel.r = this.dataset.r;
-      setTimeout(nextStep, 220);
+      scheduleAdvance(220);
     });
   });
 
@@ -852,7 +893,7 @@
     c.addEventListener('click', function(){
       document.querySelectorAll('#budgetActuelRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
       this.classList.add('sel'); sel.budgetActuel = this.dataset.v;
-      setTimeout(nextStep, 220);
+      scheduleAdvance(220);
     });
   });
 
@@ -861,7 +902,7 @@
     c.addEventListener('click', function(){
       document.querySelectorAll('#gestionRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
       this.classList.add('sel'); sel.gestion = this.dataset.v;
-      setTimeout(nextStep, 220);
+      scheduleAdvance(220);
     });
   });
 
@@ -870,7 +911,7 @@
     c.addEventListener('click', function(){
       document.querySelectorAll('#cacRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
       this.classList.add('sel'); sel.cac = this.dataset.v;
-      setTimeout(nextStep, 220);
+      scheduleAdvance(220);
     });
   });
 
@@ -912,6 +953,7 @@
      ÉDITER MES RÉPONSES — retour au début du parcours en gardant sel
      ============================================================ */
   function editAnswers(){
+    cancelPendingAdvance();
     document.getElementById('results').style.display = 'none';
     document.getElementById('manual').style.display = 'none';
     document.getElementById('heroTop').style.display = '';
@@ -974,6 +1016,7 @@
             '<div><div class="k">Géré par</div><div class="v">' + esc(GESTION_LABELS[sel.gestion] || '') + '</div></div>' +
           '</div></div>' +
         '<div class="card measure-block"><div class="eyebrow" style="color:var(--orange);">Le vrai chiffre qui compte</div><p class="msg">' + cacLine + '</p>' +
+          '<p class="fine"><strong>Définition :</strong> le CAC (coût d’acquisition client), c’est le coût total — média + gestion — divisé par le nombre de clients réellement <u>signés</u>. Jamais un coût par lead, jamais un coût par clic, peu importe la période choisie.</p>' +
           '<p class="fine">Aucune note de santé de compte n\'est calculée sans données vérifiées.</p></div>' +
         '<div class="cards-3">' + renderCardsA() + '</div>';
       document.getElementById('agendaList').innerHTML =
@@ -1029,7 +1072,7 @@
     document.getElementById('resultsBody').appendChild(ctaWrap);
     bindMainCta();
 
-    document.getElementById('tVol').textContent = '~' + fmt(calc.volTot);
+    document.getElementById('tVol').textContent = calc.d.kws.length + (calc.d.kws.length > 1 ? ' mots-clés retenus' : ' mot-clé retenu');
     document.getElementById('tValue').textContent = moneyRange(calc.valLow, calc.valHigh);
     document.getElementById('provinceNote').textContent = 'Donnée disponible : Québec (province). Repère utilisé faute de données locales suffisantes pour ' + (REGIONS[sel.r] || 'ta zone') + ' — ta zone reste enregistrée pour l’étude.';
     document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + '). Liste réduite en P0 pour retirer les mots-clés hors intention de service.';
@@ -1045,7 +1088,9 @@
       'Estimations basées sur les données Google Ads Keyword Planner (Québec, ' + KW_AS_OF + '). ' +
       'Le volume est une moyenne historique de recherches, pas un compteur en direct ni un nombre de personnes. ' +
       'Les enchères affichées sont la plage de haut de page Google (Top of page bid), pas un CPC observé ni un prix garanti du clic. ' +
-      'Aucun nombre de leads ou de clients n’est projeté tant qu’un CPC réel ou un forecast Google Ads n’a pas été validé.';
+      'Aucun nombre de leads ou de clients n’est projeté tant qu’un CPC réel ou un forecast Google Ads n’a pas été validé. ' +
+      'Les variantes lexicales quasi identiques à volume identique ont été retirées manuellement (ex. « plombier »/« plomberie »), mais sans le regroupement officiel de variantes proches de Google — un total resterait potentiellement inexact, d’où l’absence de somme affichée ; seul le détail par mot-clé ci-dessous est garanti fidèle aux données extraites. ' +
+      'La « valeur moyenne d’un contrat » est une estimation interne Pixby (non issue de Keyword Planner), à valider avec toi.';
 
     dl({ event:'audit_results_viewed' });
     window.scrollTo(0,0);
@@ -1180,6 +1225,21 @@
      Prefill nom + courriel uniquement (mapping du champ téléphone
      "a1" non vérifié — voir SPEC P0.3, ne pas présumer). Fallback
      lien externe si le script ne charge pas.
+
+     LIEN RÉSERVATION ↔ LEAD (revue Codex 2026-09-25) : on fait passer
+     AUDIT_ID dans utm_term, un mécanisme UTM natif et documenté de
+     Calendly (contrairement à une question personnalisée "a1" devinée),
+     qui remonte dans les données de tracking de la réservation. Ce champ
+     est aussi envoyé tel quel dans le lead GHL (voir submitLead) : le
+     rapprochement se fait donc par égalité d'AUDIT_ID entre le contact
+     GHL et la réservation Calendly. Limite assumée : ça écrase le vrai
+     utm_term (mot-clé Ads) éventuel de la visite sur CE lien Calendly
+     précis — sans impact sur le lead GHL, dont le vrai utm_term reste
+     intact. Un rapprochement automatique complet (webhook Calendly
+     invitee.created) nécessite un forfait Professional+ et n'a pas pu
+     être confirmé pour ce compte depuis cet environnement — voir le
+     rapport de test pour le détail. Renommer l'événement Calendly en
+     français est un réglage du compte Calendly, PAS modifiable ici.
      ============================================================ */
   var calendlyLoading = null;
   var bookingConfirmed = false;
@@ -1202,7 +1262,12 @@
     if (!e.data || typeof e.data.event !== 'string' || e.data.event.indexOf('calendly.') !== 0) return;
     if (e.data.event === 'calendly.event_scheduled' && !bookingConfirmed) {
       bookingConfirmed = true;
-      dl({ event:'booking_completed' });
+      var payload = e.data.payload || {};
+      dl({
+        event:'booking_completed',
+        calendly_event_uri: (payload.event && payload.event.uri) || '',
+        calendly_invitee_uri: (payload.invitee && payload.invitee.uri) || ''
+      });
     }
   });
   function openCalendly(btnEl, fallbackId, prefill){
@@ -1210,7 +1275,8 @@
     loadCalendlyScript().then(function(Calendly){
       var url = CALENDLY_URL + '?utm_source=' + encodeURIComponent(UTM.first.utm_source||'') +
                 '&utm_medium=' + encodeURIComponent(UTM.first.utm_medium||'') +
-                '&utm_campaign=' + encodeURIComponent(UTM.first.utm_campaign||'');
+                '&utm_campaign=' + encodeURIComponent(UTM.first.utm_campaign||'') +
+                '&utm_term=' + encodeURIComponent(AUDIT_ID);
       Calendly.initPopupWidget({ url: url, prefill: prefill || {} });
     }).catch(function(){
       document.getElementById(fallbackId).style.display = 'block';
@@ -1257,7 +1323,8 @@
       current_ads_manager: sel.hasAds === 'oui' ? (GESTION_LABELS[sel.gestion] || '') : '',
       knows_cac: sel.hasAds === 'oui' ? (CAC_LABELS[sel.cac] || '') : '',
       cac_declared_amount: sel.cacAmount || '', cac_declared_period: sel.cacPeriod ? CAC_PERIOD_LABELS[sel.cacPeriod] : '',
-      audit_volume_qc: calc.volTot != null ? ('~' + fmt(calc.volTot) + ' recherches/mois (Québec)') : '',
+      audit_volume_qc: calc.volTot != null ? ('~' + fmt(calc.volTot) + ' recherches/mois (Québec, BRUT non dédupliqué — usage interne, pas pour le prospect)') : '',
+      audit_kw_count: calc.d ? calc.d.kws.length : '',
       lead_score: scoring.score, lead_tier: scoring.tier,
       lead_signals: scoring.signals.join(','), lead_reason: scoring.reason,
       page_source: window.location.href, form_name: 'audit-p0'
