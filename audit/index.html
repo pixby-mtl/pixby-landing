@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audit Google Ads instantané — Pixby | Ton marché en 60 secondes</title>
-  <meta name="description" content="Découvre en 60 secondes combien de clients cherchent tes services sur Google au Québec : volumes réels, CPC de ton marché, potentiel de leads. Gratuit.">
+  <title>Audit Google Ads — Pixby | Ton marché réel au Québec</title>
+  <meta name="description" content="Un prédiagnostic si tu fais déjà Google Ads, une étude de demande si tu n'en fais pas encore. Données réelles Google, sans jargon.">
   <link rel="canonical" href="https://ads.pixby.ca/audit/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ads.pixby.ca/audit/">
-  <meta property="og:title" content="Audit Google Ads instantané — combien de clients te cherchent ?">
-  <meta property="og:description" content="Données réelles Google : volumes de recherche, CPC et potentiel de leads pour ton métier au Québec. Gratuit, 60 secondes.">
+  <meta property="og:title" content="Tes Google Ads peuvent-ils te rapporter des clients rentables ?">
+  <meta property="og:description" content="Prédiagnostic ou étude de demande, selon où tu en es. Données réelles Google, Québec.">
   <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
   <meta property="og:locale" content="fr_CA">
   <meta property="og:site_name" content="Pixby">
@@ -50,7 +50,7 @@
       --yellow: #F7BE2C;
       --offwhite: #F5F1EA; --grey: #BDC5D6;
       --dark: #253858; --deep: #0b1623; --deep2: #111c2b;
-      --white: #FFFFFF; --green: #16a34a;
+      --white: #FFFFFF; --green: #16a34a; --red: #ef4444;
       --glass: rgba(255,255,255,.06); --glass-b: rgba(255,255,255,.10);
       --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 32px;
       --ff-d: 'Space Grotesk', sans-serif; --ff-b: 'Instrument Sans', sans-serif;
@@ -61,6 +61,13 @@
       background: var(--deep); line-height: 1.6;
       -webkit-font-smoothing: antialiased; overflow-x: hidden;
       min-height: 100vh;
+    }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    :focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
     }
 
     .nav { position: fixed; top:0; left:0; right:0; z-index:500; background: rgba(11,22,35,.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
@@ -79,11 +86,16 @@
     }
     .badge .dot { width:7px; height:7px; border-radius:50%; background: var(--green); animation: pulse 1.6s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .badge-soft { background: rgba(255,255,255,.07); border:1px solid var(--glass-b); color:rgba(255,255,255,.7); }
+    .badge-soft.warn { background: rgba(245,93,53,.1); border-color: rgba(245,93,53,.3); color: var(--orange); }
 
-    /* progression (nouveau) */
-    .progress { display:flex; gap:6px; margin-bottom:22px; }
+    .progress { display:flex; gap:6px; margin-bottom:8px; }
     .progress i { display:block; height:4px; flex:1; border-radius:999px; background:var(--glass-b); transition:background .25s; }
     .progress i.done { background:var(--teal); }
+    .progress-label { font-size:.76rem; color:rgba(255,255,255,.4); margin-bottom:18px; }
+
+    #backBtn { display:none; background:transparent; border:none; color:rgba(255,255,255,.5); font-family:var(--ff-b); font-weight:600; font-size:.85rem; cursor:pointer; margin-bottom:14px; padding:8px 4px; min-height:44px; }
+    #backBtn:hover { color:#fff; }
 
     h1 { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.9rem,4.6vw,3.1rem); line-height:1.12; letter-spacing:-.01em; max-width:760px; }
     h1 .hl { color: var(--yellow); }
@@ -92,10 +104,9 @@
     h2.q-title { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.3rem,3vw,1.8rem); line-height:1.2; max-width:640px; margin-bottom:6px; }
     p.q-sub { font-size:.92rem; color:rgba(255,255,255,.5); max-width:560px; margin-bottom:26px; }
 
-    /* ── PANEL générique (chaque étape du wizard) ── */
     .panel {
       background: var(--deep2); border:1px solid var(--glass-b);
-      border-radius: var(--r-lg); padding: 34px; margin-top: 40px;
+      border-radius: var(--r-lg); padding: 34px; margin-top: 24px;
     }
     .step-section { display:none; }
     .step-section.active { display:block; }
@@ -109,6 +120,7 @@
       background: var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-md);
       padding:16px 14px; cursor:pointer; transition:all .18s; color:rgba(255,255,255,.85);
       font-family:var(--ff-b); font-size:.88rem; font-weight:600; text-align:left;
+      min-height:44px;
     }
     .m-card svg { width:22px; height:22px; stroke:var(--teal); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
     .m-card:hover { border-color:var(--teal); transform:translateY(-2px); }
@@ -117,18 +129,17 @@
     .region-row { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:6px; }
     .r-pill, .choice-pill {
       background:var(--glass); border:1px solid var(--glass-b); border-radius:999px;
-      padding:9px 18px; cursor:pointer; color:rgba(255,255,255,.8);
+      padding:12px 18px; cursor:pointer; color:rgba(255,255,255,.8); min-height:44px;
       font-family:var(--ff-b); font-size:.86rem; font-weight:600; transition:all .18s;
     }
     .r-pill:hover, .choice-pill:hover { border-color:var(--teal); }
     .r-pill.sel, .choice-pill.sel { background:rgba(26,155,176,.16); border-color:var(--teal); color:#fff; box-shadow:0 0 0 1px var(--teal); }
 
-    /* choix binaires / listes verticales (step0, gestion, cac) */
     .choice-stack { display:flex; flex-direction:column; gap:10px; margin-bottom:6px; max-width:460px; }
     .choice-big {
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       background:var(--glass); border:1.5px solid var(--glass-b); border-radius:var(--r-md);
-      padding:20px 22px; cursor:pointer; transition:all .18s;
+      padding:20px 22px; cursor:pointer; transition:all .18s; min-height:44px;
       font-family:var(--ff-d); font-weight:700; font-size:1.05rem; color:#fff;
     }
     .choice-big:hover { border-color:var(--teal); transform:translateY(-1px); }
@@ -145,119 +156,130 @@
     .btn {
       display:inline-block; background:var(--orange); color:#fff; border:none; cursor:pointer;
       font-family:var(--ff-b); font-weight:700; font-size:1rem; letter-spacing:.01em;
-      padding:16px 34px; border-radius:var(--r-sm); text-decoration:none;
+      padding:16px 34px; border-radius:var(--r-sm); text-decoration:none; min-height:44px;
       transition:all .2s; box-shadow:0 4px 16px rgba(245,93,53,.22);
     }
     .btn:hover:not(:disabled) { background:var(--orange-dk); transform:translateY(-1px); box-shadow:0 8px 24px rgba(245,93,53,.3); }
-    .btn:disabled { opacity:.4; cursor:default; }
+    .btn:disabled { opacity:.5; cursor:default; }
     .btn-ghost { background:transparent; box-shadow:none; color:rgba(255,255,255,.55); font-weight:600; padding:16px 10px; }
     .btn-ghost:hover:not(:disabled) { background:transparent; color:#fff; transform:none; box-shadow:none; }
     .btn-hint { font-size:.8rem; color:rgba(255,255,255,.4); margin-top:14px; }
-    .step-actions { display:flex; align-items:center; gap:14px; margin-top:22px; }
+    .step-actions { display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap; }
 
     /* ── SCAN ── */
-    #scan { display:none; text-align:center; padding:70px 20px; }
-    .scan-ring { width:64px; height:64px; margin:0 auto 30px; border-radius:50%; border:3px solid rgba(26,155,176,.2); border-top-color:var(--teal); animation:spin .9s linear infinite; }
+    #scan { display:none; text-align:center; padding:60px 20px; }
+    .scan-ring { width:56px; height:56px; margin:0 auto 26px; border-radius:50%; border:3px solid rgba(26,155,176,.2); border-top-color:var(--teal); animation:spin .9s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
-    .scan-step { font-size:1rem; color:rgba(255,255,255,.45); margin:12px 0; transition:color .3s; display:flex; align-items:center; justify-content:center; gap:10px; }
+    .scan-step { font-size:.95rem; color:rgba(255,255,255,.45); margin:10px 0; transition:color .3s; display:flex; align-items:center; justify-content:center; gap:10px; }
     .scan-step.done { color:#fff; }
     .scan-step .chk { opacity:0; color:var(--green); font-weight:700; }
     .scan-step.done .chk { opacity:1; }
 
     /* ── RÉSULTATS ── */
-    #results { display:none; }
-    .res-head { margin:46px 0 26px; }
+    #results, #manual { display:none; }
+    .res-head { margin:10px 0 22px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; }
     .res-head h2 { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.5rem,3.4vw,2.2rem); }
-    .res-head h2 span { color:var(--teal); }
     .res-head p { color:rgba(255,255,255,.55); margin-top:6px; font-size:.95rem; }
+    .edit-answers { font-size:.82rem; color:var(--teal); background:none; border:none; cursor:pointer; text-decoration:underline; padding:10px 2px; min-height:44px; }
 
-    /* callout angle CAC (nouveau, branche OUI) */
-    .cac-callout {
-      background:linear-gradient(135deg, rgba(245,93,53,.14), rgba(247,190,44,.08));
-      border:1px solid rgba(245,93,53,.35); border-radius:var(--r-md);
-      padding:22px 24px; margin-bottom:22px;
-    }
-    .cac-callout p.eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--orange); margin-bottom:8px; }
-    .cac-callout p.msg { font-family:var(--ff-d); font-weight:700; font-size:1.15rem; line-height:1.35; }
-    .cac-callout p.msg .hl { color:var(--yellow); }
+    .card { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:24px 24px; margin-bottom:14px; }
+    .card .eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:10px; }
+    .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+    .summary-grid div .k { font-size:.72rem; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.07em; margin-bottom:4px; }
+    .summary-grid div .v { font-family:var(--ff-d); font-weight:700; font-size:1.02rem; }
 
-    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
-    .tile {
-      background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md);
-      padding:26px 24px; position:relative; overflow:hidden;
-    }
+    .measure-block { background:linear-gradient(135deg, rgba(245,93,53,.14), rgba(247,190,44,.08)); border:1px solid rgba(245,93,53,.35); }
+    .measure-block .msg { font-family:var(--ff-d); font-weight:700; font-size:1.1rem; line-height:1.4; }
+    .measure-block .msg .hl { color:var(--yellow); }
+    .measure-block .fine { font-size:.78rem; color:rgba(255,255,255,.5); margin-top:10px; }
+
+    .cards-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:14px; }
+    .action-card { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:20px 20px; }
+    .action-card .num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:7px; background:var(--teal); color:#fff; font-family:var(--ff-d); font-size:.75rem; font-weight:700; margin-bottom:12px; }
+    .action-card dl { display:flex; flex-direction:column; gap:8px; }
+    .action-card dt { font-size:.66rem; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.4); }
+    .action-card dd { font-size:.86rem; color:rgba(255,255,255,.85); }
+
+    .steps-3 { list-style:none; }
+    .steps-3 li { display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--glass-b); }
+    .steps-3 li:last-child { border-bottom:none; }
+    .steps-3 .num { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:8px; background:var(--teal); color:#fff; font-family:var(--ff-d); font-size:.8rem; font-weight:700; flex-shrink:0; }
+
+    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .tile { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:24px 22px; position:relative; overflow:hidden; }
     .tile::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
-    .tile.t1::before { background:var(--teal); } .tile.t2::before { background:var(--yellow); } .tile.t3::before { background:var(--orange); }
-    .tile-tag { font-size:.66rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:10px; }
-    .tile-val { font-family:var(--ff-d); font-weight:800; font-size:2rem; line-height:1.1; }
-    .tile.t1 .tile-val { color:var(--teal); } .tile.t2 .tile-val { color:var(--yellow); } .tile.t3 .tile-val { color:var(--orange); }
-    .tile-sub { font-size:.82rem; color:rgba(255,255,255,.5); margin-top:8px; }
+    .tile.t1::before { background:var(--teal); } .tile.t2::before { background:var(--orange); }
+    .tile-tag { font-size:.64rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:10px; }
+    .tile-val { font-family:var(--ff-d); font-weight:800; font-size:1.7rem; line-height:1.15; }
+    .tile.t1 .tile-val { color:var(--teal); } .tile.t2 .tile-val { color:var(--orange); }
+    .tile-sub { font-size:.8rem; color:rgba(255,255,255,.5); margin-top:8px; }
 
-    .sim { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:26px 24px; margin-top:14px; }
-    .sim-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-    .sim-label { font-size:.9rem; color:rgba(255,255,255,.65); font-weight:600; }
-    .sim-out { font-family:var(--ff-d); font-weight:800; font-size:1.35rem; color:var(--green); }
+    .limit-note { font-size:.82rem; color:rgba(255,255,255,.55); background:var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:12px 16px; margin-top:14px; }
 
-    /* table mots-clés */
-    .kw-box { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; position:relative; }
-    .kw-box h3 { font-family:var(--ff-d); font-size:1.02rem; padding:22px 24px 4px; }
-    .kw-box .src { font-size:.75rem; color:rgba(255,255,255,.4); padding:0 24px 14px; }
+    /* market accordion */
+    details.market { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; }
+    details.market > summary { cursor:pointer; padding:18px 22px; font-family:var(--ff-d); font-weight:700; font-size:.95rem; list-style:none; display:flex; justify-content:space-between; align-items:center; min-height:44px; }
+    details.market > summary::-webkit-details-marker { display:none; }
+    details.market > summary::after { content:'+'; font-size:1.3rem; color:rgba(255,255,255,.4); }
+    details.market[open] > summary::after { content:'–'; }
+    .market-body { padding:0 22px 22px; }
+    .market-body .src { font-size:.75rem; color:rgba(255,255,255,.4); margin-bottom:14px; }
     table { width:100%; border-collapse:collapse; font-size:.9rem; }
-    th { text-align:left; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); padding:10px 24px; border-bottom:1px solid var(--glass-b); font-weight:700; }
+    th { text-align:left; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.4); padding:10px 12px; border-bottom:1px solid var(--glass-b); font-weight:700; }
     th:last-child, td:last-child { text-align:right; }
-    td { padding:13px 24px; border-bottom:1px solid rgba(255,255,255,.05); }
+    td { padding:12px; border-bottom:1px solid rgba(255,255,255,.05); }
     td.kw { font-weight:600; }
     td.vol { color:var(--teal); font-weight:700; }
     td.cpc { color:rgba(255,255,255,.7); }
-    tr.blurred td { filter:blur(6px); user-select:none; pointer-events:none; }
-
-    .lock-overlay {
-      position:absolute; left:0; right:0; bottom:0; padding:46px 24px 26px; text-align:center;
-      background:linear-gradient(to bottom, rgba(17,28,43,0), rgba(17,28,43,.96) 55%);
-    }
-    .lock-overlay p { font-size:.9rem; color:rgba(255,255,255,.75); margin-bottom:14px; font-weight:600; }
+    .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
 
     /* ── FORM GATE ── */
     #gate { margin-top:14px; }
-    .gate-card {
-      background:var(--white); color:var(--dark); border-radius:var(--r-lg);
-      padding:36px; max-width:520px;
-    }
+    .gate-card { background:var(--white); color:var(--dark); border-radius:var(--r-lg); padding:36px; max-width:520px; }
     .gate-card h3 { font-family:var(--ff-d); font-weight:800; font-size:1.3rem; margin-bottom:6px; }
-    .gate-card > p { font-size:.85rem; color:#888; margin-bottom:22px; }
+    .gate-card > p { font-size:.85rem; color:#666; margin-bottom:22px; }
     .f-row { margin-bottom:16px; }
     .f-row label { display:block; font-size:.8rem; font-weight:700; margin-bottom:6px; }
     .f-row input {
       width:100%; padding:13px 15px; border:1.5px solid #dde2ea; border-radius:var(--r-sm);
-      font-family:var(--ff-b); font-size:.95rem; color:var(--dark); background:#fafbfc; outline:none; transition:border .2s;
+      font-family:var(--ff-b); font-size:16px; color:var(--dark); background:#fafbfc; outline:none; transition:border .2s;
     }
     .f-row input:focus { border-color:var(--teal); background:#fff; }
+    .f-error { font-size:.76rem; color:var(--red); margin-top:5px; display:none; }
     .f-privacy { font-size:.72rem; color:#999; margin-top:12px; }
     .f-privacy a { color:#999; }
+    .submit-error { display:none; background:#fdecea; border:1px solid #f5b5ae; color:#a3231a; border-radius:var(--r-sm); padding:14px 16px; font-size:.85rem; margin-bottom:14px; }
+    .submit-error a { color:#a3231a; font-weight:700; }
 
-    /* ── POST-UNLOCK ── */
+    /* ── AGENDA / CALENDLY ── */
+    .agenda { background:rgba(26,155,176,.08); border:1px solid rgba(26,155,176,.3); border-radius:var(--r-md); padding:22px 24px; margin-top:14px; }
+    .agenda h4 { font-family:var(--ff-d); font-size:1rem; margin-bottom:10px; }
+    .agenda ul { list-style:none; margin-bottom:10px; }
+    .agenda li { font-size:.88rem; color:rgba(255,255,255,.8); padding:5px 0; display:flex; gap:8px; }
+    .agenda li::before { content:'—'; color:var(--teal); flex-shrink:0; }
+    .agenda .mode { font-size:.8rem; color:rgba(255,255,255,.55); margin-top:8px; }
     #unlocked { display:none; margin-top:26px; }
-    .plan { background:rgba(26,155,176,.08); border:1px solid rgba(26,155,176,.3); border-radius:var(--r-md); padding:28px 26px; }
-    .plan h3 { font-family:var(--ff-d); font-size:1.15rem; margin-bottom:14px; }
-    .plan li { list-style:none; display:flex; gap:10px; margin-bottom:10px; font-size:.93rem; color:rgba(255,255,255,.8); }
-    .plan li::before { content:'✓'; color:var(--green); font-weight:800; }
-    .cal-cta { text-align:center; margin-top:30px; }
+    .cal-cta { text-align:center; margin-top:22px; }
     .cal-cta .btn { font-size:1.05rem; padding:18px 40px; }
     .cal-cta p { font-size:.82rem; color:rgba(255,255,255,.45); margin-top:10px; }
+    .cal-fallback { font-size:.82rem; color:rgba(255,255,255,.5); margin-top:10px; display:none; }
+    .cal-fallback a { color:var(--teal); }
 
-    /* autre métier */
     #manual { display:none; }
+    #manualFormWrap { margin-top:26px; }
 
     footer { border-top:1px solid var(--glass-b); padding:26px 24px; text-align:center; font-size:.78rem; color:rgba(255,255,255,.35); }
     footer a { color:rgba(255,255,255,.5); }
     .disclaimer { font-size:.72rem; color:rgba(255,255,255,.32); margin-top:22px; max-width:720px; }
+    [aria-live] { position:relative; }
 
     @media (max-width:560px) {
-      .panel { padding:24px 18px; }
+      .panel { padding:22px 16px; }
       .metier-grid { grid-template-columns:repeat(2,1fr); }
-      .gate-card { padding:26px 20px; }
-      th, td { padding-left:14px; padding-right:14px; }
+      .gate-card { padding:24px 18px; }
+      th, td { padding-left:10px; padding-right:10px; }
       .choice-big { padding:17px 18px; font-size:.96rem; }
+      .res-head { flex-direction:column; }
     }
   </style>
 </head>
@@ -274,6 +296,7 @@
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 20c0-9 5-14 14-15-1 9-6 14-14 15z"/><path d="M5 20c3-4 6-7 10-9"/></symbol>
   <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></symbol>
   <symbol id="i-case" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-splash" viewBox="0 0 24 24"><path d="M12 3s5 5.5 5 9.5A5 5 0 0 1 7 12.5C7 8.5 12 3 12 3z"/><path d="M18 14s2 2.2 2 3.8a2 2 0 1 1-4 0C16 16.2 18 14 18 14z"/></symbol>
 </svg>
 
 <nav class="nav">
@@ -285,21 +308,40 @@
 
 <div class="wrap">
 
-  <div class="badge"><span class="dot"></span>Audit instantané · Données réelles Google</div>
-  <h1 id="mainH1">Combien de clients te cherchent sur Google <span class="hl">en ce moment</span> ?</h1>
-  <p class="sub" id="mainSub">Réponds à quelques questions. On te montre les vraies données de ton marché au Québec — gratuit, 60 secondes.</p>
+  <div id="heroTop">
+    <div class="badge"><span class="dot"></span>Audit gratuit · Données réelles Google</div>
+    <h1 id="mainH1">Tes Google Ads peuvent-ils te rapporter des <span class="hl">clients rentables</span> ?</h1>
+    <p class="sub" id="mainSub">Réponds à quelques questions. On regarde tes vraies données de marché au Québec — gratuit.</p>
+  </div>
 
+  <button id="backBtn" type="button">← Retour</button>
   <div class="progress" id="progress"></div>
+  <p class="progress-label" id="progressLabel" aria-live="polite"></p>
 
   <!-- STEP 0 — Google Ads actuellement ? -->
   <section class="step-section active" id="step0">
     <div class="panel">
       <div class="q-label"><span class="q-num">1</span>Fais-tu déjà de la publicité Google Ads ?</div>
       <div class="choice-stack">
-        <button class="choice-big" data-ads="oui">Oui, j'en fais déjà <span class="arrow">→</span></button>
-        <button class="choice-big" data-ads="non">Non, pas encore <span class="arrow">→</span></button>
+        <button class="choice-big" data-ads="oui">Je fais déjà Google Ads <span class="arrow">→</span></button>
+        <button class="choice-big" data-ads="non">Je veux savoir si ça vaut la peine <span class="arrow">→</span></button>
       </div>
     </div>
+  </section>
+
+  <!-- INTRO BRANCHE A — déjà sur Ads -->
+  <section class="step-section" id="stepIntroA">
+    <div class="badge-soft badge" style="display:inline-flex;">Prédiagnostic gratuit · Aucun accès au compte à cette étape</div>
+    <h2 class="q-title">Sais-tu combien te coûte un client signé grâce à Google Ads ?</h2>
+    <p class="q-sub">Fais le point sur ce que tu mesures. Puis vérifie avec Alexander les chiffres et les priorités de ton compte.</p>
+    <div class="step-actions"><button class="btn" id="introANext">Continuer →</button></div>
+  </section>
+
+  <!-- INTRO BRANCHE B — pas encore sur Ads -->
+  <section class="step-section" id="stepIntroB">
+    <h2 class="q-title">Avant d'investir, vérifie la demande et le coût maximum d'un client rentable.</h2>
+    <p class="q-sub">Quelques questions sur ton métier et ta zone, puis on regarde ce que Google montre vraiment — sans promesse de rentabilité tant que les chiffres ne sont pas validés.</p>
+    <div class="step-actions"><button class="btn" id="introBNext">Continuer →</button></div>
   </section>
 
   <!-- STEP MÉTIER -->
@@ -314,6 +356,7 @@
         <button class="m-card" data-m="electricien"><svg><use href="#i-zap"/></svg>Électricien</button>
         <button class="m-card" data-m="renovation"><svg><use href="#i-hammer"/></svg>Rénovation</button>
         <button class="m-card" data-m="paysagement"><svg><use href="#i-leaf"/></svg>Paysagement</button>
+        <button class="m-card" data-m="degatseau"><svg><use href="#i-splash"/></svg>Dégâts d'eau</button>
         <button class="m-card" data-m="dentiste"><svg><use href="#i-smile"/></svg>Dentiste / Clinique</button>
         <button class="m-card" data-m="autre"><svg><use href="#i-case"/></svg>Autre PME locale</button>
       </div>
@@ -324,15 +367,16 @@
   <section class="step-section" id="stepRegion">
     <div class="panel">
       <div class="q-label"><span class="q-num">3</span>Ta région</div>
+      <p class="q-sub" style="margin-bottom:14px;">Sert à préparer ton dossier — les volumes affichés restent des données Québec tant qu'on n'a pas assez de données locales.</p>
       <div class="region-row" id="regionRow">
-        <button class="r-pill" data-r="mtl" data-mult="0.50">Grand Montréal</button>
-        <button class="r-pill" data-r="rs" data-mult="0.15">Rive-Sud (Longueuil, Brossard)</button>
-        <button class="r-pill" data-r="lav" data-mult="0.12">Laval / Rive-Nord</button>
-        <button class="r-pill" data-r="qc" data-mult="0.10">Québec / Lévis</button>
-        <button class="r-pill" data-r="gat" data-mult="0.05">Gatineau</button>
-        <button class="r-pill" data-r="sher" data-mult="0.06">Sherbrooke</button>
-        <button class="r-pill" data-r="autre" data-mult="0.07">Autre région</button>
-        <button class="r-pill" data-r="tout" data-mult="1">Tout le Québec</button>
+        <button class="r-pill" data-r="mtl">Grand Montréal</button>
+        <button class="r-pill" data-r="rs">Rive-Sud (Longueuil, Brossard)</button>
+        <button class="r-pill" data-r="lav">Laval / Rive-Nord</button>
+        <button class="r-pill" data-r="qc">Québec / Lévis</button>
+        <button class="r-pill" data-r="gat">Gatineau</button>
+        <button class="r-pill" data-r="sher">Sherbrooke</button>
+        <button class="r-pill" data-r="autre">Autre région</button>
+        <button class="r-pill" data-r="tout">Tout le Québec</button>
       </div>
     </div>
   </section>
@@ -347,6 +391,7 @@
         <button class="choice-pill" data-v="2000-5000">2 000 – 5 000 $</button>
         <button class="choice-pill" data-v="5000-10000">5 000 – 10 000 $</button>
         <button class="choice-pill" data-v="10000plus">10 000 $ et +</button>
+        <button class="choice-pill" data-v="inconnu">Je ne sais pas</button>
       </div>
     </div>
   </section>
@@ -377,6 +422,27 @@
     </div>
   </section>
 
+  <!-- STEP CAC DÉTAIL (facultatif, branche OUI + cac=oui) -->
+  <section class="step-section" id="stepCacDetail">
+    <div class="panel">
+      <div class="q-label"><span class="q-num">7</span>Ton coût par client signé (facultatif)</div>
+      <p class="q-sub" style="margin-bottom:16px;">Ta déclaration sert à préparer la conversation — ce n'est pas une mesure vérifiée à cette étape.</p>
+      <div class="f-row" style="max-width:260px;">
+        <label for="cacAmount">Montant approximatif ($)</label>
+        <input type="number" id="cacAmount" inputmode="decimal" min="0" placeholder="Ex. 850" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+      </div>
+      <div class="choice-row" id="cacPeriodRow" style="margin-top:6px;">
+        <button class="choice-pill" data-v="dernier_client">Dernier client signé</button>
+        <button class="choice-pill" data-v="mensuel">Moyenne mensuelle</button>
+        <button class="choice-pill" data-v="annuel">Moyenne annuelle</button>
+      </div>
+      <div class="step-actions">
+        <button class="btn" id="cacDetailNext">Continuer →</button>
+        <button class="btn btn-ghost" id="cacDetailSkip" type="button">Passer cette étape</button>
+      </div>
+    </div>
+  </section>
+
   <!-- STEP BUDGET POTENTIEL (branche NON) -->
   <section class="step-section" id="stepBudgetPotentiel">
     <div class="panel">
@@ -389,129 +455,165 @@
   </section>
 
   <!-- SCAN -->
-  <section id="scan">
+  <section id="scan" aria-live="polite">
     <div class="scan-ring"></div>
-    <div class="scan-step" id="ss1"><span class="chk">✓</span>Analyse des recherches Google dans ta région…</div>
-    <div class="scan-step" id="ss2"><span class="chk">✓</span>Calcul de la valeur moyenne d'un contrat dans ton secteur…</div>
-    <div class="scan-step" id="ss3"><span class="chk">✓</span>Estimation de ton potentiel de leads…</div>
+    <div class="scan-step" id="ss1"><span class="chk">✓</span>Compilation des données Keyword Planner (Québec)…</div>
+    <div class="scan-step" id="ss2"><span class="chk">✓</span>Préparation de ton résumé…</div>
   </section>
 
   <!-- RÉSULTATS -->
-  <section id="results">
+  <section id="results" aria-live="polite">
     <div class="res-head">
-      <h2>Ton marché : <span id="resTitle"></span></h2>
-      <p id="resRegion"></p>
+      <div>
+        <h2 id="resTitle"></h2>
+        <p id="resSub"></p>
+      </div>
+      <button class="edit-answers" id="editAnswersBtn" type="button">Modifier mes réponses</button>
     </div>
 
-    <div class="cac-callout" id="cacCallout" style="display:none;">
-      <p class="eyebrow">Le vrai chiffre qui compte</p>
-      <p class="msg" id="cacCalloutMsg"></p>
-    </div>
+    <div id="resultsBody"></div>
 
-    <div class="tiles">
-      <div class="tile t1">
-        <div class="tile-tag">Recherches Google / mois</div>
-        <div class="tile-val" id="tVol"></div>
-        <div class="tile-sub">personnes qui cherchent tes services dans ta région chaque mois</div>
-      </div>
-      <div class="tile t2">
-        <div class="tile-tag">Valeur moyenne d'un contrat</div>
-        <div class="tile-val" id="tValue"></div>
-        <div class="tile-sub">ballpark une fois le client signé — ton secteur, Québec</div>
-      </div>
-      <div class="tile t3">
-        <div class="tile-tag">Ton potentiel de leads / mois</div>
-        <div class="tile-val" id="tLeads"></div>
-        <div class="tile-sub">appels et demandes estimés avec ton budget<span id="tBudgetEcho"></span></div>
-      </div>
-    </div>
-
-    <div class="sim">
-      <div class="sim-row">
-        <div>
-          <div class="sim-label">Ajuste ton budget et regarde ton potentiel bouger :</div>
-          <div class="slider-val" style="font-size:1.25rem; margin:8px 0 4px;"><span id="budgetVal2">1 000</span> $ <small>/ mois</small></div>
-          <input type="range" id="budget2" min="500" max="5000" step="100" value="1000">
+    <details class="market" id="marketDetails">
+      <summary>Repères de marché — hors de ton compte</summary>
+      <div class="market-body">
+        <div class="badge-soft badge" style="margin-bottom:14px;">Volume estimé de recherches, moyenne historique</div>
+        <div class="tiles" style="margin-bottom:14px;">
+          <div class="tile t1">
+            <div class="tile-tag">Recherches Google / mois (Québec)</div>
+            <div class="tile-val" id="tVol"></div>
+            <div class="tile-sub">moyenne historique — des recherches, pas des personnes uniques</div>
+          </div>
+          <div class="tile t2">
+            <div class="tile-tag">Valeur moyenne d'un contrat</div>
+            <div class="tile-val" id="tValue"></div>
+            <div class="tile-sub">ballpark une fois le client signé — ton secteur, Québec</div>
+          </div>
         </div>
-        <div style="text-align:right;">
-          <div class="sim-label">Leads potentiels</div>
-          <div class="sim-out" id="simLeads"></div>
+        <p class="limit-note" id="provinceNote"></p>
+        <p class="limit-note">Nombre de leads prévisionnel non affiché : on n'a pas encore de CPC réel ou de forecast Google Ads pour ton compte. On le calcule ensemble au rendez-vous, avec de vraies hypothèses.</p>
+        <div class="table-scroll">
+          <table id="kwTable">
+            <caption class="sr-only">Mots-clés retenus pour ton secteur</caption>
+            <thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Enchères de haut de page — plage indicative</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
+        <p class="market-body src" id="kwSrc" style="margin-top:10px;"></p>
       </div>
-    </div>
-
-    <div class="kw-box">
-      <h3>Les mots-clés que tes futurs clients tapent sur Google</h3>
-      <div class="src" id="kwSrc"></div>
-      <table id="kwTable">
-        <thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Prix du clic</th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <div class="lock-overlay" id="lockOverlay">
-        <p>🔒 Débloque le rapport complet + ton plan d'action personnalisé</p>
-        <button class="btn" id="unlockBtn">Débloquer gratuitement →</button>
-      </div>
-    </div>
+    </details>
 
     <!-- GATE -->
     <div id="gate" style="display:none;">
       <div class="gate-card">
-        <h3>Ton rapport complet, gratuit.</h3>
-        <p>On débloque le tableau + on te prépare un plan d'action pour ton entreprise. Zéro spam, zéro vente forcée.</p>
-        <form id="gateForm">
-          <div class="f-row"><label for="gPrenom">Ton prénom *</label><input type="text" id="gPrenom" placeholder="Alexandre" autocomplete="given-name"></div>
-          <div class="f-row"><label for="gEntreprise">Nom de ton entreprise *</label><input type="text" id="gEntreprise" placeholder="Ex. Toiture ABC" autocomplete="organization"></div>
-          <div class="f-row"><label for="gTel">Téléphone *</label><input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel"></div>
-          <div class="f-row"><label for="gEmail">Courriel</label><input type="email" id="gEmail" placeholder="toi@tonentreprise.ca" autocomplete="email"></div>
+        <h3 id="gateTitle">Prépare ton rendez-vous avec Alexander.</h3>
+        <p>Ces informations servent à préparer et confirmer ton rendez-vous.</p>
+        <div class="submit-error" id="gateSubmitError" role="alert"></div>
+        <form id="gateForm" novalidate>
+          <div class="f-row">
+            <label for="gPrenom">Ton prénom *</label>
+            <input type="text" id="gPrenom" placeholder="Alexandre" autocomplete="given-name" required>
+            <p class="f-error" id="gPrenomErr">Ton prénom est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="gEntreprise">Nom de ton entreprise *</label>
+            <input type="text" id="gEntreprise" placeholder="Ex. Toiture ABC" autocomplete="organization" required>
+            <p class="f-error" id="gEntrepriseErr">Le nom de ton entreprise est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="gEmail">Courriel *</label>
+            <input type="email" id="gEmail" placeholder="toi@tonentreprise.ca" autocomplete="email" required>
+            <p class="f-error" id="gEmailErr">Un courriel valide est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="gTel">Téléphone (optionnel à cette étape)</label>
+            <input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel">
+          </div>
           <div class="f-row"><label for="gSite">Site web (optionnel)</label><input type="text" id="gSite" placeholder="tonentreprise.ca" autocomplete="url"></div>
-          <button class="btn" type="submit" id="gateBtn" style="width:100%;">Voir mon rapport complet →</button>
+          <button class="btn" type="submit" id="gateBtn" style="width:100%;">Envoyer →</button>
           <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
         </form>
       </div>
     </div>
 
-    <!-- POST UNLOCK -->
+    <!-- POST ENVOI -->
     <div id="unlocked">
-      <div class="plan">
-        <h3 id="planTitle">Ce qu'on ferait pour toi, concrètement :</h3>
-        <ul id="planList">
-          <li>Campagne Google Ads ciblée sur les mots-clés ci-dessus, dans ta région, en français</li>
-          <li>Tracking complet des appels et formulaires — tu vois chaque lead et ce qu'il t'a coûté</li>
-          <li>Optimisation continue pour baisser ton coût par lead mois après mois</li>
-          <li>Rapport clair le 1er de chaque mois : dépenses, leads, résultats</li>
-        </ul>
+      <div class="agenda">
+        <h4>Avant de réserver</h4>
+        <ul id="agendaList"></ul>
+        <p class="mode">Rendez-vous : appel téléphonique de 30 minutes.</p>
       </div>
       <div class="cal-cta">
-        <a class="btn" id="calBtn" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Réserver mon 30 min avec Alexander →</a>
-        <p>Gratuit · Sans engagement · On regarde ton marché ensemble</p>
+        <a class="btn" id="calBtn" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Choisir mon heure — 30 min →</a>
+        <p>Gratuit · Sans engagement</p>
+        <p class="cal-fallback" id="calFallback">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvre-le dans un nouvel onglet</a>.</p>
       </div>
     </div>
 
     <p class="disclaimer" id="disclaimerText"></p>
   </section>
 
-  <!-- AUTRE MÉTIER -->
-  <section id="manual">
+  <!-- AUTRE MÉTIER / DÉGÂTS D'EAU — pas de base instantanée -->
+  <section id="manual" aria-live="polite">
     <div class="res-head">
-      <h2>Ton secteur mérite un audit sur mesure.</h2>
-      <p>Notre base instantanée couvre 8 métiers. Pour le tien, Alexander fait l'analyse à la main — mêmes données réelles Google, livrée en 24 h. Gratuit.</p>
+      <div>
+        <h2>Ton secteur mérite une analyse faite à la main.</h2>
+        <p id="manualSub"></p>
+      </div>
+      <button class="edit-answers" id="editAnswersBtnManual" type="button">Modifier mes réponses</button>
     </div>
-    <div class="gate-card" style="margin-top:26px;">
-      <h3>Reçois ton audit en 24 h</h3>
-      <p>Volumes de recherche, prix du clic et potentiel de leads pour TON métier, dans TA région.</p>
-      <form id="manualForm">
-        <div class="f-row"><label for="mPrenom">Ton prénom *</label><input type="text" id="mPrenom" placeholder="Alexandre"></div>
-        <div class="f-row"><label for="mEntreprise">Nom de ton entreprise *</label><input type="text" id="mEntreprise" placeholder="Ex. Nettoyage ABC"></div>
-        <div class="f-row"><label for="mTel">Téléphone *</label><input type="tel" id="mTel" placeholder="514-000-0000"></div>
-        <div class="f-row"><label for="mMetier">Ton métier / secteur *</label><input type="text" id="mMetier" placeholder="Ex. : nettoyage commercial"></div>
-        <div class="f-row"><label for="mEmail">Courriel</label><input type="email" id="mEmail" placeholder="toi@tonentreprise.ca"></div>
-        <button class="btn" type="submit" style="width:100%;">Recevoir mon audit gratuit →</button>
-        <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
-      </form>
+
+    <div class="card">
+      <div class="eyebrow">Ce qu'on a</div>
+      <div class="summary-grid" id="manualSummaryGrid"></div>
+    </div>
+
+    <p class="limit-note">On n'a pas de données Keyword Planner validées pour ce métier dans notre base instantanée. Alexander fait l'analyse à la main avec les mêmes données réelles Google. Aucun délai automatique n'est garanti — on te recontacte avec un plan concret.</p>
+
+    <div class="agenda">
+      <h4>Avant de réserver</h4>
+      <ul>
+        <li>Ton métier, ta zone et ton budget envisagé (déjà notés)</li>
+        <li>Ce qu'on doit vérifier pour ton secteur précis</li>
+        <li>La prochaine action concrète</li>
+      </ul>
+      <p class="mode">Rendez-vous : appel téléphonique de 30 minutes.</p>
+    </div>
+    <div class="cal-cta">
+      <a class="btn" id="calBtnManual" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Choisir mon heure — 30 min →</a>
+      <p class="cal-fallback" id="calFallbackManual">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvre-le dans un nouvel onglet</a>.</p>
+    </div>
+
+    <div id="manualFormWrap">
+      <div class="gate-card" style="margin-top:10px;">
+        <h3>Pas prêt à réserver ? Laisse tes infos.</h3>
+        <p>On te recontacte avec l'analyse — mêmes règles : ces informations servent à préparer le suivi, aucune inscription marketing implicite.</p>
+        <div class="submit-error" id="manualSubmitError" role="alert"></div>
+        <form id="manualForm" novalidate>
+          <div class="f-row">
+            <label for="mPrenom">Ton prénom *</label>
+            <input type="text" id="mPrenom" placeholder="Alexandre" required>
+            <p class="f-error" id="mPrenomErr">Ton prénom est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="mEntreprise">Nom de ton entreprise *</label>
+            <input type="text" id="mEntreprise" placeholder="Ex. Nettoyage ABC" required>
+            <p class="f-error" id="mEntrepriseErr">Le nom de ton entreprise est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="mEmail">Courriel *</label>
+            <input type="email" id="mEmail" placeholder="toi@tonentreprise.ca" required>
+            <p class="f-error" id="mEmailErr">Un courriel valide est requis.</p>
+          </div>
+          <div class="f-row"><label for="mTel">Téléphone (optionnel)</label><input type="tel" id="mTel" placeholder="514-000-0000"></div>
+          <div class="f-row"><label for="mMetierDetail">Précision sur ton métier (optionnel)</label><input type="text" id="mMetierDetail" placeholder="Ex. assèchement, décontamination…"></div>
+          <button class="btn" type="submit" id="manualBtn" style="width:100%;">Envoyer →</button>
+          <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
+        </form>
+      </div>
       <div id="manualOk" style="display:none; text-align:center; padding:20px 0 6px;">
         <div style="font-size:2rem;">✓</div>
         <h3 style="margin:8px 0 4px;">Reçu !</h3>
-        <p style="font-size:.9rem; color:#666;">Ton audit arrive d'ici 24 h. Tu veux aller plus vite ? <a href="https://calendly.com/admin-pixby/30min" style="color:var(--orange); font-weight:700;">Réserve 30 min maintenant</a>.</p>
+        <p style="font-size:.9rem; color:#666;">Alexander te recontacte pour la suite.</p>
       </div>
     </div>
   </section>
@@ -527,143 +629,225 @@
   /* ============================================================
      DONNÉES MARCHÉ — Google Ads Keyword Planner, Québec (20123), FR.
      KW_AS_OF : date des données. Rafraîchie manuellement le 2026-09-24 via
-     ~/pixby-ads-api/keyword_data_audit.py (réel, Google Ads API). Automatisation
-     mensuelle du refresh proposée mais pas encore construite (voir TASKS.md) --
-     nécessite validation explicite avant d'autoriser un push auto en prod.
-     Format kws : [mot-clé, recherches/mois, CPC bas $, CPC haut $]
+     ~/pixby-ads-api/keyword_data_audit.py (réel, Google Ads API).
+     NETTOYAGE P0 (2026-09-24) : retrait des mots-clés hors intention de service
+     (matériaux/produits/DIY) et des variantes quasi identiques additionnées sans
+     dédoublonnage réel (même volume rapporté par Google). Liste volontairement
+     plus courte mais honnête ; P1 reprend une dédup propre via keyword_data_audit.py.
+     Format kws : [mot-clé, recherches/mois, enchère basse $, enchère haute $]
+     (bornes = "Top of page bid" Google, PAS un CPC observé ni un prix garanti)
      ============================================================ */
   var KW_AS_OF = 'septembre 2026';
   var DATA = {
-    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.2,24.17],["fibro ciment",2900,0.32,2.15],["couvreur",1300,4.87,20.21],["tuile",880,0.31,1.4],["charpente",880,2.29,11.04]] },
+    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.2,24.17],["couvreur",1300,4.87,20.21]] },
     plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.53,11.19],["plomberie",8100,2.02,7.92],["plombier à proximité",4400,2.07,10.32],["plombier expert",1900,1.89,7.88],["plomberie rive sud",1300,2.09,12.08]] },
-    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.07,11.16],["air climatisé portatif",12100,0.19,0.61],["air climatiseur portatif",12100,0.19,0.61],["air climatisé",9900,0.67,10.08],["air climatisation",9900,0.67,10.08]] },
-    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.4],["reparer electromenager",4400,1.08,4.4],["reparation electromenager autour de moi",1900,0.92,3.36],["réparation laveuse",1600,1.31,7.11],["reparer laveuse",1600,1.31,7.11]] },
+    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.07,11.16],["air climatisé",9900,0.67,10.08]] },
+    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.4],["reparation electromenager autour de moi",1900,0.92,3.36],["réparation laveuse",1600,1.31,7.11]] },
     electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true,  kws:[["électricien",8100,2.86,11.61],["panneau électrique",1900,0.18,4.98],["électricien à proximité",1600,3.54,12.0],["electricien autour de moi",1300,2.27,9.61],["maitre electricien",720,2.65,10.61]] },
-    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true,  kws:[["soumission rénovations",8100,1.63,11.7],["rénovation salle de bain",1900,2.26,9.28],["refection salle de bain",1900,2.26,9.28],["renover une salle de bain",1900,2.26,9.28],["renover la salle de bain",1900,2.26,9.28]] },
-    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false,  kws:[["paysagiste",9900,2.05,8.36],["aménagement paysager",2900,1.63,6.67],["pavé uni",2900,1.14,6.64],["pavage uni",2900,1.14,6.64],["paysagement",2400,2.46,8.82]] },
+    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true,  kws:[["soumission rénovations",8100,1.63,11.7],["rénovation salle de bain",1900,2.26,9.28]] },
+    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false,  kws:[["paysagiste",9900,2.05,8.36],["aménagement paysager",2900,1.63,6.67],["pavé uni",2900,1.14,6.64],["paysagement",2400,2.46,8.82]] },
     dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false,  kws:[["dentiste",27100,2.48,12.0],["orthodontiste",5400,2.16,7.7],["blanchiment dentaire",2900,1.31,3.44],["couronne dentaire",2900,1.09,3.45],["implant dentaire",2400,1.24,6.61]] }
   };
   var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
+  var CALENDLY_URL = 'https://calendly.com/admin-pixby/30min';
+  var AUDIT_VERSION = 'audit-v2-p0-2026-09-24';
 
-  var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +" };
+  var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +", inconnu:"Je ne sais pas" };
   var GESTION_LABELS = { moi:"Moi-même", employe:"Un employé", freelancer:"Un freelancer", agence:"Une agence" };
   var CAC_LABELS = { oui:"Oui, précisément", pas_certain:"Pas vraiment certain", non:"Non, aucune idée" };
+  var CAC_PERIOD_LABELS = { dernier_client:"dernier client signé", mensuel:"moyenne mensuelle", annuel:"moyenne annuelle" };
+
+  /* Trois cartes — branche A, règles figées (pas une note de compte, des vérifications à faire) */
+  var CARDS_A = {
+    unknown: [
+      { t:"Rapprocher les dépenses et les clients signés", d:"On aligne ce que tu as dépensé avec les contrats réellement signés sur la même période." },
+      { t:"Vérifier quelles conversions représentent de vrais contacts", d:"Un clic sur un numéro n'est pas toujours un appel qualifié — on vérifie ce qui est compté." },
+      { t:"Examiner requêtes et zones avant toute hausse de budget", d:"Avant d'ajouter du budget, on regarde ce qu'il finance vraiment aujourd'hui." }
+    ],
+    known: [
+      { t:"Vérifier période, attribution et frais inclus", d:"Un CAC déclaré cache souvent une période ou une définition différente d'un mois à l'autre." },
+      { t:"Comparer le CAC à la marge sur les contrats", d:"Un CAC bas ne veut rien dire sans savoir ce qu'il te reste après ce coût." },
+      { t:"Identifier la contrainte de croissance : demande, budget ou efficacité", d:"On situe ce qui limite réellement ta croissance avant de changer quoi que ce soit." }
+    ]
+  };
+  var STEPS_B = [
+    { t:"Valider la demande locale", d:"Confirmer qu'il y a assez de recherches réelles dans ta zone pour justifier une campagne." },
+    { t:"Calculer le seuil de rentabilité", d:"Déterminer le coût par client maximum que ton offre peut absorber, marge incluse." },
+    { t:"Définir un test et ses critères d'arrêt", d:"Un budget test, une durée, et un seuil clair pour arrêter ou continuer — avant de dépenser." }
+  ];
 
   /* ============================================================
-     ÉTAT + WIZARD (séquence de steps dynamique selon la branche
-     OUI/NON répondue à la 1ère question)
+     ÉTAT + WIZARD
      ============================================================ */
-  var sel = { hasAds:null, m:null, r:null, mult:0, budget:1000, budgetActuel:null, gestion:null, cac:null };
+  var sel = { hasAds:null, m:null, metierLabel:null, manualPath:false, r:null, budget:1000,
+              budgetActuel:null, gestion:null, cac:null, cacAmount:'', cacPeriod:null };
   var calc = {};
   var seq = [];
   var stepIdx = 0;
+  var AUDIT_ID = (function(){
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
+    return 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+  })();
 
   function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
   function money(n){ return n.toFixed(2).replace('.', ',') + ' $'; }
   function moneyRange(lo,hi){ return fmt(lo) + ' $ – ' + fmt(hi) + ' $'; }
   function budgetRange(b){ return b < 500 ? 'moins500' : b <= 1500 ? '500-1500' : b <= 3000 ? '1500-3000' : '3000plus'; }
-  function dl(payload){ window.dataLayer = window.dataLayer || []; window.dataLayer.push(payload); }
+  function dl(payload){
+    payload.audit_id = AUDIT_ID;
+    payload.audit_version = AUDIT_VERSION;
+    payload.parcours = sel.hasAds || 'inconnu';
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(payload);
+  }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   /* ============================================================
-     UTM — capture à l'arrivée, persiste en sessionStorage pour
-     survivre à travers tout le funnel (même onglet), transmis dans
-     chaque payload webhook GHL. Convention documentée dans
-     coordination/GROWTH_ENGINE.md. Ne jamais écraser un UTM déjà
-     capturé cette session par une visite sans UTM (ex: recharge de
-     page) — on garde la première source qui a amené le visiteur.
+     UTM — first-touch immuable + last-touch séparé. Un gclid seul
+     (sans utm_*) compte comme une nouvelle visite payante.
      ============================================================ */
   function captureUtm(){
     var params = new URLSearchParams(window.location.search);
     var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-    var hasNew = keys.some(function(k){ return params.get(k); });
+    var hasNew = keys.some(function(k){ return !!params.get(k); }) || !!params.get('gclid');
+    var current = { utm_source:'', utm_medium:'', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+    keys.forEach(function(k){ current[k] = params.get(k) || ''; });
+    current.gclid = params.get('gclid') || '';
+
+    var firstTouch = null, lastTouch = null;
+    try { var f = sessionStorage.getItem('pixby_utm_first'); if (f) firstTouch = JSON.parse(f); } catch(e){}
+    try { var l = sessionStorage.getItem('pixby_utm_last'); if (l) lastTouch = JSON.parse(l); } catch(e){}
+
     if (hasNew) {
-      var utm = {};
-      keys.forEach(function(k){ utm[k] = params.get(k) || ''; });
-      utm.gclid = params.get('gclid') || '';
-      try { sessionStorage.setItem('pixby_utm', JSON.stringify(utm)); } catch(e){}
-      return utm;
+      lastTouch = current;
+      try { sessionStorage.setItem('pixby_utm_last', JSON.stringify(lastTouch)); } catch(e){}
+      if (!firstTouch) {
+        firstTouch = current;
+        try { sessionStorage.setItem('pixby_utm_first', JSON.stringify(firstTouch)); } catch(e){}
+      }
     }
-    try {
-      var stored = sessionStorage.getItem('pixby_utm');
-      if (stored) return JSON.parse(stored);
-    } catch(e){}
-    return { utm_source:'direct', utm_medium:'none', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+    var fallback = { utm_source:'direct', utm_medium:'none', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+    if (!firstTouch) firstTouch = fallback;
+    if (!lastTouch) lastTouch = firstTouch;
+    return { first:firstTouch, last:lastTouch };
   }
   var UTM = captureUtm();
 
   dl({ event:'audit_view' });
 
+  /* ============================================================
+     SÉQUENCE — deux parcours distincts. stepCacDetail est
+     sautée automatiquement si non applicable (voir shouldSkip).
+     ============================================================ */
   function buildSequence(){
-    var s = ['stepMetier','stepRegion'];
-    if (sel.hasAds === 'oui') { s.push('stepBudgetActuel','stepGestion','stepCac'); }
-    else { s.push('stepBudgetPotentiel'); }
-    return s;
+    if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel','stepGestion','stepCac','stepCacDetail'];
+    return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel'];
+  }
+  function shouldSkip(id){
+    if (id === 'stepCacDetail') return sel.cac !== 'oui';
+    return false;
+  }
+  function effectiveIndex(i){
+    var visible = 0;
+    for (var k=0;k<=i && k<seq.length;k++){ if (!shouldSkip(seq[k])) visible++; }
+    return visible;
+  }
+  function effectiveTotal(){
+    return seq.filter(function(id){ return !shouldSkip(id); }).length;
   }
   function renderProgress(){
     var el = document.getElementById('progress'); el.innerHTML = '';
-    var total = seq.length;
+    var total = effectiveTotal();
     for (var i=0;i<total;i++){
       var b = document.createElement('i');
-      if (i < stepIdx) b.className = 'done';
+      if (i < effectiveIndex(stepIdx) - 1) b.className = 'done';
       el.appendChild(b);
     }
+    document.getElementById('progressLabel').textContent = total ? ('Étape ' + effectiveIndex(stepIdx) + ' sur ' + total) : '';
+  }
+  function focusHeading(id){
+    var el = document.getElementById(id);
+    if (!el) return;
+    var h = el.querySelector('h2, .q-label');
+    if (h) { h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); }
   }
   function showStep(id){
     document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
     var el = document.getElementById(id);
     if (el) el.classList.add('active');
+    document.getElementById('backBtn').style.display = (id === 'step0') ? 'none' : 'inline-block';
     window.scrollTo(0,0);
+    focusHeading(id);
   }
   function goToStep(i){
+    while (i < seq.length && shouldSkip(seq[i])) i++;
     stepIdx = i;
-    if (i >= seq.length) { runScan(); return; }
+    if (i >= seq.length) {
+      if (sel.manualPath) { runManual(); } else { runScan(); }
+      return;
+    }
     renderProgress();
     showStep(seq[i]);
   }
-  function nextStep(){ goToStep(stepIdx+1); }
+  function nextStep(){
+    dl({ event:'audit_step_completed', step: seq[stepIdx] || 'step0' });
+    goToStep(stepIdx+1);
+  }
+  function goBack(){
+    if (stepIdx <= 0) {
+      seq = []; stepIdx = 0;
+      document.getElementById('heroTop').style.display = '';
+      document.getElementById('progress').innerHTML = '';
+      document.getElementById('progressLabel').textContent = '';
+      showStep('step0');
+      return;
+    }
+    var i = stepIdx - 1;
+    while (i > 0 && shouldSkip(seq[i])) i--;
+    stepIdx = i;
+    renderProgress();
+    showStep(seq[i]);
+  }
+  document.getElementById('backBtn').addEventListener('click', goBack);
 
   /* step0 — Google Ads oui/non */
   document.querySelectorAll('#step0 .choice-big').forEach(function(c){
     c.addEventListener('click', function(){
       sel.hasAds = this.dataset.ads;
       dl({ event: sel.hasAds === 'oui' ? 'google_ads_yes' : 'google_ads_no' });
-      dl({ event:'audit_started', has_google_ads: sel.hasAds });
-      window.dataLayer.push({ event:'audit_start', metier:null, region:null, budget:null }); // compat événement existant
+      dl({ event:'audit_started' });
       seq = buildSequence();
       stepIdx = 0;
       renderProgress();
       showStep(seq[0]);
-      setTimeout(function(){ window.scrollTo(0,0); }, 50);
     });
   });
+  document.getElementById('introANext').addEventListener('click', nextStep);
+  document.getElementById('introBNext').addEventListener('click', nextStep);
 
   /* métier */
   document.querySelectorAll('.m-card').forEach(function(c){
     c.addEventListener('click', function(){
       document.querySelectorAll('.m-card').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.m = this.dataset.m;
-      if (sel.m === 'autre') {
-        dl({ event:'audit_manual_path', has_google_ads: sel.hasAds });
-        document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
-        document.getElementById('manual').style.display = 'block';
-        window.scrollTo(0,0);
-        return;
-      }
+      this.classList.add('sel');
+      sel.m = this.dataset.m;
+      sel.metierLabel = this.textContent.trim();
+      sel.manualPath = !DATA[sel.m];
       setTimeout(nextStep, 220);
     });
   });
 
-  /* région */
+  /* région — capturée pour le dossier, ne fabrique plus un volume local */
   document.querySelectorAll('.r-pill').forEach(function(c){
     c.addEventListener('click', function(){
       document.querySelectorAll('.r-pill').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.r = this.dataset.r; sel.mult = parseFloat(this.dataset.mult);
+      this.classList.add('sel'); sel.r = this.dataset.r;
       setTimeout(nextStep, 220);
     });
   });
 
-  /* budget actuel (branche OUI) */
+  /* budget actuel (branche OUI) — tranche déclarée, jamais convertie en montant précis */
   document.querySelectorAll('#budgetActuelRow .choice-pill').forEach(function(c){
     c.addEventListener('click', function(){
       document.querySelectorAll('#budgetActuelRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
@@ -690,8 +874,23 @@
     });
   });
 
-  /* budget potentiel (branche NON) — slider, avance via clic ailleurs pas naturel :
-     on ajoute un petit bouton Continuer sous le slider */
+  /* cac détail (facultatif) */
+  document.querySelectorAll('#cacPeriodRow .choice-pill').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('#cacPeriodRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
+      this.classList.add('sel'); sel.cacPeriod = this.dataset.v;
+    });
+  });
+  document.getElementById('cacDetailNext').addEventListener('click', function(){
+    sel.cacAmount = document.getElementById('cacAmount').value.trim();
+    nextStep();
+  });
+  document.getElementById('cacDetailSkip').addEventListener('click', function(){
+    sel.cacAmount = ''; sel.cacPeriod = null;
+    nextStep();
+  });
+
+  /* budget potentiel (branche NON) */
   var budSliderStep = document.getElementById('stepBudgetPotentiel');
   (function(){
     var btn = document.createElement('div');
@@ -704,254 +903,420 @@
   });
   document.getElementById('budgetPotentielNext').addEventListener('click', nextStep);
 
+  function budgetSummaryLabel(){
+    if (sel.hasAds === 'oui') return BUDGET_LABELS[sel.budgetActuel] || 'Inconnu';
+    return fmt(sel.budget) + ' $/mois envisagé';
+  }
+
   /* ============================================================
-     SCAN → COMPUTE → RÉSULTATS
+     ÉDITER MES RÉPONSES — retour au début du parcours en gardant sel
+     ============================================================ */
+  function editAnswers(){
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('manual').style.display = 'none';
+    document.getElementById('heroTop').style.display = '';
+    seq = buildSequence();
+    stepIdx = 0;
+    renderProgress();
+    showStep(seq[0]);
+  }
+  document.getElementById('editAnswersBtn').addEventListener('click', editAnswers);
+  document.getElementById('editAnswersBtnManual').addEventListener('click', editAnswers);
+
+  /* ============================================================
+     SCAN → COMPUTE → RÉSULTATS (chemin base instantanée)
      ============================================================ */
   function runScan(){
+    document.getElementById('heroTop').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('progress').innerHTML = '';
+    document.getElementById('progressLabel').textContent = '';
     document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById('scan').style.display = 'block';
     window.scrollTo(0,0);
-    ['ss1','ss2','ss3'].forEach(function(id,i){
-      setTimeout(function(){ document.getElementById(id).classList.add('done'); }, 700*(i+1));
+    ['ss1','ss2'].forEach(function(id,i){
+      setTimeout(function(){ document.getElementById(id).classList.add('done'); }, 350*(i+1));
     });
-    setTimeout(showResults, 2600);
+    setTimeout(showResults, 900);
   }
 
   function compute(){
     var d = DATA[sel.m], volTot = 0, wLow = 0, wHigh = 0;
     d.kws.forEach(function(k){ volTot += k[1]; wLow += k[2]*k[1]; wHigh += k[3]*k[1]; });
-    var cpcLow = wLow/volTot, cpcHigh = wHigh/volTot, cpcMid = (cpcLow+cpcHigh)/2;
-    var volReg = Math.max(10, Math.round(volTot*sel.mult/10)*10);
-    var clics = sel.budget/cpcMid;
-    calc = { d:d, volReg:volReg, cpcLow:cpcLow, cpcHigh:cpcHigh, cpcMid:cpcMid,
-             valLow:d.avgValue[0], valHigh:d.avgValue[1],
-             leadsLow:Math.max(1,Math.floor(clics*0.05)), leadsHigh:Math.max(2,Math.ceil(clics*0.12)) };
+    calc = { d:d, volTot: Math.round(volTot), cpcLow: wLow/volTot, cpcHigh: wHigh/volTot,
+             valLow:d.avgValue[0], valHigh:d.avgValue[1] };
   }
 
-  function renderLeads(){
-    compute();
-    document.getElementById('tLeads').textContent = calc.leadsLow + ' à ' + calc.leadsHigh;
-    document.getElementById('tBudgetEcho').textContent = ' de ' + fmt(sel.budget) + ' $/mois';
-    document.getElementById('simLeads').textContent = calc.leadsLow + ' à ' + calc.leadsHigh + ' / mois';
+  function renderCardsA(){
+    var cac = sel.cac === 'oui' ? 'known' : 'unknown';
+    return CARDS_A[cac].map(function(c,i){
+      return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>Vérification</dt><dd>' + esc(c.t) + '</dd><dt>Pourquoi</dt><dd>' + esc(c.d) + '</dd></dl></div>';
+    }).join('');
+  }
+  function renderStepsB(){
+    return STEPS_B.map(function(s,i){
+      return '<li><span class="num">' + (i+1) + '</span><div><strong>' + esc(s.t) + '</strong><div style="font-size:.85rem;color:rgba(255,255,255,.6);margin-top:3px;">' + esc(s.d) + '</div></div></li>';
+    }).join('');
+  }
+
+  function renderResultsBody(){
+    var body = document.getElementById('resultsBody');
+    if (sel.hasAds === 'oui') {
+      var cacLine = sel.cac === 'oui' && sel.cacAmount
+        ? 'CAC déclaré : <span class="hl">' + esc(sel.cacAmount) + ' $</span> (' + esc(CAC_PERIOD_LABELS[sel.cacPeriod] || 'période non précisée') + ') — déclaration non vérifiée.'
+        : 'Ton coût par client signé reste à établir.';
+      body.innerHTML =
+        '<div class="card"><div class="eyebrow">Selon tes réponses</div>' +
+          '<div class="summary-grid">' +
+            '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
+            '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
+            '<div><div class="k">Budget Ads actuel</div><div class="v">' + esc(BUDGET_LABELS[sel.budgetActuel] || '') + '</div></div>' +
+            '<div><div class="k">Géré par</div><div class="v">' + esc(GESTION_LABELS[sel.gestion] || '') + '</div></div>' +
+          '</div></div>' +
+        '<div class="card measure-block"><div class="eyebrow" style="color:var(--orange);">Le vrai chiffre qui compte</div><p class="msg">' + cacLine + '</p>' +
+          '<p class="fine">Aucune note de santé de compte n\'est calculée sans données vérifiées.</p></div>' +
+        '<div class="cards-3">' + renderCardsA() + '</div>';
+      document.getElementById('agendaList').innerHTML =
+        '<li>Ton résumé et ton CAC déclaré (ci-dessus)</li>' +
+        '<li>Les points à vérifier sur ton compte</li>' +
+        '<li>Les trois prochaines actions concrètes</li>';
+    } else {
+      body.innerHTML =
+        '<div class="card"><div class="eyebrow">Selon tes réponses</div>' +
+          '<div class="summary-grid">' +
+            '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
+            '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
+            '<div><div class="k">Budget envisagé</div><div class="v">' + fmt(sel.budget) + ' $/mois</div></div>' +
+          '</div></div>' +
+        '<ul class="steps-3">' + renderStepsB() + '</ul>' +
+        '<p class="limit-note">La simulation économique complète (clients attendus, seuil de rentabilité chiffré) arrive dans une prochaine version. On ne t\'affiche pas un nombre de clients ou une rentabilité qu\'on ne peut pas encore calculer honnêtement.</p>';
+      document.getElementById('agendaList').innerHTML =
+        '<li>Ton métier, ta zone et ton budget envisagé (ci-dessus)</li>' +
+        '<li>La demande réelle et le budget minimum pour un test</li>' +
+        '<li>Ce qu\'on regarde avant de dépenser un dollar</li>';
+    }
+  }
+
+  function bindMainCta(){
+    var btn = document.getElementById('mainCta');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      generateIdempotencyKey();
+      dl({ event:'lead_gate_opened' });
+      document.getElementById('gateTitle').textContent = sel.hasAds === 'oui'
+        ? 'Faire vérifier mon compte avec Alexander'
+        : 'Valider mon budget et mon marché avec Alexander';
+      document.getElementById('gate').style.display = 'block';
+      document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
+    });
   }
 
   function showResults(){
     compute();
     document.getElementById('scan').style.display = 'none';
     document.getElementById('results').style.display = 'block';
-    document.getElementById('resTitle').textContent = calc.d.label;
-    document.getElementById('resRegion').textContent = REGIONS[sel.r] + ' · basé sur les données réelles Google Ads';
-    document.getElementById('tVol').textContent = '~' + fmt(calc.volReg);
-    document.getElementById('tValue').textContent = moneyRange(calc.valLow, calc.valHigh);
-    renderLeads();
-    document.getElementById('budgetVal2').textContent = fmt(sel.budget);
-    document.getElementById('budget2').value = sel.budget;
-    document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + ').';
+    document.getElementById('resTitle').textContent = sel.hasAds === 'oui' ? 'Ton prédiagnostic' : 'Ton marché, avant d’investir';
+    document.getElementById('resSub').textContent = 'Basé sur tes réponses' + (sel.hasAds === 'oui' ? ' — aucune donnée de compte consultée.' : '.');
 
-    /* callout CAC — uniquement branche OUI */
-    var callout = document.getElementById('cacCallout');
-    if (sel.hasAds === 'oui') {
-      callout.style.display = 'block';
-      var msg = "Ton " + (sel.gestion === 'agence' ? 'agence' : sel.gestion === 'freelancer' ? 'freelancer' : 'compte') +
-                " peut te montrer les clics et les leads. <span class=\"hl\">Sais-tu combien te coûte réellement un client signé ?</span>";
-      if (sel.cac === 'oui') {
-        msg = "Tu connais déjà ton coût par client signé — <span class=\"hl\">bonne nouvelle, c'est rare.</span> On peut comparer ça à ce que ton marché permet vraiment.";
-      }
-      document.getElementById('cacCalloutMsg').innerHTML = msg;
-    } else {
-      callout.style.display = 'none';
-    }
+    renderResultsBody();
+
+    var ctaLabel = sel.hasAds === 'oui' ? 'Faire vérifier mon compte avec Alexander — 30 min' : 'Valider mon budget et mon marché avec Alexander — 30 min';
+    var ctaSub = sel.hasAds === 'oui' ? 'On vérifie la mesure, les dépenses à examiner et les trois prochaines actions.' : 'On regarde la demande réelle et le seuil de rentabilité ensemble.';
+    var ctaWrap = document.createElement('div');
+    ctaWrap.style.textAlign = 'center';
+    ctaWrap.style.margin = '22px 0';
+    ctaWrap.innerHTML = '<button class="btn" id="mainCta" style="font-size:1.05rem;padding:18px 36px;">' + esc(ctaLabel) + '</button><p style="font-size:.82rem;color:rgba(255,255,255,.45);margin-top:10px;">' + esc(ctaSub) + '</p>';
+    document.getElementById('resultsBody').appendChild(ctaWrap);
+    bindMainCta();
+
+    document.getElementById('tVol').textContent = '~' + fmt(calc.volTot);
+    document.getElementById('tValue').textContent = moneyRange(calc.valLow, calc.valHigh);
+    document.getElementById('provinceNote').textContent = 'Donnée disponible : Québec (province). Repère utilisé faute de données locales suffisantes pour ' + (REGIONS[sel.r] || 'ta zone') + ' — ta zone reste enregistrée pour l’étude.';
+    document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + '). Liste réduite en P0 pour retirer les mots-clés hors intention de service.';
 
     var tb = document.querySelector('#kwTable tbody'); tb.innerHTML = '';
-    calc.d.kws.forEach(function(k,i){
+    calc.d.kws.forEach(function(k){
       var tr = document.createElement('tr');
-      if (i >= 2) tr.className = 'blurred';
-      tr.innerHTML = '<td class="kw">'+k[0]+'</td><td class="vol">'+fmt(k[1])+'</td><td class="cpc">'+money(k[2])+' – '+money(k[3])+'</td>';
+      tr.innerHTML = '<td class="kw">'+esc(k[0])+'</td><td class="vol">'+fmt(k[1])+'</td><td class="cpc">'+money(k[2])+' – '+money(k[3])+'</td>';
       tb.appendChild(tr);
     });
 
     document.getElementById('disclaimerText').textContent =
-      'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + '). ' +
-      'La répartition régionale est estimée selon le poids démographique de chaque région. ' +
-      'Le potentiel de leads est une ESTIMATION qui suppose une campagne bien structurée avec un taux de conversion de 5 à 12 % (moyenne des campagnes locales) — jamais un résultat garanti. ' +
-      'Les résultats réels varient selon le site web, la concurrence et la saison.';
+      'Estimations basées sur les données Google Ads Keyword Planner (Québec, ' + KW_AS_OF + '). ' +
+      'Le volume est une moyenne historique de recherches, pas un compteur en direct ni un nombre de personnes. ' +
+      'Les enchères affichées sont la plage de haut de page Google (Top of page bid), pas un CPC observé ni un prix garanti du clic. ' +
+      'Aucun nombre de leads ou de clients n’est projeté tant qu’un CPC réel ou un forecast Google Ads n’a pas été validé.';
 
-    dl({ event:'audit_results_viewed', metier: sel.m, region: sel.r, has_google_ads: sel.hasAds });
+    dl({ event:'audit_results_viewed' });
     window.scrollTo(0,0);
+    var h = document.getElementById('resTitle'); h.setAttribute('tabindex','-1'); h.focus({preventScroll:true});
   }
 
-  document.getElementById('budget2').addEventListener('input', function(){
-    sel.budget = +this.value;
-    document.getElementById('budgetVal2').textContent = fmt(sel.budget);
-    renderLeads();
-  });
-
-  /* gate */
-  document.getElementById('unlockBtn').addEventListener('click', function(){
-    dl({ event:'lead_gate_opened', metier: sel.m, has_google_ads: sel.hasAds });
-    document.getElementById('gate').style.display = 'block';
-    document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
-  });
-
-  function sendLead(payload){
-    payload.utm_source = UTM.utm_source; payload.utm_medium = UTM.utm_medium;
-    payload.utm_campaign = UTM.utm_campaign; payload.utm_content = UTM.utm_content;
-    payload.utm_term = UTM.utm_term; payload.gclid = UTM.gclid;
-    try {
-      fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
-    } catch(e){}
+  /* ============================================================
+     PARCOURS MANUEL — métier hors base instantanée
+     ============================================================ */
+  function runManual(){
+    document.getElementById('heroTop').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('progress').innerHTML = '';
+    document.getElementById('progressLabel').textContent = '';
+    document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('scan').style.display = 'none';
+    document.getElementById('manual').style.display = 'block';
+    document.getElementById('manualSub').textContent = 'Mêmes données réelles Google que le reste du site — analysées à la main pour ton métier.';
+    document.getElementById('manualSummaryGrid').innerHTML =
+      '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
+      '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
+      '<div><div class="k">Budget</div><div class="v">' + esc(budgetSummaryLabel()) + '</div></div>';
+    dl({ event:'audit_manual_path' });
+    dl({ event:'audit_results_viewed' });
+    window.scrollTo(0,0);
+    var h = document.querySelector('#manual h2'); h.setAttribute('tabindex','-1'); h.focus({preventScroll:true});
   }
 
   /* ============================================================
      LEAD SCORING — transparent, pondérations documentées dans
-     coordination/AUDIT_LEAD_ENGINE.md. Ne cache rien : chaque
-     signal est un booléen nommé, le score est une somme simple.
+     coordination/AUDIT_LEAD_ENGINE.md. Chaque signal est un booléen
+     nommé, le score est une somme simple. Seuils inchangés en P0
+     (revue des seuils prévue en P1.4).
      ============================================================ */
   var SCORE_WEIGHTS = {
-    google_ads_active: 30,          // utilise déjà Google Ads — signal le plus fort
-    spend_1000_2000: 8,
-    spend_2000_5000: 15,
-    spend_5000_10000: 20,
-    spend_10000_plus: 25,
-    agency_or_freelancer_managed: 15,
-    unknown_customer_acquisition_cost: 20,
-    high_value_sector: 10,
-    established_business: 5,        // site web fourni
-    high_budget_intent_no_ads: 10   // branche NON, budget potentiel >= 2000$
+    google_ads_active: 30, spend_1000_2000: 8, spend_2000_5000: 15, spend_5000_10000: 20,
+    spend_10000_plus: 25, agency_or_freelancer_managed: 15, unknown_customer_acquisition_cost: 20,
+    high_value_sector: 10, established_business: 5, high_budget_intent_no_ads: 10
   };
-  var TIER_THRESHOLDS = { PRIORITY: 65, GOOD_FIT: 35, NURTURE: 15 }; // sinon LOW_FIT
+  var TIER_THRESHOLDS = { PRIORITY: 65, GOOD_FIT: 35, NURTURE: 15 };
 
   function computeLeadScore(siteWeb){
-    var signals = [];
-    var score = 0;
-
+    var signals = [], score = 0;
     if (sel.hasAds === 'oui') {
       signals.push('google_ads_active'); score += SCORE_WEIGHTS.google_ads_active;
-
       var spendKey = { lt1000:null, '1000-2000':'spend_1000_2000', '2000-5000':'spend_2000_5000',
-                        '5000-10000':'spend_5000_10000', '10000plus':'spend_10000_plus' }[sel.budgetActuel];
+                        '5000-10000':'spend_5000_10000', '10000plus':'spend_10000_plus', inconnu:null }[sel.budgetActuel];
       if (spendKey) { signals.push(spendKey); score += SCORE_WEIGHTS[spendKey]; }
-
       if (sel.gestion === 'agence' || sel.gestion === 'freelancer') {
         signals.push('agency_or_freelancer_managed'); score += SCORE_WEIGHTS.agency_or_freelancer_managed;
       }
       if (sel.cac === 'non' || sel.cac === 'pas_certain') {
         signals.push('unknown_customer_acquisition_cost'); score += SCORE_WEIGHTS.unknown_customer_acquisition_cost;
       }
-    } else {
-      if (sel.budget >= 2000) {
-        signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads;
-      }
+    } else if (sel.budget >= 2000) {
+      signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads;
     }
+    if (DATA[sel.m] && DATA[sel.m].highValue) { signals.push('high_value_sector'); score += SCORE_WEIGHTS.high_value_sector; }
+    if (siteWeb && siteWeb.trim()) { signals.push('established_business'); score += SCORE_WEIGHTS.established_business; }
 
-    if (DATA[sel.m] && DATA[sel.m].highValue) {
-      signals.push('high_value_sector'); score += SCORE_WEIGHTS.high_value_sector;
-    }
-    if (siteWeb && siteWeb.trim()) {
-      signals.push('established_business'); score += SCORE_WEIGHTS.established_business;
-    }
-
-    var tier = score >= TIER_THRESHOLDS.PRIORITY ? 'PRIORITY'
-             : score >= TIER_THRESHOLDS.GOOD_FIT ? 'GOOD_FIT'
-             : score >= TIER_THRESHOLDS.NURTURE  ? 'NURTURE'
-             : 'LOW_FIT';
-
+    var tier = score >= TIER_THRESHOLDS.PRIORITY ? 'PRIORITY' : score >= TIER_THRESHOLDS.GOOD_FIT ? 'GOOD_FIT' : score >= TIER_THRESHOLDS.NURTURE ? 'NURTURE' : 'LOW_FIT';
     var reasonParts = [];
     if (signals.indexOf('google_ads_active') > -1) reasonParts.push('fait déjà de la pub Google Ads');
-    if (signals.indexOf('agency_or_freelancer_managed') > -1) reasonParts.push('géré par ' + (sel.gestion === 'agence' ? 'une agence' : 'un freelancer') + ' (budget existant confirmé)');
+    if (signals.indexOf('agency_or_freelancer_managed') > -1) reasonParts.push('géré par ' + (sel.gestion === 'agence' ? 'une agence' : 'un freelancer'));
     if (signals.indexOf('unknown_customer_acquisition_cost') > -1) reasonParts.push('ne connaît pas son coût par client signé');
     if (signals.indexOf('high_value_sector') > -1) reasonParts.push('secteur à forte valeur de contrat');
-    var reason = reasonParts.length ? reasonParts.join(', ') : 'signaux faibles — prospect à nurturer';
-
-    return { score: score, tier: tier, signals: signals, reason: reason };
+    return { score:score, tier:tier, signals:signals, reason: reasonParts.length ? reasonParts.join(', ') : 'signaux faibles — prospect à nurturer' };
   }
 
-  /* CTA adapté selon branche/tier */
-  function applyAdaptiveCta(scoring){
-    var calBtn = document.getElementById('calBtn');
-    var planTitle = document.getElementById('planTitle');
-    if (sel.hasAds === 'oui' || scoring.tier === 'PRIORITY') {
-      calBtn.textContent = 'Fais vérifier ton compte Google Ads gratuitement →';
-      planTitle.textContent = 'Ce qu'+"'"+'on regarde dans ta vérification gratuite :';
-    } else {
-      calBtn.textContent = 'Vois comment capter cette demande dans ta région →';
-      planTitle.textContent = 'Ce qu'+"'"+'on ferait pour toi, concrètement :';
+  /* ============================================================
+     ENVOI DE LEAD — état explicite idle → submitting → saved | error.
+     Un statut HTTP 200 confirme la réception du webhook, PAS la
+     création confirmée du contact GHL (l'accusé de création réelle
+     nécessiterait une passerelle serveur, cf. SPEC P0.3). À vérifier
+     manuellement en CRM tant que cette passerelle n'existe pas.
+     ============================================================ */
+  var idempotencyKey = null;
+  function generateIdempotencyKey(){
+    if (idempotencyKey) return idempotencyKey;
+    try { idempotencyKey = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('lead_' + Date.now() + '_' + Math.random().toString(36).slice(2)); }
+    catch(e){ idempotencyKey = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2); }
+    return idempotencyKey;
+  }
+
+  function attachUtm(payload){
+    payload.utm_source = UTM.first.utm_source; payload.utm_medium = UTM.first.utm_medium;
+    payload.utm_campaign = UTM.first.utm_campaign; payload.utm_content = UTM.first.utm_content;
+    payload.utm_term = UTM.first.utm_term; payload.gclid = UTM.first.gclid;
+    payload.last_utm_source = UTM.last.utm_source; payload.last_utm_medium = UTM.last.utm_medium;
+    payload.last_utm_campaign = UTM.last.utm_campaign; payload.last_gclid = UTM.last.gclid;
+    return payload;
+  }
+
+  async function submitLead(payload){
+    attachUtm(payload);
+    payload.audit_id = AUDIT_ID;
+    payload.idempotency_key = generateIdempotencyKey();
+    var res = await fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res;
+  }
+
+  function setSubmitState(formId, btnId, errId, state, message){
+    var btn = document.getElementById(btnId);
+    var err = document.getElementById(errId);
+    if (state === 'submitting') { btn.disabled = true; btn.textContent = 'Envoi en cours…'; err.style.display = 'none'; }
+    else if (state === 'error') {
+      btn.disabled = false; btn.textContent = 'Réessayer →';
+      err.innerHTML = (message || 'La demande n’a pas pu être envoyée.') + ' Réessaie, ou <a href="' + CALENDLY_URL + '" target="_blank" rel="noopener">réserve directement ton rendez-vous</a>.';
+      err.style.display = 'block';
+    } else if (state === 'idle') { btn.disabled = false; btn.textContent = 'Envoyer →'; err.style.display = 'none'; }
+  }
+
+  function validateRequired(fields){
+    var firstInvalidId = null;
+    fields.forEach(function(f){
+      var input = document.getElementById(f.id), errEl = f.err ? document.getElementById(f.err) : null;
+      var valid = f.type === 'email' ? /.+@.+\..+/.test(input.value.trim()) : !!input.value.trim();
+      if (!valid) {
+        if (!firstInvalidId) firstInvalidId = f.id;
+        input.style.border = '2px solid #ef4444';
+        if (errEl) errEl.style.display = 'block';
+      } else {
+        input.style.border = ''; if (errEl) errEl.style.display = 'none';
+      }
+    });
+    return firstInvalidId;
+  }
+
+  /* ============================================================
+     CALENDLY — widget chargé seulement à l'intention de réserver.
+     Prefill nom + courriel uniquement (mapping du champ téléphone
+     "a1" non vérifié — voir SPEC P0.3, ne pas présumer). Fallback
+     lien externe si le script ne charge pas.
+     ============================================================ */
+  var calendlyLoading = null;
+  var bookingConfirmed = false;
+  function loadCalendlyScript(){
+    if (calendlyLoading) return calendlyLoading;
+    calendlyLoading = new Promise(function(resolve, reject){
+      if (window.Calendly) return resolve(window.Calendly);
+      var s = document.createElement('script');
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      s.onload = function(){ window.Calendly ? resolve(window.Calendly) : reject(new Error('Calendly non initialisé')); };
+      s.onerror = function(){ reject(new Error('Échec de chargement du script Calendly')); };
+      document.body.appendChild(s);
+      setTimeout(function(){ if (!window.Calendly) reject(new Error('Timeout Calendly')); }, 6000);
+    });
+    return calendlyLoading;
+  }
+  window.addEventListener('message', function(e){
+    if (e.origin !== 'https://calendly.com') return;
+    if (!e.data || typeof e.data.event !== 'string' || e.data.event.indexOf('calendly.') !== 0) return;
+    if (e.data.event === 'calendly.event_scheduled' && !bookingConfirmed) {
+      bookingConfirmed = true;
+      dl({ event:'booking_completed' });
     }
+  });
+  function openCalendly(btnEl, fallbackId, prefill){
+    dl({ event:'calendly_clicked' });
+    loadCalendlyScript().then(function(Calendly){
+      var url = CALENDLY_URL + '?utm_source=' + encodeURIComponent(UTM.first.utm_source||'') +
+                '&utm_medium=' + encodeURIComponent(UTM.first.utm_medium||'') +
+                '&utm_campaign=' + encodeURIComponent(UTM.first.utm_campaign||'');
+      Calendly.initPopupWidget({ url: url, prefill: prefill || {} });
+    }).catch(function(){
+      document.getElementById(fallbackId).style.display = 'block';
+      window.open(CALENDLY_URL, '_blank', 'noopener');
+    });
   }
+  document.getElementById('calBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    openCalendly(this, 'calFallback', { name: this.dataset.name || '', email: this.dataset.email || '' });
+  });
+  document.getElementById('calBtnManual').addEventListener('click', function(e){
+    e.preventDefault();
+    openCalendly(this, 'calFallbackManual', { name: this.dataset.name || '', email: this.dataset.email || '' });
+  });
 
+  /* ============================================================
+     SOUMISSION — formulaire principal (gate)
+     ============================================================ */
   document.getElementById('gateForm').addEventListener('submit', function(e){
     e.preventDefault();
-    var p = document.getElementById('gPrenom'), t = document.getElementById('gTel'), ent = document.getElementById('gEntreprise');
-    if (!p.value.trim()) { p.style.border='2px solid #ef4444'; p.focus(); return; }
-    if (!ent.value.trim()) { ent.style.border='2px solid #ef4444'; ent.focus(); return; }
-    if (!t.value.trim()) { t.style.border='2px solid #ef4444'; t.focus(); return; }
-    p.style.border=''; t.style.border=''; ent.style.border='';
-    document.getElementById('gateBtn').disabled = true;
+    var fields = [
+      { id:'gPrenom', err:'gPrenomErr' },
+      { id:'gEntreprise', err:'gEntrepriseErr' },
+      { id:'gEmail', err:'gEmailErr', type:'email' }
+    ];
+    var firstInvalid = validateRequired(fields);
+    if (firstInvalid) { document.getElementById(firstInvalid).focus(); return; }
 
-    var siteWeb = document.getElementById('gSite').value.trim();
+    var p = document.getElementById('gPrenom'), ent = document.getElementById('gEntreprise'),
+        email = document.getElementById('gEmail'), tel = document.getElementById('gTel'),
+        site = document.getElementById('gSite');
+    var siteWeb = site.value.trim();
     var scoring = computeLeadScore(siteWeb);
 
-    dl({ event:'generate_lead', form_name:'audit_60s', budget: budgetRange(sel.budget), industry: sel.m });
-    if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_60s', budget: budgetRange(sel.budget), industry: sel.m });
-    dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score, has_google_ads: sel.hasAds, industry: sel.m });
+    setSubmitState('gateForm','gateBtn','gateSubmitError','submitting');
 
-    sendLead({
-      first_name: p.value.trim(), phone: t.value.trim(),
-      email: document.getElementById('gEmail').value.trim(),
+    submitLead({
+      first_name: p.value.trim(), phone: tel.value.trim(), email: email.value.trim(),
       company_name: ent.value.trim(), website: siteWeb,
-      type_entreprise: sel.m, budget_pub: budgetRange(sel.budget),
-      region: REGIONS[sel.r], budget_exact: sel.budget + '$',
-      audit_volume: '~' + fmt(calc.volReg) + ' recherches/mois',
-      audit_leads: calc.leadsLow + '-' + calc.leadsHigh + ' leads/mois',
+      type_entreprise: sel.m, metier_label: sel.metierLabel,
+      region: REGIONS[sel.r] || '', budget_declare: budgetSummaryLabel(),
       has_google_ads: sel.hasAds,
       current_ads_budget_range: sel.hasAds === 'oui' ? (BUDGET_LABELS[sel.budgetActuel] || '') : '',
       current_ads_manager: sel.hasAds === 'oui' ? (GESTION_LABELS[sel.gestion] || '') : '',
       knows_cac: sel.hasAds === 'oui' ? (CAC_LABELS[sel.cac] || '') : '',
+      cac_declared_amount: sel.cacAmount || '', cac_declared_period: sel.cacPeriod ? CAC_PERIOD_LABELS[sel.cacPeriod] : '',
+      audit_volume_qc: calc.volTot != null ? ('~' + fmt(calc.volTot) + ' recherches/mois (Québec)') : '',
       lead_score: scoring.score, lead_tier: scoring.tier,
       lead_signals: scoring.signals.join(','), lead_reason: scoring.reason,
-      page_source: window.location.href, form_name: 'audit-60s'
+      page_source: window.location.href, form_name: 'audit-p0'
+    }).then(function(){
+      dl({ event:'generate_lead', form_name:'audit_p0' });
+      if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_p0' });
+      dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score });
+
+      setSubmitState('gateForm','gateBtn','gateSubmitError','idle');
+      document.getElementById('gate').style.display = 'none';
+      var calBtn = document.getElementById('calBtn');
+      calBtn.dataset.name = p.value.trim(); calBtn.dataset.email = email.value.trim();
+      var u = document.getElementById('unlocked'); u.style.display = 'block';
+      u.scrollIntoView({ behavior:'smooth' });
+    }).catch(function(err){
+      dl({ event:'lead_submit_failed', error: String(err && err.message || err) });
+      setSubmitState('gateForm','gateBtn','gateSubmitError','error');
     });
-
-    document.querySelectorAll('#kwTable tr.blurred').forEach(function(r){ r.classList.remove('blurred'); });
-    document.getElementById('lockOverlay').style.display = 'none';
-    document.getElementById('gate').style.display = 'none';
-    applyAdaptiveCta(scoring);
-    var u = document.getElementById('unlocked'); u.style.display = 'block';
-    document.getElementById('calBtn').href = 'https://calendly.com/admin-pixby/30min?name=' + encodeURIComponent(p.value.trim()) + '&a1=' + encodeURIComponent(t.value.trim());
-    u.scrollIntoView({ behavior:'smooth' });
   });
 
-  document.getElementById('calBtn').addEventListener('click', function(){
-    dl({ event:'calendly_clicked', metier: sel.m, has_google_ads: sel.hasAds });
-  });
-
-  /* autre métier — audit manuel */
+  /* ============================================================
+     SOUMISSION — formulaire secondaire (manuel)
+     ============================================================ */
   document.getElementById('manualForm').addEventListener('submit', function(e){
     e.preventDefault();
-    var p = document.getElementById('mPrenom'), t = document.getElementById('mTel'), m = document.getElementById('mMetier'), ent = document.getElementById('mEntreprise');
-    if (!p.value.trim()) { p.style.border='2px solid #ef4444'; p.focus(); return; }
-    if (!ent.value.trim()) { ent.style.border='2px solid #ef4444'; ent.focus(); return; }
-    if (!t.value.trim()) { t.style.border='2px solid #ef4444'; t.focus(); return; }
-    if (!m.value.trim()) { m.style.border='2px solid #ef4444'; m.focus(); return; }
+    var fields = [
+      { id:'mPrenom', err:'mPrenomErr' },
+      { id:'mEntreprise', err:'mEntrepriseErr' },
+      { id:'mEmail', err:'mEmailErr', type:'email' }
+    ];
+    var firstInvalidManual = validateRequired(fields);
+    if (firstInvalidManual) { document.getElementById(firstInvalidManual).focus(); return; }
 
-    dl({ event:'generate_lead', form_name:'audit_60s_manuel', budget: budgetRange(sel.budget), industry: m.value.trim() });
-    if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_60s_manuel', budget: budgetRange(sel.budget), industry: m.value.trim() });
-    dl({ event:'lead_submitted', lead_tier: sel.hasAds === 'oui' ? 'GOOD_FIT' : 'NURTURE', has_google_ads: sel.hasAds, industry: m.value.trim() });
+    var p = document.getElementById('mPrenom'), ent = document.getElementById('mEntreprise'),
+        email = document.getElementById('mEmail'), tel = document.getElementById('mTel'),
+        detail = document.getElementById('mMetierDetail');
+    var scoring = computeLeadScore('');
 
-    sendLead({
-      first_name: p.value.trim(), phone: t.value.trim(),
-      email: document.getElementById('mEmail').value.trim(),
-      company_name: ent.value.trim(),
-      type_entreprise: m.value.trim(), budget_pub: budgetRange(sel.budget),
-      region: REGIONS[sel.r] || '', budget_exact: sel.budget + '$',
-      has_google_ads: sel.hasAds,
-      lead_tier: sel.hasAds === 'oui' ? 'GOOD_FIT' : 'NURTURE',
-      lead_reason: 'métier hors base instantanée (audit manuel 24h)',
-      page_source: window.location.href, form_name: 'audit-60s-manuel'
+    setSubmitState('manualForm','manualBtn','manualSubmitError','submitting');
+
+    submitLead({
+      first_name: p.value.trim(), phone: tel.value.trim(), email: email.value.trim(),
+      company_name: ent.value.trim(), type_entreprise: sel.m, metier_label: sel.metierLabel,
+      metier_detail: detail.value.trim(), region: REGIONS[sel.r] || '', budget_declare: budgetSummaryLabel(),
+      has_google_ads: sel.hasAds, lead_tier: scoring.tier, lead_score: scoring.score,
+      lead_reason: 'métier hors base instantanée (analyse manuelle)',
+      page_source: window.location.href, form_name: 'audit-p0-manuel'
+    }).then(function(){
+      dl({ event:'generate_lead', form_name:'audit_p0_manuel' });
+      if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_p0_manuel' });
+      dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score, manual: true });
+
+      setSubmitState('manualForm','manualBtn','manualSubmitError','idle');
+      document.getElementById('manualForm').style.display = 'none';
+      document.getElementById('manualOk').style.display = 'block';
+    }).catch(function(err){
+      dl({ event:'lead_submit_failed', error: String(err && err.message || err), manual: true });
+      setSubmitState('manualForm','manualBtn','manualSubmitError','error');
     });
-
-    this.style.display = 'none';
-    document.getElementById('manualOk').style.display = 'block';
   });
 })();
 </script>
