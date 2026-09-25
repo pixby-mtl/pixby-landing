@@ -232,7 +232,9 @@
     .hyp-field input { width:100%; padding:10px 12px; border:1.5px solid var(--glass-b); border-radius:var(--r-sm); background:var(--glass); color:#fff; font-family:var(--ff-b); font-size:16px; }
     .hyp-field .unit { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:4px; }
 
-    .scenario-table { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:6px; }
+    .scenario-table { width:100%; min-width:640px; border-collapse:collapse; font-size:.85rem; margin-top:6px; }
+    .scenario-table th, .scenario-table td { white-space:nowrap; }
+    .scenario-table td.metric-label, .scenario-table th:first-child { white-space:normal; min-width:150px; }
     .scenario-table th { text-align:left; font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.45); padding:9px 10px; border-bottom:1px solid var(--glass-b); }
     .scenario-table td { padding:10px; border-bottom:1px solid rgba(255,255,255,.05); }
     .scenario-table td.metric-label { color:rgba(255,255,255,.55); }
@@ -1329,7 +1331,7 @@
       return '<th class="scen-' + k + '">' + labels[k] + '</th>';
     }).join('') + '</tr>';
     var provenanceRow = '<tr><td class="metric-label">Provenance</td>' + order.map(function(k){
-      return '<td style="font-size:.72rem;color:rgba(255,255,255,.4);">' + (k === 'central' ? 'ton hypothèse déclarée' : 'variation ±30 % de ton hypothèse centrale — simulation, pas une donnée de marché') + '</td>';
+      return '<td style="font-size:.72rem;color:rgba(255,255,255,.4);white-space:normal;max-width:150px;">' + (k === 'central' ? 'ton hypothèse déclarée' : 'variation ±30 % de ton hypothèse centrale — simulation, pas une donnée de marché') + '</td>';
     }).join('') + '</tr>';
     var rows = [
       rateRow('CPC hypothétique', '$', function(s){ return fmtMoneyDec(s.cpc); }),
