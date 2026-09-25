@@ -1359,19 +1359,20 @@
     var firstMonth = !data.essentialMissing && central.margeFirst != null
       ? '<p class="verdict-sub">Premier mois, scénario central : ' +
         (central.margeFirst < 0 ? 'déficit de ' + fmtMoneyDec(-central.margeFirst) : 'marge après acquisition de ' + fmtMoneyDec(central.margeFirst)) +
-        ' après média et frais Pixby. Ce verdict classe les mois suivants; la mise en place est comptée séparément.</p>' : '';
+        (data.feesMode === 'avec' ? ' après média et frais Pixby.' : ' après média seul, sans frais de gestion.') +
+        ' Ce verdict classe les mois suivants; ' + (data.feesMode === 'avec' ? 'la mise en place est comptée séparément.' : 'aucune mise en place Pixby n’est incluse.') + '</p>' : '';
     return '<div class="verdict-banner ' + toneClass + '"><div class="eyebrow">Économie des mois suivants, sous hypothèses — demande locale non validée</div>' +
       '<div class="verdict-title">' + esc(verdict.label) + '</div><div class="verdict-sub">' + esc(sub) +
       ' La capacité réelle de dépenser le montant simulé dans ta zone reste inconnue.</div>' + firstMonth + '</div>';
   }
 
-  function renderFunnel(m){
+  function renderFunnel(m, qMode){
     return '<div class="funnel">' +
       '<div class="funnel-step"><div class="n">' + fmtCount(m.C) + '</div><div class="l">Clics</div></div>' +
       '<div class="funnel-arrow">→</div>' +
       '<div class="funnel-step"><div class="n">' + fmtCount(m.L) + '</div><div class="l">Contacts</div></div>' +
       '<div class="funnel-arrow">→</div>' +
-      '<div class="funnel-step"><div class="n">' + fmtCount(m.Q) + '</div><div class="l">Qualifiés</div></div>' +
+      '<div class="funnel-step"><div class="n">' + fmtCount(m.Q) + '</div><div class="l">' + (qMode === 'oui' ? 'Qualifiés' : 'Contacts traités (sans filtre)') + '</div></div>' +
       '<div class="funnel-arrow">→</div>' +
       '<div class="funnel-step"><div class="n">' + (m.N != null ? m.N.toFixed(1).replace('.',',') : '—') + '</div><div class="l">Clients (espérance)</div></div>' +
       '</div>' +
@@ -1449,7 +1450,7 @@
     html += renderVerdictBanner(verdict, data);
     html += renderHypothesisPanel();
     html += renderCapacityNote(data.capacity);
-    html += '<div class="card"><div class="eyebrow">Scénario central — entonnoir</div>' + renderFunnel(data.scenarios.central.metrics) + renderCostBreakdown(data.scenarios.central.metrics, data.S, data.feesMode, data.capacity) + '</div>';
+    html += '<div class="card"><div class="eyebrow">Scénario central — entonnoir</div>' + renderFunnel(data.scenarios.central.metrics, data.qMode) + renderCostBreakdown(data.scenarios.central.metrics, data.S, data.feesMode, data.capacity) + '</div>';
     html += '<div class="card"><div class="eyebrow">Trois scénarios</div>' + renderScenarioTable(data) + '</div>';
     document.getElementById('simRoot').innerHTML = html;
   }
@@ -1912,7 +1913,7 @@
       lead_signals: scoring.signals.join(','), lead_reason: scoring.reason,
       page_source: window.location.href, form_name: 'audit-p0'
     }).then(function(){
-      dl({ event:'generate_lead', form_name:'audit_p0' });
+      // Un seul envoi GA4 generate_lead via gtag; lead_submitted reste le signal dataLayer.
       if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_p0' });
       dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score });
 
@@ -1956,7 +1957,7 @@
       lead_reason: 'métier hors base instantanée (analyse manuelle)',
       page_source: window.location.href, form_name: 'audit-p0-manuel'
     }).then(function(){
-      dl({ event:'generate_lead', form_name:'audit_p0_manuel' });
+      // Un seul envoi GA4 generate_lead via gtag; lead_submitted reste le signal dataLayer.
       if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_p0_manuel' });
       dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score, manual: true });
 
