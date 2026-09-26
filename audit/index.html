@@ -477,30 +477,6 @@
     </div>
   </section>
 
-  <!-- STEP LEADS CLAIRS (branche OUI) -->
-  <section class="step-section" id="stepLeadsClairs">
-    <div class="panel">
-      <div class="q-label"><span class="q-num">5</span>Sais-tu clairement combien de leads Google Ads te génère ?</div>
-      <div class="choice-row" id="leadsClairsRow">
-        <button class="choice-pill" data-v="oui">Oui</button>
-        <button class="choice-pill" data-v="pas_sur">Pas sûr</button>
-        <button class="choice-pill" data-v="non">Non</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- STEP LEADS RELIÉS AUX CLIENTS (branche OUI) -->
-  <section class="step-section" id="stepLeadsRelies">
-    <div class="panel">
-      <div class="q-label"><span class="q-num">6</span>Peux-tu relier ces leads aux clients réellement signés ?</div>
-      <div class="choice-row" id="leadsReliesRow">
-        <button class="choice-pill" data-v="oui">Oui</button>
-        <button class="choice-pill" data-v="pas_sur">Pas sûr</button>
-        <button class="choice-pill" data-v="non">Non</button>
-      </div>
-    </div>
-  </section>
-
   <!-- STEP BUDGET POTENTIEL (branche NON) -->
   <section class="step-section" id="stepBudgetPotentiel">
     <div class="panel">
@@ -761,14 +737,13 @@
   var AUDIT_VERSION = 'audit-v4-final-2026-09-26';
 
   var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +", inconnu:"Je ne sais pas" };
-  var LEADS_LABELS = { oui:"Oui", pas_sur:"Pas sûr", non:"Non" };
 
   /* ============================================================
      ÉTAT + WIZARD
      ============================================================ */
   var sel = { hasAds:null, m:null, metierLabel:null, manualPath:false, r:null, budget:1000,
               budgetActuel:null,
-              leadsClairs:null, leadsRelies:null, readOnlyInterest:null,
+              readOnlyInterest:null,
               simV:null, simM:null };
   var calc = {};
   var seq = [];
@@ -829,7 +804,7 @@
      parcours manuel (métier hors base instantanée, voir shouldSkip).
      ============================================================ */
   function buildSequence(){
-    if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel','stepLeadsClairs','stepLeadsRelies'];
+    if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel'];
     return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel','stepEconomie'];
   }
   function shouldSkip(id){
@@ -919,7 +894,7 @@
   function resetBranchState(){
     sel.m = null; sel.metierLabel = null; sel.manualPath = false; sel.r = null;
     sel.budget = 1000; sel.budgetActuel = null;
-    sel.leadsClairs = null; sel.leadsRelies = null; sel.readOnlyInterest = null;
+    sel.readOnlyInterest = null;
     sel.simV = null; sel.simM = null;
     ['simV','simM'].forEach(function(id){
       var el = document.getElementById(id); if (el) { el.value = ''; el.style.borderColor = ''; }
@@ -979,24 +954,6 @@
     c.addEventListener('click', function(){
       document.querySelectorAll('#budgetActuelRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
       this.classList.add('sel'); sel.budgetActuel = this.dataset.v;
-      scheduleAdvance(220);
-    });
-  });
-
-  /* leads clairs / leads reliés aux clients (branche OUI) — informatifs,
-     jamais chiffrés dans le score (angle de diagnostic, pas une preuve de
-     qualité commerciale — meme principe que l'ancien "connait son CAC"). */
-  document.querySelectorAll('#leadsClairsRow .choice-pill').forEach(function(c){
-    c.addEventListener('click', function(){
-      document.querySelectorAll('#leadsClairsRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.leadsClairs = this.dataset.v;
-      scheduleAdvance(220);
-    });
-  });
-  document.querySelectorAll('#leadsReliesRow .choice-pill').forEach(function(c){
-    c.addEventListener('click', function(){
-      document.querySelectorAll('#leadsReliesRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.leadsRelies = this.dataset.v;
       scheduleAdvance(220);
     });
   });
@@ -1131,33 +1088,26 @@
   }
 
   /* ============================================================
-     BRANCHE OUI — diagnostic ultra simple (AUDIT FINAL) : plus de
-     questionnaire financier (dépense/frais/leads/clients/valeur/marge).
-     Seul le risque de MESURE (sait-il ses leads ? peut-il les relier à
-     ses clients ?) est diagnostiqué, à partir de leadsClairs/leadsRelies.
+     BRANCHE OUI — diagnostic externe ultra rapide (AUDIT FINAL V5) :
+     3 questions seulement (métier/zone/budget). Verdict basé sur la
+     demande réelle du marché, jamais sur l'état du compte (pas d'accès).
+     Aucune donnée de mesure/leads collectée — le risque de mesure devient
+     un des 3 points "à vérifier dans ton compte", pas une question posée.
      ============================================================ */
   function buildFindingsA(){
-    var lc = sel.leadsClairs, lr = sel.leadsRelies;
-    var known = [], unknown = [];
-    (lc != null ? known : unknown).push('Clarté sur le nombre de leads Google Ads (réponse : ' + (LEADS_LABELS[lc] || 'non répondu') + ')');
-    (lr != null ? known : unknown).push('Lien entre tes leads et tes clients réellement signés (réponse : ' + (LEADS_LABELS[lr] || 'non répondu') + ')');
-
-    var primary;
-    if (lc === 'oui' && lr === 'oui') {
-      primary = 'Tu as probablement de quoi mesurer ta vraie rentabilité (leads clairs, reliés à tes clients signés). Le point à vérifier au rendez-vous, c’est si le calcul de coût par client est fait correctement.';
-    } else if (lc === 'oui') {
-      primary = 'Tu vois clairement tes leads, mais pas encore tes clients réellement signés grâce à Google Ads — c’est le principal risque de mesure à régler avant de juger la rentabilité.';
-    } else if (lc === 'pas_sur') {
-      primary = 'Tu n’es pas certain de connaître clairement tes leads Google Ads — la mesure de base reste à confirmer avant tout calcul de rentabilité.';
-    } else {
-      primary = 'Tu ne peux pas encore dire si Google Ads est rentable : la mesure de base (leads attribués) manque. C’est la priorité à régler avant de juger quoi que ce soit.';
-    }
-
-    var priorities = [];
-    if (lc !== 'oui') priorities.push({ t:'Mettre en place un suivi réel de tes leads (appels, formulaires)', d:'Sans ça, aucun chiffre d’acquisition n’est mesurable — c’est la base avant tout le reste.' });
-    if (lr !== 'oui') priorities.push({ t:'Relier tes leads à tes clients réellement signés', d:'Un lead n’est pas un client — sans ce lien, aucun vrai coût d’acquisition ne peut être démontré.' });
-    priorities.push({ t:'Regarder la performance réelle du compte', d:'Mots-clés qui consomment le budget, qualité du trafic, définition des conversions — nécessite de regarder le compte, pas juste ces réponses.' });
-    return { known:known, unknown:unknown, primary:primary, priorities:priorities.slice(0,3) };
+    var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
+    var metierTxt = (sel.metierLabel || 'ton service').toLowerCase();
+    var zoneTxt = REGIONS[sel.r] || 'ta zone';
+    var budgetTxt = BUDGET_LABELS[sel.budgetActuel] || 'ton budget actuel';
+    var primary = hasDemand
+      ? 'Il existe une demande Google active pour ' + metierTxt + ' dans ' + zoneTxt + '. Avec ' + budgetTxt + ', ton enjeu n’est pas de savoir s’il existe des recherches : c’est de vérifier si ton compte capte les bonnes intentions au bon coût.'
+      : 'Les données Google ne montrent pas un volume clair pour ' + metierTxt + ' dans ' + zoneTxt + ' avec les termes vérifiés — à regarder de plus près avec les vrais mots-clés de ton compte.';
+    var opportunities = [
+      'Intention des recherches réellement achetées',
+      'Qualité de la mesure des appels et formulaires',
+      'Budget potentiellement perdu par ciblage, enchères ou mots-clés'
+    ];
+    return { primary:primary, opportunities:opportunities, hasDemand:hasDemand };
   }
 
   function renderMetricGridA(){
@@ -1165,23 +1115,17 @@
       return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
     }
     var tiles = '';
-    tiles += tile('Mots-clés commerciaux identifiés', calc.kws.length ? fmtCount(calc.kws.length) : '—', 'google');
-    var top = calc.kws[0];
-    tiles += tile('Volume du terme principal (' + (top ? esc(top[0]) : '—') + ')', top ? fmtCount(top[1]) + ' / mois' : '—', 'google');
-    tiles += tile('Enchère de haut de page (plage)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    tiles += tile('Demande mensuelle réelle', fmtCount(calc.volTot) + ' / mois', 'google');
+    tiles += tile('Plage de coûts Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    tiles += tile('Mots-clés commerciaux vérifiés', fmtCount(calc.kws.length), 'google');
     return '<div class="metric-grid">' + tiles + '</div>';
   }
 
-  function renderKnowUnknown(findings){
-    return '<div class="card"><div class="eyebrow">Ce qu’on sait / ce qu’on ne sait pas</div><div class="know-grid">' +
-      '<div class="know-col known"><h5>Connu (déclaré par toi)</h5><ul>' + (findings.known.length ? findings.known.map(function(k){ return '<li>✓ ' + esc(k) + '</li>'; }).join('') : '<li>Rien de déclaré pour l’instant</li>') + '</ul></div>' +
-      '<div class="know-col unknown"><h5>Inconnu à ce stade</h5><ul>' + (findings.unknown.length ? findings.unknown.map(function(k){ return '<li>? ' + esc(k) + '</li>'; }).join('') : '<li>Tout est renseigné</li>') + '</ul></div>' +
-      '</div></div>';
-  }
-
-  function renderPrioritiesHtml(priorities){
-    return '<div class="cards-3">' + priorities.map(function(p,i){
-      return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>À vérifier en priorité</dt><dd>' + esc(p.t) + '</dd><dt>Pourquoi</dt><dd>' + esc(p.d) + '</dd></dl></div>';
+  /* 3 points courts, formulés "à vérifier dans ton compte" — jamais
+     "ton compte a ce problème" (aucun accès compte à ce stade). */
+  function renderOpportunitiesHtml(items){
+    return '<div class="cards-3">' + items.map(function(t,i){
+      return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>À vérifier dans ton compte</dt><dd>' + esc(t) + '</dd></dl></div>';
     }).join('') + '</div>';
   }
 
@@ -1254,10 +1198,12 @@
   }
 
   /* ============================================================
-     BRANCHE NON — diagnostic (AUDIT FINAL) : demande réelle Google +
-     marge/break-even (si valeur+marge fournies) + prévision Google Ads
-     pour le budget envisagé (si disponible dans la grille). Aucun taux
-     de conversion inventé.
+     BRANCHE NON — diagnostic (AUDIT FINAL V5) : demande réelle Google +
+     marge/break-even (si valeur+marge fournies) + recommandation
+     déterministe (test intéressant / à valider / mauvais fit). La
+     prévision Google Ads, quand disponible, est un bloc SECONDAIRE — les
+     clics ne sont jamais le résultat principal (Pixby vend de
+     l'acquisition, pas des clics). Aucun taux de conversion inventé.
      ============================================================ */
   function buildFindingsB(){
     var V = validNum(sel.simV, {min:0, strictPositive:true});
@@ -1267,25 +1213,36 @@
     var fc = getForecast();
     var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
 
-    var known = [], unknown = [];
-    (V != null ? known : unknown).push('Valeur moyenne d’un contrat');
-    (m != null ? known : unknown).push('Marge contributive');
-    unknown.push('Ton vrai taux de conversion (clic → lead → client signé)');
+    /* Recommandation deterministe : jamais "test interessant" sur le seul
+       volume — il faut demande ET economie positive (revue commerciale).
+       Un break-even techniquement positif mais trop proche du CPC reel
+       n'est pas un test serieux non plus — ecart trouve en testant
+       reellement (electromenager, valeur 150$/marge 20% => 30$ de marge,
+       ~16 clics de budget au CPC haut observe, soit >6% conversion clic->
+       client necessaire pour rentabiliser : optimiste sans preuve). Seuil
+       de 25x le CPC haut = marge couvrant ~25 clics, soit <4% conversion
+       requise — repere conservateur pour du service local, pas une donnee
+       mesuree (aucun taux de conversion reel disponible ici). */
+    var verdict;
+    if (!hasDemand) verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
+    else if (margeDisponible == null) verdict = { key:'a_valider', label:'À valider' };
+    else if (margeDisponible <= 0) verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
+    else if (calc.cpcHigh != null && margeDisponible < calc.cpcHigh * 25) verdict = { key:'a_valider', label:'À valider' };
+    else verdict = { key:'test_interessant', label:'Test intéressant' };
 
     var primary;
     if (!hasDemand) {
       primary = 'Les données Google Keyword Planner ne montrent pas assez de volume pour ce métier dans cette zone — à regarder de plus près ensemble avant toute conclusion.';
     } else if (margeDisponible != null) {
-      primary = 'Il y a de la demande réelle dans ton marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Ton seuil de rentabilité par client est ' + fmtMoneyDec(margeDisponible) + ' (break-even CAC) — à valider avec un vrai coût par client au rendez-vous.';
+      primary = 'Il y a de la demande réelle dans ton marché. Ton budget permet un test mesurable, mais la décision dépend surtout de la valeur économique d’un nouveau client.';
     } else {
-      primary = 'Il y a de la demande réelle dans ton marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Il manque ta valeur de contrat et/ou ta marge pour connaître ton seuil de rentabilité.';
+      primary = 'Il y a de la demande réelle dans ton marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Ta valeur de contrat et ta marge restent à établir pour connaître ton seuil de rentabilité.';
     }
+    var economySentence = margeDisponible != null
+      ? 'Pour rester rentable, ton coût total d’acquisition doit rester sous environ ' + fmtMoneyDec(margeDisponible) + ' par client.'
+      : null;
 
-    var priorities = [];
-    if (V == null || m == null) priorities.push({ t:'Établir ta valeur de contrat et ta marge', d:'Ce sont les deux seuls chiffres nécessaires pour connaître ton seuil de rentabilité, sans deviner de taux de conversion.' });
-    priorities.push({ t:'Définir un budget test et ses critères d’arrêt', d:'Un test contrôlé mesure ton vrai taux de conversion sans engager le budget complet.' });
-    priorities.push({ t:'Vérifier le CPC réel avec Alexander', d:'Les enchères Google et la prévision ci-dessus restent des repères — le CPC réel dépend de ta concurrence et de tes annonces.' });
-    return { known:known, unknown:unknown, primary:primary, priorities:priorities.slice(0,3),
+    return { primary:primary, verdict:verdict, economySentence:economySentence,
       V:V, m:m, margeDisponible:margeDisponible, forecast:fc, hasDemand:hasDemand };
   }
 
@@ -1294,24 +1251,25 @@
       return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
     }
     var tiles = '';
-    tiles += tile('Volume réel du marché (mots-clés vérifiés)', fmtCount(calc.volTot) + ' / mois', 'google');
-    if (data.margeDisponible != null) tiles += tile('Marge disponible par client (break-even CAC)', fmtMoneyDec(data.margeDisponible), 'calc');
-    else if (calc.cpcHigh != null) tiles += tile('Enchère de haut de page (plage)', money(calc.cpcLow) + ' – ' + money(calc.cpcHigh), 'google');
-    if (data.forecast) tiles += tile('Prévision Google Ads (' + fmt(data.forecast.budgetTier) + ' $/mois)', fmtCount(data.forecast.clicks) + ' clics · ' + fmtMoney(data.forecast.cost) + ' dépense prévue', 'forecast');
+    tiles += tile('Demande mensuelle réelle', fmtCount(calc.volTot) + ' / mois', 'google');
+    tiles += tile('Plage de coûts Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    if (data.margeDisponible != null) tiles += tile('Seuil de rentabilité (break-even CAC)', fmtMoneyDec(data.margeDisponible), 'calc');
     return '<div class="metric-grid">' + tiles + '</div>';
   }
 
+  function verdictPillHtml(verdict){
+    var cls = verdict.key === 'test_interessant' ? 'ok' : verdict.key === 'mauvais_fit' ? 'warn' : '';
+    return '<div class="metric-tile" style="text-align:center;"><div class="lbl">Recommandation</div><div class="val' + (cls?(' '+cls):'') + '">' + esc(verdict.label) + '</div></div>';
+  }
+
+  /* Bloc SECONDAIRE, volontairement plus discret que les 3 chiffres hero —
+     jamais "X clics" presente comme le benefice principal du resultat. */
   function forecastCardHtml(data){
     if (!data.forecast) return '';
     var f = data.forecast;
-    return '<div class="card"><div class="eyebrow">Prévision Google Ads ' + srcTag('forecast') + '</div>' +
-      '<p class="q-sub" style="margin-bottom:10px;">Pour un budget de ' + fmt(f.budgetTier) + ' $/mois (palier le plus proche de ton budget envisagé de ' + fmt(sel.budget) + ' $/mois) dans ' + esc(calc.regionMatched ? (REGIONS[sel.r]||'ta zone') : 'Québec (province)') + ' :</p>' +
-      '<div class="metric-grid">' +
-        '<div class="metric-tile"><div class="lbl">Clics prévus / mois</div><div class="val">' + fmtCount(f.clicks) + '</div></div>' +
-        '<div class="metric-tile"><div class="lbl">Dépense prévue / mois</div><div class="val">' + fmtMoney(f.cost) + '</div></div>' +
-        '<div class="metric-tile"><div class="lbl">CPC moyen prévu</div><div class="val">' + money(f.avgCpc) + '</div></div>' +
-      '</div>' +
-      '<p class="limit-note" style="margin-top:10px;">Modèle de prévision Google Ads, pas une garantie de résultat — le nombre de leads ou de clients qui en sortiraient reste inconnu tant qu’un test réel n’a pas été fait.</p></div>';
+    return '<div class="card" style="opacity:.85;"><div class="eyebrow" style="font-size:.68rem;">Ce que Google prévoit pour ce budget ' + srcTag('forecast') + '</div>' +
+      '<p class="limit-note" style="margin-bottom:8px;">Palier ' + fmt(f.budgetTier) + ' $/mois (le plus proche de ton budget de ' + fmt(sel.budget) + ' $/mois), ' + esc(calc.regionMatched ? (REGIONS[sel.r]||'ta zone') : 'Québec province') + ' : ~' + fmtCount(f.clicks) + ' clics, ~' + fmtMoney(f.cost) + ' dépensé, CPC moyen ' + money(f.avgCpc) + '.</p>' +
+      '<p class="limit-note">Modèle Google, pas une garantie — le nombre de leads ou de clients qui en sortiraient reste inconnu tant qu’un test réel n’a pas été fait.</p></div>';
   }
 
   function populateMarketSection(){
@@ -1366,6 +1324,14 @@
     });
   }
 
+  /* Detail methodo/table replie par defaut — jamais au centre de
+     l'experience (mandat V5 : resultat compris en ~20 secondes). */
+  function methodologyAccordionHtml(inner){
+    if (!inner) return '';
+    return '<details class="market"><summary style="font-size:.78rem; color:rgba(255,255,255,.5); cursor:pointer;">Comment ces chiffres sont calculés</summary>' +
+      '<div class="market-body" style="margin-top:12px;">' + inner + '</div></details>';
+  }
+
   function renderResultsBody(){
     var body = document.getElementById('resultsBody');
     if (sel.hasAds === 'oui') {
@@ -1379,19 +1345,19 @@
           '</div></div>' +
         '<div class="card finding-block"><div class="eyebrow">Ton diagnostic</div><p class="msg">' + esc(findings.primary) + '</p></div>' +
         renderMetricGridA() +
-        (calc.kws.length ? marketSectionHtml() : '') +
-        renderKnowUnknown(findings) +
-        renderPrioritiesHtml(findings.priorities) +
+        renderOpportunitiesHtml(findings.opportunities) +
+        '<p class="limit-note" style="margin:14px 0;">Pour savoir exactement où ton budget part et ce qu’il rapporte réellement, il faut regarder les campagnes.</p>' +
+        methodologyAccordionHtml(calc.kws.length ? marketSectionHtml() : '') +
         readOnlyOfferHtml();
       body.innerHTML = html;
       populateMarketSection();
       wireReadOnlyOffer();
       document.getElementById('agendaList').innerHTML =
-        '<li>Ton diagnostic de mesure et ce qui reste à vérifier (ci-dessus)</li>' +
-        '<li>Ce qu’on doit regarder dans le compte pour confirmer</li>' +
+        '<li>Ton diagnostic et ce qu’on doit regarder dans le compte</li>' +
         '<li>Les prochaines actions concrètes</li>';
     } else {
       var findingsB = buildFindingsB();
+      var methodoInner = (calc.kws.length ? marketSectionHtml() : '') + contractValueCardHtml();
       body.innerHTML =
         '<div class="card"><div class="eyebrow">Selon tes réponses</div>' +
           '<div class="summary-grid">' +
@@ -1399,16 +1365,15 @@
             '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
             '<div><div class="k">Budget envisagé</div><div class="v">' + fmt(sel.budget) + ' $/mois</div></div>' +
           '</div></div>' +
-        '<div class="card finding-block"><div class="eyebrow">Ton diagnostic</div><p class="msg">' + esc(findingsB.primary) + '</p></div>' +
+        '<div class="card finding-block"><div class="eyebrow">Ton diagnostic</div><p class="msg">' + esc(findingsB.primary) + '</p>' +
+          (findingsB.economySentence ? '<p class="fine" style="margin-top:10px;">' + esc(findingsB.economySentence) + '</p>' : '') +
+        '</div>' +
+        '<div class="metric-grid" style="margin-bottom:14px;">' + verdictPillHtml(findingsB.verdict) + '</div>' +
         renderMetricGridB(findingsB) +
-        (calc.kws.length ? marketSectionHtml() : '') +
-        contractValueCardHtml() +
         forecastCardHtml(findingsB) +
-        renderKnowUnknown(findingsB) +
-        renderPrioritiesHtml(findingsB.priorities);
+        methodologyAccordionHtml(methodoInner);
       document.getElementById('agendaList').innerHTML =
-        '<li>Ton diagnostic et ta marge disponible par client (ci-dessus)</li>' +
-        '<li>La prévision Google Ads pour ton budget, si disponible</li>' +
+        '<li>Ton diagnostic et ta recommandation (ci-dessus)</li>' +
         '<li>Le budget test et les critères d’arrêt avant de dépenser</li>';
       populateMarketSection();
     }
@@ -1421,8 +1386,8 @@
       generateIdempotencyKey();
       dl({ event:'lead_gate_opened' });
       document.getElementById('gateTitle').textContent = sel.hasAds === 'oui'
-        ? 'Faire vérifier mon compte avec Alexander'
-        : 'Valider mon budget et mon marché avec Alexander';
+        ? 'Faire vérifier mon compte avec Pixby'
+        : 'Construire mon test Google avec Pixby';
       document.getElementById('gate').style.display = 'block';
       document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
     });
@@ -1437,8 +1402,8 @@
 
     renderResultsBody();
 
-    var ctaLabel = sel.hasAds === 'oui' ? 'Faire vérifier mon compte avec Alexander — 30 min' : 'Valider mon budget et mon marché avec Alexander — 30 min';
-    var ctaSub = sel.hasAds === 'oui' ? 'On vérifie la mesure, ce qu’on doit regarder dans le compte et les prochaines actions.' : 'On regarde la demande réelle et le seuil de rentabilité ensemble.';
+    var ctaLabel = sel.hasAds === 'oui' ? 'Faire vérifier mon compte avec Pixby' : 'Construire mon test Google avec Pixby';
+    var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans ton compte.' : '30 minutes, gratuit — on structure un test mesurable ensemble.';
     var ctaWrap = document.createElement('div');
     ctaWrap.style.textAlign = 'center';
     ctaWrap.style.margin = '22px 0';
@@ -1507,8 +1472,6 @@
       var spendKey = { lt1000:null, '1000-2000':'spend_1000_2000', '2000-5000':'spend_2000_5000',
                         '5000-10000':'spend_5000_10000', '10000plus':'spend_10000_plus', inconnu:null }[sel.budgetActuel];
       if (spendKey) { signals.push(spendKey); score += SCORE_WEIGHTS[spendKey]; }
-      if (sel.leadsClairs && sel.leadsClairs !== 'oui') signals.push('leads_not_clear'); // enregistré, non chiffré
-      if (sel.leadsRelies && sel.leadsRelies !== 'oui') signals.push('leads_not_linked_to_clients'); // enregistré, non chiffré
     } else {
       if (sel.budget >= 2000) { signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads; }
       if (sel.simV != null && Number.isFinite(sel.simV) && sel.simV > 0 &&
@@ -1522,8 +1485,6 @@
     var tier = score >= TIER_THRESHOLDS.PRIORITY ? 'PRIORITY' : score >= TIER_THRESHOLDS.GOOD_FIT ? 'GOOD_FIT' : score >= TIER_THRESHOLDS.NURTURE ? 'NURTURE' : 'LOW_FIT';
     var reasonParts = [];
     if (signals.indexOf('google_ads_active') > -1) reasonParts.push('fait déjà de la pub Google Ads');
-    if (signals.indexOf('leads_not_clear') > -1) reasonParts.push('ne sait pas clairement combien de leads Google Ads génère (angle de diagnostic, pas un signal de qualité)');
-    if (signals.indexOf('leads_not_linked_to_clients') > -1) reasonParts.push('ne peut pas encore relier ses leads à ses clients signés');
     if (signals.indexOf('contract_value_and_margin_known') > -1) reasonParts.push('connaît sa valeur de contrat et sa marge');
     if (signals.indexOf('high_budget_intent_no_ads') > -1) reasonParts.push('budget envisagé significatif');
     if (signals.indexOf('high_value_sector') > -1) reasonParts.push('secteur à forte valeur de contrat');
@@ -1721,15 +1682,14 @@
     var scoring = computeLeadScore(siteWeb);
     /* measure_summary reutilise le champ GHL cree pour le pass data-integrity
        precedent (contact.audit__resume_mesure_brut) — un seul mapping deja
-       documente a Alexander, contenu adapte a AUDIT FINAL (plus de
-       questionnaire financier branche OUI, ajout forecast/leads-mesure). */
+       documente a Alexander, contenu adapte a AUDIT FINAL V5 (plus de
+       questions leads-mesure, ajout recommandation deterministe/forecast). */
     var findingsSummary = sel.hasAds === 'oui' ? buildFindingsA() : buildFindingsB();
     var fc = sel.hasAds !== 'oui' ? findingsSummary.forecast : null;
     var leadSummary = [
       'Parcours: ' + (sel.hasAds === 'oui' ? 'Déjà sur Google Ads' : 'Pas encore sur Google Ads'),
-      sel.hasAds === 'oui' ? 'Leads clairs: ' + (LEADS_LABELS[sel.leadsClairs] || 'non répondu') : null,
-      sel.hasAds === 'oui' ? 'Leads reliés aux clients: ' + (LEADS_LABELS[sel.leadsRelies] || 'non répondu') : null,
       sel.hasAds === 'oui' ? 'Intérêt audit lecture seule: ' + (sel.readOnlyInterest || 'non demandé') : null,
+      sel.hasAds !== 'oui' ? 'Recommandation: ' + findingsSummary.verdict.label : null,
       sel.hasAds !== 'oui' && sel.simV != null ? 'Valeur contrat déclarée: ' + sel.simV + '$' : null,
       sel.hasAds !== 'oui' && sel.simM != null ? 'Marge déclarée: ' + sel.simM + '%' : null,
       sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? 'Marge disponible/break-even CAC: ' + findingsSummary.margeDisponible.toFixed(2) + '$' : null,
@@ -1747,9 +1707,8 @@
       region: REGIONS[sel.r] || '', budget_declare: budgetSummaryLabel(),
       has_google_ads: sel.hasAds,
       current_ads_budget_range: sel.hasAds === 'oui' ? (BUDGET_LABELS[sel.budgetActuel] || '') : '',
-      leads_clairs: sel.hasAds === 'oui' ? (sel.leadsClairs || '') : '',
-      leads_relies_clients: sel.hasAds === 'oui' ? (sel.leadsRelies || '') : '',
       readonly_ads_interest: sel.hasAds === 'oui' ? (sel.readOnlyInterest || 'non_demande') : '',
+      recommendation: sel.hasAds !== 'oui' ? findingsSummary.verdict.key : '',
       contract_value: sel.hasAds !== 'oui' && sel.simV != null ? sel.simV : '',
       margin_pct: sel.hasAds !== 'oui' && sel.simM != null ? sel.simM : '',
       marge_disponible: sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? findingsSummary.margeDisponible.toFixed(2) : '',
