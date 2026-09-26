@@ -273,7 +273,9 @@
     .funnel-arrow { color:rgba(255,255,255,.3); font-size:1rem; }
 
     .cost-breakdown { background:var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:14px 16px; margin-top:10px; font-size:.85rem; }
-    .cost-breakdown .row { display:flex; justify-content:space-between; padding:4px 0; }
+    .cost-breakdown .row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:4px 0; }
+    .cost-breakdown .row span:first-child { flex:1 1 auto; }
+    .cost-breakdown .row span:last-child { flex:0 0 auto; white-space:nowrap; }
     .cost-breakdown .row.total { border-top:1px solid var(--glass-b); margin-top:6px; padding-top:8px; font-weight:700; }
 
     .sim-fictional-banner { background:rgba(247,190,44,.1); border:1px solid rgba(247,190,44,.35); border-radius:var(--r-sm); padding:10px 14px; font-size:.8rem; color:var(--yellow); margin-bottom:14px; }
