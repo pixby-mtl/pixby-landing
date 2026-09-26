@@ -1224,13 +1224,16 @@
     var clientsBreakEven = (margeDisponible != null && margeDisponible > 0)
       ? Math.ceil((sel.budget + PIXBY_MGMT_MONTHLY) / margeDisponible) : null;
 
-    /* Recommandation deterministe : jamais "test interessant" sur le seul
-       volume — il faut demande ET economie positive (revue commerciale). */
+    /* Recommandation (revue Alexander 2026-09-26) : jamais une conclusion
+       trop affirmative ("Test intéressant"/"Mauvais fit") — une marge
+       positive ne suffit pas a elle seule a dire qu'un test est bon. Les
+       3 libelles restent tous une invitation a valider, avec la raison
+       qui change; les vrais chiffres (demande, coût Google, clients
+       requis) font le travail, pas le libellé. Aucun seuil invente. */
     var verdict;
-    if (!hasDemand) verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
-    else if (margeDisponible == null) verdict = { key:'a_valider', label:'À valider' };
-    else if (margeDisponible > 0) verdict = { key:'test_interessant', label:'Test intéressant' };
-    else verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
+    if (!hasDemand) verdict = { key:'demande_limitee', label:'Demande limitée à valider' };
+    else if (margeDisponible != null && margeDisponible > 0) verdict = { key:'potentiel', label:'Potentiel à valider' };
+    else verdict = { key:'a_valider', label:'À valider' };
 
     var primary;
     if (!hasDemand) {
@@ -1264,7 +1267,7 @@
   }
 
   function verdictPillHtml(verdict){
-    var cls = verdict.key === 'test_interessant' ? 'ok' : verdict.key === 'mauvais_fit' ? 'warn' : '';
+    var cls = verdict.key === 'potentiel' ? 'ok' : verdict.key === 'demande_limitee' ? 'warn' : '';
     return '<div class="metric-tile" style="text-align:center;"><div class="lbl">Recommandation</div><div class="val' + (cls?(' '+cls):'') + '">' + esc(verdict.label) + '</div></div>';
   }
 
