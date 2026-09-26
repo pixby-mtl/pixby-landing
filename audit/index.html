@@ -1144,7 +1144,6 @@
     var tiles = '';
     tiles += tile('Demande mensuelle réelle', fmtCount(calc.volTot) + ' / mois', 'google');
     tiles += tile('Plage de coûts Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
-    tiles += tile('Mots-clés commerciaux vérifiés', fmtCount(calc.kws.length), 'google');
     return '<div class="metric-grid">' + tiles + '</div>';
   }
 
@@ -1279,21 +1278,23 @@
     else if (margeDisponible != null && margeDisponible > 0) verdict = { key:'potentiel', label:'Potentiel à valider' };
     else verdict = { key:'a_valider', label:'À valider' };
 
+    /* Phrase principale (gel commercial 2026-09-26, Alexander) : le
+       resultat visible ne montre plus de verdict/recommandation ni de
+       "CAC sous X$" — seulement combien de clients signes couvriraient
+       l'investissement recurrent reel (budget + gestion Pixby). */
+    var investissementMensuel = sel.budget + PIXBY_MGMT_MONTHLY;
     var primary;
     if (!hasDemand) {
       primary = 'Les données Google Keyword Planner ne montrent pas assez de volume pour ce métier dans cette zone — à regarder de plus près ensemble avant toute conclusion.';
     } else if (demandLimited) {
       primary = 'Google détecte une demande limitée pour ce marché avec ce niveau de budget — le potentiel mérite d’être validé avant d’investir davantage.';
-    } else if (margeDisponible != null) {
-      primary = 'Il y a de la demande réelle dans ton marché. Ton budget permet un test mesurable, mais la décision dépend surtout de la valeur économique d’un nouveau client.';
+    } else if (clientsBreakEven != null) {
+      primary = 'À tes chiffres, ' + (clientsBreakEven === 1 ? '1 client signé par mois suffirait' : clientsBreakEven + ' clients signés par mois suffiraient') + ' à couvrir environ ' + fmtMoney(investissementMensuel) + ' d’investissement récurrent Google Ads + Pixby.';
     } else {
       primary = 'Il y a de la demande réelle dans ton marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Ta valeur de contrat et ta marge restent à établir pour connaître ton seuil de rentabilité.';
     }
-    var economySentence = margeDisponible != null
-      ? 'Pour rester rentable, ton coût total d’acquisition doit rester sous environ ' + fmtMoneyDec(margeDisponible) + ' par client.'
-      : null;
 
-    return { primary:primary, verdict:verdict, economySentence:economySentence,
+    return { primary:primary, verdict:verdict,
       V:V, m:m, mPct:mRaw, margeDisponible:margeDisponible, clientsBreakEven:clientsBreakEven, forecast:fc, hasDemand:hasDemand, demandLimited:demandLimited };
   }
 
@@ -1306,15 +1307,8 @@
     tiles += tile('Coût Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
     if (data.clientsBreakEven != null) {
       tiles += tile('Clients requis par mois, hors onboarding', fmtCount(data.clientsBreakEven) + ' / mois', 'calc');
-    } else if (data.margeDisponible != null) {
-      tiles += tile('Marge disponible par client', fmtMoneyDec(data.margeDisponible), 'calc');
     }
     return '<div class="metric-grid">' + tiles + '</div>';
-  }
-
-  function verdictPillHtml(verdict){
-    var cls = verdict.key === 'potentiel' ? 'ok' : verdict.key === 'demande_limitee' ? 'warn' : '';
-    return '<div class="metric-tile" style="text-align:center;"><div class="lbl">Recommandation</div><div class="val' + (cls?(' '+cls):'') + '">' + esc(verdict.label) + '</div></div>';
   }
 
   /* Bloc SECONDAIRE, volontairement plus discret que les 3 chiffres hero —
@@ -1389,50 +1383,33 @@
 
   function renderResultsBody(){
     var body = document.getElementById('resultsBody');
+    /* Résultat commercial figé le 2026-09-26 (Alexander) : plus de résumé
+       de réponses, plus de diagnostic générique, plus d'offre read-only
+       dans le résultat (gérée après booking). Branche OUI : seulement
+       2 chiffres + 3 points à vérifier. Branche NON : 3 chiffres + une
+       phrase (clients requis pour couvrir l'investissement), plus de
+       verdict/recommandation ni de "CAC sous X$". Forecast/mots-clés/
+       méthodologie/limites restent uniquement dans l'accordéon fermé. */
     if (sel.hasAds === 'oui') {
       var findings = buildFindingsA();
-      var html =
-        '<div class="card"><div class="eyebrow">Selon tes réponses</div>' +
-          '<div class="summary-grid">' +
-            '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
-            '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
-            '<div><div class="k">Budget Ads actuel</div><div class="v">' + esc(BUDGET_LABELS[sel.budgetActuel] || '') + '</div></div>' +
-          '</div></div>' +
-        '<div class="card finding-block"><div class="eyebrow">Ton diagnostic</div><p class="msg">' + esc(findings.primary) + '</p></div>' +
+      body.innerHTML =
         renderMetricGridA() +
         renderOpportunitiesHtml(findings.opportunities) +
-        '<p class="limit-note" style="margin:14px 0;">Pour savoir exactement où ton budget part et ce qu’il rapporte réellement, il faut regarder les campagnes.</p>' +
-        methodologyAccordionHtml(calc.kws.length ? marketSectionHtml() : '') +
-        readOnlyOfferHtml();
-      body.innerHTML = html;
+        methodologyAccordionHtml(calc.kws.length ? marketSectionHtml() : '');
       populateMarketSection();
-      wireReadOnlyOffer();
       document.getElementById('agendaList').innerHTML =
-        '<li>Ton diagnostic et ce qu’on doit regarder dans le compte</li>' +
+        '<li>Ce qu’on doit regarder dans ton compte</li>' +
         '<li>Les prochaines actions concrètes</li>';
     } else {
       var findingsB = buildFindingsB();
-      /* Forecast detaille (palier/clics/depense/CPC) replie dans
-         l'accordeon methodologie — jamais dans le flux principal visible
-         (revue Codex P1.2) : le resultat NON Ads reste demande/coût/
-         clients requis/verdict/CTA, sans remettre les clics au centre. */
       var methodoInner = (calc.kws.length ? marketSectionHtml() : '') + contractValueCardHtml() + forecastCardHtml(findingsB);
       body.innerHTML =
-        '<div class="card"><div class="eyebrow">Selon tes réponses</div>' +
-          '<div class="summary-grid">' +
-            '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
-            '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
-            '<div><div class="k">Budget envisagé</div><div class="v">' + fmt(sel.budget) + ' $/mois</div></div>' +
-          '</div></div>' +
-        '<div class="card finding-block"><div class="eyebrow">Ton diagnostic</div><p class="msg">' + esc(findingsB.primary) + '</p>' +
-          (findingsB.economySentence ? '<p class="fine" style="margin-top:10px;">' + esc(findingsB.economySentence) + '</p>' : '') +
-        '</div>' +
-        '<div class="metric-grid" style="margin-bottom:14px;">' + verdictPillHtml(findingsB.verdict) + '</div>' +
+        '<div class="card finding-block"><p class="msg">' + esc(findingsB.primary) + '</p></div>' +
         renderMetricGridB(findingsB) +
-        (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 2px;">Calcul : (budget Ads ' + fmt(sel.budget) + ' $ + gestion Pixby ' + fmt(PIXBY_MGMT_MONTHLY) + ' $/mois) ÷ ' + fmtMoneyDec(findingsB.margeDisponible) + ' de marge par client — aucun taux de conversion supposé.</p><p class="limit-note" style="margin:0 0 14px;">Onboarding initial Pixby de 1 000 $ non inclus.</p>' : '') +
+        (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 14px;">Onboarding initial Pixby de 1 000 $ non inclus.</p>' : '') +
         methodologyAccordionHtml(methodoInner);
       document.getElementById('agendaList').innerHTML =
-        '<li>Ton diagnostic et ta recommandation (ci-dessus)</li>' +
+        '<li>Ce que tes chiffres montrent (ci-dessus)</li>' +
         '<li>Le budget test et les critères d’arrêt avant de dépenser</li>';
       populateMarketSection();
     }
@@ -1444,9 +1421,7 @@
     btn.addEventListener('click', function(){
       generateIdempotencyKey();
       dl({ event:'lead_gate_opened' });
-      document.getElementById('gateTitle').textContent = sel.hasAds === 'oui'
-        ? 'Faire vérifier mon compte avec Pixby'
-        : 'Prendre rendez-vous avec Pixby';
+      document.getElementById('gateTitle').textContent = 'Prendre rendez-vous avec Pixby';
       document.getElementById('gate').style.display = 'block';
       document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
     });
@@ -1461,7 +1436,7 @@
 
     renderResultsBody();
 
-    var ctaLabel = sel.hasAds === 'oui' ? 'Faire vérifier mon compte avec Pixby' : 'Prendre rendez-vous avec Pixby';
+    var ctaLabel = 'Prendre rendez-vous avec Pixby';
     var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans ton compte.' : '30 minutes, gratuit — on regarde ensemble si Google Ads a du sens pour toi.';
     var ctaWrap = document.createElement('div');
     ctaWrap.style.textAlign = 'center';
