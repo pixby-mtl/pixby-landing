@@ -632,8 +632,15 @@
     .case-quote-block cite { display: block; font-size: .73rem; color: #aaa; font-style: normal; margin-top: 8px; font-weight: 600; }
     .case-right {
       background: var(--deep); display: flex; align-items: center; justify-content: center; padding: 40px;
+      position: relative;
     }
-    .case-right img { width: 100%; border-radius: var(--r-md); }
+    .case-right img { width: 100%; border-radius: var(--r-md); display: block; }
+    .case-photo-tag {
+      position: absolute; top: 12px; right: 12px; z-index: 1;
+      font-size: .65rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+      color: rgba(255,255,255,.85); background: rgba(0,0,0,.55); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.15); border-radius: 999px; padding: 4px 11px;
+    }
     @media (max-width: 840px) { .case-featured-inner { grid-template-columns: 1fr; } .case-right { padding: 24px; } .case-left { padding: 32px 24px; } }
     @media (max-width: 560px) {
       .case-right { padding: 0; background: #0b1623; }
@@ -1053,7 +1060,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="case-left">
           <span class="case-pill">Réparation d'électroménagers</span>
           <h3>Client Pixby</h3>
-          <div class="case-loc">Client actif depuis mai 2026 · période mesurée : 10 juin au 10 juillet 2026</div>
+          <div class="case-loc">Client actif depuis mai 2026 · période mesurée : 11 juin au 10 juillet 2026</div>
           <div class="case-mets">
             <div class="case-met">
               <span class="met-lbl">Appels et demandes reçus</span>
@@ -1075,7 +1082,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="case-note">Mesuré par le suivi de conversions Google Ads (appels + formulaires). Ce sont des demandes reçues — ni des leads qualifiés (filtrés/validés), ni des clients signés. La qualification et la signature ne sont pas suivies distinctement sur cette période.</p>
         </div>
         <div class="case-right">
-          <img src="assets/photo-electromenager.jpg" alt="Technicien en réparation d'électroménagers — client Pixby">
+          <span class="case-photo-tag">Illustration</span>
+          <img src="assets/photo-electromenager.jpg" alt="Illustration — réparation d'électroménagers (photo non contractuelle, pas le technicien réel)">
         </div>
       </div>
     </div>
@@ -1159,8 +1167,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="s s-dark mid-cta" id="audit2">
   <div class="s-inner">
     <span class="eyebrow eyebrow-w reveal">Passe à l'action</span>
-    <h2 class="ttl ttl-w reveal">Prêt à savoir combien de leads<br>Google Ads peut te générer&nbsp;?</h2>
-    <p class="sub sub-w reveal" style="margin:0 auto 44px;">Un diagnostic en ligne gratuit, en quelques minutes. Sans engagement.</p>
+    <h2 class="ttl ttl-w reveal">Prêt à estimer combien de demande<br>Google Ads détecte pour toi&nbsp;?</h2>
+    <p class="sub sub-w reveal" style="margin:0 auto 44px;">Une estimation de la demande réelle sur ton marché — pas un résultat garanti. Diagnostic en ligne gratuit, en quelques minutes.</p>
     <div class="mid-cta-btns reveal">
       <a href="/audit/" class="btn-main" data-placement="mid_cta">Lancer mon audit gratuit →</a>
       <a href="tel:4506343562" class="btn-sec">
