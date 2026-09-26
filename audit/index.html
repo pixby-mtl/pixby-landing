@@ -802,6 +802,23 @@
 
   dl({ event:'audit_view' });
 
+  /* Paramètre ?parcours=existant|demarrage — présélection de la Q1 depuis un
+     lien homepage (AuditPathSelector). Met à jour sel.hasAds (l'état réel
+     utilisé par buildSequence et tout le reste du flux), pas seulement la
+     classe visuelle .sel — reste entièrement modifiable : cliquer l'autre
+     bouton écrase sel.hasAds normalement via le listener #step0 existant.
+     Sans lien avec le champ payload.parcours plus bas (valeurs oui/non/
+     inconnu envoyées à GHL) -- même mot, deux usages distincts. */
+  (function preselectParcours(){
+    var qp = new URLSearchParams(window.location.search).get('parcours');
+    if (qp !== 'existant' && qp !== 'demarrage') return;
+    var target = qp === 'existant' ? 'oui' : 'non';
+    var btn = document.querySelector('#step0 .choice-big[data-ads="' + target + '"]');
+    if (btn) btn.classList.add('sel');
+    sel.hasAds = target;
+    dl({ event: 'audit_view_preselected', parcours: qp });
+  })();
+
   /* ============================================================
      SÉQUENCE — deux parcours distincts. stepEconomie est sautée pour le
      parcours manuel (métier hors base instantanée, voir shouldSkip).
