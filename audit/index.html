@@ -212,6 +212,7 @@
     .metric-tile .val.warn { color:var(--orange); }
     .metric-tile .val.ok { color:var(--green); }
     .metric-tile .val.unknown { color:rgba(255,255,255,.3); font-size:1.1rem; }
+    .metric-tile .sub { font-size:.72rem; color:rgba(255,255,255,.4); margin-top:6px; line-height:1.4; }
 
     .know-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
     .know-col h5 { font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
@@ -1081,11 +1082,25 @@
       volTot += k[1];
       if (k[3] > 0) { wLow += k[2]*k[1]; wHigh += k[3]*k[1]; withBid += k[1]; }
     });
+    /* "Local" seulement si sel.r est une des 6 vraies villes ET que cette
+       ville a des donnees — jamais quand sel.r est "autre"/"tout" (deja
+       une demande provinciale assumee) ni quand regionKwList() a du
+       replier silencieusement sur la province faute de donnees ville
+       (revue Codex, 2026-09-26 : rk seul ne suffit pas, il vaut deja
+       "tout" dans les deux cas et masquait la distinction). */
+    var isRealCity = ['mtl','rs','lav','qc','gat','sher'].indexOf(sel.r) > -1;
     var rk = regionKey(sel.r);
     calc = { d:d, kws:kws, volTot: Math.round(volTot),
              cpcLow: withBid ? wLow/withBid : null, cpcHigh: withBid ? wHigh/withBid : null,
              valLow:d.avgValue[0], valHigh:d.avgValue[1],
-             regionMatched: !!(d.regions && d.regions[rk] && d.regions[rk].length) };
+             regionMatched: !!(isRealCity && d.regions && d.regions[rk] && d.regions[rk].length) };
+  }
+  /* Libellé de la tuile "demande" — ne jamais dire "locale" quand les
+     donnees sont en fait un repli provincial (revue Codex, 2026-09-26) :
+     regionKwList() peut remplacer une ville sans donnees suffisantes par
+     le repere Quebec au complet, ce qui n'est plus une donnee locale. */
+  function demandLabel(){
+    return calc.regionMatched ? 'Demande estimée — ' + (REGIONS[sel.r] || 'ta zone') : 'Repère Québec (province)';
   }
 
   function srcTag(type){
@@ -1138,12 +1153,12 @@
   }
 
   function renderMetricGridA(){
-    function tile(lbl, val, tag){
-      return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
+    function tile(lbl, val, tag, sub){
+      return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div>' + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>';
     }
     var tiles = '';
-    tiles += tile('Demande mensuelle réelle', fmtCount(calc.volTot) + ' / mois', 'google');
-    tiles += tile('Plage de coûts Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    tiles += tile(demandLabel(), fmtCount(calc.volTot) + ' recherches/mois', 'google');
+    tiles += tile('Enchères de haut de page — plage indicative', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google', 'Pas un CPC observé ni un prix garanti du clic.');
     return '<div class="metric-grid">' + tiles + '</div>';
   }
 
@@ -1175,7 +1190,7 @@
      Keyword Planner, pour la region la plus precise disponible (ville) —
      repli sur la province si la ville n'a pas de donnees suffisantes. */
   function marketSectionHtml(){
-    var zoneLabel = calc.regionMatched ? (REGIONS[sel.r] || 'ta zone') : 'Québec (province)';
+    var zoneLabel = calc.regionMatched ? (REGIONS[sel.r] || 'ta zone') : 'Québec';
     return '<div class="card"><div class="eyebrow">Ton marché — Google Keyword Planner ' + srcTag('google') + '</div>' +
       '<div class="tiles" style="margin-bottom:14px;">' +
         '<div class="tile t1"><div class="tile-tag">Mots-clés commerciaux (' + esc(zoneLabel) + ')</div><div class="tile-val" id="tVol" style="font-size:1.3rem;"></div><div class="tile-sub">Recherches réelles Google pour ces termes précis — pas une expansion automatique, pour éviter tout bruit (marques, hors-sujet).</div></div>' +
@@ -1299,12 +1314,12 @@
   }
 
   function renderMetricGridB(data){
-    function tile(lbl, val, tag){
-      return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
+    function tile(lbl, val, tag, sub){
+      return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div>' + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>';
     }
     var tiles = '';
-    tiles += tile('Demande locale', fmtCount(calc.volTot) + ' recherches/mois', 'google');
-    tiles += tile('Coût Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    tiles += tile(demandLabel(), fmtCount(calc.volTot) + ' recherches/mois', 'google');
+    tiles += tile('Enchères de haut de page — plage indicative', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google', 'Pas un CPC observé ni un prix garanti du clic.');
     if (data.clientsBreakEven != null) {
       tiles += tile('Clients requis par mois, hors onboarding', fmtCount(data.clientsBreakEven) + ' / mois', 'calc');
     }
