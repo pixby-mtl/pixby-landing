@@ -497,12 +497,14 @@
       <div class="f-row" style="max-width:320px;">
         <label for="simV">Valeur moyenne du premier contrat, avant taxes ($)</label>
         <input type="number" id="simV" inputmode="decimal" min="0" placeholder="Ex. 3000" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+        <p class="f-error" id="simVErr">Entre une valeur de contrat supérieure à 0 $, ou laisse vide.</p>
       </div>
       <button class="btn btn-ghost" id="simVUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas encore</button>
 
       <div class="f-row" style="max-width:320px;">
         <label for="simM">Marge contributive après coûts de réalisation (%, facultatif)</label>
         <input type="number" id="simM" inputmode="decimal" min="0" max="100" placeholder="Ex. 40" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+        <p class="f-error" id="simMErr">Entre une marge entre 0 et 100 %, ou laisse vide.</p>
       </div>
       <button class="btn btn-ghost" id="simMUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas ma marge</button>
 
@@ -734,7 +736,7 @@
   var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
   var CALENDLY_URL = 'https://calendly.com/admin-pixby/30min';
-  var AUDIT_VERSION = 'audit-v4-final-2026-09-26';
+  var AUDIT_VERSION = 'audit-v5-final-2026-09-26';
 
   var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +", inconnu:"Je ne sais pas" };
 
@@ -982,23 +984,48 @@
      le bloc marge/break-even du résultat est alors omis (jamais un chiffre
      fictif affiché comme si c'était réel — mandat AUDIT FINAL).
      ============================================================ */
+  /* Validation reelle avant progression (revue Codex P2) : une valeur
+     negative/invalide ne doit jamais entrer dans un calcul, un affichage
+     ou le payload GHL comme donnee commerciale valide. Vide = facultatif,
+     toujours autorise. Erreur affichee sous le champ, pas de progression
+     tant que la valeur saisie (non vide) est invalide. */
+  function validateEconomieFields(){
+    var vInput = document.getElementById('simV'), vErr = document.getElementById('simVErr');
+    var mInput = document.getElementById('simM'), mErr = document.getElementById('simMErr');
+    var vRaw = vInput.value.trim(), mRaw = mInput.value.trim();
+    var vOk = vRaw === '' || validNum(+vRaw, {min:0, strictPositive:true}) != null;
+    var mOk = mRaw === '' || validNum(+mRaw, {min:0, max:100}) != null;
+    vInput.style.borderColor = vOk ? '' : '#ef4444'; vErr.style.display = vOk ? 'none' : 'block';
+    mInput.style.borderColor = mOk ? '' : '#ef4444'; mErr.style.display = mOk ? 'none' : 'block';
+    return vOk && mOk ? null : (vOk ? 'simM' : 'simV');
+  }
   document.getElementById('simV').addEventListener('input', function(){
     sel.simV = this.value === '' ? null : +this.value;
-    this.style.borderColor = '';
+    if (this.style.borderColor !== 'var(--yellow)') this.style.borderColor = '';
+    document.getElementById('simVErr').style.display = 'none';
   });
   document.getElementById('simVUnknown').addEventListener('click', function(){
     sel.simV = null;
     var input = document.getElementById('simV');
     input.value = ''; input.style.borderColor = 'var(--yellow)';
+    document.getElementById('simVErr').style.display = 'none';
   });
   document.getElementById('simM').addEventListener('input', function(){
     sel.simM = this.value === '' ? null : +this.value;
+    this.style.borderColor = '';
+    document.getElementById('simMErr').style.display = 'none';
   });
   document.getElementById('simMUnknown').addEventListener('click', function(){
     sel.simM = null;
     document.getElementById('simM').value = '';
+    document.getElementById('simM').style.borderColor = '';
+    document.getElementById('simMErr').style.display = 'none';
   });
-  document.getElementById('economieNext').addEventListener('click', nextStep);
+  document.getElementById('economieNext').addEventListener('click', function(){
+    var firstInvalid = validateEconomieFields();
+    if (firstInvalid) { document.getElementById(firstInvalid).focus(); return; }
+    nextStep();
+  });
 
   /* ============================================================
      ÉDITER MES RÉPONSES — retour au début du parcours en gardant sel
@@ -1130,9 +1157,11 @@
   }
 
   /* Valeur de contrat declaree par le prospect (branche NON seulement —
-     la branche OUI ne collecte plus de valeur de contrat, AUDIT FINAL). */
+     la branche OUI ne collecte plus de valeur de contrat, AUDIT FINAL).
+     Toujours validee (jamais negative/invalide affichee — revue Codex P2),
+     meme si le gate de progression sur stepEconomie devrait deja l'empecher. */
   function contractValueDeclared(){
-    return sel.simV != null ? sel.simV : null;
+    return validNum(sel.simV, {min:0, strictPositive:true});
   }
 
   function contractValueCardHtml(){
@@ -1159,11 +1188,12 @@
   }
 
   /* ============================================================
-     SIMULATEUR ÉCONOMIQUE (P1.3) — moteur de calcul.
-     Toutes les divisions sont protégées : une valeur manquante ou nulle
-     donne `null`, jamais un 0 $ trompeur. `feesMode==='avec'` inclut
-     systématiquement 1000 $ (premier mois) + 750 $/mois (gestion Pixby),
-     jamais caché dans un petit texte — voir cost-breakdown.
+     FORMATAGE — toutes les divisions economiques en amont sont protegees :
+     une valeur manquante ou nulle donne `null`, jamais un 0 $ trompeur.
+     Frais Pixby reels utilises dans les calculs de cette page : 750 $/mois
+     de gestion (PIXBY_MGMT_MONTHLY, recurrent) ET SEPAREMENT 1 000 $
+     d'onboarding initial (ponctuel, PAS inclus dans le calcul recurrent
+     "clients requis par mois" — voir la mention explicite a l'affichage).
      ============================================================ */
   function fmtMoney(n){ return (n == null || !isFinite(n)) ? '—' : fmt(n) + ' $'; }
   function fmtMoneyDec(n){ return (n == null || !isFinite(n)) ? '—' : n.toFixed(2).replace('.', ',') + ' $'; }
@@ -1194,7 +1224,15 @@
     var tier = nearestBudgetTier(sel.budget);
     var entry = byRegion[String(tier)];
     if (!entry) return null;
-    return { budgetTier:tier, clicks:entry.c, cost:entry.s, avgCpc:entry.p };
+    /* Google ne force jamais un depassement du palier : le forecast ne
+       peut PAS depenser plus que la demande disponible ne le permet. Si la
+       depense prevue reste nettement sous le palier demande (au-dela du
+       bruit d'arrondi du calcul, quelques dollars), c'est directement
+       Google qui indique que la demande ne peut pas absorber ce budget —
+       signal observe, pas un multiplicateur metier invente (revue Codex
+       P1.1, 2026-09-26). */
+    var demandLimited = (tier - entry.s) > 5;
+    return { budgetTier:tier, clicks:entry.c, cost:entry.s, avgCpc:entry.p, demandLimited:demandLimited };
   }
 
   /* ============================================================
@@ -1218,26 +1256,34 @@
     var margeDisponible = (V != null && m != null) ? V*m : null;
     var fc = getForecast();
     var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
+    var demandLimited = !!(fc && fc.demandLimited);
     /* Combien de clients signes suffisent a couvrir l'investissement
        mensuel (budget Ads + gestion Pixby) — pure arithmetique a partir de
-       deux montants reels, aucun taux de conversion invente. */
+       deux montants reels, aucun taux de conversion invente. Exclut
+       explicitement l'onboarding Pixby (1000$, ponctuel) — voir tuile. */
     var clientsBreakEven = (margeDisponible != null && margeDisponible > 0)
       ? Math.ceil((sel.budget + PIXBY_MGMT_MONTHLY) / margeDisponible) : null;
 
-    /* Recommandation (revue Alexander 2026-09-26) : jamais une conclusion
-       trop affirmative ("Test intéressant"/"Mauvais fit") — une marge
-       positive ne suffit pas a elle seule a dire qu'un test est bon. Les
-       3 libelles restent tous une invitation a valider, avec la raison
-       qui change; les vrais chiffres (demande, coût Google, clients
-       requis) font le travail, pas le libellé. Aucun seuil invente. */
+    /* Recommandation (revue Alexander + Codex, 2026-09-26) : jamais une
+       conclusion trop affirmative ("Test intéressant"/"Mauvais fit") — une
+       marge positive ne suffit pas a elle seule a dire qu'un test est bon.
+       "Demande limitée" s'appuie maintenant SUR LE FORECAST GOOGLE REEL
+       (fc.demandLimited) en plus du simple volume>0 — sans ça, le verdict
+       etait quasi impossible a atteindre (volume Keyword Planner > 0
+       presque partout), alors que le Forecast montre parfois que le
+       marche ne peut pas absorber le budget choisi (ex. renovation/
+       Gatineau, palier 750$ -> ~93$ reellement depensable). Aucun seuil
+       metier invente : demandLimited vient directement de Google. */
     var verdict;
-    if (!hasDemand) verdict = { key:'demande_limitee', label:'Demande limitée à valider' };
+    if (!hasDemand || demandLimited) verdict = { key:'demande_limitee', label:'Demande limitée à valider' };
     else if (margeDisponible != null && margeDisponible > 0) verdict = { key:'potentiel', label:'Potentiel à valider' };
     else verdict = { key:'a_valider', label:'À valider' };
 
     var primary;
     if (!hasDemand) {
       primary = 'Les données Google Keyword Planner ne montrent pas assez de volume pour ce métier dans cette zone — à regarder de plus près ensemble avant toute conclusion.';
+    } else if (demandLimited) {
+      primary = 'Il y a de la demande pour ce métier dans ta zone, mais Google prévoit ne pouvoir dépenser qu’environ ' + fmtMoney(fc.cost) + ' de ton budget de ' + fmt(sel.budget) + ' $/mois — le marché ne semble pas pouvoir absorber ce budget en ce moment. À valider avant d’engager ce montant.';
     } else if (margeDisponible != null) {
       primary = 'Il y a de la demande réelle dans ton marché. Ton budget permet un test mesurable, mais la décision dépend surtout de la valeur économique d’un nouveau client.';
     } else {
@@ -1248,7 +1294,7 @@
       : null;
 
     return { primary:primary, verdict:verdict, economySentence:economySentence,
-      V:V, m:m, margeDisponible:margeDisponible, clientsBreakEven:clientsBreakEven, forecast:fc, hasDemand:hasDemand };
+      V:V, m:m, mPct:mRaw, margeDisponible:margeDisponible, clientsBreakEven:clientsBreakEven, forecast:fc, hasDemand:hasDemand, demandLimited:demandLimited };
   }
 
   function renderMetricGridB(data){
@@ -1259,7 +1305,7 @@
     tiles += tile('Demande locale', fmtCount(calc.volTot) + ' recherches/mois', 'google');
     tiles += tile('Coût Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
     if (data.clientsBreakEven != null) {
-      tiles += tile('Clients requis pour couvrir l’investissement', fmtCount(data.clientsBreakEven) + ' / mois', 'calc');
+      tiles += tile('Clients requis par mois, hors onboarding', fmtCount(data.clientsBreakEven) + ' / mois', 'calc');
     } else if (data.margeDisponible != null) {
       tiles += tile('Marge disponible par client', fmtMoneyDec(data.margeDisponible), 'calc');
     }
@@ -1366,7 +1412,11 @@
         '<li>Les prochaines actions concrètes</li>';
     } else {
       var findingsB = buildFindingsB();
-      var methodoInner = (calc.kws.length ? marketSectionHtml() : '') + contractValueCardHtml();
+      /* Forecast detaille (palier/clics/depense/CPC) replie dans
+         l'accordeon methodologie — jamais dans le flux principal visible
+         (revue Codex P1.2) : le resultat NON Ads reste demande/coût/
+         clients requis/verdict/CTA, sans remettre les clics au centre. */
+      var methodoInner = (calc.kws.length ? marketSectionHtml() : '') + contractValueCardHtml() + forecastCardHtml(findingsB);
       body.innerHTML =
         '<div class="card"><div class="eyebrow">Selon tes réponses</div>' +
           '<div class="summary-grid">' +
@@ -1379,8 +1429,7 @@
         '</div>' +
         '<div class="metric-grid" style="margin-bottom:14px;">' + verdictPillHtml(findingsB.verdict) + '</div>' +
         renderMetricGridB(findingsB) +
-        (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 14px;">Calcul : (budget Ads ' + fmt(sel.budget) + ' $ + gestion Pixby ' + fmt(PIXBY_MGMT_MONTHLY) + ' $/mois) ÷ ' + fmtMoneyDec(findingsB.margeDisponible) + ' de marge par client — aucun taux de conversion supposé.</p>' : '') +
-        forecastCardHtml(findingsB) +
+        (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 2px;">Calcul : (budget Ads ' + fmt(sel.budget) + ' $ + gestion Pixby ' + fmt(PIXBY_MGMT_MONTHLY) + ' $/mois) ÷ ' + fmtMoneyDec(findingsB.margeDisponible) + ' de marge par client — aucun taux de conversion supposé.</p><p class="limit-note" style="margin:0 0 14px;">Onboarding initial Pixby de 1 000 $ non inclus.</p>' : '') +
         methodologyAccordionHtml(methodoInner);
       document.getElementById('agendaList').innerHTML =
         '<li>Ton diagnostic et ta recommandation (ci-dessus)</li>' +
@@ -1700,8 +1749,8 @@
       'Parcours: ' + (sel.hasAds === 'oui' ? 'Déjà sur Google Ads' : 'Pas encore sur Google Ads'),
       sel.hasAds === 'oui' ? 'Intérêt audit lecture seule: ' + (sel.readOnlyInterest || 'non demandé') : null,
       sel.hasAds !== 'oui' ? 'Recommandation: ' + findingsSummary.verdict.label : null,
-      sel.hasAds !== 'oui' && sel.simV != null ? 'Valeur contrat déclarée: ' + sel.simV + '$' : null,
-      sel.hasAds !== 'oui' && sel.simM != null ? 'Marge déclarée: ' + sel.simM + '%' : null,
+      sel.hasAds !== 'oui' && findingsSummary.V != null ? 'Valeur contrat déclarée: ' + findingsSummary.V + '$' : null,
+      sel.hasAds !== 'oui' && findingsSummary.mPct != null ? 'Marge déclarée: ' + findingsSummary.mPct + '%' : null,
       sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? 'Marge disponible/break-even CAC: ' + findingsSummary.margeDisponible.toFixed(2) + '$' : null,
       sel.hasAds !== 'oui' && findingsSummary.clientsBreakEven != null ? 'Clients requis pour couvrir l’investissement: ' + findingsSummary.clientsBreakEven + '/mois' : null,
       fc ? 'Prévision Google (' + fc.budgetTier + '$/mois, ' + regionKey(sel.r) + '): ~' + fc.clicks + ' clics, ~' + fc.cost + '$ dépense prévue, CPC moyen ' + fc.avgCpc + '$' : null,
@@ -1720,8 +1769,8 @@
       current_ads_budget_range: sel.hasAds === 'oui' ? (BUDGET_LABELS[sel.budgetActuel] || '') : '',
       readonly_ads_interest: sel.hasAds === 'oui' ? (sel.readOnlyInterest || 'non_demande') : '',
       recommendation: sel.hasAds !== 'oui' ? findingsSummary.verdict.key : '',
-      contract_value: sel.hasAds !== 'oui' && sel.simV != null ? sel.simV : '',
-      margin_pct: sel.hasAds !== 'oui' && sel.simM != null ? sel.simM : '',
+      contract_value: sel.hasAds !== 'oui' && findingsSummary.V != null ? findingsSummary.V : '',
+      margin_pct: sel.hasAds !== 'oui' && findingsSummary.mPct != null ? findingsSummary.mPct : '',
       marge_disponible: sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? findingsSummary.margeDisponible.toFixed(2) : '',
       clients_break_even: sel.hasAds !== 'oui' && findingsSummary.clientsBreakEven != null ? findingsSummary.clientsBreakEven : '',
       forecast_budget_tier: fc ? fc.budgetTier : '',
