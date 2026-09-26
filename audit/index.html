@@ -199,6 +199,7 @@
     .src-tag.calc { background:rgba(245,93,53,.14); color:var(--orange); border:1px solid rgba(245,93,53,.35); }
     .src-tag.google { background:rgba(22,163,74,.14); color:var(--green); border:1px solid rgba(22,163,74,.35); }
     .src-tag.account { background:rgba(255,255,255,.08); color:rgba(255,255,255,.5); border:1px solid var(--glass-b); }
+    .src-tag.estimate { background:rgba(234,179,8,.12); color:var(--yellow); border:1px solid rgba(234,179,8,.35); }
 
     .finding-block { background:linear-gradient(135deg, rgba(26,155,176,.16), rgba(11,22,35,.4)); border:1px solid rgba(26,155,176,.4); }
     .finding-block .msg { font-family:var(--ff-d); font-weight:800; font-size:1.25rem; line-height:1.35; }
@@ -504,7 +505,10 @@
         <label for="mFees">Frais de gestion Ads ($/mois, agence/freelancer/interne)</label>
         <input type="number" id="mFees" inputmode="decimal" min="0" placeholder="Ex. 750" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
       </div>
-      <button class="btn btn-ghost" id="mFeesUnknown" type="button" style="padding:8px 0; margin-bottom:12px;">Je ne sais pas / aucuns frais</button>
+      <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:12px;">
+        <button class="btn btn-ghost" id="mFeesZero" type="button" style="padding:8px 0;">0 $ — aucun frais de gestion</button>
+        <button class="btn btn-ghost" id="mFeesUnknown" type="button" style="padding:8px 0;">Je ne sais pas mes frais</button>
+      </div>
 
       <div class="f-row" style="max-width:280px;">
         <label for="mLeads">Leads (appels/formulaires) attribués à Google Ads / mois</label>
@@ -1127,7 +1131,21 @@
     }
   }
   wireField('mSpend', 'mSpend', 'mSpendUnknown');
-  wireField('mFees', 'mFees', 'mFeesUnknown');
+  /* 0 $ de frais != frais inconnus : deux etats economiquement distincts,
+     ne jamais les fusionner (revue Codex data-integrity). */
+  document.getElementById('mFees').addEventListener('input', function(){
+    sel.mFees = this.value === '' ? null : +this.value; this.style.borderColor = '';
+  });
+  document.getElementById('mFeesZero').addEventListener('click', function(){
+    sel.mFees = 0;
+    var input = document.getElementById('mFees');
+    input.value = 0; input.style.borderColor = '';
+  });
+  document.getElementById('mFeesUnknown').addEventListener('click', function(){
+    sel.mFees = null;
+    var input = document.getElementById('mFees');
+    input.value = ''; input.style.borderColor = 'var(--yellow)';
+  });
   wireField('mLeads', 'mLeads', 'mLeadsUnknown');
   wireField('mClients', 'mClients', 'mClientsUnknown');
   wireField('mMargin', 'mMargin', 'mMarginUnknown');
@@ -1183,7 +1201,7 @@
   }
 
   function srcTag(type){
-    var labels = { declare:'Déclaré par toi', calc:'Calcul Pixby', google:'Google Keyword Planner', account:'Compte Google Ads réel' };
+    var labels = { declare:'Déclaré par toi', calc:'Calcul Pixby', google:'Google Keyword Planner', account:'Compte Google Ads réel', estimate:'Estimation interne Pixby — non vérifiée' };
     return '<span class="src-tag ' + type + '">' + labels[type] + '</span>';
   }
 
@@ -1195,17 +1213,45 @@
      marge par contrat − CAC complet ; % marge consommée = CAC complet/marge.
      Toute division sans dénominateur essentiel reste null (jamais 0/NaN/Infinity).
      ============================================================ */
+  /* Validation reelle des entrees — ne pas se fier aux seuls attributs HTML
+     min/max. Une valeur invalide (NaN, Infinity, negative, hors bornes)
+     redevient null : elle n'entre JAMAIS dans un calcul comme donnee valide. */
+  function validNum(x, opts){
+    opts = opts || {};
+    if (x == null || typeof x !== 'number' || !isFinite(x)) return null;
+    if (opts.min != null && x < opts.min) return null;
+    if (opts.max != null && x > opts.max) return null;
+    if (opts.strictPositive && x <= 0) return null;
+    if (opts.integer && Math.floor(x) !== x) return null;
+    return x;
+  }
+
   function computeMeasureA(){
-    var spend = sel.mSpend, fees = sel.mFees, leads = sel.mLeads, clients = sel.mClients;
-    var V = sel.mValue, m = sel.mMargin != null ? sel.mMargin/100 : null;
+    var spend = validNum(sel.mSpend, {min:0});
+    var fees = validNum(sel.mFees, {min:0});
+    var leads = validNum(sel.mLeads, {min:0, integer:true});
+    var clients = validNum(sel.mClients, {min:0, integer:true});
+    /* Une valeur de contrat FICTIVE (exemple pedagogique) ne doit JAMAIS
+       alimenter un calcul economique reel, un finding ou un verdict —
+       revue Codex data-integrity. Elle redevient null ici, point final. */
+    var V = sel.mValueFictional ? null : validNum(sel.mValue, {min:0, strictPositive:true});
+    var mRaw = validNum(sel.mMargin, {min:0, max:100});
+    var m = mRaw != null ? mRaw/100 : null;
+
     var totalSpend = (spend != null && fees != null) ? spend + fees : null;
     var costPerLead = (spend != null && leads > 0) ? spend/leads : null;
+    /* 0 est une donnee CONNUE, pas une donnee manquante : distinguer
+       explicitement "clients/leads = 0" de "clients/leads = null". */
+    var clientsZero = clients === 0;
+    var leadsZero = leads === 0;
     var cacMedia = (spend != null && clients > 0) ? spend/clients : null;
-    var cacComplet = (totalSpend != null && clients > 0) ? totalSpend/clients : (spend != null && fees == null && clients > 0 ? null : null);
+    var cacComplet = (totalSpend != null && clients > 0) ? totalSpend/clients : null;
     var margeParContrat = (V != null && m != null) ? V*m : null;
     var margeApresAcquisition = (margeParContrat != null && cacComplet != null) ? margeParContrat - cacComplet : null;
     var pctMargeConsommee = (cacComplet != null && margeParContrat > 0) ? cacComplet/margeParContrat : null;
     return { spend:spend, fees:fees, leads:leads, clients:clients, V:V, m:m, totalSpend:totalSpend,
+      clientsZero:clientsZero, leadsZero:leadsZero,
+      leadsZeroButClientsPositive: leadsZero && clients > 0,
       costPerLead:costPerLead, cacMedia:cacMedia, cacComplet:cacComplet, margeParContrat:margeParContrat,
       breakEvenCac:margeParContrat, margeApresAcquisition:margeApresAcquisition, pctMargeConsommee:pctMargeConsommee };
   }
@@ -1221,7 +1267,19 @@
     ku('Marge contributive', ms.m);
 
     var primary;
-    if (ms.leads == null && ms.clients == null) {
+    if (ms.leadsZeroButClientsPositive) {
+      primary = 'Tu as déclaré des clients signés attribués à Google Ads mais 0 lead sur la même période — c’est une incohérence dans les données déclarées (attribution ou période différente à vérifier), pas une conclusion qu’on peut expliquer sans regarder le compte réel.';
+    } else if (ms.leadsZero) {
+      primary = (ms.spend != null
+        ? 'Tu as déclaré ' + fmtMoneyDec(ms.spend) + ' de dépenses Google Ads sur la période et 0 lead attribué sur cette période. '
+        : 'Tu as déclaré 0 lead attribué à Google Ads sur la période. ') +
+        'À vérifier en priorité : le tracking des conversions, ou la performance réelle des campagnes.';
+    } else if (ms.clientsZero) {
+      primary = (ms.spend != null
+        ? 'Tu as déclaré ' + fmtMoneyDec(ms.spend) + ' de dépenses Google Ads sur la période et 0 client signé attribué à Google Ads. '
+        : 'Tu as déclaré 0 client signé attribué à Google Ads sur la période. ') +
+        'Un CAC par client ne peut pas être calculé puisqu’aucun client n’a été signé sur cette période. Il faut vérifier en priorité l’attribution, le tracking et/ou la performance avant d’augmenter le budget.';
+    } else if (ms.leads == null && ms.clients == null) {
       primary = 'Tu ne peux pas encore mesurer combien Google Ads t’apporte de contacts ou de clients réels. Mettre en place un suivi de base (appels, formulaires) est la priorité avant de juger la rentabilité.';
     } else if (ms.leads != null && ms.clients == null) {
       primary = 'Tu connais tes leads, mais pas les clients réellement signés provenant de Google Ads. Ton coût par lead peut donc être mesuré, mais ton véritable coût d’acquisition client ne peut pas être démontré avec les données fournies.';
@@ -1230,7 +1288,7 @@
         ? 'Ton coût d’acquisition complet (' + fmtMoneyDec(ms.cacComplet) + ') reste sous ta marge disponible par contrat (' + fmtMoneyDec(ms.margeParContrat) + '). Ton diagnostic indique une économie déclarée saine — à confirmer sur le compte réel.'
         : 'Ton coût d’acquisition complet (' + fmtMoneyDec(ms.cacComplet) + ') dépasse ta marge disponible par contrat (' + fmtMoneyDec(ms.margeParContrat) + '). Ton diagnostic indique que chaque client signé coûterait plus cher que ce qu’il rapporte, avec ces chiffres déclarés.';
     } else if (ms.cacComplet != null) {
-      primary = 'Ton coût d’acquisition complet est de ' + fmtMoneyDec(ms.cacComplet) + ' par client signé. Il manque ta valeur de contrat et/ou ta marge pour savoir si c’est rentable.';
+      primary = 'Ton coût d’acquisition complet est de ' + fmtMoneyDec(ms.cacComplet) + ' par client signé. Il manque ta valeur de contrat et/ou ta marge (réelles, non fictives) pour savoir si c’est rentable.';
     } else if (ms.cacMedia != null) {
       primary = 'Ton coût média par client signé est de ' + fmtMoneyDec(ms.cacMedia) + ', mais tes frais de gestion sont inconnus — ton coût d’acquisition COMPLET reste sous-évalué tant qu’ils manquent.';
     } else {
@@ -1238,13 +1296,16 @@
     }
 
     var priorities = [];
-    if (ms.leads == null) priorities.push({ t:'Mettre en place un suivi réel de tes appels et formulaires', d:'Sans ça, aucun chiffre d’acquisition n’est mesurable — c’est la base avant tout le reste.' });
+    if (ms.leadsZeroButClientsPositive) priorities.push({ t:'Clarifier l’incohérence leads/clients déclarés', d:'Des clients sans leads correspondants suggèrent une période ou une attribution à revérifier ensemble.' });
+    else if (ms.leadsZero) priorities.push({ t:'Vérifier le tracking des conversions en priorité', d:'0 lead avec de la dépense active suggère un problème de mesure plutôt qu’un problème de demande.' });
+    else if (ms.clientsZero) priorities.push({ t:'Vérifier l’attribution entre leads et clients signés', d:'0 client signé sur la période ne veut pas dire 0 valeur — il faut confirmer si c’est un problème de suivi ou de conversion réelle.' });
+    else if (ms.leads == null) priorities.push({ t:'Mettre en place un suivi réel de tes appels et formulaires', d:'Sans ça, aucun chiffre d’acquisition n’est mesurable — c’est la base avant tout le reste.' });
     else if (ms.clients == null) priorities.push({ t:'Relier tes leads à tes clients réellement signés', d:'Un lead n’est pas un client — sans ce lien, ton coût par lead ne dit rien sur ta rentabilité.' });
-    if (ms.fees == null && (sel.gestion === 'agence' || sel.gestion === 'freelancer')) priorities.push({ t:'Confirmer ce que tu payes réellement en gestion', d:'Le CAC complet inclut ces frais — sans eux, le chiffre affiché est sous-évalué.' });
-    if (ms.margeParContrat == null) priorities.push({ t:'Établir ta marge par contrat', d:'Sans marge, impossible de savoir si un CAC mesuré est bon ou mauvais.' });
+    if (ms.fees == null && (sel.gestion === 'agence' || sel.gestion === 'freelancer')) priorities.push({ t:'Confirmer ce que tu payes réellement en gestion', d:'Le CAC complet inclut ces frais — sans eux (même à 0 $ si c’est le cas), le chiffre affiché est incomplet.' });
+    if (ms.margeParContrat == null) priorities.push({ t:'Établir ta valeur de contrat et ta marge réelles', d:'Sans ces deux chiffres réels (pas un exemple), impossible de savoir si un CAC mesuré est bon ou mauvais.' });
     if (ms.cacComplet != null && ms.margeParContrat != null && ms.margeApresAcquisition < 0) priorities.push({ t:'À vérifier en priorité : le coût d’acquisition avant d’augmenter le budget', d:'Augmenter la dépense aggraverait une économie déjà déficitaire avec ces chiffres déclarés.' });
     if (ms.cacComplet != null && ms.margeParContrat != null && ms.margeApresAcquisition >= 0) priorities.push({ t:'Vérifier le compte réel pour confirmer une économie saine', d:'Les chiffres déclarés sont positifs — à valider sur les vraies données du compte.' });
-    priorities.push({ t:'Comparer avec la demande et les prix réels de ta zone', d:'Voir les données Google Keyword Planner ci-dessous avant de changer le budget.' });
+    priorities.push({ t:'Comparer avec les repères Google disponibles au Québec', d:'Puis valider la demande réellement disponible dans ta zone avant de changer le budget — les données ci-dessous restent provinciales.' });
     return { known:known, unknown:unknown, primary:primary, priorities:priorities.slice(0,3) };
   }
 
@@ -1252,11 +1313,12 @@
     function tile(lbl, val, tag, cls){
       return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val' + (cls?(' '+cls):'') + '">' + val + '</div></div>';
     }
+    function missingLabel(zeroFlag){ return zeroFlag ? 'Non calculable (0 déclaré)' : 'Donnée manquante'; }
     var tiles = '';
-    tiles += tile('Coût par lead', ms.costPerLead != null ? fmtMoneyDec(ms.costPerLead) : 'Donnée manquante', 'calc', ms.costPerLead == null ? 'unknown' : '');
-    tiles += tile('CAC média', ms.cacMedia != null ? fmtMoneyDec(ms.cacMedia) : 'Donnée manquante', 'calc', ms.cacMedia == null ? 'unknown' : '');
-    tiles += tile('CAC complet (média + gestion)', ms.cacComplet != null ? fmtMoneyDec(ms.cacComplet) : 'Donnée manquante', 'calc', ms.cacComplet == null ? 'unknown' : '');
-    tiles += tile('Marge par contrat (break-even CAC)', ms.margeParContrat != null ? fmtMoneyDec(ms.margeParContrat) : 'Donnée manquante', 'calc', ms.margeParContrat == null ? 'unknown' : '');
+    tiles += tile('Coût par lead', ms.costPerLead != null ? fmtMoneyDec(ms.costPerLead) : missingLabel(ms.leadsZero), 'calc', ms.costPerLead == null ? 'unknown' : '');
+    tiles += tile('CAC média', ms.cacMedia != null ? fmtMoneyDec(ms.cacMedia) : missingLabel(ms.clientsZero), 'calc', ms.cacMedia == null ? 'unknown' : '');
+    tiles += tile('CAC complet (média + gestion)', ms.cacComplet != null ? fmtMoneyDec(ms.cacComplet) : missingLabel(ms.clientsZero), 'calc', ms.cacComplet == null ? 'unknown' : '');
+    tiles += tile('Marge par contrat (break-even CAC)', ms.margeParContrat != null ? fmtMoneyDec(ms.margeParContrat) : 'Donnée manquante' + (sel.mValueFictional ? ' (exemple fictif exclu du calcul)' : ''), 'calc', ms.margeParContrat == null ? 'unknown' : '');
     if (ms.margeApresAcquisition != null) tiles += tile('Marge après acquisition', fmtMoneyDec(ms.margeApresAcquisition), 'calc', ms.margeApresAcquisition < 0 ? 'warn' : 'ok');
     if (ms.pctMargeConsommee != null) tiles += tile('% de marge consommée par l’acquisition', fmtPct(ms.pctMargeConsommee), 'calc', ms.pctMargeConsommee > 1 ? 'warn' : 'ok');
     return '<div class="metric-grid">' + tiles + '</div>';
@@ -1275,16 +1337,38 @@
     }).join('') + '</div>';
   }
 
+  /* Valeur de contrat declaree par le prospect (reelle, non fictive) —
+     a preferer sur l'estimation interne generique quand elle existe
+     (revue Codex data-integrity, provenance). */
+  function contractValueDeclared(){
+    if (sel.hasAds === 'oui') return (sel.mValue != null && !sel.mValueFictional) ? sel.mValue : null;
+    return (sel.simV != null && !sel.simVFictional) ? sel.simV : null;
+  }
+
+  function contractValueCardHtml(){
+    if (contractValueDeclared() != null) {
+      return '<div class="card"><div class="eyebrow">Valeur de contrat ' + srcTag('declare') + '</div>' +
+        '<div class="tile-val" id="tValue" style="font-size:1.3rem;"></div>' +
+        '<div class="tile-sub">Ta valeur déclarée — utilisée dans les calculs ci-dessus.</div></div>';
+    }
+    return '<div class="card"><div class="eyebrow">Valeur de contrat ' + srcTag('estimate') + '</div>' +
+      '<div class="tile-val" id="tValue" style="font-size:1.3rem;"></div>' +
+      '<div class="tile-sub">Estimation interne Pixby, pas une donnée Google — à confirmer avec toi au rendez-vous.</div></div>';
+  }
+
+  /* Cette carte contient UNIQUEMENT des donnees reellement issues de Google
+     Keyword Planner — la valeur de contrat (jamais une donnee Google) vit
+     dans sa propre carte separee via contractValueCardHtml() (revue Codex
+     data-integrity, provenance). */
   function marketSectionHtml(){
-    return '<div class="card"><div class="eyebrow">Ton marché ' + srcTag('google') + '</div>' +
+    return '<div class="card"><div class="eyebrow">Ton marché — Google Keyword Planner ' + srcTag('google') + '</div>' +
       '<div class="tiles" style="margin-bottom:14px;">' +
         '<div class="tile t1"><div class="tile-tag">Mots-clés retenus (Québec)</div><div class="tile-val" id="tVol" style="font-size:1.3rem;"></div><div class="tile-sub">Total non affiché : sans regroupement officiel des variantes Google, une somme serait potentiellement inexacte. Détail vérifiable ligne par ligne ci-dessous.</div></div>' +
-        '<div class="tile t2"><div class="tile-tag">Valeur moyenne d’un contrat ' + srcTag('calc') + '</div><div class="tile-val" id="tValue"></div><div class="tile-sub">Estimation interne, pas une donnée Google — à confirmer avec toi.</div></div>' +
       '</div>' +
       '<p class="limit-note" id="provinceNote"></p>' +
       '<div class="table-scroll"><table id="kwTable"><thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Enchères de haut de page — plage indicative</th></tr></thead><tbody></tbody></table></div>' +
       '<p class="market-body src" id="kwSrc" style="margin-top:10px; font-size:.75rem; color:rgba(255,255,255,.4);"></p>' +
-    '</div>';
+    '</div>' + contractValueCardHtml();
   }
 
   /* ============================================================
@@ -1681,7 +1765,8 @@
     var tVol = document.getElementById('tVol');
     if (!tVol) return;
     tVol.textContent = calc.d.kws.length + (calc.d.kws.length > 1 ? ' mots-clés retenus' : ' mot-clé retenu');
-    document.getElementById('tValue').textContent = moneyRange(calc.valLow, calc.valHigh);
+    var declaredValue = contractValueDeclared();
+    document.getElementById('tValue').textContent = declaredValue != null ? fmtMoney(declaredValue) : moneyRange(calc.valLow, calc.valHigh);
     document.getElementById('provinceNote').textContent = 'Donnée disponible : Québec (province). Repère utilisé faute de données locales suffisantes pour ' + (REGIONS[sel.r] || 'ta zone') + ' — ta zone reste enregistrée pour l’étude.';
     document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + ').';
     var tb = document.querySelector('#kwTable tbody'); tb.innerHTML = '';
@@ -1705,7 +1790,7 @@
             '<div><div class="k">Budget Ads actuel</div><div class="v">' + esc(BUDGET_LABELS[sel.budgetActuel] || '') + '</div></div>' +
             '<div><div class="k">Géré par</div><div class="v">' + esc(GESTION_LABELS[sel.gestion] || '') + '</div></div>' +
           '</div></div>' +
-        (sel.mValueFictional ? '<div class="sim-fictional-banner">Exemple fictif utilisé pour la valeur du contrat (' + fmtMoney(SIM_FICTIONAL_V) + ') — remplace-le au rendez-vous par ta vraie valeur : les calculs ci-dessous ne sont pas définitifs tant qu’il reste fictif.</div>' : '') +
+        (sel.mValueFictional ? '<div class="sim-fictional-banner">Exemple fictif affiché pour illustrer le calcul (' + fmtMoney(SIM_FICTIONAL_V) + ') — il n’alimente AUCUN calcul ci-dessous (marge, break-even, verdict) : remplace-le au rendez-vous par ta vraie valeur pour un diagnostic réel.</div>' : '') +
         '<div class="card finding-block"><div class="eyebrow">Ton diagnostic</div><p class="msg">' + esc(findings.primary) + '</p>' +
           '<p class="fine" style="margin-top:10px;"><strong>Définition CAC :</strong> dépenses totales (média + gestion) sur une période, divisées par les clients réellement <u>signés</u> sur cette même période — jamais un coût par lead ou par clic.</p></div>' +
         renderMetricGridA(ms) +
@@ -2102,6 +2187,26 @@
     var simData = (sel.hasAds !== 'oui' && !sel.manualPath) ? buildScenarios() : null;
     var simVerdict = simData ? computeVerdict(simData) : null;
     var simC = simData ? simData.scenarios.central.metrics : null;
+    /* Les champs measure_* n'ont AUCUN champ personnalise GHL correspondant
+       et le workflow actuel ne les mappe pas — verifie par test webhook reel
+       le 2026-09-26 (contact cree sans aucune de ces valeurs). measure_summary
+       regroupe l'essentiel en UN SEUL champ texte pour permettre a Alexander
+       de le retrouver via une seule etape de mapping a ajouter dans le workflow
+       GHL existant (revue Codex data-integrity, GHL persistence). */
+    var msA = sel.hasAds === 'oui' ? computeMeasureA() : null;
+    var findingsA = msA ? buildFindingsA(msA) : null;
+    var measureSummary = msA ? [
+      'Dépense: ' + (msA.spend != null ? msA.spend + '$' : 'inconnue'),
+      'Frais: ' + (msA.fees != null ? msA.fees + '$' : 'inconnus'),
+      'Leads: ' + (msA.leads != null ? msA.leads : 'inconnus'),
+      'Clients signés: ' + (msA.clients != null ? msA.clients : 'inconnus'),
+      'Valeur contrat: ' + (msA.V != null ? msA.V + '$' : 'inconnue/non fournie'),
+      'Marge: ' + (msA.m != null ? Math.round(msA.m*100) + '%' : 'inconnue'),
+      'CAC complet: ' + (msA.cacComplet != null ? msA.cacComplet.toFixed(2) + '$' : 'non calculable'),
+      'Marge après acquisition: ' + (msA.margeApresAcquisition != null ? msA.margeApresAcquisition.toFixed(2) + '$' : 'non calculable'),
+      'Score/Tier: ' + scoring.score + '/' + scoring.tier,
+      'Finding: ' + findingsA.primary
+    ].join(' | ') : '';
 
     setSubmitState('gateForm','gateBtn','gateSubmitError','submitting');
 
@@ -2117,10 +2222,13 @@
       measure_fees: sel.hasAds === 'oui' && sel.mFees != null ? sel.mFees : '',
       measure_leads: sel.hasAds === 'oui' && sel.mLeads != null ? sel.mLeads : '',
       measure_clients_signed: sel.hasAds === 'oui' && sel.mClients != null ? sel.mClients : '',
-      measure_contract_value: sel.hasAds === 'oui' && sel.mValue != null ? sel.mValue : '',
+      /* Jamais la valeur fictive d'exemple dans le payload comme si elle etait
+         reelle — revue Codex data-integrity (meme regle que computeMeasureA). */
+      measure_contract_value: sel.hasAds === 'oui' && sel.mValue != null && !sel.mValueFictional ? sel.mValue : '',
       measure_margin_pct: sel.hasAds === 'oui' && sel.mMargin != null ? sel.mMargin : '',
-      measure_cac_complet: sel.hasAds === 'oui' ? (function(){ var ms = computeMeasureA(); return ms.cacComplet != null ? ms.cacComplet.toFixed(2) : ''; })() : '',
-      measure_marge_apres_acquisition: sel.hasAds === 'oui' ? (function(){ var ms = computeMeasureA(); return ms.margeApresAcquisition != null ? ms.margeApresAcquisition.toFixed(2) : ''; })() : '',
+      measure_cac_complet: msA && msA.cacComplet != null ? msA.cacComplet.toFixed(2) : '',
+      measure_marge_apres_acquisition: msA && msA.margeApresAcquisition != null ? msA.margeApresAcquisition.toFixed(2) : '',
+      measure_summary: measureSummary,
       audit_volume_qc: calc.volTot != null ? ('~' + fmt(calc.volTot) + ' recherches/mois (Québec, BRUT non dédupliqué — usage interne, pas pour le prospect)') : '',
       audit_kw_count: calc.d ? calc.d.kws.length : '',
       sim_verdict: simVerdict ? simVerdict.label : '',
