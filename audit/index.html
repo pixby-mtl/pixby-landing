@@ -1205,6 +1205,12 @@
      clics ne sont jamais le résultat principal (Pixby vend de
      l'acquisition, pas des clics). Aucun taux de conversion inventé.
      ============================================================ */
+  /* Frais de gestion Pixby reels (Starter, voir coordination/DECISIONS.md) —
+     utilises UNIQUEMENT pour calculer combien de clients signes couvrent
+     l'investissement mensuel (budget + gestion), jamais pour deviner un
+     taux de conversion. */
+  var PIXBY_MGMT_MONTHLY = 750;
+
   function buildFindingsB(){
     var V = validNum(sel.simV, {min:0, strictPositive:true});
     var mRaw = validNum(sel.simM, {min:0, max:100});
@@ -1212,23 +1218,19 @@
     var margeDisponible = (V != null && m != null) ? V*m : null;
     var fc = getForecast();
     var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
+    /* Combien de clients signes suffisent a couvrir l'investissement
+       mensuel (budget Ads + gestion Pixby) — pure arithmetique a partir de
+       deux montants reels, aucun taux de conversion invente. */
+    var clientsBreakEven = (margeDisponible != null && margeDisponible > 0)
+      ? Math.ceil((sel.budget + PIXBY_MGMT_MONTHLY) / margeDisponible) : null;
 
     /* Recommandation deterministe : jamais "test interessant" sur le seul
-       volume — il faut demande ET economie positive (revue commerciale).
-       Un break-even techniquement positif mais trop proche du CPC reel
-       n'est pas un test serieux non plus — ecart trouve en testant
-       reellement (electromenager, valeur 150$/marge 20% => 30$ de marge,
-       ~16 clics de budget au CPC haut observe, soit >6% conversion clic->
-       client necessaire pour rentabiliser : optimiste sans preuve). Seuil
-       de 25x le CPC haut = marge couvrant ~25 clics, soit <4% conversion
-       requise — repere conservateur pour du service local, pas une donnee
-       mesuree (aucun taux de conversion reel disponible ici). */
+       volume — il faut demande ET economie positive (revue commerciale). */
     var verdict;
     if (!hasDemand) verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
     else if (margeDisponible == null) verdict = { key:'a_valider', label:'À valider' };
-    else if (margeDisponible <= 0) verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
-    else if (calc.cpcHigh != null && margeDisponible < calc.cpcHigh * 25) verdict = { key:'a_valider', label:'À valider' };
-    else verdict = { key:'test_interessant', label:'Test intéressant' };
+    else if (margeDisponible > 0) verdict = { key:'test_interessant', label:'Test intéressant' };
+    else verdict = { key:'mauvais_fit', label:'Mauvais fit actuellement' };
 
     var primary;
     if (!hasDemand) {
@@ -1243,7 +1245,7 @@
       : null;
 
     return { primary:primary, verdict:verdict, economySentence:economySentence,
-      V:V, m:m, margeDisponible:margeDisponible, forecast:fc, hasDemand:hasDemand };
+      V:V, m:m, margeDisponible:margeDisponible, clientsBreakEven:clientsBreakEven, forecast:fc, hasDemand:hasDemand };
   }
 
   function renderMetricGridB(data){
@@ -1251,9 +1253,13 @@
       return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
     }
     var tiles = '';
-    tiles += tile('Demande mensuelle réelle', fmtCount(calc.volTot) + ' / mois', 'google');
-    tiles += tile('Plage de coûts Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
-    if (data.margeDisponible != null) tiles += tile('Seuil de rentabilité (break-even CAC)', fmtMoneyDec(data.margeDisponible), 'calc');
+    tiles += tile('Demande locale', fmtCount(calc.volTot) + ' recherches/mois', 'google');
+    tiles += tile('Coût Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    if (data.clientsBreakEven != null) {
+      tiles += tile('Clients requis pour couvrir l’investissement', fmtCount(data.clientsBreakEven) + ' / mois', 'calc');
+    } else if (data.margeDisponible != null) {
+      tiles += tile('Marge disponible par client', fmtMoneyDec(data.margeDisponible), 'calc');
+    }
     return '<div class="metric-grid">' + tiles + '</div>';
   }
 
@@ -1370,6 +1376,7 @@
         '</div>' +
         '<div class="metric-grid" style="margin-bottom:14px;">' + verdictPillHtml(findingsB.verdict) + '</div>' +
         renderMetricGridB(findingsB) +
+        (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 14px;">Calcul : (budget Ads ' + fmt(sel.budget) + ' $ + gestion Pixby ' + fmt(PIXBY_MGMT_MONTHLY) + ' $/mois) ÷ ' + fmtMoneyDec(findingsB.margeDisponible) + ' de marge par client — aucun taux de conversion supposé.</p>' : '') +
         forecastCardHtml(findingsB) +
         methodologyAccordionHtml(methodoInner);
       document.getElementById('agendaList').innerHTML =
@@ -1387,7 +1394,7 @@
       dl({ event:'lead_gate_opened' });
       document.getElementById('gateTitle').textContent = sel.hasAds === 'oui'
         ? 'Faire vérifier mon compte avec Pixby'
-        : 'Construire mon test Google avec Pixby';
+        : 'Prendre rendez-vous avec Pixby';
       document.getElementById('gate').style.display = 'block';
       document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
     });
@@ -1402,8 +1409,8 @@
 
     renderResultsBody();
 
-    var ctaLabel = sel.hasAds === 'oui' ? 'Faire vérifier mon compte avec Pixby' : 'Construire mon test Google avec Pixby';
-    var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans ton compte.' : '30 minutes, gratuit — on structure un test mesurable ensemble.';
+    var ctaLabel = sel.hasAds === 'oui' ? 'Faire vérifier mon compte avec Pixby' : 'Prendre rendez-vous avec Pixby';
+    var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans ton compte.' : '30 minutes, gratuit — on regarde ensemble si Google Ads a du sens pour toi.';
     var ctaWrap = document.createElement('div');
     ctaWrap.style.textAlign = 'center';
     ctaWrap.style.margin = '22px 0';
@@ -1693,6 +1700,7 @@
       sel.hasAds !== 'oui' && sel.simV != null ? 'Valeur contrat déclarée: ' + sel.simV + '$' : null,
       sel.hasAds !== 'oui' && sel.simM != null ? 'Marge déclarée: ' + sel.simM + '%' : null,
       sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? 'Marge disponible/break-even CAC: ' + findingsSummary.margeDisponible.toFixed(2) + '$' : null,
+      sel.hasAds !== 'oui' && findingsSummary.clientsBreakEven != null ? 'Clients requis pour couvrir l’investissement: ' + findingsSummary.clientsBreakEven + '/mois' : null,
       fc ? 'Prévision Google (' + fc.budgetTier + '$/mois, ' + regionKey(sel.r) + '): ~' + fc.clicks + ' clics, ~' + fc.cost + '$ dépense prévue, CPC moyen ' + fc.avgCpc + '$' : null,
       'Score/Tier: ' + scoring.score + '/' + scoring.tier,
       'Diagnostic: ' + findingsSummary.primary
@@ -1712,6 +1720,7 @@
       contract_value: sel.hasAds !== 'oui' && sel.simV != null ? sel.simV : '',
       margin_pct: sel.hasAds !== 'oui' && sel.simM != null ? sel.simM : '',
       marge_disponible: sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? findingsSummary.margeDisponible.toFixed(2) : '',
+      clients_break_even: sel.hasAds !== 'oui' && findingsSummary.clientsBreakEven != null ? findingsSummary.clientsBreakEven : '',
       forecast_budget_tier: fc ? fc.budgetTier : '',
       forecast_clicks_month: fc ? fc.clicks : '',
       forecast_cost_month: fc ? fc.cost : '',
