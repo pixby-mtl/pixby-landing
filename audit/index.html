@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audit Google Ads instantané — Pixby | Ton marché en 60 secondes</title>
-  <meta name="description" content="Découvre en 60 secondes combien de clients cherchent tes services sur Google au Québec : volumes réels, CPC de ton marché, potentiel de leads. Gratuit.">
+  <title>Audit Google Ads — Pixby | Ton marché réel au Québec</title>
+  <meta name="description" content="Un prédiagnostic si tu fais déjà Google Ads, une étude de demande si tu n'en fais pas encore. Données réelles Google, sans jargon.">
   <link rel="canonical" href="https://ads.pixby.ca/audit/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ads.pixby.ca/audit/">
-  <meta property="og:title" content="Audit Google Ads instantané — combien de clients te cherchent ?">
-  <meta property="og:description" content="Données réelles Google : volumes de recherche, CPC et potentiel de leads pour ton métier au Québec. Gratuit, 60 secondes.">
+  <meta property="og:title" content="Tes Google Ads peuvent-ils te rapporter des clients rentables ?">
+  <meta property="og:description" content="Prédiagnostic ou étude de demande, selon où tu en es. Données réelles Google, Québec.">
   <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
   <meta property="og:locale" content="fr_CA">
   <meta property="og:site_name" content="Pixby">
@@ -50,7 +50,7 @@
       --yellow: #F7BE2C;
       --offwhite: #F5F1EA; --grey: #BDC5D6;
       --dark: #253858; --deep: #0b1623; --deep2: #111c2b;
-      --white: #FFFFFF; --green: #16a34a;
+      --white: #FFFFFF; --green: #16a34a; --red: #ef4444;
       --glass: rgba(255,255,255,.06); --glass-b: rgba(255,255,255,.10);
       --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 32px;
       --ff-d: 'Space Grotesk', sans-serif; --ff-b: 'Instrument Sans', sans-serif;
@@ -61,6 +61,13 @@
       background: var(--deep); line-height: 1.6;
       -webkit-font-smoothing: antialiased; overflow-x: hidden;
       min-height: 100vh;
+    }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    :focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
     }
 
     .nav { position: fixed; top:0; left:0; right:0; z-index:500; background: rgba(11,22,35,.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
@@ -79,11 +86,16 @@
     }
     .badge .dot { width:7px; height:7px; border-radius:50%; background: var(--green); animation: pulse 1.6s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .badge-soft { background: rgba(255,255,255,.07); border:1px solid var(--glass-b); color:rgba(255,255,255,.7); }
+    .badge-soft.warn { background: rgba(245,93,53,.1); border-color: rgba(245,93,53,.3); color: var(--orange); }
 
-    /* progression (nouveau) */
-    .progress { display:flex; gap:6px; margin-bottom:22px; }
+    .progress { display:flex; gap:6px; margin-bottom:8px; }
     .progress i { display:block; height:4px; flex:1; border-radius:999px; background:var(--glass-b); transition:background .25s; }
     .progress i.done { background:var(--teal); }
+    .progress-label { font-size:.76rem; color:rgba(255,255,255,.4); margin-bottom:18px; }
+
+    #backBtn { display:none; background:transparent; border:none; color:rgba(255,255,255,.5); font-family:var(--ff-b); font-weight:600; font-size:.85rem; cursor:pointer; margin-bottom:14px; padding:8px 4px; min-height:44px; }
+    #backBtn:hover { color:#fff; }
 
     h1 { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.9rem,4.6vw,3.1rem); line-height:1.12; letter-spacing:-.01em; max-width:760px; }
     h1 .hl { color: var(--yellow); }
@@ -92,10 +104,9 @@
     h2.q-title { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.3rem,3vw,1.8rem); line-height:1.2; max-width:640px; margin-bottom:6px; }
     p.q-sub { font-size:.92rem; color:rgba(255,255,255,.5); max-width:560px; margin-bottom:26px; }
 
-    /* ── PANEL générique (chaque étape du wizard) ── */
     .panel {
       background: var(--deep2); border:1px solid var(--glass-b);
-      border-radius: var(--r-lg); padding: 34px; margin-top: 40px;
+      border-radius: var(--r-lg); padding: 34px; margin-top: 24px;
     }
     .step-section { display:none; }
     .step-section.active { display:block; }
@@ -109,6 +120,7 @@
       background: var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-md);
       padding:16px 14px; cursor:pointer; transition:all .18s; color:rgba(255,255,255,.85);
       font-family:var(--ff-b); font-size:.88rem; font-weight:600; text-align:left;
+      min-height:44px;
     }
     .m-card svg { width:22px; height:22px; stroke:var(--teal); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
     .m-card:hover { border-color:var(--teal); transform:translateY(-2px); }
@@ -117,18 +129,17 @@
     .region-row { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:6px; }
     .r-pill, .choice-pill {
       background:var(--glass); border:1px solid var(--glass-b); border-radius:999px;
-      padding:9px 18px; cursor:pointer; color:rgba(255,255,255,.8);
+      padding:12px 18px; cursor:pointer; color:rgba(255,255,255,.8); min-height:44px;
       font-family:var(--ff-b); font-size:.86rem; font-weight:600; transition:all .18s;
     }
     .r-pill:hover, .choice-pill:hover { border-color:var(--teal); }
     .r-pill.sel, .choice-pill.sel { background:rgba(26,155,176,.16); border-color:var(--teal); color:#fff; box-shadow:0 0 0 1px var(--teal); }
 
-    /* choix binaires / listes verticales (step0, gestion, cac) */
     .choice-stack { display:flex; flex-direction:column; gap:10px; margin-bottom:6px; max-width:460px; }
     .choice-big {
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       background:var(--glass); border:1.5px solid var(--glass-b); border-radius:var(--r-md);
-      padding:20px 22px; cursor:pointer; transition:all .18s;
+      padding:20px 22px; cursor:pointer; transition:all .18s; min-height:44px;
       font-family:var(--ff-d); font-weight:700; font-size:1.05rem; color:#fff;
     }
     .choice-big:hover { border-color:var(--teal); transform:translateY(-1px); }
@@ -145,119 +156,211 @@
     .btn {
       display:inline-block; background:var(--orange); color:#fff; border:none; cursor:pointer;
       font-family:var(--ff-b); font-weight:700; font-size:1rem; letter-spacing:.01em;
-      padding:16px 34px; border-radius:var(--r-sm); text-decoration:none;
+      padding:16px 34px; border-radius:var(--r-sm); text-decoration:none; min-height:44px;
       transition:all .2s; box-shadow:0 4px 16px rgba(245,93,53,.22);
     }
     .btn:hover:not(:disabled) { background:var(--orange-dk); transform:translateY(-1px); box-shadow:0 8px 24px rgba(245,93,53,.3); }
-    .btn:disabled { opacity:.4; cursor:default; }
+    .btn:disabled { opacity:.5; cursor:default; }
     .btn-ghost { background:transparent; box-shadow:none; color:rgba(255,255,255,.55); font-weight:600; padding:16px 10px; }
     .btn-ghost:hover:not(:disabled) { background:transparent; color:#fff; transform:none; box-shadow:none; }
     .btn-hint { font-size:.8rem; color:rgba(255,255,255,.4); margin-top:14px; }
-    .step-actions { display:flex; align-items:center; gap:14px; margin-top:22px; }
+    .step-actions { display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap; }
 
     /* ── SCAN ── */
-    #scan { display:none; text-align:center; padding:70px 20px; }
-    .scan-ring { width:64px; height:64px; margin:0 auto 30px; border-radius:50%; border:3px solid rgba(26,155,176,.2); border-top-color:var(--teal); animation:spin .9s linear infinite; }
+    #scan { display:none; text-align:center; padding:60px 20px; }
+    .scan-ring { width:56px; height:56px; margin:0 auto 26px; border-radius:50%; border:3px solid rgba(26,155,176,.2); border-top-color:var(--teal); animation:spin .9s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
-    .scan-step { font-size:1rem; color:rgba(255,255,255,.45); margin:12px 0; transition:color .3s; display:flex; align-items:center; justify-content:center; gap:10px; }
+    .scan-step { font-size:.95rem; color:rgba(255,255,255,.45); margin:10px 0; transition:color .3s; display:flex; align-items:center; justify-content:center; gap:10px; }
     .scan-step.done { color:#fff; }
     .scan-step .chk { opacity:0; color:var(--green); font-weight:700; }
     .scan-step.done .chk { opacity:1; }
 
     /* ── RÉSULTATS ── */
-    #results { display:none; }
-    .res-head { margin:46px 0 26px; }
+    #results, #manual { display:none; }
+    .res-head { margin:10px 0 22px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; }
     .res-head h2 { font-family:var(--ff-d); font-weight:800; font-size:clamp(1.5rem,3.4vw,2.2rem); }
-    .res-head h2 span { color:var(--teal); }
     .res-head p { color:rgba(255,255,255,.55); margin-top:6px; font-size:.95rem; }
+    .edit-answers { font-size:.82rem; color:var(--teal); background:none; border:none; cursor:pointer; text-decoration:underline; padding:10px 2px; min-height:44px; }
 
-    /* callout angle CAC (nouveau, branche OUI) */
-    .cac-callout {
-      background:linear-gradient(135deg, rgba(245,93,53,.14), rgba(247,190,44,.08));
-      border:1px solid rgba(245,93,53,.35); border-radius:var(--r-md);
-      padding:22px 24px; margin-bottom:22px;
-    }
-    .cac-callout p.eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--orange); margin-bottom:8px; }
-    .cac-callout p.msg { font-family:var(--ff-d); font-weight:700; font-size:1.15rem; line-height:1.35; }
-    .cac-callout p.msg .hl { color:var(--yellow); }
+    .card { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:24px 24px; margin-bottom:14px; }
+    .card .eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:10px; }
+    .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+    .summary-grid div .k { font-size:.72rem; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.07em; margin-bottom:4px; }
+    .summary-grid div .v { font-family:var(--ff-d); font-weight:700; font-size:1.02rem; }
 
-    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
-    .tile {
-      background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md);
-      padding:26px 24px; position:relative; overflow:hidden;
-    }
+    .measure-block { background:linear-gradient(135deg, rgba(245,93,53,.14), rgba(247,190,44,.08)); border:1px solid rgba(245,93,53,.35); }
+    .measure-block .msg { font-family:var(--ff-d); font-weight:700; font-size:1.1rem; line-height:1.4; }
+    .measure-block .msg .hl { color:var(--yellow); }
+    .measure-block .fine { font-size:.78rem; color:rgba(255,255,255,.5); margin-top:10px; }
+
+    /* Tags de provenance — le prospect doit toujours savoir d'où vient un chiffre */
+    .src-tag { display:inline-block; font-size:.6rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 8px; border-radius:999px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
+    .src-tag.declare { background:rgba(26,155,176,.16); color:var(--teal); border:1px solid rgba(26,155,176,.35); }
+    .src-tag.calc { background:rgba(245,93,53,.14); color:var(--orange); border:1px solid rgba(245,93,53,.35); }
+    .src-tag.google { background:rgba(22,163,74,.14); color:var(--green); border:1px solid rgba(22,163,74,.35); }
+    .src-tag.account { background:rgba(255,255,255,.08); color:rgba(255,255,255,.5); border:1px solid var(--glass-b); }
+    .src-tag.estimate { background:rgba(234,179,8,.12); color:var(--yellow); border:1px solid rgba(234,179,8,.35); }
+    .src-tag.forecast { background:rgba(4,99,166,.16); color:var(--blue-lt); border:1px solid rgba(4,99,166,.4); }
+
+    .finding-block { background:linear-gradient(135deg, rgba(26,155,176,.16), rgba(11,22,35,.4)); border:1px solid rgba(26,155,176,.4); }
+    .finding-block .msg { font-family:var(--ff-d); font-weight:800; font-size:1.25rem; line-height:1.35; }
+
+    .metric-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+    .metric-tile { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:18px 18px; }
+    .metric-tile .lbl { font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,.45); margin-bottom:8px; }
+    .metric-tile .val { font-family:var(--ff-d); font-weight:800; font-size:1.4rem; color:var(--teal); }
+    .metric-tile .val.warn { color:var(--orange); }
+    .metric-tile .val.ok { color:var(--green); }
+    .metric-tile .val.unknown { color:rgba(255,255,255,.3); font-size:1.1rem; }
+
+    .know-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .know-col h5 { font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+    .know-col.known h5 { color:var(--green); }
+    .know-col.unknown h5 { color:var(--orange); }
+    .know-col ul { list-style:none; }
+    .know-col li { font-size:.85rem; color:rgba(255,255,255,.75); padding:5px 0; }
+
+    .cards-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:14px; }
+    .action-card { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:20px 20px; }
+    .action-card .num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:7px; background:var(--teal); color:#fff; font-family:var(--ff-d); font-size:.75rem; font-weight:700; margin-bottom:12px; }
+    .action-card dl { display:flex; flex-direction:column; gap:8px; }
+    .action-card dt { font-size:.66rem; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.4); }
+    .action-card dd { font-size:.86rem; color:rgba(255,255,255,.85); }
+
+    .steps-3 { list-style:none; }
+    .steps-3 li { display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--glass-b); }
+    .steps-3 li:last-child { border-bottom:none; }
+    .steps-3 .num { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:8px; background:var(--teal); color:#fff; font-family:var(--ff-d); font-size:.8rem; font-weight:700; flex-shrink:0; }
+
+    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .tile { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:24px 22px; position:relative; overflow:hidden; }
     .tile::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
-    .tile.t1::before { background:var(--teal); } .tile.t2::before { background:var(--yellow); } .tile.t3::before { background:var(--orange); }
-    .tile-tag { font-size:.66rem; font-weight:700; letter-spacing:.11em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:10px; }
-    .tile-val { font-family:var(--ff-d); font-weight:800; font-size:2rem; line-height:1.1; }
-    .tile.t1 .tile-val { color:var(--teal); } .tile.t2 .tile-val { color:var(--yellow); } .tile.t3 .tile-val { color:var(--orange); }
-    .tile-sub { font-size:.82rem; color:rgba(255,255,255,.5); margin-top:8px; }
+    .tile.t1::before { background:var(--teal); } .tile.t2::before { background:var(--orange); }
+    .tile-tag { font-size:.64rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:10px; }
+    .tile-val { font-family:var(--ff-d); font-weight:800; font-size:1.7rem; line-height:1.15; }
+    .tile.t1 .tile-val { color:var(--teal); } .tile.t2 .tile-val { color:var(--orange); }
+    .tile-sub { font-size:.8rem; color:rgba(255,255,255,.5); margin-top:8px; }
 
-    .sim { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:26px 24px; margin-top:14px; }
-    .sim-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-    .sim-label { font-size:.9rem; color:rgba(255,255,255,.65); font-weight:600; }
-    .sim-out { font-family:var(--ff-d); font-weight:800; font-size:1.35rem; color:var(--green); }
+    .limit-note { font-size:.82rem; color:rgba(255,255,255,.55); background:var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:12px 16px; margin-top:14px; }
 
-    /* table mots-clés */
-    .kw-box { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; position:relative; }
-    .kw-box h3 { font-family:var(--ff-d); font-size:1.02rem; padding:22px 24px 4px; }
-    .kw-box .src { font-size:.75rem; color:rgba(255,255,255,.4); padding:0 24px 14px; }
+    /* ── SIMULATEUR ÉCONOMIQUE (branche NON) ── */
+    .verdict-banner { border-radius:var(--r-md); padding:22px 24px; margin-bottom:16px; border:1px solid; }
+    .verdict-banner.v-ok { background:rgba(22,163,74,.12); border-color:rgba(22,163,74,.4); }
+    .verdict-banner.v-caution { background:rgba(247,190,44,.1); border-color:rgba(247,190,44,.4); }
+    .verdict-banner.v-bad { background:rgba(239,68,68,.1); border-color:rgba(239,68,68,.4); }
+    .verdict-banner .eyebrow { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; opacity:.75; }
+    .verdict-banner .verdict-title { font-family:var(--ff-d); font-weight:800; font-size:1.2rem; }
+    .verdict-banner .verdict-sub { font-size:.85rem; color:rgba(255,255,255,.65); margin-top:6px; }
+
+    .hyp-panel { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); padding:22px 24px; margin-bottom:16px; }
+    .hyp-panel h4 { font-family:var(--ff-d); font-size:.95rem; margin-bottom:14px; }
+    .hyp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+    .hyp-field label { display:block; font-size:.72rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+    .hyp-field input { width:100%; min-height:44px; padding:10px 12px; border:1.5px solid var(--glass-b); border-radius:var(--r-sm); background:var(--glass); color:#fff; font-family:var(--ff-b); font-size:16px; }
+    .hyp-field .unit { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:4px; }
+
+    .scenario-table { width:100%; min-width:640px; border-collapse:collapse; font-size:.85rem; margin-top:6px; }
+    .scenario-table th, .scenario-table td { white-space:nowrap; }
+    .scenario-table td.metric-label, .scenario-table th:first-child { white-space:normal; min-width:150px; }
+    .scenario-table th { text-align:left; font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.45); padding:9px 10px; border-bottom:1px solid var(--glass-b); }
+    .scenario-table td { padding:10px; border-bottom:1px solid rgba(255,255,255,.05); }
+    .scenario-table td.metric-label { color:rgba(255,255,255,.55); }
+    .scenario-table th.scen-central { color:var(--teal); }
+    .scenario-table th.scen-favorable { color:var(--green); }
+
+    .funnel { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:14px 0; }
+    .funnel-step { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:10px 16px; text-align:center; min-width:90px; }
+    .funnel-step .n { font-family:var(--ff-d); font-weight:800; font-size:1.15rem; color:var(--teal); }
+    .funnel-step .l { font-size:.68rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+    .funnel-arrow { color:rgba(255,255,255,.3); font-size:1rem; }
+
+    .cost-breakdown { background:var(--glass); border:1px solid var(--glass-b); border-radius:var(--r-sm); padding:14px 16px; margin-top:10px; font-size:.85rem; }
+    .cost-breakdown .row { display:flex; justify-content:space-between; align-items:baseline; gap:10px; padding:4px 0; }
+    .cost-breakdown .row span:first-child { flex:1 1 auto; }
+    .cost-breakdown .row span:last-child { flex:0 0 auto; white-space:nowrap; }
+    .cost-breakdown .row.total { border-top:1px solid var(--glass-b); margin-top:6px; padding-top:8px; font-weight:700; }
+
+    .sim-fictional-banner { background:rgba(247,190,44,.1); border:1px solid rgba(247,190,44,.35); border-radius:var(--r-sm); padding:10px 14px; font-size:.8rem; color:var(--yellow); margin-bottom:14px; }
+
+    .sim-highlights { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:16px; }
+    .sim-highlights .tile { padding:20px 18px; }
+    .sim-highlights .tile-val { font-size:1.35rem; overflow-wrap:anywhere; }
+    .sim-compare-row { display:grid; grid-template-columns:minmax(115px,180px) 1fr auto; align-items:center; gap:10px; margin:12px 0; font-size:.82rem; }
+    .sim-compare-track { background:var(--glass); border-radius:6px; min-height:14px; overflow:hidden; }
+    .sim-compare-fill { display:block; min-height:14px; border-radius:6px; background:var(--teal); }
+    .sim-compare-fill.cost { background:var(--orange); }
+    .sim-compare-note { font-size:.78rem; color:rgba(255,255,255,.6); margin-top:8px; }
+    @media (max-width:560px) { .sim-compare-row { grid-template-columns:1fr auto; } .sim-compare-track { grid-column:1 / -1; grid-row:2; } }
+
+    /* market accordion */
+    details.market { background:var(--deep2); border:1px solid var(--glass-b); border-radius:var(--r-md); margin-top:14px; overflow:hidden; }
+    details.market > summary { cursor:pointer; padding:18px 22px; font-family:var(--ff-d); font-weight:700; font-size:.95rem; list-style:none; display:flex; justify-content:space-between; align-items:center; min-height:44px; }
+    details.market > summary::-webkit-details-marker { display:none; }
+    details.market > summary::after { content:'+'; font-size:1.3rem; color:rgba(255,255,255,.4); }
+    details.market[open] > summary::after { content:'–'; }
+    .market-body { padding:0 22px 22px; }
+    .market-body .src { font-size:.75rem; color:rgba(255,255,255,.4); margin-bottom:14px; }
     table { width:100%; border-collapse:collapse; font-size:.9rem; }
-    th { text-align:left; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); padding:10px 24px; border-bottom:1px solid var(--glass-b); font-weight:700; }
+    th { text-align:left; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.4); padding:10px 12px; border-bottom:1px solid var(--glass-b); font-weight:700; }
     th:last-child, td:last-child { text-align:right; }
-    td { padding:13px 24px; border-bottom:1px solid rgba(255,255,255,.05); }
+    td { padding:12px; border-bottom:1px solid rgba(255,255,255,.05); }
     td.kw { font-weight:600; }
     td.vol { color:var(--teal); font-weight:700; }
     td.cpc { color:rgba(255,255,255,.7); }
-    tr.blurred td { filter:blur(6px); user-select:none; pointer-events:none; }
-
-    .lock-overlay {
-      position:absolute; left:0; right:0; bottom:0; padding:46px 24px 26px; text-align:center;
-      background:linear-gradient(to bottom, rgba(17,28,43,0), rgba(17,28,43,.96) 55%);
-    }
-    .lock-overlay p { font-size:.9rem; color:rgba(255,255,255,.75); margin-bottom:14px; font-weight:600; }
+    .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
 
     /* ── FORM GATE ── */
     #gate { margin-top:14px; }
-    .gate-card {
-      background:var(--white); color:var(--dark); border-radius:var(--r-lg);
-      padding:36px; max-width:520px;
-    }
+    .gate-card { background:var(--white); color:var(--dark); border-radius:var(--r-lg); padding:36px; max-width:520px; }
     .gate-card h3 { font-family:var(--ff-d); font-weight:800; font-size:1.3rem; margin-bottom:6px; }
-    .gate-card > p { font-size:.85rem; color:#888; margin-bottom:22px; }
+    .gate-card > p { font-size:.85rem; color:#666; margin-bottom:22px; }
+    .gate-card .qual-label { font-size:.8rem; font-weight:700; color:var(--dark); margin:14px 0 8px; }
+    .gate-card .choice-row { margin-bottom:4px; }
+    .gate-card .choice-pill { background:#f3f5f8; border-color:#dde2ea; color:#3a4256; }
+    .gate-card .choice-pill:hover { border-color:var(--teal); }
+    .gate-card .choice-pill.sel { background:rgba(26,155,176,.12); border-color:var(--teal); color:var(--dark); box-shadow:0 0 0 1px var(--teal); }
     .f-row { margin-bottom:16px; }
     .f-row label { display:block; font-size:.8rem; font-weight:700; margin-bottom:6px; }
     .f-row input {
       width:100%; padding:13px 15px; border:1.5px solid #dde2ea; border-radius:var(--r-sm);
-      font-family:var(--ff-b); font-size:.95rem; color:var(--dark); background:#fafbfc; outline:none; transition:border .2s;
+      font-family:var(--ff-b); font-size:16px; color:var(--dark); background:#fafbfc; outline:none; transition:border .2s;
     }
     .f-row input:focus { border-color:var(--teal); background:#fff; }
+    .f-error { font-size:.76rem; color:var(--red); margin-top:5px; display:none; }
     .f-privacy { font-size:.72rem; color:#999; margin-top:12px; }
     .f-privacy a { color:#999; }
+    .submit-error { display:none; background:#fdecea; border:1px solid #f5b5ae; color:#a3231a; border-radius:var(--r-sm); padding:14px 16px; font-size:.85rem; margin-bottom:14px; }
+    .submit-error a { color:#a3231a; font-weight:700; }
 
-    /* ── POST-UNLOCK ── */
+    /* ── AGENDA / CALENDLY ── */
+    .agenda { background:rgba(26,155,176,.08); border:1px solid rgba(26,155,176,.3); border-radius:var(--r-md); padding:22px 24px; margin-top:14px; }
+    .agenda h4 { font-family:var(--ff-d); font-size:1rem; margin-bottom:10px; }
+    .agenda ul { list-style:none; margin-bottom:10px; }
+    .agenda li { font-size:.88rem; color:rgba(255,255,255,.8); padding:5px 0; display:flex; gap:8px; }
+    .agenda li::before { content:'—'; color:var(--teal); flex-shrink:0; }
+    .agenda .mode { font-size:.8rem; color:rgba(255,255,255,.55); margin-top:8px; }
     #unlocked { display:none; margin-top:26px; }
-    .plan { background:rgba(26,155,176,.08); border:1px solid rgba(26,155,176,.3); border-radius:var(--r-md); padding:28px 26px; }
-    .plan h3 { font-family:var(--ff-d); font-size:1.15rem; margin-bottom:14px; }
-    .plan li { list-style:none; display:flex; gap:10px; margin-bottom:10px; font-size:.93rem; color:rgba(255,255,255,.8); }
-    .plan li::before { content:'✓'; color:var(--green); font-weight:800; }
-    .cal-cta { text-align:center; margin-top:30px; }
+    .cal-cta { text-align:center; margin-top:22px; }
     .cal-cta .btn { font-size:1.05rem; padding:18px 40px; }
     .cal-cta p { font-size:.82rem; color:rgba(255,255,255,.45); margin-top:10px; }
+    .cal-fallback { font-size:.82rem; color:rgba(255,255,255,.5); margin-top:10px; display:none; }
+    .cal-fallback a { color:var(--teal); }
 
-    /* autre métier */
     #manual { display:none; }
+    #manualFormWrap { margin-top:26px; }
 
     footer { border-top:1px solid var(--glass-b); padding:26px 24px; text-align:center; font-size:.78rem; color:rgba(255,255,255,.35); }
     footer a { color:rgba(255,255,255,.5); }
     .disclaimer { font-size:.72rem; color:rgba(255,255,255,.32); margin-top:22px; max-width:720px; }
+    [aria-live] { position:relative; }
 
     @media (max-width:560px) {
-      .panel { padding:24px 18px; }
+      .panel { padding:22px 16px; }
       .metier-grid { grid-template-columns:repeat(2,1fr); }
-      .gate-card { padding:26px 20px; }
-      th, td { padding-left:14px; padding-right:14px; }
+      .gate-card { padding:24px 18px; }
+      th, td { padding-left:10px; padding-right:10px; }
       .choice-big { padding:17px 18px; font-size:.96rem; }
+      .res-head { flex-direction:column; }
     }
   </style>
 </head>
@@ -274,6 +377,7 @@
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 20c0-9 5-14 14-15-1 9-6 14-14 15z"/><path d="M5 20c3-4 6-7 10-9"/></symbol>
   <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></symbol>
   <symbol id="i-case" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-splash" viewBox="0 0 24 24"><path d="M12 3s5 5.5 5 9.5A5 5 0 0 1 7 12.5C7 8.5 12 3 12 3z"/><path d="M18 14s2 2.2 2 3.8a2 2 0 1 1-4 0C16 16.2 18 14 18 14z"/></symbol>
 </svg>
 
 <nav class="nav">
@@ -285,21 +389,40 @@
 
 <div class="wrap">
 
-  <div class="badge"><span class="dot"></span>Audit instantané · Données réelles Google</div>
-  <h1 id="mainH1">Combien de clients te cherchent sur Google <span class="hl">en ce moment</span> ?</h1>
-  <p class="sub" id="mainSub">Réponds à quelques questions. On te montre les vraies données de ton marché au Québec — gratuit, 60 secondes.</p>
+  <div id="heroTop">
+    <div class="badge"><span class="dot"></span>Audit gratuit · Données réelles Google</div>
+    <h1 id="mainH1">Tes Google Ads peuvent-ils te rapporter des <span class="hl">clients rentables</span> ?</h1>
+    <p class="sub" id="mainSub">Réponds à quelques questions. On regarde tes vraies données de marché au Québec — gratuit.</p>
+  </div>
 
+  <button id="backBtn" type="button">← Retour</button>
   <div class="progress" id="progress"></div>
+  <p class="progress-label" id="progressLabel" aria-live="polite"></p>
 
   <!-- STEP 0 — Google Ads actuellement ? -->
   <section class="step-section active" id="step0">
     <div class="panel">
       <div class="q-label"><span class="q-num">1</span>Fais-tu déjà de la publicité Google Ads ?</div>
       <div class="choice-stack">
-        <button class="choice-big" data-ads="oui">Oui, j'en fais déjà <span class="arrow">→</span></button>
-        <button class="choice-big" data-ads="non">Non, pas encore <span class="arrow">→</span></button>
+        <button class="choice-big" data-ads="oui">Je fais déjà Google Ads <span class="arrow">→</span></button>
+        <button class="choice-big" data-ads="non">Je veux savoir si ça vaut la peine <span class="arrow">→</span></button>
       </div>
     </div>
+  </section>
+
+  <!-- INTRO BRANCHE A — déjà sur Ads -->
+  <section class="step-section" id="stepIntroA">
+    <div class="badge-soft badge" style="display:inline-flex;">Prédiagnostic gratuit · Aucun accès au compte à cette étape</div>
+    <h2 class="q-title">Sais-tu combien te coûte un client signé grâce à Google Ads ?</h2>
+    <p class="q-sub">Fais le point sur ce que tu mesures. Puis vérifie avec Alexander les chiffres et les priorités de ton compte.</p>
+    <div class="step-actions"><button class="btn" id="introANext">Continuer →</button></div>
+  </section>
+
+  <!-- INTRO BRANCHE B — pas encore sur Ads -->
+  <section class="step-section" id="stepIntroB">
+    <h2 class="q-title">Avant d'investir, vérifie la demande et le coût maximum d'un client rentable.</h2>
+    <p class="q-sub">Quelques questions sur ton métier et ta zone, puis on regarde ce que Google montre vraiment — sans promesse de rentabilité tant que les chiffres ne sont pas validés.</p>
+    <div class="step-actions"><button class="btn" id="introBNext">Continuer →</button></div>
   </section>
 
   <!-- STEP MÉTIER -->
@@ -314,6 +437,7 @@
         <button class="m-card" data-m="electricien"><svg><use href="#i-zap"/></svg>Électricien</button>
         <button class="m-card" data-m="renovation"><svg><use href="#i-hammer"/></svg>Rénovation</button>
         <button class="m-card" data-m="paysagement"><svg><use href="#i-leaf"/></svg>Paysagement</button>
+        <button class="m-card" data-m="degatseau"><svg><use href="#i-splash"/></svg>Dégâts d'eau</button>
         <button class="m-card" data-m="dentiste"><svg><use href="#i-smile"/></svg>Dentiste / Clinique</button>
         <button class="m-card" data-m="autre"><svg><use href="#i-case"/></svg>Autre PME locale</button>
       </div>
@@ -324,15 +448,16 @@
   <section class="step-section" id="stepRegion">
     <div class="panel">
       <div class="q-label"><span class="q-num">3</span>Ta région</div>
+      <p class="q-sub" style="margin-bottom:14px;">Sert à préparer ton dossier — les volumes affichés restent des données Québec tant qu'on n'a pas assez de données locales.</p>
       <div class="region-row" id="regionRow">
-        <button class="r-pill" data-r="mtl" data-mult="0.50">Grand Montréal</button>
-        <button class="r-pill" data-r="rs" data-mult="0.15">Rive-Sud (Longueuil, Brossard)</button>
-        <button class="r-pill" data-r="lav" data-mult="0.12">Laval / Rive-Nord</button>
-        <button class="r-pill" data-r="qc" data-mult="0.10">Québec / Lévis</button>
-        <button class="r-pill" data-r="gat" data-mult="0.05">Gatineau</button>
-        <button class="r-pill" data-r="sher" data-mult="0.06">Sherbrooke</button>
-        <button class="r-pill" data-r="autre" data-mult="0.07">Autre région</button>
-        <button class="r-pill" data-r="tout" data-mult="1">Tout le Québec</button>
+        <button class="r-pill" data-r="mtl">Grand Montréal</button>
+        <button class="r-pill" data-r="rs">Rive-Sud (Longueuil, Brossard)</button>
+        <button class="r-pill" data-r="lav">Laval / Rive-Nord</button>
+        <button class="r-pill" data-r="qc">Québec / Lévis</button>
+        <button class="r-pill" data-r="gat">Gatineau</button>
+        <button class="r-pill" data-r="sher">Sherbrooke</button>
+        <button class="r-pill" data-r="autre">Autre région</button>
+        <button class="r-pill" data-r="tout">Tout le Québec</button>
       </div>
     </div>
   </section>
@@ -347,32 +472,7 @@
         <button class="choice-pill" data-v="2000-5000">2 000 – 5 000 $</button>
         <button class="choice-pill" data-v="5000-10000">5 000 – 10 000 $</button>
         <button class="choice-pill" data-v="10000plus">10 000 $ et +</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- STEP GESTION (branche OUI) -->
-  <section class="step-section" id="stepGestion">
-    <div class="panel">
-      <div class="q-label"><span class="q-num">5</span>Qui gère ton compte Google Ads actuellement ?</div>
-      <div class="choice-row" id="gestionRow">
-        <button class="choice-pill" data-v="moi">Moi-même</button>
-        <button class="choice-pill" data-v="employe">Un employé</button>
-        <button class="choice-pill" data-v="freelancer">Un freelancer</button>
-        <button class="choice-pill" data-v="agence">Une agence</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- STEP CAC (branche OUI) -->
-  <section class="step-section" id="stepCac">
-    <div class="panel">
-      <div class="q-label"><span class="q-num">6</span>Sais-tu combien te coûte réellement un <u>client signé</u> grâce à Google Ads ?</div>
-      <p class="q-sub" style="margin-bottom:20px;">Pas le coût par clic ou par lead — le vrai coût du dernier contrat que t'as signé grâce à Google.</p>
-      <div class="choice-row" id="cacRow">
-        <button class="choice-pill" data-v="oui">Oui, je le sais précisément</button>
-        <button class="choice-pill" data-v="pas_certain">Pas vraiment certain</button>
-        <button class="choice-pill" data-v="non">Non, aucune idée</button>
+        <button class="choice-pill" data-v="inconnu">Je ne sais pas</button>
       </div>
     </div>
   </section>
@@ -388,132 +488,191 @@
     </div>
   </section>
 
+  <!-- STEP ÉCONOMIE DU CONTRAT (branche NON) — valeur minimale rapide (P1.3 progressive disclosure) -->
+  <section class="step-section" id="stepEconomie">
+    <div class="panel">
+      <div class="q-label"><span class="q-num">5</span>L'économie de ton contrat</div>
+      <p class="q-sub" style="margin-bottom:20px;">Avec juste ces deux chiffres, on calcule déjà ta marge disponible par client et ton coût d'acquisition maximum (break-even) — aucun taux de conversion à deviner. Tout reste modifiable après, sans recommencer.</p>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simV">Valeur moyenne du premier contrat, avant taxes ($)</label>
+        <input type="number" id="simV" inputmode="decimal" min="0" placeholder="Ex. 3000" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+        <p class="f-error" id="simVErr">Entre une valeur de contrat supérieure à 0 $, ou laisse vide.</p>
+      </div>
+      <button class="btn btn-ghost" id="simVUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas encore</button>
+
+      <div class="f-row" style="max-width:320px;">
+        <label for="simM">Marge contributive après coûts de réalisation (%, facultatif)</label>
+        <input type="number" id="simM" inputmode="decimal" min="0" max="100" placeholder="Ex. 40" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
+        <p class="f-error" id="simMErr">Entre une marge entre 0 et 100 %, ou laisse vide.</p>
+      </div>
+      <button class="btn btn-ghost" id="simMUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas ma marge</button>
+
+      <div class="step-actions">
+        <button class="btn" id="economieNext">Voir mon diagnostic →</button>
+      </div>
+    </div>
+  </section>
+
   <!-- SCAN -->
-  <section id="scan">
+  <section id="scan" aria-live="polite">
     <div class="scan-ring"></div>
-    <div class="scan-step" id="ss1"><span class="chk">✓</span>Analyse des recherches Google dans ta région…</div>
-    <div class="scan-step" id="ss2"><span class="chk">✓</span>Calcul de la valeur moyenne d'un contrat dans ton secteur…</div>
-    <div class="scan-step" id="ss3"><span class="chk">✓</span>Estimation de ton potentiel de leads…</div>
+    <div class="scan-step" id="ss1"><span class="chk">✓</span>Compilation des données Keyword Planner (Québec)…</div>
+    <div class="scan-step" id="ss2"><span class="chk">✓</span>Préparation de ton résumé…</div>
   </section>
 
   <!-- RÉSULTATS -->
-  <section id="results">
+  <section id="results" aria-live="polite">
     <div class="res-head">
-      <h2>Ton marché : <span id="resTitle"></span></h2>
-      <p id="resRegion"></p>
+      <div>
+        <h2 id="resTitle"></h2>
+        <p id="resSub"></p>
+      </div>
+      <button class="edit-answers" id="editAnswersBtn" type="button">Modifier mes réponses</button>
     </div>
 
-    <div class="cac-callout" id="cacCallout" style="display:none;">
-      <p class="eyebrow">Le vrai chiffre qui compte</p>
-      <p class="msg" id="cacCalloutMsg"></p>
-    </div>
-
-    <div class="tiles">
-      <div class="tile t1">
-        <div class="tile-tag">Recherches Google / mois</div>
-        <div class="tile-val" id="tVol"></div>
-        <div class="tile-sub">personnes qui cherchent tes services dans ta région chaque mois</div>
-      </div>
-      <div class="tile t2">
-        <div class="tile-tag">Valeur moyenne d'un contrat</div>
-        <div class="tile-val" id="tValue"></div>
-        <div class="tile-sub">ballpark une fois le client signé — ton secteur, Québec</div>
-      </div>
-      <div class="tile t3">
-        <div class="tile-tag">Ton potentiel de leads / mois</div>
-        <div class="tile-val" id="tLeads"></div>
-        <div class="tile-sub">appels et demandes estimés avec ton budget<span id="tBudgetEcho"></span></div>
-      </div>
-    </div>
-
-    <div class="sim">
-      <div class="sim-row">
-        <div>
-          <div class="sim-label">Ajuste ton budget et regarde ton potentiel bouger :</div>
-          <div class="slider-val" style="font-size:1.25rem; margin:8px 0 4px;"><span id="budgetVal2">1 000</span> $ <small>/ mois</small></div>
-          <input type="range" id="budget2" min="500" max="5000" step="100" value="1000">
-        </div>
-        <div style="text-align:right;">
-          <div class="sim-label">Leads potentiels</div>
-          <div class="sim-out" id="simLeads"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="kw-box">
-      <h3>Les mots-clés que tes futurs clients tapent sur Google</h3>
-      <div class="src" id="kwSrc"></div>
-      <table id="kwTable">
-        <thead><tr><th>Mot-clé</th><th>Recherches / mois (Québec)</th><th>Prix du clic</th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <div class="lock-overlay" id="lockOverlay">
-        <p>🔒 Débloque le rapport complet + ton plan d'action personnalisé</p>
-        <button class="btn" id="unlockBtn">Débloquer gratuitement →</button>
-      </div>
-    </div>
+    <div id="resultsBody"></div>
 
     <!-- GATE -->
     <div id="gate" style="display:none;">
       <div class="gate-card">
-        <h3>Ton rapport complet, gratuit.</h3>
-        <p>On débloque le tableau + on te prépare un plan d'action pour ton entreprise. Zéro spam, zéro vente forcée.</p>
-        <form id="gateForm">
-          <div class="f-row"><label for="gPrenom">Ton prénom *</label><input type="text" id="gPrenom" placeholder="Alexandre" autocomplete="given-name"></div>
-          <div class="f-row"><label for="gEntreprise">Nom de ton entreprise *</label><input type="text" id="gEntreprise" placeholder="Ex. Toiture ABC" autocomplete="organization"></div>
-          <div class="f-row"><label for="gTel">Téléphone *</label><input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel"></div>
-          <div class="f-row"><label for="gEmail">Courriel</label><input type="email" id="gEmail" placeholder="toi@tonentreprise.ca" autocomplete="email"></div>
+        <h3 id="gateTitle">Prépare ton rendez-vous avec Alexander.</h3>
+        <p>Ces informations servent à préparer et confirmer ton rendez-vous.</p>
+        <div class="submit-error" id="gateSubmitError" role="alert"></div>
+        <form id="gateForm" novalidate>
+          <div class="f-row">
+            <label for="gPrenom">Ton prénom *</label>
+            <input type="text" id="gPrenom" placeholder="Alexandre" autocomplete="given-name" required>
+            <p class="f-error" id="gPrenomErr">Ton prénom est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="gEntreprise">Nom de ton entreprise *</label>
+            <input type="text" id="gEntreprise" placeholder="Ex. Toiture ABC" autocomplete="organization" required>
+            <p class="f-error" id="gEntrepriseErr">Le nom de ton entreprise est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="gEmail">Courriel *</label>
+            <input type="email" id="gEmail" placeholder="toi@tonentreprise.ca" autocomplete="email" required>
+            <p class="f-error" id="gEmailErr">Un courriel valide est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="gTel">Téléphone (optionnel à cette étape)</label>
+            <input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel">
+          </div>
           <div class="f-row"><label for="gSite">Site web (optionnel)</label><input type="text" id="gSite" placeholder="tonentreprise.ca" autocomplete="url"></div>
-          <button class="btn" type="submit" id="gateBtn" style="width:100%;">Voir mon rapport complet →</button>
+
+          <button class="btn" type="submit" id="gateBtn" style="width:100%; margin-top:8px;">Envoyer →</button>
           <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
         </form>
       </div>
     </div>
 
-    <!-- POST UNLOCK -->
+    <!-- POST ENVOI -->
     <div id="unlocked">
-      <div class="plan">
-        <h3 id="planTitle">Ce qu'on ferait pour toi, concrètement :</h3>
-        <ul id="planList">
-          <li>Campagne Google Ads ciblée sur les mots-clés ci-dessus, dans ta région, en français</li>
-          <li>Tracking complet des appels et formulaires — tu vois chaque lead et ce qu'il t'a coûté</li>
-          <li>Optimisation continue pour baisser ton coût par lead mois après mois</li>
-          <li>Rapport clair le 1er de chaque mois : dépenses, leads, résultats</li>
-        </ul>
+      <div class="agenda">
+        <h4>Avant de réserver</h4>
+        <ul id="agendaList"></ul>
+        <p class="mode">Rendez-vous : appel téléphonique de 30 minutes.</p>
       </div>
       <div class="cal-cta">
-        <a class="btn" id="calBtn" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Réserver mon 30 min avec Alexander →</a>
-        <p>Gratuit · Sans engagement · On regarde ton marché ensemble</p>
+        <a class="btn" id="calBtn" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Choisir mon heure — 30 min →</a>
+        <p>Gratuit · Sans engagement</p>
+        <p class="cal-fallback" id="calFallback">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvre-le dans un nouvel onglet</a>.</p>
       </div>
     </div>
 
     <p class="disclaimer" id="disclaimerText"></p>
   </section>
 
-  <!-- AUTRE MÉTIER -->
-  <section id="manual">
+  <!-- AUTRE MÉTIER / DÉGÂTS D'EAU — pas de base instantanée -->
+  <section id="manual" aria-live="polite">
     <div class="res-head">
-      <h2>Ton secteur mérite un audit sur mesure.</h2>
-      <p>Notre base instantanée couvre 8 métiers. Pour le tien, Alexander fait l'analyse à la main — mêmes données réelles Google, livrée en 24 h. Gratuit.</p>
+      <div>
+        <h2>Ton secteur mérite une analyse faite à la main.</h2>
+        <p id="manualSub"></p>
+      </div>
+      <button class="edit-answers" id="editAnswersBtnManual" type="button">Modifier mes réponses</button>
     </div>
-    <div class="gate-card" style="margin-top:26px;">
-      <h3>Reçois ton audit en 24 h</h3>
-      <p>Volumes de recherche, prix du clic et potentiel de leads pour TON métier, dans TA région.</p>
-      <form id="manualForm">
-        <div class="f-row"><label for="mPrenom">Ton prénom *</label><input type="text" id="mPrenom" placeholder="Alexandre"></div>
-        <div class="f-row"><label for="mEntreprise">Nom de ton entreprise *</label><input type="text" id="mEntreprise" placeholder="Ex. Nettoyage ABC"></div>
-        <div class="f-row"><label for="mTel">Téléphone *</label><input type="tel" id="mTel" placeholder="514-000-0000"></div>
-        <div class="f-row"><label for="mMetier">Ton métier / secteur *</label><input type="text" id="mMetier" placeholder="Ex. : nettoyage commercial"></div>
-        <div class="f-row"><label for="mEmail">Courriel</label><input type="email" id="mEmail" placeholder="toi@tonentreprise.ca"></div>
-        <button class="btn" type="submit" style="width:100%;">Recevoir mon audit gratuit →</button>
-        <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
-      </form>
+
+    <div class="card">
+      <div class="eyebrow">Ce qu'on a</div>
+      <div class="summary-grid" id="manualSummaryGrid"></div>
+    </div>
+
+    <p class="limit-note">On n'a pas de données Keyword Planner validées pour ce métier dans notre base instantanée. Alexander fait l'analyse à la main avec les mêmes données réelles Google. Aucun délai automatique n'est garanti — on te recontacte avec un plan concret.</p>
+
+    <div class="agenda">
+      <h4>Avant de réserver</h4>
+      <ul>
+        <li>Ton métier, ta zone et ton budget envisagé (déjà notés)</li>
+        <li>Ce qu'on doit vérifier pour ton secteur précis</li>
+        <li>La prochaine action concrète</li>
+      </ul>
+      <p class="mode">Rendez-vous : appel téléphonique de 30 minutes.</p>
+    </div>
+    <div class="cal-cta">
+      <a class="btn" id="calBtnManual" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Choisir mon heure — 30 min →</a>
+      <p class="cal-fallback" id="calFallbackManual">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvre-le dans un nouvel onglet</a>.</p>
+    </div>
+
+    <div id="manualFormWrap">
+      <div class="gate-card" style="margin-top:10px;">
+        <h3>Pas prêt à réserver ? Laisse tes infos.</h3>
+        <p>On te recontacte avec l'analyse — mêmes règles : ces informations servent à préparer le suivi, aucune inscription marketing implicite.</p>
+        <div class="submit-error" id="manualSubmitError" role="alert"></div>
+        <form id="manualForm" novalidate>
+          <div class="f-row">
+            <label for="mPrenom">Ton prénom *</label>
+            <input type="text" id="mPrenom" placeholder="Alexandre" required>
+            <p class="f-error" id="mPrenomErr">Ton prénom est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="mEntreprise">Nom de ton entreprise *</label>
+            <input type="text" id="mEntreprise" placeholder="Ex. Nettoyage ABC" required>
+            <p class="f-error" id="mEntrepriseErr">Le nom de ton entreprise est requis.</p>
+          </div>
+          <div class="f-row">
+            <label for="mEmail">Courriel *</label>
+            <input type="email" id="mEmail" placeholder="toi@tonentreprise.ca" required>
+            <p class="f-error" id="mEmailErr">Un courriel valide est requis.</p>
+          </div>
+          <div class="f-row"><label for="mTel">Téléphone (optionnel)</label><input type="tel" id="mTel" placeholder="514-000-0000"></div>
+          <div class="f-row"><label for="mMetierDetail">Précision sur ton métier (optionnel)</label><input type="text" id="mMetierDetail" placeholder="Ex. assèchement, décontamination…"></div>
+          <button class="btn" type="submit" id="manualBtn" style="width:100%;">Envoyer →</button>
+          <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
+        </form>
+      </div>
       <div id="manualOk" style="display:none; text-align:center; padding:20px 0 6px;">
         <div style="font-size:2rem;">✓</div>
         <h3 style="margin:8px 0 4px;">Reçu !</h3>
-        <p style="font-size:.9rem; color:#666;">Ton audit arrive d'ici 24 h. Tu veux aller plus vite ? <a href="https://calendly.com/admin-pixby/30min" style="color:var(--orange); font-weight:700;">Réserve 30 min maintenant</a>.</p>
+        <p style="font-size:.9rem; color:#666;">Alexander te recontacte pour la suite.</p>
       </div>
     </div>
+  </section>
+
+  <!-- CONTENU PUBLIC SEO/GEO — toujours visible, hors de l'assistant pas-à-pas.
+       Cible les intentions : audit Google Ads, audit Google Ads gratuit,
+       est-ce que Google Ads vaut la peine, coût Google Ads PME Québec,
+       comment savoir si Google Ads est rentable. People-first, pas de
+       bourrage de mots-clés — mêmes limites et méthodologie qu'affichées
+       dans l'outil, pas un discours marketing séparé. */ -->
+  <section class="seo-content" style="margin-top:60px; padding-top:40px; border-top:1px solid var(--glass-b);">
+    <h2 style="font-family:var(--ff-d); font-weight:800; font-size:1.4rem; margin-bottom:20px;">Comment fonctionne cet audit Google Ads gratuit</h2>
+
+    <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Ce que l'audit analyse</h3>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Selon que tu fais déjà de la publicité Google Ads ou non, l'outil pose quelques questions sur ton métier, ta zone et ton budget, puis regarde les données réelles de demande (recherches mensuelles et enchères) pour ton secteur dans Google Keyword Planner. Si tu fais déjà des Google Ads, l'audit diagnostique surtout ta capacité à <em>mesurer</em> ta rentabilité (leads attribués, lien avec les clients réellement signés). Si tu n'en fais pas encore, il calcule ta marge disponible par client et, quand c'est possible, une prévision Google Ads (clics/coût/CPC) pour ton budget envisagé.</p>
+
+    <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Sources de données</h3>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Les volumes de recherche et plages d'enchères viennent directement de l'API Google Ads (Keyword Planner), pour la ville la plus précise disponible dans ta région — sinon un repère à l'échelle du Québec, toujours indiqué comme tel. Les prévisions de clics/coût, quand elles apparaissent, viennent du modèle de prévision de Google (Forecast Metrics), pas d'une estimation maison. Les seuls chiffres calculés par Pixby sont ta marge disponible et ton seuil de rentabilité (break-even), à partir des valeurs que tu déclares toi-même.</p>
+
+    <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Limites</h3>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Cet audit ne devine jamais de taux de conversion (clic → lead → client) : ce chiffre varie trop d'une entreprise à l'autre pour être fiable sans données réelles. Il ne remplace pas non plus un audit de ton compte Google Ads existant — sans y accéder, impossible de savoir si tes campagnes, tes mots-clés ou ton tracking de conversions sont bien configurés. C'est un prédiagnostic basé sur la demande du marché, pas une garantie de résultat.</p>
+
+    <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Diagnostic externe vs audit de compte en lecture seule</h3>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Le diagnostic ci-dessus se fait sans jamais accéder à ton compte Google Ads. Si tu es déjà annonceur, tu peux optionnellement donner un accès en <strong>lecture seule</strong> (aucune modification possible) pour qu'Alexander regarde tes vraies campagnes avant le rendez-vous — ou simplement réserver un appel sans donner accès. Les deux choix sont valides.</p>
+
+    <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Confidentialité</h3>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); max-width:700px;">Les réponses données dans l'audit et, si tu les laisses, tes coordonnées, servent uniquement à préparer ton rendez-vous avec Alexander — voir la <a href="../politique-confidentialite.html">politique de confidentialité</a>. Rien n'est vendu à des tiers ni utilisé pour du démarchage automatisé.</p>
   </section>
 
 </div>
@@ -525,173 +684,283 @@
 <script>
 (function(){
   /* ============================================================
-     DONNÉES MARCHÉ — Google Ads Keyword Planner, Québec (20123), FR.
-     KW_AS_OF : date des données. Rafraîchie manuellement le 2026-09-24 via
-     ~/pixby-ads-api/keyword_data_audit.py (réel, Google Ads API). Automatisation
-     mensuelle du refresh proposée mais pas encore construite (voir TASKS.md) --
-     nécessite validation explicite avant d'autoriser un push auto en prod.
-     Format kws : [mot-clé, recherches/mois, CPC bas $, CPC haut $]
+     DONNÉES MARCHÉ — Google Ads Keyword Planner, par métier x région (ville
+     la plus précise disponible), FR. Rafraîchi le 2026-09-26 via
+     ~/pixby-ads-api/refresh_audit_keywords_v4b.py, generate_keyword_historical_metrics
+     (compte Pixby autorisé 9014867803, PAS un compte client).
+     CORRECTIF DATA CONTAMINATION (2026-09-26) : la premiere version de ce
+     rafraichissement utilisait generate_keyword_ideas() (expansion automatique),
+     qui a suggere de VRAIS NOMS DE CONCURRENTS au niveau ville (ex. "L2 Toiture",
+     "Deschenes Plomberie", "Avenue Sourire", "Lapointe Dentiste") — inacceptable
+     a montrer a un prospect comme si c'etait la demande generique de son marche.
+     Remplace par generate_keyword_historical_metrics(), qui NE SUGGERE RIEN :
+     seuls les mots-cles explicitement fournis (mêmes 4 seeds par métier, partout)
+     sont mesures. Zero risque de marque. Voir audit_data_v4_backup_with_brand_contamination.json
+     (non utilise) pour trace de l'incident.
+     Format kws : [mot-clé, recherches/mois, enchère basse $, enchère haute $]
+     (bornes = "Top of page bid" Google; enchère à 0/0 = pas d'enchère active,
+     affiché comme tel, jamais comme "0,00 $"). "avgValue" (valeur moyenne d'un
+     contrat) N'EST PAS une donnée Keyword Planner : estimation interne Pixby,
+     affichée avec ce label explicite pour ne jamais être confondue avec Google.
      ============================================================ */
   var KW_AS_OF = 'septembre 2026';
   var DATA = {
-    toiture:        { label:"Toiture", avgValue:[8000,15000], highValue:true,  kws:[["toiture",4400,5.2,24.17],["fibro ciment",2900,0.32,2.15],["couvreur",1300,4.87,20.21],["tuile",880,0.31,1.4],["charpente",880,2.29,11.04]] },
-    plomberie:      { label:"Plomberie", avgValue:[350,900], highValue:false,  kws:[["plombier",8100,2.53,11.19],["plomberie",8100,2.02,7.92],["plombier à proximité",4400,2.07,10.32],["plombier expert",1900,1.89,7.88],["plomberie rive sud",1300,2.09,12.08]] },
-    hvac:           { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true,  kws:[["thermopompe",22200,2.07,11.16],["air climatisé portatif",12100,0.19,0.61],["air climatiseur portatif",12100,0.19,0.61],["air climatisé",9900,0.67,10.08],["air climatisation",9900,0.67,10.08]] },
-    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false,  kws:[["réparation électroménagers",4400,1.08,4.4],["reparer electromenager",4400,1.08,4.4],["reparation electromenager autour de moi",1900,0.92,3.36],["réparation laveuse",1600,1.31,7.11],["reparer laveuse",1600,1.31,7.11]] },
-    electricien:    { label:"Électricien", avgValue:[2000,6000], highValue:true,  kws:[["électricien",8100,2.86,11.61],["panneau électrique",1900,0.18,4.98],["électricien à proximité",1600,3.54,12.0],["electricien autour de moi",1300,2.27,9.61],["maitre electricien",720,2.65,10.61]] },
-    renovation:     { label:"Rénovation", avgValue:[20000,100000], highValue:true,  kws:[["soumission rénovations",8100,1.63,11.7],["rénovation salle de bain",1900,2.26,9.28],["refection salle de bain",1900,2.26,9.28],["renover une salle de bain",1900,2.26,9.28],["renover la salle de bain",1900,2.26,9.28]] },
-    paysagement:    { label:"Paysagement", avgValue:[3000,15000], highValue:false,  kws:[["paysagiste",9900,2.05,8.36],["aménagement paysager",2900,1.63,6.67],["pavé uni",2900,1.14,6.64],["pavage uni",2900,1.14,6.64],["paysagement",2400,2.46,8.82]] },
-    dentiste:       { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false,  kws:[["dentiste",27100,2.48,12.0],["orthodontiste",5400,2.16,7.7],["blanchiment dentaire",2900,1.31,3.44],["couronne dentaire",2900,1.09,3.45],["implant dentaire",2400,1.24,6.61]] }
+    toiture: { label:"Toiture", avgValue:[8000,15000], highValue:true, regions:{mtl:[["toiture",880,6.58,28.75],["couvreur",390,7.14,24.41],["réparation toiture",40,9.85,37.4],["refaire sa toiture",10,10.22,19.52]],rs:[["toiture",140,7.7,32.24],["couvreur",50,7.02,28.82],["réparation toiture",10,0.0,0.0],["refaire sa toiture",10,0.0,0.0]],lav:[["toiture",210,7.19,28.97],["couvreur",90,11.0,29.49],["réparation toiture",10,9.84,22.34],["refaire sa toiture",10,0.0,0.0]],qc:[["toiture",390,5.48,23.19],["couvreur",70,6.05,19.13],["réparation toiture",20,5.12,17.15],["refaire sa toiture",10,8.02,16.44]],gat:[["toiture",480,7.6,22.87],["couvreur",20,6.06,18.89],["réparation toiture",10,4.46,18.03],["refaire sa toiture",10,0.0,0.0]],sher:[["toiture",90,4.95,14.02],["couvreur",30,0.0,0.0],["réparation toiture",10,0.0,0.0],["refaire sa toiture",10,0.0,0.0]],tout:[["toiture",4400,5.22,24.24],["couvreur",1300,4.88,20.27],["réparation toiture",170,3.88,18.68],["refaire sa toiture",20,2.99,14.08]]} },
+    plomberie: { label:"Plomberie", avgValue:[350,900], highValue:false, regions:{mtl:[["plombier",1900,3.58,12.11],["plombier urgence",390,6.85,22.96],["débouchage drain",70,4.44,11.17],["remplacement chauffe eau",70,2.82,8.06]],rs:[["plombier",320,3.72,16.48],["plombier urgence",30,7.9,18.32],["débouchage drain",10,0.0,0.0],["remplacement chauffe eau",10,2.9,11.13]],lav:[["plombier",390,4.66,17.64],["plombier urgence",30,7.59,19.8],["débouchage drain",30,3.63,14.31],["remplacement chauffe eau",20,3.2,11.18]],qc:[["plombier",880,1.95,8.06],["plombier urgence",70,1.9,8.34],["remplacement chauffe eau",50,1.59,6.89],["débouchage drain",10,3.0,9.26]],gat:[["plombier",140,4.09,20.38],["plombier urgence",10,4.87,18.11],["débouchage drain",10,0.0,0.0],["remplacement chauffe eau",10,4.15,13.0]],sher:[["plombier",140,1.69,9.25],["débouchage drain",20,3.23,12.48],["plombier urgence",10,1.78,8.87],["remplacement chauffe eau",10,0.0,0.0]],tout:[["plombier",8100,2.54,11.23],["plombier urgence",1000,2.84,15.75],["remplacement chauffe eau",320,1.91,6.76],["débouchage drain",260,3.36,10.94]]} },
+    hvac: { label:"HVAC / Thermopompe", avgValue:[6000,12000], highValue:true, regions:{mtl:[["thermopompe",3600,2.33,10.74],["climatisation",1000,4.14,16.92],["installation thermopompe",210,7.4,28.49],["réparation thermopompe",140,4.06,12.83]],rs:[["thermopompe",590,2.68,11.52],["climatisation",260,4.89,17.95],["réparation thermopompe",40,4.17,11.59],["installation thermopompe",30,6.55,31.91]],lav:[["thermopompe",720,3.51,11.91],["climatisation",320,4.06,13.17],["installation thermopompe",50,4.86,21.75],["réparation thermopompe",50,4.24,15.32]],qc:[["thermopompe",1600,2.63,12.07],["climatisation",480,3.94,17.87],["réparation thermopompe",140,2.99,7.9],["installation thermopompe",110,6.21,23.61]],gat:[["thermopompe",590,3.01,11.61],["climatisation",140,3.69,11.92],["installation thermopompe",20,4.85,24.38],["réparation thermopompe",20,2.41,6.53]],sher:[["thermopompe",480,1.82,7.58],["climatisation",140,2.84,14.12],["installation thermopompe",20,3.05,10.87],["réparation thermopompe",20,2.23,10.71]],tout:[["thermopompe",22200,2.08,11.2],["climatisation",5400,3.75,16.25],["installation thermopompe",1300,4.2,21.75],["réparation thermopompe",880,3.06,10.72]]} },
+    electromenager: { label:"Réparation d'électroménagers", avgValue:[150,400], highValue:false, regions:{mtl:[["réparation électroménagers",590,1.43,6.53],["réparation laveuse",260,2.13,7.14],["réparation lave vaisselle",210,1.88,6.97],["réparation réfrigérateur",110,1.44,7.17]],rs:[["réparation électroménagers",170,1.28,6.25],["réparation laveuse",50,3.04,8.34],["réparation lave vaisselle",50,1.61,6.62],["réparation réfrigérateur",20,2.24,7.13]],lav:[["réparation électroménagers",140,1.07,3.92],["réparation laveuse",50,3.08,7.17],["réparation lave vaisselle",50,1.88,6.5],["réparation réfrigérateur",20,1.77,7.14]],qc:[["réparation électroménagers",320,0.53,1.55],["réparation laveuse",170,0.49,1.21],["réparation lave vaisselle",170,0.51,1.58],["réparation réfrigérateur",70,0.45,1.23]],gat:[["réparation électroménagers",110,0.96,3.76],["réparation laveuse",30,1.03,3.45],["réparation lave vaisselle",30,0.88,5.09],["réparation réfrigérateur",10,0.88,9.59]],sher:[["réparation électroménagers",110,1.03,1.86],["réparation laveuse",30,1.16,1.62],["réparation lave vaisselle",30,1.03,2.04],["réparation réfrigérateur",10,0.0,0.0]],tout:[["réparation électroménagers",4400,1.08,4.42],["réparation laveuse",1600,1.31,7.13],["réparation lave vaisselle",1300,1.12,5.26],["réparation réfrigérateur",590,1.12,7.14]]} },
+    electricien: { label:"Électricien", avgValue:[2000,6000], highValue:true, regions:{mtl:[["électricien",1600,4.4,14.85],["panneau électrique",390,1.86,7.77],["installation borne de recharge",70,2.47,9.52],["maître électricien",30,3.37,10.12]],rs:[["électricien",320,4.32,11.88],["panneau électrique",70,0.65,3.91],["installation borne de recharge",30,2.98,9.37],["maître électricien",10,0.0,0.0]],lav:[["électricien",320,5.78,14.63],["panneau électrique",90,1.51,7.59],["installation borne de recharge",30,4.62,14.43],["maître électricien",10,1.88,4.72]],qc:[["électricien",880,1.96,6.67],["panneau électrique",170,0.14,1.35],["installation borne de recharge",70,1.25,4.92],["maître électricien",10,0.0,0.0]],gat:[["électricien",170,2.13,7.56],["panneau électrique",50,0.09,0.79],["maître électricien",10,2.02,6.55],["installation borne de recharge",10,2.5,9.33]],sher:[["électricien",140,1.21,5.31],["panneau électrique",50,0.11,3.24],["maître électricien",10,0.0,0.0],["installation borne de recharge",10,1.34,5.23]],tout:[["électricien",8100,2.87,11.64],["panneau électrique",1900,0.18,4.99],["installation borne de recharge",590,1.93,8.97],["maître électricien",140,2.02,8.3]]} },
+    renovation: { label:"Rénovation", avgValue:[20000,100000], highValue:true, regions:{mtl:[["rénovation salle de bain",320,2.42,8.29],["rénovation cuisine",260,2.32,7.37],["rénovation sous sol",40,3.69,12.08],["entrepreneur rénovation",30,3.19,12.44]],rs:[["rénovation salle de bain",70,3.05,12.08],["rénovation cuisine",50,2.43,8.0],["entrepreneur rénovation",10,6.36,22.78],["rénovation sous sol",10,0.0,0.0]],lav:[["rénovation salle de bain",110,2.43,9.93],["rénovation cuisine",90,2.12,9.45],["entrepreneur rénovation",10,2.24,12.39],["rénovation sous sol",10,0.0,0.0]],qc:[["rénovation cuisine",260,1.75,6.49],["rénovation salle de bain",210,2.31,10.01],["entrepreneur rénovation",40,1.77,17.2],["rénovation sous sol",30,3.18,15.23]],gat:[["rénovation salle de bain",50,2.3,12.99],["rénovation cuisine",30,2.2,8.07],["entrepreneur rénovation",10,0.0,0.0],["rénovation sous sol",10,0.0,0.0]],sher:[["rénovation salle de bain",40,1.23,5.67],["rénovation cuisine",20,1.84,4.64],["entrepreneur rénovation",10,0.0,0.0],["rénovation sous sol",10,0.0,0.0]],tout:[["rénovation salle de bain",1900,2.27,9.31],["rénovation cuisine",1600,2.02,8.12],["entrepreneur rénovation",320,2.51,14.58],["rénovation sous sol",210,2.88,12.89]]} },
+    paysagement: { label:"Paysagement", avgValue:[3000,15000], highValue:false, regions:{mtl:[["paysagiste",1900,2.15,6.33],["pavé uni",480,1.82,5.8],["aménagement paysager",390,1.84,6.69],["terrassement",140,3.05,6.41]],rs:[["paysagiste",390,3.06,10.35],["pavé uni",110,2.0,9.6],["aménagement paysager",70,3.04,8.01],["terrassement",30,4.2,17.07]],lav:[["paysagiste",390,2.72,10.36],["pavé uni",210,2.05,6.77],["aménagement paysager",110,1.78,6.64],["terrassement",30,4.74,10.2]],qc:[["paysagiste",1000,2.08,8.08],["aménagement paysager",320,1.48,7.24],["terrassement",210,2.46,6.86],["pavé uni",110,0.45,4.8]],gat:[["paysagiste",260,2.58,5.14],["pavé uni",70,0.93,5.12],["aménagement paysager",50,1.88,5.88],["terrassement",30,2.84,5.79]],sher:[["paysagiste",210,1.95,4.89],["aménagement paysager",90,1.28,5.51],["pavé uni",50,0.46,2.66],["terrassement",10,2.43,7.52]],tout:[["paysagiste",9900,2.06,8.39],["aménagement paysager",2900,1.63,6.69],["pavé uni",2900,1.14,6.66],["terrassement",1000,2.48,7.63]]} },
+    dentiste: { label:"Dentiste / Clinique", avgValue:[800,3000], highValue:false, regions:{mtl:[["dentiste",6600,2.96,11.14],["nettoyage dentaire",210,2.18,8.61]],rs:[["dentiste",880,3.09,13.02],["nettoyage dentaire",30,2.5,10.33]],lav:[["dentiste",1000,3.92,17.68],["nettoyage dentaire",40,3.16,9.81]],qc:[["dentiste",2900,2.1,7.12],["nettoyage dentaire",70,1.56,6.94]],gat:[["dentiste",590,2.77,19.65],["nettoyage dentaire",20,1.73,5.14]],sher:[["dentiste",590,1.75,13.17],["nettoyage dentaire",10,0.0,0.0]],tout:[["dentiste",27100,2.49,12.04],["nettoyage dentaire",590,1.89,8.34]]} }
+  };
+  /* ============================================================
+     PRÉVISION GOOGLE ADS (branche NON) — grille précalculée par métier x
+     région x palier de budget (750/1500/2500/4000 $/mois), générée via
+     ~/pixby-ads-api/refresh_audit_data_v4.py, GenerateKeywordForecastMetrics
+     (compte Pixby autorisé, seeds explicites — aucune expansion, même
+     garantie anti-contamination que DATA ci-dessus). c=clics/mois,
+     s=dépense prévue/mois ($), p=CPC moyen prévu ($). Palier le plus proche
+     du budget choisi par le visiteur est utilisé et affiché explicitement.
+     ============================================================ */
+  var FORECAST = {
+    toiture:{mtl:{750:{c:76.6,s:750.0,p:9.79},1500:{c:153.2,s:1500.0,p:9.79},2500:{c:255.4,s:2499.9,p:9.79},4000:{c:408.6,s:3999.9,p:9.79}},rs:{750:{c:75.0,s:750.0,p:9.99},1500:{c:150.4,s:1500.0,p:9.97},2500:{c:250.1,s:2499.9,p:9.99},4000:{c:401.1,s:3999.9,p:9.97}},lav:{750:{c:75.2,s:750.0,p:9.97},1500:{c:150.7,s:1500.0,p:9.95},2500:{c:251.2,s:2499.9,p:9.95},4000:{c:401.2,s:3999.9,p:9.97}},qc:{750:{c:71.6,s:750.0,p:10.47},1500:{c:143.2,s:1500.0,p:10.47},2500:{c:156.8,s:1639.35,p:10.46},4000:{c:156.8,s:1639.35,p:10.46}},gat:{750:{c:50.2,s:564.69,p:11.24},1500:{c:50.2,s:564.69,p:11.24},2500:{c:50.2,s:566.45,p:11.27},4000:{c:50.2,s:564.69,p:11.24}},sher:{750:{c:86.8,s:750.0,p:8.64},1500:{c:109.6,s:946.98,p:8.64},2500:{c:109.6,s:946.98,p:8.64},4000:{c:109.6,s:946.98,p:8.64}},tout:{750:{c:77.1,s:750.0,p:9.72},1500:{c:154.4,s:1500.0,p:9.72},2500:{c:257.1,s:2499.9,p:9.72},4000:{c:411.3,s:3999.9,p:9.72}}},
+    plomberie:{mtl:{750:{c:102.5,s:750.0,p:7.31},1500:{c:205.1,s:1500.0,p:7.31},2500:{c:341.1,s:2499.9,p:7.33},4000:{c:545.8,s:3999.9,p:7.33}},rs:{750:{c:101.0,s:750.0,p:7.42},1500:{c:202.0,s:1500.0,p:7.42},2500:{c:336.7,s:2499.9,p:7.42},4000:{c:539.0,s:3999.9,p:7.42}},lav:{750:{c:103.4,s:750.0,p:7.25},1500:{c:206.8,s:1500.0,p:7.25},2500:{c:344.1,s:2499.9,p:7.26},4000:{c:550.6,s:3999.9,p:7.26}},qc:{750:{c:120.5,s:750.0,p:6.23},1500:{c:241.2,s:1500.0,p:6.22},2500:{c:302.3,s:1880.36,p:6.22},4000:{c:302.3,s:1880.36,p:6.22}},gat:{750:{c:39.2,s:294.31,p:7.5},1500:{c:39.2,s:294.31,p:7.5},2500:{c:39.2,s:294.18,p:7.5},4000:{c:39.2,s:294.31,p:7.5}},sher:{750:{c:70.3,s:473.77,p:6.74},1500:{c:70.3,s:473.77,p:6.74},2500:{c:70.0,s:471.52,p:6.74},4000:{c:70.3,s:473.77,p:6.74}},tout:{750:{c:106.2,s:750.0,p:7.06},1500:{c:212.3,s:1500.0,p:7.06},2500:{c:353.9,s:2499.9,p:7.06},4000:{c:565.9,s:3999.9,p:7.07}}},
+    hvac:{mtl:{750:{c:129.0,s:750.0,p:5.81},1500:{c:258.0,s:1500.0,p:5.81},2500:{c:429.9,s:2499.9,p:5.81},4000:{c:688.3,s:3999.9,p:5.81}},rs:{750:{c:128.6,s:750.0,p:5.83},1500:{c:257.1,s:1500.0,p:5.83},2500:{c:428.6,s:2499.9,p:5.83},4000:{c:685.7,s:3999.9,p:5.83}},lav:{750:{c:127.3,s:750.0,p:5.89},1500:{c:254.5,s:1500.0,p:5.89},2500:{c:423.7,s:2499.9,p:5.9},4000:{c:678.8,s:3999.9,p:5.89}},qc:{750:{c:148.4,s:750.0,p:5.05},1500:{c:296.6,s:1500.0,p:5.06},2500:{c:494.7,s:2499.9,p:5.05},4000:{c:755.3,s:3816.34,p:5.05}},gat:{750:{c:87.6,s:505.39,p:5.77},1500:{c:87.6,s:505.39,p:5.77},2500:{c:86.9,s:501.78,p:5.77},4000:{c:86.9,s:501.78,p:5.77}},sher:{750:{c:137.4,s:750.0,p:5.46},1500:{c:142.2,s:779.77,p:5.48},2500:{c:142.2,s:779.77,p:5.48},4000:{c:142.2,s:776.28,p:5.46}},tout:{750:{c:137.7,s:750.0,p:5.45},1500:{c:275.6,s:1500.0,p:5.44},2500:{c:459.0,s:2499.9,p:5.45},4000:{c:734.5,s:3999.9,p:5.45}}},
+    electromenager:{mtl:{750:{c:202.9,s:750.0,p:3.7},1500:{c:310.1,s:1145.23,p:3.69},2500:{c:310.1,s:1145.23,p:3.69},4000:{c:310.1,s:1145.23,p:3.69}},rs:{750:{c:197.0,s:733.27,p:3.72},1500:{c:197.0,s:733.27,p:3.72},2500:{c:197.6,s:734.77,p:3.72},4000:{c:197.6,s:734.77,p:3.72}},lav:{750:{c:202.0,s:750.0,p:3.71},1500:{c:233.5,s:865.51,p:3.71},2500:{c:233.5,s:865.51,p:3.71},4000:{c:233.5,s:865.51,p:3.71}},qc:{750:{c:128.0,s:320.46,p:2.5},1500:{c:127.4,s:319.18,p:2.51},2500:{c:127.4,s:319.18,p:2.51},4000:{c:128.0,s:320.46,p:2.5}},gat:{750:{c:22.0,s:72.86,p:3.31},1500:{c:22.1,s:73.08,p:3.3},2500:{c:22.1,s:73.08,p:3.3},4000:{c:22.0,s:72.86,p:3.31}},sher:{750:{c:22.9,s:65.68,p:2.86},1500:{c:22.9,s:65.68,p:2.86},2500:{c:22.9,s:65.68,p:2.86},4000:{c:23.1,s:66.49,p:2.88}},tout:{750:{c:226.5,s:750.0,p:3.31},1500:{c:452.7,s:1500.0,p:3.31},2500:{c:495.8,s:1643.01,p:3.31},4000:{c:495.8,s:1643.01,p:3.31}}},
+    electricien:{mtl:{750:{c:121.3,s:750.0,p:6.18},1500:{c:242.7,s:1500.0,p:6.18},2500:{c:404.4,s:2499.9,p:6.18},4000:{c:549.0,s:3394.6,p:6.18}},rs:{750:{c:119.5,s:750.0,p:6.28},1500:{c:238.6,s:1500.0,p:6.29},2500:{c:341.8,s:2148.94,p:6.29},4000:{c:341.8,s:2148.94,p:6.29}},lav:{750:{c:121.2,s:750.0,p:6.19},1500:{c:242.7,s:1500.0,p:6.18},2500:{c:392.8,s:2427.81,p:6.18},4000:{c:392.8,s:2427.81,p:6.18}},qc:{750:{c:129.5,s:750.0,p:5.79},1500:{c:174.9,s:1011.17,p:5.78},2500:{c:175.2,s:1014.6,p:5.79},4000:{c:175.2,s:1014.6,p:5.79}},gat:{750:{c:48.4,s:301.62,p:6.23},1500:{c:48.1,s:299.29,p:6.23},2500:{c:48.1,s:299.29,p:6.23},4000:{c:48.1,s:299.29,p:6.23}},sher:{750:{c:52.8,s:285.35,p:5.4},1500:{c:52.8,s:285.61,p:5.4},2500:{c:52.8,s:285.35,p:5.4},4000:{c:52.8,s:285.61,p:5.4}},tout:{750:{c:127.3,s:750.0,p:5.89},1500:{c:254.9,s:1500.0,p:5.88},2500:{c:424.9,s:2499.9,p:5.88},4000:{c:679.8,s:3999.9,p:5.88}}},
+    renovation:{mtl:{750:{c:158.6,s:750.0,p:4.73},1500:{c:318.0,s:1500.0,p:4.72},2500:{c:528.5,s:2499.9,p:4.73},4000:{c:695.5,s:3289.4,p:4.73}},rs:{750:{c:159.7,s:750.0,p:4.7},1500:{c:321.2,s:1500.0,p:4.67},2500:{c:505.2,s:2372.64,p:4.7},4000:{c:505.2,s:2372.64,p:4.7}},lav:{750:{c:155.9,s:750.0,p:4.81},1500:{c:311.7,s:1500.0,p:4.81},2500:{c:447.6,s:2160.18,p:4.83},4000:{c:447.2,s:2151.75,p:4.81}},qc:{750:{c:188.5,s:750.0,p:3.98},1500:{c:290.3,s:1159.88,p:4.0},2500:{c:290.6,s:1156.57,p:3.98},4000:{c:290.3,s:1159.88,p:4.0}},gat:{750:{c:17.2,s:92.59,p:5.37},1500:{c:17.2,s:92.59,p:5.37},2500:{c:17.2,s:92.59,p:5.37},4000:{c:17.1,s:90.67,p:5.29}},sher:{750:{c:48.4,s:175.12,p:3.62},1500:{c:48.4,s:175.12,p:3.62},2500:{c:48.4,s:175.12,p:3.62},4000:{c:48.4,s:175.12,p:3.62}},tout:{750:{c:168.4,s:750.0,p:4.45},1500:{c:336.8,s:1500.0,p:4.45},2500:{c:561.2,s:2499.9,p:4.45},4000:{c:898.0,s:3999.9,p:4.45}}},
+    paysagement:{mtl:{750:{c:146.1,s:750.0,p:5.13},1500:{c:292.9,s:1500.0,p:5.12},2500:{c:472.3,s:2419.03,p:5.12},4000:{c:472.3,s:2419.03,p:5.12}},rs:{750:{c:143.2,s:750.0,p:5.24},1500:{c:286.5,s:1500.0,p:5.24},2500:{c:347.8,s:1821.25,p:5.24},4000:{c:347.8,s:1821.25,p:5.24}},lav:{750:{c:143.3,s:750.0,p:5.23},1500:{c:286.7,s:1500.0,p:5.23},2500:{c:306.3,s:1602.98,p:5.23},4000:{c:306.3,s:1602.98,p:5.23}},qc:{750:{c:168.6,s:750.0,p:4.45},1500:{c:205.2,s:912.88,p:4.45},2500:{c:205.7,s:913.19,p:4.44},4000:{c:205.7,s:913.19,p:4.44}},gat:{750:{c:37.4,s:180.22,p:4.82},1500:{c:37.4,s:180.22,p:4.82},2500:{c:37.4,s:180.22,p:4.82},4000:{c:37.4,s:180.22,p:4.82}},sher:{750:{c:54.1,s:255.34,p:4.72},1500:{c:54.1,s:255.34,p:4.72},2500:{c:54.1,s:255.54,p:4.72},4000:{c:54.1,s:255.54,p:4.72}},tout:{750:{c:156.6,s:750.0,p:4.79},1500:{c:313.0,s:1500.0,p:4.79},2500:{c:521.6,s:2499.9,p:4.79},4000:{c:834.6,s:3999.9,p:4.79}}},
+    dentiste:{mtl:{750:{c:247.7,s:750.0,p:3.03},1500:{c:495.6,s:1500.0,p:3.03},2500:{c:825.7,s:2499.9,p:3.03},4000:{c:1321.2,s:3999.9,p:3.03}},rs:{750:{c:238.5,s:750.0,p:3.14},1500:{c:476.7,s:1500.0,p:3.15},2500:{c:795.1,s:2499.9,p:3.14},4000:{c:1271.2,s:3999.9,p:3.15}},lav:{750:{c:241.5,s:750.0,p:3.11},1500:{c:483.0,s:1500.0,p:3.11},2500:{c:802.5,s:2499.9,p:3.12},4000:{c:1287.9,s:3999.9,p:3.11}},qc:{750:{c:265.3,s:750.0,p:2.83},1500:{c:532.2,s:1500.0,p:2.82},2500:{c:884.4,s:2499.9,p:2.83},4000:{c:985.5,s:2777.51,p:2.82}},gat:{750:{c:176.1,s:425.86,p:2.42},1500:{c:177.9,s:430.68,p:2.42},2500:{c:177.9,s:430.68,p:2.42},4000:{c:177.9,s:430.68,p:2.42}},sher:{750:{c:163.8,s:262.6,p:1.6},1500:{c:163.8,s:262.6,p:1.6},2500:{c:163.8,s:263.65,p:1.61},4000:{c:163.8,s:262.6,p:1.6}},tout:{750:{c:290.9,s:750.0,p:2.58},1500:{c:582.0,s:1500.0,p:2.58},2500:{c:969.6,s:2499.9,p:2.58},4000:{c:1551.4,s:3999.9,p:2.58}}}
   };
   var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
   var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
+  var CALENDLY_URL = 'https://calendly.com/admin-pixby/30min';
+  var AUDIT_VERSION = 'audit-v5-final-2026-09-26';
 
-  var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +" };
-  var GESTION_LABELS = { moi:"Moi-même", employe:"Un employé", freelancer:"Un freelancer", agence:"Une agence" };
-  var CAC_LABELS = { oui:"Oui, précisément", pas_certain:"Pas vraiment certain", non:"Non, aucune idée" };
+  var BUDGET_LABELS = { lt1000:"Moins de 1 000 $", "1000-2000":"1 000 – 2 000 $", "2000-5000":"2 000 – 5 000 $", "5000-10000":"5 000 – 10 000 $", "10000plus":"10 000 $ et +", inconnu:"Je ne sais pas" };
 
   /* ============================================================
-     ÉTAT + WIZARD (séquence de steps dynamique selon la branche
-     OUI/NON répondue à la 1ère question)
+     ÉTAT + WIZARD
      ============================================================ */
-  var sel = { hasAds:null, m:null, r:null, mult:0, budget:1000, budgetActuel:null, gestion:null, cac:null };
+  var sel = { hasAds:null, m:null, metierLabel:null, manualPath:false, r:null, budget:1000,
+              budgetActuel:null,
+              readOnlyInterest:null,
+              simV:null, simM:null };
   var calc = {};
   var seq = [];
   var stepIdx = 0;
+  var AUDIT_ID = (function(){
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
+    return 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+  })();
 
   function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
   function money(n){ return n.toFixed(2).replace('.', ',') + ' $'; }
   function moneyRange(lo,hi){ return fmt(lo) + ' $ – ' + fmt(hi) + ' $'; }
   function budgetRange(b){ return b < 500 ? 'moins500' : b <= 1500 ? '500-1500' : b <= 3000 ? '1500-3000' : '3000plus'; }
-  function dl(payload){ window.dataLayer = window.dataLayer || []; window.dataLayer.push(payload); }
+  function dl(payload){
+    payload.audit_id = AUDIT_ID;
+    payload.audit_version = AUDIT_VERSION;
+    payload.parcours = sel.hasAds || 'inconnu';
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(payload);
+  }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   /* ============================================================
-     UTM — capture à l'arrivée, persiste en sessionStorage pour
-     survivre à travers tout le funnel (même onglet), transmis dans
-     chaque payload webhook GHL. Convention documentée dans
-     coordination/GROWTH_ENGINE.md. Ne jamais écraser un UTM déjà
-     capturé cette session par une visite sans UTM (ex: recharge de
-     page) — on garde la première source qui a amené le visiteur.
+     UTM — first-touch immuable + last-touch séparé. Un gclid seul
+     (sans utm_*) compte comme une nouvelle visite payante.
      ============================================================ */
   function captureUtm(){
     var params = new URLSearchParams(window.location.search);
     var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
-    var hasNew = keys.some(function(k){ return params.get(k); });
+    var hasNew = keys.some(function(k){ return !!params.get(k); }) || !!params.get('gclid');
+    var current = { utm_source:'', utm_medium:'', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+    keys.forEach(function(k){ current[k] = params.get(k) || ''; });
+    current.gclid = params.get('gclid') || '';
+
+    var firstTouch = null, lastTouch = null;
+    try { var f = sessionStorage.getItem('pixby_utm_first'); if (f) firstTouch = JSON.parse(f); } catch(e){}
+    try { var l = sessionStorage.getItem('pixby_utm_last'); if (l) lastTouch = JSON.parse(l); } catch(e){}
+
     if (hasNew) {
-      var utm = {};
-      keys.forEach(function(k){ utm[k] = params.get(k) || ''; });
-      utm.gclid = params.get('gclid') || '';
-      try { sessionStorage.setItem('pixby_utm', JSON.stringify(utm)); } catch(e){}
-      return utm;
+      lastTouch = current;
+      try { sessionStorage.setItem('pixby_utm_last', JSON.stringify(lastTouch)); } catch(e){}
+      if (!firstTouch) {
+        firstTouch = current;
+        try { sessionStorage.setItem('pixby_utm_first', JSON.stringify(firstTouch)); } catch(e){}
+      }
     }
-    try {
-      var stored = sessionStorage.getItem('pixby_utm');
-      if (stored) return JSON.parse(stored);
-    } catch(e){}
-    return { utm_source:'direct', utm_medium:'none', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+    var fallback = { utm_source:'direct', utm_medium:'none', utm_campaign:'', utm_content:'', utm_term:'', gclid:'' };
+    if (!firstTouch) firstTouch = fallback;
+    if (!lastTouch) lastTouch = firstTouch;
+    return { first:firstTouch, last:lastTouch };
   }
   var UTM = captureUtm();
 
   dl({ event:'audit_view' });
 
+  /* ============================================================
+     SÉQUENCE — deux parcours distincts. stepEconomie est sautée pour le
+     parcours manuel (métier hors base instantanée, voir shouldSkip).
+     ============================================================ */
   function buildSequence(){
-    var s = ['stepMetier','stepRegion'];
-    if (sel.hasAds === 'oui') { s.push('stepBudgetActuel','stepGestion','stepCac'); }
-    else { s.push('stepBudgetPotentiel'); }
-    return s;
+    if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel'];
+    return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel','stepEconomie'];
+  }
+  function shouldSkip(id){
+    if (id === 'stepEconomie') return sel.manualPath;
+    return false;
+  }
+  function effectiveIndex(i){
+    var visible = 0;
+    for (var k=0;k<=i && k<seq.length;k++){ if (!shouldSkip(seq[k])) visible++; }
+    return visible;
+  }
+  function effectiveTotal(){
+    return seq.filter(function(id){ return !shouldSkip(id); }).length;
   }
   function renderProgress(){
     var el = document.getElementById('progress'); el.innerHTML = '';
-    var total = seq.length;
+    var total = effectiveTotal();
     for (var i=0;i<total;i++){
       var b = document.createElement('i');
-      if (i < stepIdx) b.className = 'done';
+      if (i < effectiveIndex(stepIdx) - 1) b.className = 'done';
       el.appendChild(b);
     }
+    document.getElementById('progressLabel').textContent = total ? ('Étape ' + effectiveIndex(stepIdx) + ' sur ' + total) : '';
+  }
+  function focusHeading(id){
+    var el = document.getElementById(id);
+    if (!el) return;
+    var h = el.querySelector('h2, .q-label');
+    if (h) { h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); }
   }
   function showStep(id){
     document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
     var el = document.getElementById(id);
     if (el) el.classList.add('active');
+    document.getElementById('backBtn').style.display = (id === 'step0') ? 'none' : 'inline-block';
     window.scrollTo(0,0);
+    focusHeading(id);
+  }
+  /* Anti-course : un clic rapide (double-clic mobile, changement d'avis)
+     annule le déclenchement précédent au lieu d'empiler deux avancées. */
+  var pendingAdvanceTimer = null;
+  function cancelPendingAdvance(){
+    if (pendingAdvanceTimer) { clearTimeout(pendingAdvanceTimer); pendingAdvanceTimer = null; }
+  }
+  function scheduleAdvance(delay){
+    cancelPendingAdvance();
+    pendingAdvanceTimer = setTimeout(function(){ pendingAdvanceTimer = null; nextStep(); }, delay);
   }
   function goToStep(i){
+    cancelPendingAdvance();
+    while (i < seq.length && shouldSkip(seq[i])) i++;
     stepIdx = i;
-    if (i >= seq.length) { runScan(); return; }
+    if (i >= seq.length) {
+      if (sel.manualPath) { runManual(); } else { runScan(); }
+      return;
+    }
     renderProgress();
     showStep(seq[i]);
   }
-  function nextStep(){ goToStep(stepIdx+1); }
+  function nextStep(){
+    dl({ event:'audit_step_completed', step: seq[stepIdx] || 'step0' });
+    goToStep(stepIdx+1);
+  }
+  function goBack(){
+    cancelPendingAdvance();
+    if (stepIdx <= 0) {
+      seq = []; stepIdx = 0;
+      document.getElementById('heroTop').style.display = '';
+      document.getElementById('progress').innerHTML = '';
+      document.getElementById('progressLabel').textContent = '';
+      document.querySelectorAll('#step0 .choice-big').forEach(function(b){ b.disabled = false; });
+      showStep('step0');
+      return;
+    }
+    var i = stepIdx - 1;
+    while (i > 0 && shouldSkip(seq[i])) i--;
+    stepIdx = i;
+    renderProgress();
+    showStep(seq[i]);
+  }
+  document.getElementById('backBtn').addEventListener('click', goBack);
 
-  /* step0 — Google Ads oui/non */
+  /* Repart d'un état propre quand on (re)choisit la branche OUI/NON : un
+     changement de parcours après un Retour ne doit garder AUCUNE réponse
+     de la branche abandonnée (ex. CAC déclaré côté OUI qui fuiterait dans
+     le lead de la branche NON). */
+  function resetBranchState(){
+    sel.m = null; sel.metierLabel = null; sel.manualPath = false; sel.r = null;
+    sel.budget = 1000; sel.budgetActuel = null;
+    sel.readOnlyInterest = null;
+    sel.simV = null; sel.simM = null;
+    ['simV','simM'].forEach(function(id){
+      var el = document.getElementById(id); if (el) { el.value = ''; el.style.borderColor = ''; }
+    });
+    document.getElementById('unlocked').style.display = 'none';
+    document.getElementById('gate').style.display = 'none';
+    document.querySelectorAll('.m-card.sel, .r-pill.sel, .choice-pill.sel').forEach(function(x){ x.classList.remove('sel'); });
+    document.getElementById('manualForm').style.display = '';
+    document.getElementById('manualOk').style.display = 'none';
+    idempotencyKey = null;
+    var budgetInput = document.getElementById('budget');
+    if (budgetInput) { budgetInput.value = 1000; document.getElementById('budgetVal').textContent = '1 000'; }
+  }
+
+  /* step0 — Google Ads oui/non. Boutons désactivés après le premier clic
+     pour éviter qu'un double-tap déclenche les deux branches. */
   document.querySelectorAll('#step0 .choice-big').forEach(function(c){
     c.addEventListener('click', function(){
+      if (this.disabled) return;
+      document.querySelectorAll('#step0 .choice-big').forEach(function(b){ b.disabled = true; });
+      resetBranchState();
       sel.hasAds = this.dataset.ads;
       dl({ event: sel.hasAds === 'oui' ? 'google_ads_yes' : 'google_ads_no' });
-      dl({ event:'audit_started', has_google_ads: sel.hasAds });
-      window.dataLayer.push({ event:'audit_start', metier:null, region:null, budget:null }); // compat événement existant
+      dl({ event:'audit_started' });
       seq = buildSequence();
       stepIdx = 0;
       renderProgress();
       showStep(seq[0]);
-      setTimeout(function(){ window.scrollTo(0,0); }, 50);
     });
   });
+  document.getElementById('introANext').addEventListener('click', nextStep);
+  document.getElementById('introBNext').addEventListener('click', nextStep);
 
   /* métier */
   document.querySelectorAll('.m-card').forEach(function(c){
     c.addEventListener('click', function(){
       document.querySelectorAll('.m-card').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.m = this.dataset.m;
-      if (sel.m === 'autre') {
-        dl({ event:'audit_manual_path', has_google_ads: sel.hasAds });
-        document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
-        document.getElementById('manual').style.display = 'block';
-        window.scrollTo(0,0);
-        return;
-      }
-      setTimeout(nextStep, 220);
+      this.classList.add('sel');
+      sel.m = this.dataset.m;
+      sel.metierLabel = this.textContent.trim();
+      sel.manualPath = !DATA[sel.m];
+      scheduleAdvance(220);
     });
   });
 
-  /* région */
+  /* région — capturée pour le dossier, ne fabrique plus un volume local */
   document.querySelectorAll('.r-pill').forEach(function(c){
     c.addEventListener('click', function(){
       document.querySelectorAll('.r-pill').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.r = this.dataset.r; sel.mult = parseFloat(this.dataset.mult);
-      setTimeout(nextStep, 220);
+      this.classList.add('sel'); sel.r = this.dataset.r;
+      scheduleAdvance(220);
     });
   });
 
-  /* budget actuel (branche OUI) */
+  /* budget actuel (branche OUI) — tranche déclarée, jamais convertie en montant précis */
   document.querySelectorAll('#budgetActuelRow .choice-pill').forEach(function(c){
     c.addEventListener('click', function(){
       document.querySelectorAll('#budgetActuelRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
       this.classList.add('sel'); sel.budgetActuel = this.dataset.v;
-      setTimeout(nextStep, 220);
+      scheduleAdvance(220);
     });
   });
 
-  /* gestion (branche OUI) */
-  document.querySelectorAll('#gestionRow .choice-pill').forEach(function(c){
-    c.addEventListener('click', function(){
-      document.querySelectorAll('#gestionRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.gestion = this.dataset.v;
-      setTimeout(nextStep, 220);
-    });
-  });
-
-  /* cac (branche OUI) */
-  document.querySelectorAll('#cacRow .choice-pill').forEach(function(c){
-    c.addEventListener('click', function(){
-      document.querySelectorAll('#cacRow .choice-pill').forEach(function(x){ x.classList.remove('sel'); });
-      this.classList.add('sel'); sel.cac = this.dataset.v;
-      setTimeout(nextStep, 220);
-    });
-  });
-
-  /* budget potentiel (branche NON) — slider, avance via clic ailleurs pas naturel :
-     on ajoute un petit bouton Continuer sous le slider */
+  /* budget potentiel (branche NON) */
   var budSliderStep = document.getElementById('stepBudgetPotentiel');
   (function(){
     var btn = document.createElement('div');
@@ -704,254 +973,854 @@
   });
   document.getElementById('budgetPotentielNext').addEventListener('click', nextStep);
 
+  function budgetSummaryLabel(){
+    if (sel.hasAds === 'oui') return BUDGET_LABELS[sel.budgetActuel] || 'Inconnu';
+    return fmt(sel.budget) + ' $/mois envisagé';
+  }
+
   /* ============================================================
-     SCAN → COMPUTE → RÉSULTATS
+     STEP ÉCONOMIE DU CONTRAT (branche NON) — valeur + marge facultative.
+     Aucun exemple fictif : une valeur inconnue reste simplement absente,
+     le bloc marge/break-even du résultat est alors omis (jamais un chiffre
+     fictif affiché comme si c'était réel — mandat AUDIT FINAL).
+     ============================================================ */
+  /* Validation reelle avant progression (revue Codex P2) : une valeur
+     negative/invalide ne doit jamais entrer dans un calcul, un affichage
+     ou le payload GHL comme donnee commerciale valide. Vide = facultatif,
+     toujours autorise. Erreur affichee sous le champ, pas de progression
+     tant que la valeur saisie (non vide) est invalide. */
+  function validateEconomieFields(){
+    var vInput = document.getElementById('simV'), vErr = document.getElementById('simVErr');
+    var mInput = document.getElementById('simM'), mErr = document.getElementById('simMErr');
+    var vRaw = vInput.value.trim(), mRaw = mInput.value.trim();
+    var vOk = vRaw === '' || validNum(+vRaw, {min:0, strictPositive:true}) != null;
+    var mOk = mRaw === '' || validNum(+mRaw, {min:0, max:100}) != null;
+    vInput.style.borderColor = vOk ? '' : '#ef4444'; vErr.style.display = vOk ? 'none' : 'block';
+    mInput.style.borderColor = mOk ? '' : '#ef4444'; mErr.style.display = mOk ? 'none' : 'block';
+    return vOk && mOk ? null : (vOk ? 'simM' : 'simV');
+  }
+  document.getElementById('simV').addEventListener('input', function(){
+    sel.simV = this.value === '' ? null : +this.value;
+    if (this.style.borderColor !== 'var(--yellow)') this.style.borderColor = '';
+    document.getElementById('simVErr').style.display = 'none';
+  });
+  document.getElementById('simVUnknown').addEventListener('click', function(){
+    sel.simV = null;
+    var input = document.getElementById('simV');
+    input.value = ''; input.style.borderColor = 'var(--yellow)';
+    document.getElementById('simVErr').style.display = 'none';
+  });
+  document.getElementById('simM').addEventListener('input', function(){
+    sel.simM = this.value === '' ? null : +this.value;
+    this.style.borderColor = '';
+    document.getElementById('simMErr').style.display = 'none';
+  });
+  document.getElementById('simMUnknown').addEventListener('click', function(){
+    sel.simM = null;
+    document.getElementById('simM').value = '';
+    document.getElementById('simM').style.borderColor = '';
+    document.getElementById('simMErr').style.display = 'none';
+  });
+  document.getElementById('economieNext').addEventListener('click', function(){
+    var firstInvalid = validateEconomieFields();
+    if (firstInvalid) { document.getElementById(firstInvalid).focus(); return; }
+    nextStep();
+  });
+
+  /* ============================================================
+     ÉDITER MES RÉPONSES — retour au début du parcours en gardant sel
+     ============================================================ */
+  function editAnswers(){
+    cancelPendingAdvance();
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('manual').style.display = 'none';
+    document.getElementById('heroTop').style.display = '';
+    seq = buildSequence();
+    stepIdx = 0;
+    renderProgress();
+    showStep(seq[0]);
+  }
+  document.getElementById('editAnswersBtn').addEventListener('click', editAnswers);
+  document.getElementById('editAnswersBtnManual').addEventListener('click', editAnswers);
+
+  /* ============================================================
+     SCAN → COMPUTE → RÉSULTATS (chemin base instantanée)
      ============================================================ */
   function runScan(){
+    document.getElementById('heroTop').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('progress').innerHTML = '';
+    document.getElementById('progressLabel').textContent = '';
     document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById('scan').style.display = 'block';
     window.scrollTo(0,0);
-    ['ss1','ss2','ss3'].forEach(function(id,i){
-      setTimeout(function(){ document.getElementById(id).classList.add('done'); }, 700*(i+1));
+    ['ss1','ss2'].forEach(function(id,i){
+      setTimeout(function(){ document.getElementById(id).classList.add('done'); }, 350*(i+1));
     });
-    setTimeout(showResults, 2600);
+    setTimeout(showResults, 900);
   }
 
+  /* Region la plus precise disponible dans DATA/FORECAST (ville) — repli
+     sur la province ("tout") si la zone n'a pas de ville correspondante. */
+  function regionKey(r){
+    return (r === 'mtl' || r === 'rs' || r === 'lav' || r === 'qc' || r === 'gat' || r === 'sher') ? r : 'tout';
+  }
+  function regionKwList(metier){
+    var d = DATA[metier];
+    if (!d || !d.regions) return null;
+    var rk = regionKey(sel.r);
+    var list = d.regions[rk];
+    if ((!list || !list.length) && rk !== 'tout') list = d.regions.tout;
+    return (list && list.length) ? list : null;
+  }
   function compute(){
-    var d = DATA[sel.m], volTot = 0, wLow = 0, wHigh = 0;
-    d.kws.forEach(function(k){ volTot += k[1]; wLow += k[2]*k[1]; wHigh += k[3]*k[1]; });
-    var cpcLow = wLow/volTot, cpcHigh = wHigh/volTot, cpcMid = (cpcLow+cpcHigh)/2;
-    var volReg = Math.max(10, Math.round(volTot*sel.mult/10)*10);
-    var clics = sel.budget/cpcMid;
-    calc = { d:d, volReg:volReg, cpcLow:cpcLow, cpcHigh:cpcHigh, cpcMid:cpcMid,
+    var d = DATA[sel.m];
+    var kws = regionKwList(sel.m) || [];
+    var volTot = 0, wLow = 0, wHigh = 0, withBid = 0;
+    kws.forEach(function(k){
+      volTot += k[1];
+      if (k[3] > 0) { wLow += k[2]*k[1]; wHigh += k[3]*k[1]; withBid += k[1]; }
+    });
+    var rk = regionKey(sel.r);
+    calc = { d:d, kws:kws, volTot: Math.round(volTot),
+             cpcLow: withBid ? wLow/withBid : null, cpcHigh: withBid ? wHigh/withBid : null,
              valLow:d.avgValue[0], valHigh:d.avgValue[1],
-             leadsLow:Math.max(1,Math.floor(clics*0.05)), leadsHigh:Math.max(2,Math.ceil(clics*0.12)) };
+             regionMatched: !!(d.regions && d.regions[rk] && d.regions[rk].length) };
   }
 
-  function renderLeads(){
-    compute();
-    document.getElementById('tLeads').textContent = calc.leadsLow + ' à ' + calc.leadsHigh;
-    document.getElementById('tBudgetEcho').textContent = ' de ' + fmt(sel.budget) + ' $/mois';
-    document.getElementById('simLeads').textContent = calc.leadsLow + ' à ' + calc.leadsHigh + ' / mois';
+  function srcTag(type){
+    var labels = { declare:'Déclaré par toi', calc:'Calcul Pixby', google:'Google Keyword Planner', account:'Compte Google Ads réel', estimate:'Estimation interne Pixby — non vérifiée', forecast:'Prévision Google Ads (modèle)' };
+    return '<span class="src-tag ' + type + '">' + labels[type] + '</span>';
+  }
+
+  /* ============================================================
+     MESURE RÉELLE — BRANCHE OUI (déjà sur Google Ads)
+     Formules SPEC : coût par lead = spend/leads ; CAC média = spend/clients ;
+     CAC complet = (spend+frais)/clients ; marge par contrat = V×m ;
+     break-even CAC = marge par contrat ; marge après acquisition =
+     marge par contrat − CAC complet ; % marge consommée = CAC complet/marge.
+     Toute division sans dénominateur essentiel reste null (jamais 0/NaN/Infinity).
+     ============================================================ */
+  /* Validation reelle des entrees — ne pas se fier aux seuls attributs HTML
+     min/max. Une valeur invalide (NaN, Infinity, negative, hors bornes)
+     redevient null : elle n'entre JAMAIS dans un calcul comme donnee valide. */
+  function validNum(x, opts){
+    opts = opts || {};
+    if (x == null || typeof x !== 'number' || !isFinite(x)) return null;
+    if (opts.min != null && x < opts.min) return null;
+    if (opts.max != null && x > opts.max) return null;
+    if (opts.strictPositive && x <= 0) return null;
+    if (opts.integer && Math.floor(x) !== x) return null;
+    return x;
+  }
+
+  /* ============================================================
+     BRANCHE OUI — diagnostic externe ultra rapide (AUDIT FINAL V5) :
+     3 questions seulement (métier/zone/budget). Verdict basé sur la
+     demande réelle du marché, jamais sur l'état du compte (pas d'accès).
+     Aucune donnée de mesure/leads collectée — le risque de mesure devient
+     un des 3 points "à vérifier dans ton compte", pas une question posée.
+     ============================================================ */
+  function buildFindingsA(){
+    var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
+    var metierTxt = (sel.metierLabel || 'ton service').toLowerCase();
+    var zoneTxt = REGIONS[sel.r] || 'ta zone';
+    var budgetTxt = BUDGET_LABELS[sel.budgetActuel] || 'ton budget actuel';
+    var primary = hasDemand
+      ? 'Il existe une demande Google active pour ' + metierTxt + ' dans ' + zoneTxt + '. Avec ' + budgetTxt + ', ton enjeu n’est pas de savoir s’il existe des recherches : c’est de vérifier si ton compte capte les bonnes intentions au bon coût.'
+      : 'Les données Google ne montrent pas un volume clair pour ' + metierTxt + ' dans ' + zoneTxt + ' avec les termes vérifiés — à regarder de plus près avec les vrais mots-clés de ton compte.';
+    var opportunities = [
+      'Intention des recherches réellement achetées',
+      'Qualité de la mesure des appels et formulaires',
+      'Budget potentiellement perdu par ciblage, enchères ou mots-clés'
+    ];
+    return { primary:primary, opportunities:opportunities, hasDemand:hasDemand };
+  }
+
+  function renderMetricGridA(){
+    function tile(lbl, val, tag){
+      return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
+    }
+    var tiles = '';
+    tiles += tile('Demande mensuelle réelle', fmtCount(calc.volTot) + ' / mois', 'google');
+    tiles += tile('Plage de coûts Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    return '<div class="metric-grid">' + tiles + '</div>';
+  }
+
+  /* 3 points courts, formulés "à vérifier dans ton compte" — jamais
+     "ton compte a ce problème" (aucun accès compte à ce stade). */
+  function renderOpportunitiesHtml(items){
+    return '<div class="cards-3">' + items.map(function(t,i){
+      return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>À vérifier dans ton compte</dt><dd>' + esc(t) + '</dd></dl></div>';
+    }).join('') + '</div>';
+  }
+
+  /* Valeur de contrat declaree par le prospect (branche NON seulement —
+     la branche OUI ne collecte plus de valeur de contrat, AUDIT FINAL).
+     Toujours validee (jamais negative/invalide affichee — revue Codex P2),
+     meme si le gate de progression sur stepEconomie devrait deja l'empecher. */
+  function contractValueDeclared(){
+    return validNum(sel.simV, {min:0, strictPositive:true});
+  }
+
+  function contractValueCardHtml(){
+    var v = contractValueDeclared();
+    if (v == null) return '';
+    return '<div class="card"><div class="eyebrow">Valeur de contrat ' + srcTag('declare') + '</div>' +
+      '<div class="tile-val" style="font-size:1.3rem;">' + fmtMoney(v) + '</div>' +
+      '<div class="tile-sub">Ta valeur déclarée.</div></div>';
+  }
+
+  /* Carte contenant UNIQUEMENT des donnees reellement issues de Google
+     Keyword Planner, pour la region la plus precise disponible (ville) —
+     repli sur la province si la ville n'a pas de donnees suffisantes. */
+  function marketSectionHtml(){
+    var zoneLabel = calc.regionMatched ? (REGIONS[sel.r] || 'ta zone') : 'Québec (province)';
+    return '<div class="card"><div class="eyebrow">Ton marché — Google Keyword Planner ' + srcTag('google') + '</div>' +
+      '<div class="tiles" style="margin-bottom:14px;">' +
+        '<div class="tile t1"><div class="tile-tag">Mots-clés commerciaux (' + esc(zoneLabel) + ')</div><div class="tile-val" id="tVol" style="font-size:1.3rem;"></div><div class="tile-sub">Recherches réelles Google pour ces termes précis — pas une expansion automatique, pour éviter tout bruit (marques, hors-sujet).</div></div>' +
+      '</div>' +
+      '<p class="limit-note" id="provinceNote"></p>' +
+      '<div class="table-scroll"><table id="kwTable"><thead><tr><th>Mot-clé</th><th>Recherches / mois</th><th>Enchères de haut de page — plage indicative</th></tr></thead><tbody></tbody></table></div>' +
+      '<p class="market-body src" id="kwSrc" style="margin-top:10px; font-size:.75rem; color:rgba(255,255,255,.4);"></p>' +
+    '</div>';
+  }
+
+  /* ============================================================
+     FORMATAGE — toutes les divisions economiques en amont sont protegees :
+     une valeur manquante ou nulle donne `null`, jamais un 0 $ trompeur.
+     Frais Pixby reels utilises dans les calculs de cette page : 750 $/mois
+     de gestion (PIXBY_MGMT_MONTHLY, recurrent) ET SEPAREMENT 1 000 $
+     d'onboarding initial (ponctuel, PAS inclus dans le calcul recurrent
+     "clients requis par mois" — voir la mention explicite a l'affichage).
+     ============================================================ */
+  function fmtMoney(n){ return (n == null || !isFinite(n)) ? '—' : fmt(n) + ' $'; }
+  function fmtMoneyDec(n){ return (n == null || !isFinite(n)) ? '—' : n.toFixed(2).replace('.', ',') + ' $'; }
+  function fmtPct(n){ return (n == null || !isFinite(n)) ? '—' : (Math.round(n*1000)/10).toString().replace('.', ',') + ' %'; }
+  function fmtCount(n){ return (n == null || !isFinite(n)) ? '—' : fmt(n); }
+
+  /* ============================================================
+     FORECAST GOOGLE ADS (branche NON) — grille précalculée par
+     métier x région x palier de budget (générée hors-ligne via
+     ~/pixby-ads-api/refresh_audit_data_v4.py, GenerateKeywordForecastMetrics,
+     compte Pixby autorisé). Remplace l'ancien entonnoir avec taux inventés
+     (clic→contact/qualification/signature) — aucun taux fabriqué ici,
+     mandat AUDIT FINAL. Le palier le plus proche du budget choisi est
+     utilisé et affiché explicitement (jamais interpolé en silence).
+     ============================================================ */
+  var FORECAST_BUDGET_TIERS = [750, 1500, 2500, 4000];
+  function nearestBudgetTier(b){
+    var best = FORECAST_BUDGET_TIERS[0], bestDiff = Infinity;
+    FORECAST_BUDGET_TIERS.forEach(function(t){ var diff = Math.abs(t-b); if (diff < bestDiff) { bestDiff = diff; best = t; } });
+    return best;
+  }
+  function getForecast(){
+    var f = FORECAST[sel.m];
+    if (!f) return null;
+    var rk = regionKey(sel.r);
+    var byRegion = f[rk] || f.tout;
+    if (!byRegion) return null;
+    var tier = nearestBudgetTier(sel.budget);
+    var entry = byRegion[String(tier)];
+    if (!entry) return null;
+    /* Google ne force jamais un depassement du palier : le forecast ne
+       peut PAS depenser plus que la demande disponible ne le permet. Si la
+       depense prevue reste nettement sous le palier demande (au-dela du
+       bruit d'arrondi du calcul, quelques dollars), c'est directement
+       Google qui indique que la demande ne peut pas absorber ce budget —
+       signal observe, pas un multiplicateur metier invente (revue Codex
+       P1.1, 2026-09-26). */
+    var demandLimited = (tier - entry.s) > 5;
+    return { budgetTier:tier, clicks:entry.c, cost:entry.s, avgCpc:entry.p, demandLimited:demandLimited };
+  }
+
+  /* ============================================================
+     BRANCHE NON — diagnostic (AUDIT FINAL V5) : demande réelle Google +
+     marge/break-even (si valeur+marge fournies) + recommandation
+     déterministe (test intéressant / à valider / mauvais fit). La
+     prévision Google Ads, quand disponible, est un bloc SECONDAIRE — les
+     clics ne sont jamais le résultat principal (Pixby vend de
+     l'acquisition, pas des clics). Aucun taux de conversion inventé.
+     ============================================================ */
+  /* Frais de gestion Pixby reels (Starter, voir coordination/DECISIONS.md) —
+     utilises UNIQUEMENT pour calculer combien de clients signes couvrent
+     l'investissement mensuel (budget + gestion), jamais pour deviner un
+     taux de conversion. */
+  var PIXBY_MGMT_MONTHLY = 750;
+
+  function buildFindingsB(){
+    var V = validNum(sel.simV, {min:0, strictPositive:true});
+    var mRaw = validNum(sel.simM, {min:0, max:100});
+    var m = mRaw != null ? mRaw/100 : null;
+    var margeDisponible = (V != null && m != null) ? V*m : null;
+    var fc = getForecast();
+    var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
+    var demandLimited = !!(fc && fc.demandLimited);
+    /* Combien de clients signes suffisent a couvrir l'investissement
+       mensuel (budget Ads + gestion Pixby) — pure arithmetique a partir de
+       deux montants reels, aucun taux de conversion invente. Exclut
+       explicitement l'onboarding Pixby (1000$, ponctuel) — voir tuile. */
+    var clientsBreakEven = (margeDisponible != null && margeDisponible > 0)
+      ? Math.ceil((sel.budget + PIXBY_MGMT_MONTHLY) / margeDisponible) : null;
+
+    /* Recommandation (revue Alexander + Codex, 2026-09-26) : jamais une
+       conclusion trop affirmative ("Test intéressant"/"Mauvais fit") — une
+       marge positive ne suffit pas a elle seule a dire qu'un test est bon.
+       "Demande limitée" s'appuie maintenant SUR LE FORECAST GOOGLE REEL
+       (fc.demandLimited) en plus du simple volume>0 — sans ça, le verdict
+       etait quasi impossible a atteindre (volume Keyword Planner > 0
+       presque partout), alors que le Forecast montre parfois que le
+       marche ne peut pas absorber le budget choisi (ex. renovation/
+       Gatineau, palier 750$ -> ~93$ reellement depensable). Aucun seuil
+       metier invente : demandLimited vient directement de Google. */
+    var verdict;
+    if (!hasDemand || demandLimited) verdict = { key:'demande_limitee', label:'Demande limitée à valider' };
+    else if (margeDisponible != null && margeDisponible > 0) verdict = { key:'potentiel', label:'Potentiel à valider' };
+    else verdict = { key:'a_valider', label:'À valider' };
+
+    /* Phrase principale (gel commercial 2026-09-26, Alexander) : le
+       resultat visible ne montre plus de verdict/recommandation ni de
+       "CAC sous X$" — seulement combien de clients signes couvriraient
+       l'investissement recurrent reel (budget + gestion Pixby). */
+    var investissementMensuel = sel.budget + PIXBY_MGMT_MONTHLY;
+    var primary;
+    if (!hasDemand) {
+      primary = 'Les données Google Keyword Planner ne montrent pas assez de volume pour ce métier dans cette zone — à regarder de plus près ensemble avant toute conclusion.';
+    } else if (demandLimited) {
+      primary = 'Google détecte une demande limitée pour ce marché avec ce niveau de budget — le potentiel mérite d’être validé avant d’investir davantage.';
+    } else if (clientsBreakEven != null) {
+      primary = 'À tes chiffres, ' + (clientsBreakEven === 1 ? '1 client signé par mois suffirait' : clientsBreakEven + ' clients signés par mois suffiraient') + ' à couvrir environ ' + fmtMoney(investissementMensuel) + ' d’investissement récurrent Google Ads + Pixby.';
+    } else {
+      primary = 'Il y a de la demande réelle dans ton marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Ta valeur de contrat et ta marge restent à établir pour connaître ton seuil de rentabilité.';
+    }
+
+    return { primary:primary, verdict:verdict,
+      V:V, m:m, mPct:mRaw, margeDisponible:margeDisponible, clientsBreakEven:clientsBreakEven, forecast:fc, hasDemand:hasDemand, demandLimited:demandLimited };
+  }
+
+  function renderMetricGridB(data){
+    function tile(lbl, val, tag){
+      return '<div class="metric-tile"><div class="lbl">' + lbl + ' ' + srcTag(tag) + '</div><div class="val">' + val + '</div></div>';
+    }
+    var tiles = '';
+    tiles += tile('Demande locale', fmtCount(calc.volTot) + ' recherches/mois', 'google');
+    tiles += tile('Coût Google (haut de page)', calc.cpcHigh != null ? (money(calc.cpcLow) + ' – ' + money(calc.cpcHigh)) : 'Pas d’enchère active', 'google');
+    if (data.clientsBreakEven != null) {
+      tiles += tile('Clients requis par mois, hors onboarding', fmtCount(data.clientsBreakEven) + ' / mois', 'calc');
+    }
+    return '<div class="metric-grid">' + tiles + '</div>';
+  }
+
+  /* Bloc SECONDAIRE, volontairement plus discret que les 3 chiffres hero —
+     jamais "X clics" presente comme le benefice principal du resultat. */
+  function forecastCardHtml(data){
+    if (!data.forecast) return '';
+    var f = data.forecast;
+    return '<div class="card" style="opacity:.85;"><div class="eyebrow" style="font-size:.68rem;">Ce que Google prévoit pour ce budget ' + srcTag('forecast') + '</div>' +
+      '<p class="limit-note" style="margin-bottom:8px;">Palier ' + fmt(f.budgetTier) + ' $/mois (le plus proche de ton budget de ' + fmt(sel.budget) + ' $/mois), ' + esc(calc.regionMatched ? (REGIONS[sel.r]||'ta zone') : 'Québec province') + ' : ~' + fmtCount(f.clicks) + ' clics, ~' + fmtMoney(f.cost) + ' dépensé, CPC moyen ' + money(f.avgCpc) + '.</p>' +
+      '<p class="limit-note">Modèle Google, pas une garantie — le nombre de leads ou de clients qui en sortiraient reste inconnu tant qu’un test réel n’a pas été fait.</p></div>';
+  }
+
+  function populateMarketSection(){
+    var tVol = document.getElementById('tVol');
+    if (!tVol) return;
+    tVol.textContent = calc.kws.length + (calc.kws.length > 1 ? ' mots-clés vérifiés' : ' mot-clé vérifié');
+    document.getElementById('provinceNote').textContent = calc.regionMatched
+      ? 'Donnée disponible pour ' + (REGIONS[sel.r] || 'ta zone') + ' (ville la plus précise disponible dans Keyword Planner).'
+      : 'Donnée disponible : Québec (province). Repère utilisé faute de données suffisantes pour ' + (REGIONS[sel.r] || 'ta zone') + ' — ta zone reste enregistrée pour l’étude.';
+    document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner (' + KW_AS_OF + ').';
+    var tb = document.querySelector('#kwTable tbody'); tb.innerHTML = '';
+    calc.kws.forEach(function(k){
+      var tr = document.createElement('tr');
+      var bid = k[3] > 0 ? (money(k[2]) + ' – ' + money(k[3])) : 'Pas d’enchère active';
+      tr.innerHTML = '<td class="kw">'+esc(k[0])+'</td><td class="vol">'+fmt(k[1])+'</td><td class="cpc">'+bid+'</td>';
+      tb.appendChild(tr);
+    });
+  }
+
+  /* ============================================================
+     OFFRE OPTIONNELLE — audit de compte en lecture seule (branche OUI).
+     Chemin manuel minimal (pas d'OAuth) : le prospect ajoute admin@pixby.ca
+     comme utilisateur lecture seule sur son compte, ou nous donne le login
+     client pour qu'Alexander demande l'accès via le MCC Pixby. Facultatif,
+     le rendez-vous reste disponible sans donner accès.
+     ============================================================ */
+  function readOnlyOfferHtml(){
+    return '<div class="card">' +
+      '<div class="eyebrow">Optionnel — avant le rendez-vous</div>' +
+      '<p class="q-sub" style="margin-bottom:14px;">Tu veux qu’on vérifie ce qui se passe réellement dans ton compte ? Les deux choix sont corrects.</p>' +
+      '<div class="choice-row" id="readOnlyRow">' +
+        '<button type="button" class="choice-pill" data-v="sans_acces">Rendez-vous sans donner accès</button>' +
+        '<button type="button" class="choice-pill" data-v="acces_readonly">Donner un accès en lecture seule</button>' +
+      '</div>' +
+      '<div id="readOnlyInstructions" style="display:none; margin-top:14px; font-size:.85rem; color:rgba(255,255,255,.65); line-height:1.5;">' +
+        'Dans Google Ads → Outils et paramètres → Accès et sécurité → Ajouter un utilisateur, invite <strong>admin@pixby.ca</strong> avec le rôle <strong>Lecture seule</strong>. Aucun changement n’est possible sur ton compte avec cet accès — Alexander regarde seulement, avant le rendez-vous.' +
+      '</div>' +
+    '</div>';
+  }
+  function wireReadOnlyOffer(){
+    var row = document.getElementById('readOnlyRow');
+    if (!row) return;
+    row.querySelectorAll('.choice-pill').forEach(function(c){
+      c.addEventListener('click', function(){
+        row.querySelectorAll('.choice-pill').forEach(function(x){ x.classList.remove('sel'); });
+        this.classList.add('sel');
+        sel.readOnlyInterest = this.dataset.v;
+        var instr = document.getElementById('readOnlyInstructions');
+        if (instr) instr.style.display = this.dataset.v === 'acces_readonly' ? 'block' : 'none';
+        dl({ event:'readonly_offer_choice', choice: this.dataset.v });
+      });
+    });
+  }
+
+  /* Detail methodo/table replie par defaut — jamais au centre de
+     l'experience (mandat V5 : resultat compris en ~20 secondes). */
+  function methodologyAccordionHtml(inner){
+    if (!inner) return '';
+    return '<details class="market"><summary style="font-size:.78rem; color:rgba(255,255,255,.5); cursor:pointer;">Comment ces chiffres sont calculés</summary>' +
+      '<div class="market-body" style="margin-top:12px;">' + inner + '</div></details>';
+  }
+
+  function renderResultsBody(){
+    var body = document.getElementById('resultsBody');
+    /* Résultat commercial figé le 2026-09-26 (Alexander) : plus de résumé
+       de réponses, plus de diagnostic générique, plus d'offre read-only
+       dans le résultat (gérée après booking). Branche OUI : seulement
+       2 chiffres + 3 points à vérifier. Branche NON : 3 chiffres + une
+       phrase (clients requis pour couvrir l'investissement), plus de
+       verdict/recommandation ni de "CAC sous X$". Forecast/mots-clés/
+       méthodologie/limites restent uniquement dans l'accordéon fermé. */
+    if (sel.hasAds === 'oui') {
+      var findings = buildFindingsA();
+      body.innerHTML =
+        renderMetricGridA() +
+        renderOpportunitiesHtml(findings.opportunities) +
+        methodologyAccordionHtml(calc.kws.length ? marketSectionHtml() : '');
+      populateMarketSection();
+      document.getElementById('agendaList').innerHTML =
+        '<li>Ce qu’on doit regarder dans ton compte</li>' +
+        '<li>Les prochaines actions concrètes</li>';
+    } else {
+      var findingsB = buildFindingsB();
+      var methodoInner = (calc.kws.length ? marketSectionHtml() : '') + contractValueCardHtml() + forecastCardHtml(findingsB);
+      body.innerHTML =
+        '<div class="card finding-block"><p class="msg">' + esc(findingsB.primary) + '</p></div>' +
+        renderMetricGridB(findingsB) +
+        (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 14px;">Onboarding initial Pixby de 1 000 $ non inclus.</p>' : '') +
+        methodologyAccordionHtml(methodoInner);
+      document.getElementById('agendaList').innerHTML =
+        '<li>Ce que tes chiffres montrent (ci-dessus)</li>' +
+        '<li>Le budget test et les critères d’arrêt avant de dépenser</li>';
+      populateMarketSection();
+    }
+  }
+
+  function bindMainCta(){
+    var btn = document.getElementById('mainCta');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      generateIdempotencyKey();
+      dl({ event:'lead_gate_opened' });
+      document.getElementById('gateTitle').textContent = 'Prendre rendez-vous avec Pixby';
+      document.getElementById('gate').style.display = 'block';
+      document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
+    });
   }
 
   function showResults(){
     compute();
     document.getElementById('scan').style.display = 'none';
     document.getElementById('results').style.display = 'block';
-    document.getElementById('resTitle').textContent = calc.d.label;
-    document.getElementById('resRegion').textContent = REGIONS[sel.r] + ' · basé sur les données réelles Google Ads';
-    document.getElementById('tVol').textContent = '~' + fmt(calc.volReg);
-    document.getElementById('tValue').textContent = moneyRange(calc.valLow, calc.valHigh);
-    renderLeads();
-    document.getElementById('budgetVal2').textContent = fmt(sel.budget);
-    document.getElementById('budget2').value = sel.budget;
-    document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + ').';
+    document.getElementById('resTitle').textContent = sel.hasAds === 'oui' ? 'Ton prédiagnostic' : 'Ton marché, avant d’investir';
+    document.getElementById('resSub').textContent = 'Basé sur tes réponses' + (sel.hasAds === 'oui' ? ' — aucune donnée de compte consultée.' : '.');
 
-    /* callout CAC — uniquement branche OUI */
-    var callout = document.getElementById('cacCallout');
-    if (sel.hasAds === 'oui') {
-      callout.style.display = 'block';
-      var msg = "Ton " + (sel.gestion === 'agence' ? 'agence' : sel.gestion === 'freelancer' ? 'freelancer' : 'compte') +
-                " peut te montrer les clics et les leads. <span class=\"hl\">Sais-tu combien te coûte réellement un client signé ?</span>";
-      if (sel.cac === 'oui') {
-        msg = "Tu connais déjà ton coût par client signé — <span class=\"hl\">bonne nouvelle, c'est rare.</span> On peut comparer ça à ce que ton marché permet vraiment.";
-      }
-      document.getElementById('cacCalloutMsg').innerHTML = msg;
-    } else {
-      callout.style.display = 'none';
-    }
+    renderResultsBody();
 
-    var tb = document.querySelector('#kwTable tbody'); tb.innerHTML = '';
-    calc.d.kws.forEach(function(k,i){
-      var tr = document.createElement('tr');
-      if (i >= 2) tr.className = 'blurred';
-      tr.innerHTML = '<td class="kw">'+k[0]+'</td><td class="vol">'+fmt(k[1])+'</td><td class="cpc">'+money(k[2])+' – '+money(k[3])+'</td>';
-      tb.appendChild(tr);
-    });
+    var ctaLabel = 'Prendre rendez-vous avec Pixby';
+    var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans ton compte.' : '30 minutes, gratuit — on regarde ensemble si Google Ads a du sens pour toi.';
+    var ctaWrap = document.createElement('div');
+    ctaWrap.style.textAlign = 'center';
+    ctaWrap.style.margin = '22px 0';
+    ctaWrap.innerHTML = '<button class="btn" id="mainCta" style="font-size:1.05rem;padding:18px 36px;">' + esc(ctaLabel) + '</button><p style="font-size:.82rem;color:rgba(255,255,255,.45);margin-top:10px;">' + esc(ctaSub) + '</p>';
+    document.getElementById('resultsBody').appendChild(ctaWrap);
+    bindMainCta();
 
     document.getElementById('disclaimerText').textContent =
-      'Estimations basées sur les données Google Ads Keyword Planner pour ton marché (Québec, ' + KW_AS_OF + '). ' +
-      'La répartition régionale est estimée selon le poids démographique de chaque région. ' +
-      'Le potentiel de leads est une ESTIMATION qui suppose une campagne bien structurée avec un taux de conversion de 5 à 12 % (moyenne des campagnes locales) — jamais un résultat garanti. ' +
-      'Les résultats réels varient selon le site web, la concurrence et la saison.';
+      'Estimations basées sur les données Google Ads Keyword Planner (' + KW_AS_OF + '), pour les mots-clés vérifiés listés ci-dessus uniquement — aucune expansion automatique qui pourrait inclure des marques ou du hors-sujet. ' +
+      'Le volume est une moyenne historique de recherches, pas un compteur en direct ni un nombre de personnes. ' +
+      'Les enchères affichées sont la plage de haut de page Google (Top of page bid), pas un CPC observé ni un prix garanti du clic. ' +
+      (sel.hasAds === 'oui'
+        ? 'Aucun nombre de leads ou de clients n’est projeté ici tant qu’un audit réel du compte n’a pas été fait. '
+        : 'La prévision Google Ads, quand elle est affichée, est un modèle de Google (clics/coût/CPC pour un budget donné) — pas une garantie de résultat, et elle ne projette aucun lead ni client. ') +
+      'La zone affichée est la ville la plus précise disponible dans Keyword Planner pour ta région choisie; à défaut de données suffisantes, le repère provincial (Québec) est utilisé et clairement indiqué.';
 
-    dl({ event:'audit_results_viewed', metier: sel.m, region: sel.r, has_google_ads: sel.hasAds });
+    dl({ event:'audit_results_viewed' });
     window.scrollTo(0,0);
-  }
-
-  document.getElementById('budget2').addEventListener('input', function(){
-    sel.budget = +this.value;
-    document.getElementById('budgetVal2').textContent = fmt(sel.budget);
-    renderLeads();
-  });
-
-  /* gate */
-  document.getElementById('unlockBtn').addEventListener('click', function(){
-    dl({ event:'lead_gate_opened', metier: sel.m, has_google_ads: sel.hasAds });
-    document.getElementById('gate').style.display = 'block';
-    document.getElementById('gate').scrollIntoView({ behavior:'smooth' });
-  });
-
-  function sendLead(payload){
-    payload.utm_source = UTM.utm_source; payload.utm_medium = UTM.utm_medium;
-    payload.utm_campaign = UTM.utm_campaign; payload.utm_content = UTM.utm_content;
-    payload.utm_term = UTM.utm_term; payload.gclid = UTM.gclid;
-    try {
-      fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
-    } catch(e){}
+    var h = document.getElementById('resTitle'); h.setAttribute('tabindex','-1'); h.focus({preventScroll:true});
   }
 
   /* ============================================================
-     LEAD SCORING — transparent, pondérations documentées dans
-     coordination/AUDIT_LEAD_ENGINE.md. Ne cache rien : chaque
-     signal est un booléen nommé, le score est une somme simple.
+     PARCOURS MANUEL — métier hors base instantanée
+     ============================================================ */
+  function runManual(){
+    document.getElementById('heroTop').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('progress').innerHTML = '';
+    document.getElementById('progressLabel').textContent = '';
+    document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('scan').style.display = 'none';
+    document.getElementById('manual').style.display = 'block';
+    document.getElementById('manualSub').textContent = 'Mêmes données réelles Google que le reste du site — analysées à la main pour ton métier.';
+    document.getElementById('manualSummaryGrid').innerHTML =
+      '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
+      '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
+      '<div><div class="k">Budget</div><div class="v">' + esc(budgetSummaryLabel()) + '</div></div>';
+    dl({ event:'audit_manual_path' });
+    dl({ event:'audit_results_viewed' });
+    window.scrollTo(0,0);
+    var h = document.querySelector('#manual h2'); h.setAttribute('tabindex','-1'); h.focus({preventScroll:true});
+  }
+
+  /* ============================================================
+     LEAD SCORING v4 (2026-09-26, AUDIT FINAL) — transparent, pondérations
+     en dur ici. Chaque signal est un booléen nommé, le score une somme simple.
+     Retire les signaux du questionnaire financier (spend/CAC/marge branche
+     OUI, décideur/capacité/urgence) supprimés dans ce chantier — le score
+     ne s'appuie plus que sur des informations réellement collectées.
+     "leads_clairs"/"leads_relies" sont enregistrés (utiles pour savoir quoi
+     vérifier au rendez-vous) mais jamais chiffrés — l'absence de mesure est
+     un angle de diagnostic, pas une preuve de qualité commerciale (même
+     principe que l'ancien "ne connaît pas son CAC").
      ============================================================ */
   var SCORE_WEIGHTS = {
-    google_ads_active: 30,          // utilise déjà Google Ads — signal le plus fort
-    spend_1000_2000: 8,
-    spend_2000_5000: 15,
-    spend_5000_10000: 20,
-    spend_10000_plus: 25,
-    agency_or_freelancer_managed: 15,
-    unknown_customer_acquisition_cost: 20,
-    high_value_sector: 10,
-    established_business: 5,        // site web fourni
-    high_budget_intent_no_ads: 10   // branche NON, budget potentiel >= 2000$
+    google_ads_active: 30, spend_1000_2000: 8, spend_2000_5000: 15, spend_5000_10000: 20,
+    spend_10000_plus: 25, high_value_sector: 10, high_budget_intent_no_ads: 10,
+    contract_value_and_margin_known: 10
   };
-  var TIER_THRESHOLDS = { PRIORITY: 65, GOOD_FIT: 35, NURTURE: 15 }; // sinon LOW_FIT
+  var TIER_THRESHOLDS = { PRIORITY: 65, GOOD_FIT: 35, NURTURE: 15 };
 
   function computeLeadScore(siteWeb){
-    var signals = [];
-    var score = 0;
-
+    var signals = [], score = 0;
     if (sel.hasAds === 'oui') {
       signals.push('google_ads_active'); score += SCORE_WEIGHTS.google_ads_active;
-
       var spendKey = { lt1000:null, '1000-2000':'spend_1000_2000', '2000-5000':'spend_2000_5000',
-                        '5000-10000':'spend_5000_10000', '10000plus':'spend_10000_plus' }[sel.budgetActuel];
+                        '5000-10000':'spend_5000_10000', '10000plus':'spend_10000_plus', inconnu:null }[sel.budgetActuel];
       if (spendKey) { signals.push(spendKey); score += SCORE_WEIGHTS[spendKey]; }
-
-      if (sel.gestion === 'agence' || sel.gestion === 'freelancer') {
-        signals.push('agency_or_freelancer_managed'); score += SCORE_WEIGHTS.agency_or_freelancer_managed;
-      }
-      if (sel.cac === 'non' || sel.cac === 'pas_certain') {
-        signals.push('unknown_customer_acquisition_cost'); score += SCORE_WEIGHTS.unknown_customer_acquisition_cost;
-      }
     } else {
-      if (sel.budget >= 2000) {
-        signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads;
+      if (sel.budget >= 2000) { signals.push('high_budget_intent_no_ads'); score += SCORE_WEIGHTS.high_budget_intent_no_ads; }
+      if (sel.simV != null && Number.isFinite(sel.simV) && sel.simV > 0 &&
+          sel.simM != null && Number.isFinite(sel.simM) && sel.simM > 0 && sel.simM <= 100) {
+        signals.push('contract_value_and_margin_known'); score += SCORE_WEIGHTS.contract_value_and_margin_known;
       }
     }
+    if (DATA[sel.m] && DATA[sel.m].highValue) { signals.push('high_value_sector'); score += SCORE_WEIGHTS.high_value_sector; }
+    if (siteWeb && siteWeb.trim()) { signals.push('website_provided'); } // informatif seulement, non chiffré
 
-    if (DATA[sel.m] && DATA[sel.m].highValue) {
-      signals.push('high_value_sector'); score += SCORE_WEIGHTS.high_value_sector;
-    }
-    if (siteWeb && siteWeb.trim()) {
-      signals.push('established_business'); score += SCORE_WEIGHTS.established_business;
-    }
-
-    var tier = score >= TIER_THRESHOLDS.PRIORITY ? 'PRIORITY'
-             : score >= TIER_THRESHOLDS.GOOD_FIT ? 'GOOD_FIT'
-             : score >= TIER_THRESHOLDS.NURTURE  ? 'NURTURE'
-             : 'LOW_FIT';
-
+    var tier = score >= TIER_THRESHOLDS.PRIORITY ? 'PRIORITY' : score >= TIER_THRESHOLDS.GOOD_FIT ? 'GOOD_FIT' : score >= TIER_THRESHOLDS.NURTURE ? 'NURTURE' : 'LOW_FIT';
     var reasonParts = [];
     if (signals.indexOf('google_ads_active') > -1) reasonParts.push('fait déjà de la pub Google Ads');
-    if (signals.indexOf('agency_or_freelancer_managed') > -1) reasonParts.push('géré par ' + (sel.gestion === 'agence' ? 'une agence' : 'un freelancer') + ' (budget existant confirmé)');
-    if (signals.indexOf('unknown_customer_acquisition_cost') > -1) reasonParts.push('ne connaît pas son coût par client signé');
+    if (signals.indexOf('contract_value_and_margin_known') > -1) reasonParts.push('connaît sa valeur de contrat et sa marge');
+    if (signals.indexOf('high_budget_intent_no_ads') > -1) reasonParts.push('budget envisagé significatif');
     if (signals.indexOf('high_value_sector') > -1) reasonParts.push('secteur à forte valeur de contrat');
-    var reason = reasonParts.length ? reasonParts.join(', ') : 'signaux faibles — prospect à nurturer';
-
-    return { score: score, tier: tier, signals: signals, reason: reason };
+    return { score:score, tier:tier, signals:signals, reason: reasonParts.length ? reasonParts.join(', ') : 'signaux faibles — prospect à nurturer' };
   }
 
-  /* CTA adapté selon branche/tier */
-  function applyAdaptiveCta(scoring){
-    var calBtn = document.getElementById('calBtn');
-    var planTitle = document.getElementById('planTitle');
-    if (sel.hasAds === 'oui' || scoring.tier === 'PRIORITY') {
-      calBtn.textContent = 'Fais vérifier ton compte Google Ads gratuitement →';
-      planTitle.textContent = 'Ce qu'+"'"+'on regarde dans ta vérification gratuite :';
-    } else {
-      calBtn.textContent = 'Vois comment capter cette demande dans ta région →';
-      planTitle.textContent = 'Ce qu'+"'"+'on ferait pour toi, concrètement :';
+  /* ============================================================
+     ENVOI DE LEAD — état explicite idle → submitting → saved | error.
+     Un statut HTTP 200 confirme la réception du webhook, PAS la
+     création confirmée du contact GHL (l'accusé de création réelle
+     nécessiterait une passerelle serveur, cf. SPEC P0.3). À vérifier
+     manuellement en CRM tant que cette passerelle n'existe pas.
+     ============================================================ */
+  var idempotencyKey = null;
+  function generateIdempotencyKey(){
+    if (idempotencyKey) return idempotencyKey;
+    try { idempotencyKey = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('lead_' + Date.now() + '_' + Math.random().toString(36).slice(2)); }
+    catch(e){ idempotencyKey = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2); }
+    return idempotencyKey;
+  }
+
+  function attachUtm(payload){
+    payload.utm_source = UTM.first.utm_source; payload.utm_medium = UTM.first.utm_medium;
+    payload.utm_campaign = UTM.first.utm_campaign; payload.utm_content = UTM.first.utm_content;
+    payload.utm_term = UTM.first.utm_term; payload.gclid = UTM.first.gclid;
+    payload.last_utm_source = UTM.last.utm_source; payload.last_utm_medium = UTM.last.utm_medium;
+    payload.last_utm_campaign = UTM.last.utm_campaign; payload.last_gclid = UTM.last.gclid;
+    return payload;
+  }
+
+  async function submitLead(payload){
+    attachUtm(payload);
+    payload.audit_id = AUDIT_ID;
+    payload.audit_version = AUDIT_VERSION;
+    payload.parcours = sel.hasAds || 'inconnu';
+    payload.idempotency_key = generateIdempotencyKey();
+    var res = await fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res;
+  }
+
+  function setSubmitState(formId, btnId, errId, state, message){
+    var btn = document.getElementById(btnId);
+    var err = document.getElementById(errId);
+    if (state === 'submitting') { btn.disabled = true; btn.textContent = 'Envoi en cours…'; err.style.display = 'none'; }
+    else if (state === 'error') {
+      btn.disabled = false; btn.textContent = 'Réessayer →';
+      err.innerHTML = (message || 'La demande n’a pas pu être envoyée.') + ' Réessaie, ou <a href="' + trackedCalendlyUrl() + '" target="_blank" rel="noopener">réserve directement ton rendez-vous</a>.';
+      err.style.display = 'block';
+    } else if (state === 'idle') { btn.disabled = false; btn.textContent = 'Envoyer →'; err.style.display = 'none'; }
+  }
+
+  function validateRequired(fields){
+    var firstInvalidId = null;
+    fields.forEach(function(f){
+      var input = document.getElementById(f.id), errEl = f.err ? document.getElementById(f.err) : null;
+      var valid = f.type === 'email' ? /.+@.+\..+/.test(input.value.trim()) : !!input.value.trim();
+      if (!valid) {
+        if (!firstInvalidId) firstInvalidId = f.id;
+        input.style.border = '2px solid #ef4444';
+        if (errEl) errEl.style.display = 'block';
+      } else {
+        input.style.border = ''; if (errEl) errEl.style.display = 'none';
+      }
+    });
+    return firstInvalidId;
+  }
+
+  /* ============================================================
+     CALENDLY — widget chargé seulement à l'intention de réserver.
+     Prefill nom + courriel uniquement (mapping du champ téléphone
+     "a1" non vérifié — voir SPEC P0.3, ne pas présumer). Fallback
+     lien externe si le script ne charge pas.
+
+     LIEN RÉSERVATION ↔ LEAD (revue Codex 2026-09-25) : on fait passer
+     AUDIT_ID dans utm_term, un mécanisme UTM natif et documenté de
+     Calendly (contrairement à une question personnalisée "a1" devinée),
+     qui remonte dans les données de tracking de la réservation. Ce champ
+     est aussi envoyé tel quel dans le lead GHL (voir submitLead) : le
+     rapprochement se fait donc par égalité d'AUDIT_ID entre le contact
+     GHL et la réservation Calendly. Limite assumée : ça écrase le vrai
+     utm_term (mot-clé Ads) éventuel de la visite sur CE lien Calendly
+     précis — sans impact sur le lead GHL, dont le vrai utm_term reste
+     intact. Un rapprochement automatique complet (webhook Calendly
+     invitee.created) nécessite un forfait Professional+ et n'a pas pu
+     être confirmé pour ce compte depuis cet environnement — voir le
+     rapport de test pour le détail. Renommer l'événement Calendly en
+     français est un réglage du compte Calendly, PAS modifiable ici.
+     ============================================================ */
+  var calendlyLoading = null;
+  var bookingConfirmed = false;
+  /* URL Calendly trackée (UTM + audit_id dans utm_term) — DOIT être utilisée
+     pour TOUTE ouverture de Calendly (popup, fallback script, liens statiques
+     de secours, lien de secours après échec d'envoi), pas seulement le
+     chemin JS nominal, sinon le lien lead↔réservation se perd dès que le
+     visiteur passe par un de ces chemins alternatifs. */
+  function trackedCalendlyUrl(){
+    return CALENDLY_URL + '?utm_source=' + encodeURIComponent(UTM.first.utm_source||'') +
+           '&utm_medium=' + encodeURIComponent(UTM.first.utm_medium||'') +
+           '&utm_campaign=' + encodeURIComponent(UTM.first.utm_campaign||'') +
+           '&utm_term=' + encodeURIComponent(AUDIT_ID);
+  }
+  function applyTrackedCalendlyHrefs(){
+    ['calBtn','calBtnManual','calFallback','calFallbackManual'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      var link = el.tagName === 'A' ? el : el.querySelector('a');
+      if (link) link.href = trackedCalendlyUrl();
+    });
+  }
+  applyTrackedCalendlyHrefs();
+  function loadCalendlyScript(){
+    if (calendlyLoading) return calendlyLoading;
+    calendlyLoading = new Promise(function(resolve, reject){
+      if (window.Calendly) return resolve(window.Calendly);
+      /* La feuille de style officielle de Calendly manquait ici : sans elle,
+         le widget.js injecte quand même son overlay/iframe, mais sans le
+         positionnement plein écran (fixed, z-index élevé) — résultat, un
+         popup écrasé sur ~150px de haut, quasi invisible. Bug trouvé en
+         testant réellement le clic (pas juste en lisant le code). */
+      if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
+        var l = document.createElement('link');
+        l.rel = 'stylesheet';
+        l.href = 'https://assets.calendly.com/assets/external/widget.css';
+        document.head.appendChild(l);
+      }
+      var s = document.createElement('script');
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      s.onload = function(){ window.Calendly ? resolve(window.Calendly) : reject(new Error('Calendly non initialisé')); };
+      s.onerror = function(){ reject(new Error('Échec de chargement du script Calendly')); };
+      document.body.appendChild(s);
+      setTimeout(function(){ if (!window.Calendly) reject(new Error('Timeout Calendly')); }, 6000);
+    });
+    return calendlyLoading;
+  }
+  window.addEventListener('message', function(e){
+    if (e.origin !== 'https://calendly.com') return;
+    if (!e.data || typeof e.data.event !== 'string' || e.data.event.indexOf('calendly.') !== 0) return;
+    if (e.data.event === 'calendly.event_scheduled' && !bookingConfirmed) {
+      bookingConfirmed = true;
+      var payload = e.data.payload || {};
+      dl({
+        event:'booking_completed',
+        calendly_event_uri: (payload.event && payload.event.uri) || '',
+        calendly_invitee_uri: (payload.invitee && payload.invitee.uri) || ''
+      });
     }
+  });
+  function openCalendly(btnEl, fallbackId, prefill){
+    dl({ event:'calendly_clicked' });
+    loadCalendlyScript().then(function(Calendly){
+      Calendly.initPopupWidget({ url: trackedCalendlyUrl(), prefill: prefill || {} });
+    }).catch(function(){
+      applyTrackedCalendlyHrefs();
+      document.getElementById(fallbackId).style.display = 'block';
+      window.open(trackedCalendlyUrl(), '_blank', 'noopener');
+    });
   }
+  document.getElementById('calBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    openCalendly(this, 'calFallback', { name: this.dataset.name || '', email: this.dataset.email || '' });
+  });
+  document.getElementById('calBtnManual').addEventListener('click', function(e){
+    e.preventDefault();
+    openCalendly(this, 'calFallbackManual', { name: this.dataset.name || '', email: this.dataset.email || '' });
+  });
 
+  /* ============================================================
+     SOUMISSION — formulaire principal (gate)
+     ============================================================ */
+  /* Verrou anti double-soumission : l'attribut disabled du bouton ne bloque
+     PAS une resoumission programmatique (form.requestSubmit(), touche Entree
+     dans certains navigateurs). Confirme par test : un requestSubmit() double
+     tres rapproche produisait 2 appels webhook et 2 evenements generate_lead
+     malgre le bouton desactive. Le flag ci-dessous bloque au niveau du
+     gestionnaire lui-meme, peu importe comment la soumission est declenchee. */
+  var gateSubmitting = false;
   document.getElementById('gateForm').addEventListener('submit', function(e){
     e.preventDefault();
-    var p = document.getElementById('gPrenom'), t = document.getElementById('gTel'), ent = document.getElementById('gEntreprise');
-    if (!p.value.trim()) { p.style.border='2px solid #ef4444'; p.focus(); return; }
-    if (!ent.value.trim()) { ent.style.border='2px solid #ef4444'; ent.focus(); return; }
-    if (!t.value.trim()) { t.style.border='2px solid #ef4444'; t.focus(); return; }
-    p.style.border=''; t.style.border=''; ent.style.border='';
-    document.getElementById('gateBtn').disabled = true;
+    if (gateSubmitting) return;
+    var fields = [
+      { id:'gPrenom', err:'gPrenomErr' },
+      { id:'gEntreprise', err:'gEntrepriseErr' },
+      { id:'gEmail', err:'gEmailErr', type:'email' }
+    ];
+    var firstInvalid = validateRequired(fields);
+    if (firstInvalid) { document.getElementById(firstInvalid).focus(); return; }
+    gateSubmitting = true;
 
-    var siteWeb = document.getElementById('gSite').value.trim();
+    var p = document.getElementById('gPrenom'), ent = document.getElementById('gEntreprise'),
+        email = document.getElementById('gEmail'), tel = document.getElementById('gTel'),
+        site = document.getElementById('gSite');
+    var siteWeb = site.value.trim();
     var scoring = computeLeadScore(siteWeb);
+    /* measure_summary reutilise le champ GHL cree pour le pass data-integrity
+       precedent (contact.audit__resume_mesure_brut) — un seul mapping deja
+       documente a Alexander, contenu adapte a AUDIT FINAL V5 (plus de
+       questions leads-mesure, ajout recommandation deterministe/forecast). */
+    var findingsSummary = sel.hasAds === 'oui' ? buildFindingsA() : buildFindingsB();
+    var fc = sel.hasAds !== 'oui' ? findingsSummary.forecast : null;
+    var leadSummary = [
+      'Parcours: ' + (sel.hasAds === 'oui' ? 'Déjà sur Google Ads' : 'Pas encore sur Google Ads'),
+      sel.hasAds === 'oui' ? 'Intérêt audit lecture seule: ' + (sel.readOnlyInterest || 'non demandé') : null,
+      sel.hasAds !== 'oui' ? 'Recommandation: ' + findingsSummary.verdict.label : null,
+      sel.hasAds !== 'oui' && findingsSummary.V != null ? 'Valeur contrat déclarée: ' + findingsSummary.V + '$' : null,
+      sel.hasAds !== 'oui' && findingsSummary.mPct != null ? 'Marge déclarée: ' + findingsSummary.mPct + '%' : null,
+      sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? 'Marge disponible/break-even CAC: ' + findingsSummary.margeDisponible.toFixed(2) + '$' : null,
+      sel.hasAds !== 'oui' && findingsSummary.clientsBreakEven != null ? 'Clients requis pour couvrir l’investissement: ' + findingsSummary.clientsBreakEven + '/mois' : null,
+      fc ? 'Prévision Google (' + fc.budgetTier + '$/mois, ' + regionKey(sel.r) + '): ~' + fc.clicks + ' clics, ~' + fc.cost + '$ dépense prévue, CPC moyen ' + fc.avgCpc + '$' : null,
+      'Score/Tier: ' + scoring.score + '/' + scoring.tier,
+      'Diagnostic: ' + findingsSummary.primary
+    ].filter(function(x){ return x != null; }).join(' | ');
 
-    dl({ event:'generate_lead', form_name:'audit_60s', budget: budgetRange(sel.budget), industry: sel.m });
-    if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_60s', budget: budgetRange(sel.budget), industry: sel.m });
-    dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score, has_google_ads: sel.hasAds, industry: sel.m });
+    setSubmitState('gateForm','gateBtn','gateSubmitError','submitting');
 
-    sendLead({
-      first_name: p.value.trim(), phone: t.value.trim(),
-      email: document.getElementById('gEmail').value.trim(),
+    submitLead({
+      first_name: p.value.trim(), phone: tel.value.trim(), email: email.value.trim(),
       company_name: ent.value.trim(), website: siteWeb,
-      type_entreprise: sel.m, budget_pub: budgetRange(sel.budget),
-      region: REGIONS[sel.r], budget_exact: sel.budget + '$',
-      audit_volume: '~' + fmt(calc.volReg) + ' recherches/mois',
-      audit_leads: calc.leadsLow + '-' + calc.leadsHigh + ' leads/mois',
+      type_entreprise: sel.m, metier_label: sel.metierLabel,
+      region: REGIONS[sel.r] || '', budget_declare: budgetSummaryLabel(),
       has_google_ads: sel.hasAds,
       current_ads_budget_range: sel.hasAds === 'oui' ? (BUDGET_LABELS[sel.budgetActuel] || '') : '',
-      current_ads_manager: sel.hasAds === 'oui' ? (GESTION_LABELS[sel.gestion] || '') : '',
-      knows_cac: sel.hasAds === 'oui' ? (CAC_LABELS[sel.cac] || '') : '',
+      readonly_ads_interest: sel.hasAds === 'oui' ? (sel.readOnlyInterest || 'non_demande') : '',
+      recommendation: sel.hasAds !== 'oui' ? findingsSummary.verdict.key : '',
+      contract_value: sel.hasAds !== 'oui' && findingsSummary.V != null ? findingsSummary.V : '',
+      margin_pct: sel.hasAds !== 'oui' && findingsSummary.mPct != null ? findingsSummary.mPct : '',
+      marge_disponible: sel.hasAds !== 'oui' && findingsSummary.margeDisponible != null ? findingsSummary.margeDisponible.toFixed(2) : '',
+      clients_break_even: sel.hasAds !== 'oui' && findingsSummary.clientsBreakEven != null ? findingsSummary.clientsBreakEven : '',
+      forecast_budget_tier: fc ? fc.budgetTier : '',
+      forecast_clicks_month: fc ? fc.clicks : '',
+      forecast_cost_month: fc ? fc.cost : '',
+      forecast_avg_cpc: fc ? fc.avgCpc : '',
+      measure_summary: leadSummary,
+      audit_volume_qc: calc.volTot != null ? ('~' + fmt(calc.volTot) + ' recherches/mois (' + (calc.regionMatched ? (REGIONS[sel.r]||'') : 'Québec province') + ', usage interne, pas pour le prospect)') : '',
+      audit_kw_count: calc.kws ? calc.kws.length : '',
       lead_score: scoring.score, lead_tier: scoring.tier,
       lead_signals: scoring.signals.join(','), lead_reason: scoring.reason,
-      page_source: window.location.href, form_name: 'audit-60s'
+      page_source: window.location.href, form_name: 'audit-p0'
+    }).then(function(){
+      // Un seul envoi GA4 generate_lead via gtag; lead_submitted reste le signal dataLayer.
+      if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_p0' });
+      dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score });
+
+      setSubmitState('gateForm','gateBtn','gateSubmitError','idle');
+      document.getElementById('gate').style.display = 'none';
+      var calBtn = document.getElementById('calBtn');
+      calBtn.dataset.name = p.value.trim(); calBtn.dataset.email = email.value.trim();
+      var u = document.getElementById('unlocked'); u.style.display = 'block';
+      u.scrollIntoView({ behavior:'smooth' });
+    }).catch(function(err){
+      dl({ event:'lead_submit_failed', error: String(err && err.message || err) });
+      setSubmitState('gateForm','gateBtn','gateSubmitError','error');
+    }).finally(function(){
+      gateSubmitting = false;
     });
-
-    document.querySelectorAll('#kwTable tr.blurred').forEach(function(r){ r.classList.remove('blurred'); });
-    document.getElementById('lockOverlay').style.display = 'none';
-    document.getElementById('gate').style.display = 'none';
-    applyAdaptiveCta(scoring);
-    var u = document.getElementById('unlocked'); u.style.display = 'block';
-    document.getElementById('calBtn').href = 'https://calendly.com/admin-pixby/30min?name=' + encodeURIComponent(p.value.trim()) + '&a1=' + encodeURIComponent(t.value.trim());
-    u.scrollIntoView({ behavior:'smooth' });
   });
 
-  document.getElementById('calBtn').addEventListener('click', function(){
-    dl({ event:'calendly_clicked', metier: sel.m, has_google_ads: sel.hasAds });
-  });
-
-  /* autre métier — audit manuel */
+  /* ============================================================
+     SOUMISSION — formulaire secondaire (manuel)
+     ============================================================ */
+  var manualSubmitting = false;
   document.getElementById('manualForm').addEventListener('submit', function(e){
     e.preventDefault();
-    var p = document.getElementById('mPrenom'), t = document.getElementById('mTel'), m = document.getElementById('mMetier'), ent = document.getElementById('mEntreprise');
-    if (!p.value.trim()) { p.style.border='2px solid #ef4444'; p.focus(); return; }
-    if (!ent.value.trim()) { ent.style.border='2px solid #ef4444'; ent.focus(); return; }
-    if (!t.value.trim()) { t.style.border='2px solid #ef4444'; t.focus(); return; }
-    if (!m.value.trim()) { m.style.border='2px solid #ef4444'; m.focus(); return; }
+    if (manualSubmitting) return;
+    var fields = [
+      { id:'mPrenom', err:'mPrenomErr' },
+      { id:'mEntreprise', err:'mEntrepriseErr' },
+      { id:'mEmail', err:'mEmailErr', type:'email' }
+    ];
+    var firstInvalidManual = validateRequired(fields);
+    if (firstInvalidManual) { document.getElementById(firstInvalidManual).focus(); return; }
+    manualSubmitting = true;
 
-    dl({ event:'generate_lead', form_name:'audit_60s_manuel', budget: budgetRange(sel.budget), industry: m.value.trim() });
-    if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_60s_manuel', budget: budgetRange(sel.budget), industry: m.value.trim() });
-    dl({ event:'lead_submitted', lead_tier: sel.hasAds === 'oui' ? 'GOOD_FIT' : 'NURTURE', has_google_ads: sel.hasAds, industry: m.value.trim() });
+    var p = document.getElementById('mPrenom'), ent = document.getElementById('mEntreprise'),
+        email = document.getElementById('mEmail'), tel = document.getElementById('mTel'),
+        detail = document.getElementById('mMetierDetail');
+    var scoring = computeLeadScore('');
 
-    sendLead({
-      first_name: p.value.trim(), phone: t.value.trim(),
-      email: document.getElementById('mEmail').value.trim(),
-      company_name: ent.value.trim(),
-      type_entreprise: m.value.trim(), budget_pub: budgetRange(sel.budget),
-      region: REGIONS[sel.r] || '', budget_exact: sel.budget + '$',
-      has_google_ads: sel.hasAds,
-      lead_tier: sel.hasAds === 'oui' ? 'GOOD_FIT' : 'NURTURE',
-      lead_reason: 'métier hors base instantanée (audit manuel 24h)',
-      page_source: window.location.href, form_name: 'audit-60s-manuel'
+    setSubmitState('manualForm','manualBtn','manualSubmitError','submitting');
+
+    submitLead({
+      first_name: p.value.trim(), phone: tel.value.trim(), email: email.value.trim(),
+      company_name: ent.value.trim(), type_entreprise: sel.m, metier_label: sel.metierLabel,
+      metier_detail: detail.value.trim(), region: REGIONS[sel.r] || '', budget_declare: budgetSummaryLabel(),
+      has_google_ads: sel.hasAds, lead_tier: scoring.tier, lead_score: scoring.score,
+      lead_reason: 'métier hors base instantanée (analyse manuelle)',
+      page_source: window.location.href, form_name: 'audit-p0-manuel'
+    }).then(function(){
+      // Un seul envoi GA4 generate_lead via gtag; lead_submitted reste le signal dataLayer.
+      if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'audit_p0_manuel' });
+      dl({ event:'lead_submitted', lead_tier: scoring.tier, lead_score: scoring.score, manual: true });
+
+      setSubmitState('manualForm','manualBtn','manualSubmitError','idle');
+      document.getElementById('manualForm').style.display = 'none';
+      document.getElementById('manualOk').style.display = 'block';
+    }).catch(function(err){
+      dl({ event:'lead_submit_failed', error: String(err && err.message || err), manual: true });
+      setSubmitState('manualForm','manualBtn','manualSubmitError','error');
+    }).finally(function(){
+      manualSubmitting = false;
     });
-
-    this.style.display = 'none';
-    document.getElementById('manualOk').style.display = 'block';
   });
 })();
 </script>
