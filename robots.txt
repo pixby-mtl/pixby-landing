@@ -7,6 +7,9 @@ Sitemap: https://ads.pixby.ca/sitemap.xml
 User-agent: GPTBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: PerplexityBot
 Allow: /
 
