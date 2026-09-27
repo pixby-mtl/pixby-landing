@@ -276,12 +276,12 @@
     .econ-row.econ-final span { color: var(--cc-hi); font-weight: 600; font-size: .92rem; }
     .econ-final-n { font-size: 1.05rem !important; color: var(--cc-cyan) !important; line-height: 1.4; }
     .econ-flow {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 6px; padding: 18px 4px; border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 10px 6px; padding: 18px 4px; border-bottom: 1px solid rgba(255,255,255,.08);
     }
-    .econ-step { text-align: center; }
-    .econ-step b { display: block; font-family: var(--ff-d); font-size: 1.3rem; color: var(--cc-hi); font-variant-numeric: tabular-nums; }
-    .econ-step span { display: block; font-size: .68rem; color: var(--cc-lo); margin-top: 2px; }
+    .econ-step { text-align: center; min-width: 62px; }
+    .econ-step b { display: block; font-family: var(--ff-d); font-size: .92rem; font-weight: 700; color: var(--cc-hi); white-space: nowrap; }
+    .econ-step span { display: block; font-size: .66rem; color: var(--cc-lo); margin-top: 2px; white-space: nowrap; }
     .econ-arrow { color: var(--cc-signal); font-size: 1rem; flex-shrink: 0; }
     .econ-note { font-size: .72rem; color: var(--cc-lo); opacity: .7; line-height: 1.5; margin-bottom: 18px; }
 
