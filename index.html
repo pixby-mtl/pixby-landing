@@ -258,12 +258,6 @@
       border-radius: var(--r-xl); padding: 28px 26px 26px;
       box-shadow: 0 24px 64px rgba(0,0,0,.35);
     }
-    .panel-example-tag {
-      display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--cc-lo);
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
-      border-radius: 999px; padding: 4px 12px; margin-bottom: 18px;
-    }
     .hero-form-head { margin-bottom: 18px; }
     .hero-form-head h2 {
       font-family: var(--ff-d);
@@ -272,16 +266,15 @@
     }
     .hero-form-head p { font-size: .82rem; color: var(--cc-lo); }
 
-    .econ-table { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; }
     .econ-row {
       display: flex; align-items: baseline; justify-content: space-between;
       padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.08);
       font-size: .88rem; color: var(--cc-lo);
     }
     .econ-row b { font-family: var(--ff-d); color: var(--cc-hi); font-weight: 700; font-size: .95rem; font-variant-numeric: tabular-nums; }
-    .econ-row.econ-final { border-bottom: none; padding-top: 16px; }
+    .econ-row.econ-final { border-bottom: none; padding-top: 16px; flex-direction: column; align-items: flex-start; gap: 6px; }
     .econ-row.econ-final span { color: var(--cc-hi); font-weight: 600; font-size: .92rem; }
-    .econ-final-n { font-size: 1.7rem !important; color: var(--cc-cyan) !important; }
+    .econ-final-n { font-size: 1.05rem !important; color: var(--cc-cyan) !important; line-height: 1.4; }
     .econ-flow {
       display: flex; align-items: center; justify-content: space-between;
       gap: 6px; padding: 18px 4px; border-bottom: 1px solid rgba(255,255,255,.08);
@@ -290,16 +283,6 @@
     .econ-step b { display: block; font-family: var(--ff-d); font-size: 1.3rem; color: var(--cc-hi); font-variant-numeric: tabular-nums; }
     .econ-step span { display: block; font-size: .68rem; color: var(--cc-lo); margin-top: 2px; }
     .econ-arrow { color: var(--cc-signal); font-size: 1rem; flex-shrink: 0; }
-    .econ-calc-toggle {
-      background: none; border: none; color: var(--cc-signal); font-size: .82rem; font-weight: 600;
-      font-family: var(--ff-b); cursor: pointer; padding: 8px 0; text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-    .econ-calc-detail {
-      font-size: .82rem; color: var(--cc-lo); background: rgba(255,255,255,.05);
-      border-radius: 8px; padding: 10px 12px; margin: 4px 0 10px; font-variant-numeric: tabular-nums;
-    }
-    .econ-calc-detail[hidden] { display: none; }
     .econ-note { font-size: .72rem; color: var(--cc-lo); opacity: .7; line-height: 1.5; margin-bottom: 18px; }
 
     .f-row { margin-bottom: 12px; }
@@ -872,30 +855,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="hero-form-card" id="audit">
-      <div class="panel-example-tag">Exemple illustratif — aucun résultat garanti</div>
       <div class="hero-form-head">
-        <h2>Le calcul d'un client signé</h2>
-        <p>Un exemple concret pour comprendre chaque étape.</p>
+        <h2>Le vrai calcul, c'est le coût par client signé</h2>
+        <p>Pas le coût par clic. Pas le coût par lead.</p>
       </div>
 
-      <div class="econ-table">
-        <div class="econ-row"><span>Budget publicitaire mensuel</span><b>1 500 $</b></div>
-        <div class="econ-row"><span>Gestion mensuelle (hypothèse illustrative)</span><b>750 $</b></div>
-        <div class="econ-flow">
-          <div class="econ-step"><b>300</b><span>clics</span></div>
-          <div class="econ-arrow">→</div>
-          <div class="econ-step"><b>30</b><span>demandes</span></div>
-          <div class="econ-arrow">→</div>
-          <div class="econ-step"><b>6</b><span>clients signés</span></div>
-        </div>
-        <div class="econ-row"><span>Coût publicitaire par demande</span><b>50 $</b></div>
-        <div class="econ-row"><span>Coût publicitaire par client signé</span><b>250 $</b></div>
-        <div class="econ-row econ-final"><span>Coût d'acquisition (pub + gestion)</span><b class="econ-final-n">375 $</b></div>
+      <div class="econ-flow">
+        <div class="econ-step"><b>Budget pub</b><span>+ gestion</span></div>
+        <div class="econ-arrow">→</div>
+        <div class="econ-step"><b>Clics</b><span>Google Ads</span></div>
+        <div class="econ-arrow">→</div>
+        <div class="econ-step"><b>Demandes</b><span>appels/formulaires</span></div>
+        <div class="econ-arrow">→</div>
+        <div class="econ-step"><b>Client</b><span>signé</span></div>
       </div>
 
-      <button type="button" class="econ-calc-toggle" id="econCalcToggle" aria-expanded="false" aria-controls="econCalcDetail">Voir le calcul</button>
-      <div class="econ-calc-detail" id="econCalcDetail" hidden>2 250 $ (1 500 $ de publicité + 750 $ de gestion) ÷ 6 clients signés = 375 $ par client.</div>
-      <p class="econ-note">Exemple mensuel, hors taxes et frais de démarrage. Autres coûts d'acquisition non inclus.</p>
+      <div class="econ-row econ-final"><span>Coût d'acquisition</span><b class="econ-final-n">(budget pub + gestion) ÷ clients signés</b></div>
+      <p class="econ-note">Ton propre résultat dépend de ton marché, ton offre et ton taux de conversion — l'audit gratuit te donne les vraies données de ton marché pour l'estimer.</p>
 
       <a class="btn-submit" id="auditCta" href="/audit/" data-placement="homepage_hero_panel" style="display:block;text-align:center;text-decoration:none;">
         Lancer mon audit gratuit →
@@ -1006,8 +982,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="steps">
       <div class="step reveal">
         <div class="step-n">1</div>
-        <h3>Audit de ton compte</h3>
-        <p>On analyse ton Google Ads existant — ou on repart de zéro. On identifie précisément où ton argent est gaspillé.</p>
+        <h3>Audit de ton compte, une fois l'accès obtenu</h3>
+        <p>Après le rendez-vous et avec ton accord, on analyse ton Google Ads existant — ou on repart de zéro — pour voir concrètement ce qui doit changer.</p>
       </div>
       <div class="step reveal reveal-delay-1">
         <div class="step-n">2</div>
@@ -1194,9 +1170,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     ">
       <div style="font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:16px;">Gestion mensuelle</div>
       <div style="font-family:var(--ff-d); font-size:3.2rem; font-weight:800; color:var(--dark); letter-spacing:-.04em; line-height:1;">
-        À partir de <span style="color:var(--teal);">750 $</span>
+        <span style="color:var(--teal);">750 $</span>
       </div>
-      <div style="font-size:.9rem; color:#8a9ab0; margin-top:6px; margin-bottom:32px;">/ mois · selon ton projet</div>
+      <div style="font-size:.9rem; color:#8a9ab0; margin-top:6px; margin-bottom:32px;">/ mois</div>
 
       <div style="width:100%; border-top:1px solid #e2e8f0; padding-top:28px; margin-bottom:32px;">
         <div style="font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#b0bcc8; margin-bottom:16px;">Inclus dans chaque mandat</div>
@@ -1210,7 +1186,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div style="background:rgba(4,99,166,.06); border:1px solid rgba(4,99,166,.12); border-radius:12px; padding:16px 20px; width:100%; text-align:left; margin-bottom:32px;">
         <div style="font-size:.73rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--blue); margin-bottom:4px;">Frais d'onboarding · une seule fois</div>
-        <div style="font-size:.9rem; color:var(--dark); font-weight:600;">À partir de 1 000 $ — selon la complexité du compte</div>
+        <div style="font-size:.9rem; color:var(--dark); font-weight:600;">1 000 $, une seule fois</div>
         <div style="font-size:.77rem; color:#8a9ab0; margin-top:4px;">Couvre l'audit, la structure, le tracking et la mise en ligne</div>
       </div>
 
@@ -1307,18 +1283,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     });
   });
-
-  /* Panneau économique — "Voir le calcul" (P0 : statique, un seul état) */
-  var calcToggle = document.getElementById('econCalcToggle');
-  var calcDetail = document.getElementById('econCalcDetail');
-  if (calcToggle && calcDetail) {
-    calcToggle.addEventListener('click', function() {
-      var isHidden = calcDetail.hasAttribute('hidden');
-      if (isHidden) { calcDetail.removeAttribute('hidden'); calcToggle.textContent = 'Masquer le calcul'; }
-      else { calcDetail.setAttribute('hidden', ''); calcToggle.textContent = 'Voir le calcul'; }
-      calcToggle.setAttribute('aria-expanded', String(isHidden));
-    });
-  }
 
   /* FAQ */
   document.querySelectorAll('.faq-q').forEach(function(b) {
