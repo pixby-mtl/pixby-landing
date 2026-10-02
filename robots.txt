@@ -19,5 +19,9 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+# OpenAI Ads : doit pouvoir crawler les landing pages des campagnes ChatGPT Ads
+User-agent: OAI-AdsBot
+Allow: /
+
 # Fiche lisible par les assistants IA
 # https://ads.pixby.ca/llms.txt

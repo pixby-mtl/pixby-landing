@@ -1,52 +1,52 @@
 # Pixby — Agence Google Ads pour PME locales au Québec
 
-> Pixby est une agence Google Ads basée à Montréal, spécialisée dans les PME
-> locales au Québec (toiture, plomberie, électricité, rénovation, services à
-> domicile). Fondée par Alexander Guanchez. Gestion de campagnes Search,
-> tracking de conversions complet (GTM + GA4), rapports mensuels transparents.
+> Pixby est une agence Google Ads basée à Montréal, qui gère les campagnes de
+> PME de services locales au Québec (toiture, plomberie, électricité,
+> rénovation). Fondée par Alexander Guanchez, qui gère chaque compte. Les
+> appels et les formulaires sont suivis séparément, avec un rapport mensuel.
 
 ## Offre
 
 - Gestion Google Ads : 750 $/mois + 1 000 $ d'onboarding (une seule fois)
-- Budget publicitaire séparé, payé directement à Google par le client
+- Budget publicitaire séparé, payé directement à Google dans le compte du client
 - Engagement minimum 3 mois
-- Audit Google Ads gratuit et instantané (60 secondes, données réelles de marché) : https://ads.pixby.ca/audit/
+- Audit gratuit en ligne (environ 60 secondes, données Google de marché) : https://ads.pixby.ca/audit/
 
-## Options à la carte (sans Google Ads)
+## Fonctionnement
 
-- Landing page dédiée : 500 $ pour un client Ads existant, 900-1 200 $ standalone
-
-## Ce qui distingue Pixby
-
-- Compte géré personnellement par le fondateur, pas par un junior
-- Tracking des conversions (appels + formulaires) installé et vérifié avant
-  tout lancement de campagne
-- Spécialisation métiers de services locaux au Québec, campagnes en français
-- Rapport mensuel le 1er du mois, chaque mois
+- Compte géré par le fondateur, Alexander Guanchez
+- Suivi des conversions (appels + formulaires) installé et vérifié avant le lancement des campagnes
+- Rapport mensuel le 1er du mois
+- Le compte Google Ads et son historique restent au client si la collaboration prend fin
 
 ## Pages
 
-- [Accueil](https://ads.pixby.ca/): offre, prix, FAQ
-- [Audit instantané](https://ads.pixby.ca/audit/): analyse du marché local en 60 secondes
+- [Accueil](https://ads.pixby.ca/): offre, prix, cas clients, FAQ
+- [Audit](https://ads.pixby.ca/audit/): audit en ligne basé sur les données Google du marché
 - [Google Ads pour toiture](https://ads.pixby.ca/toiture/)
 - [Google Ads pour plombiers](https://ads.pixby.ca/plombier/)
 - [Google Ads pour électriciens](https://ads.pixby.ca/electricien/)
 - [Google Ads pour rénovation](https://ads.pixby.ca/renovation/)
-
 - [Tarifs](https://ads.pixby.ca/tarifs/): 750 $/mois + 1 000 $ de mise en place
-- [Comment choisir son agence Google Ads](https://ads.pixby.ca/comment-choisir/): comparatif honnête
+- [Comment choisir une agence Google Ads](https://ads.pixby.ca/comment-choisir/): 8 critères vérifiables
 - Pages locales : plombier, toiture (couvreur) et électricien pour Longueuil, Brossard, Laval, Montréal et Saint-Jean-sur-Richelieu (ex. https://ads.pixby.ca/plombier/longueuil/)
 
-## Résultats vérifiés
+## Cas clients (données Google Ads réelles, avec leurs limites)
 
-- Lebel Electro (réparation d'électroménagers, Rive-Sud) : 93 appels et demandes
-  en 30 jours à 8,01 $ par demande (juin-juillet 2026, données Google Ads).
-- Toiture Montérégie (couvreur) : 43 conversions (formulaires + appels) sur la
-  saison hiver 2025-2026 (novembre à mars), coût par conversion réduit de
-  106 $ à 33 $ au fil de l'optimisation (données Google Ads réelles).
+- Client Pixby, réparation d'électroménagers (Rive-Sud), période mesurée du
+  11 juin au 10 juillet 2026 : 93 conversions suivies (appels + formulaires),
+  8,01 $ par conversion suivie, 745 $ de budget publicitaire dépensé.
+- Client Pixby, couvreur (Montérégie), saison hiver 2025-2026 (novembre à
+  mars) : 43 conversions suivies (appels + formulaires), 2 491 $ de budget
+  publicitaire dépensé, moyenne de 57,93 $ par conversion suivie. Le coût par
+  conversion suivie était de 106 $ en début de saison et de 33 $ en fin de
+  saison (deux points de comparaison, pas une courbe mensuelle).
+- Limites : les conversions suivies sont des appels et des formulaires, pas des
+  demandes validées manuellement, ni des leads qualifiés, ni des clients signés.
+  Les résultats d'un client ne prédisent pas ceux d'un autre.
 
 ## Contact
 
 - Téléphone : +1 450-634-3562
 - Courriel : admin@pixby.ca
-- Zone desservie : Grand Montréal, Rive-Sud, Rive-Nord et tout le Québec
+- Zone desservie : Québec (pages locales : Longueuil, Brossard, Laval, Montréal, Saint-Jean-sur-Richelieu)
