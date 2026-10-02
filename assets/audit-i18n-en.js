@@ -54,7 +54,7 @@
   "Site web (optionnel)": "Website (optional)",
   "Envoyer →": "Send →",
   "🔒 Confidentiel ·": "🔒 Confidential ·",
-  "Politique de confidentialité": "Privacy policy (in French)",
+  "Politique de confidentialité": "Privacy policy",
   "Avant de réserver": "Before you book",
   "Rendez-vous : appel téléphonique de 30 minutes.": "Appointment: a 30-minute phone call.",
   "Choisir mon heure — 30 min →": "Pick my time — 30 min →",
@@ -86,7 +86,7 @@
   "(aucune modification possible) pour qu'Alexander regarde tes vraies campagnes avant le rendez-vous — c'est toujours facultatif, réserver un appel ne demande jamais cet accès.": "access (no changes possible) so that Alexander can look at your real campaigns before the appointment — it is always optional, and booking a call never requires this access.",
   "Confidentialité": "Privacy",
   "Les réponses données dans l'audit et, si tu les laisses, tes coordonnées, servent uniquement à préparer ton rendez-vous avec Alexander — voir la": "The answers given in the audit and, if you leave them, your contact details, are used only to prepare your appointment with Alexander — see the",
-  "politique de confidentialité": "privacy policy (in French)",
+  "politique de confidentialité": "privacy policy",
   ". Rien n'est vendu à des tiers ni utilisé pour du démarchage automatisé.": ". Nothing is sold to third parties or used for automated outreach.",
   "© 2026 Pixby · Montréal ·": "© 2026 Pixby · Montreal ·",
   "Repère Québec (province)": "Quebec benchmark (province-wide)",
@@ -305,7 +305,8 @@
   }
   var LINKS = [
     ['.nav-logo', 'href', '/en/'],
-    ['footer a[href$="../"]', 'href', '/en/']
+    ['footer a[href$="../"]', 'href', '/en/'],
+    ['a[href$="politique-confidentialite.html"]', 'href', '/en/privacy-policy/']
   ];
   function setLinks(on){
     LINKS.forEach(function(l){
