@@ -61,7 +61,7 @@
   "Gratuit · Sans engagement": "Free · No commitment",
   "Le calendrier ne s'est pas chargé.": "The calendar didn't load.",
   "Ouvre-le dans un nouvel onglet": "Open it in a new tab",
-  "Ton secteur mérite une analyse faite à la main.": "Your sector deserves a hand-made analysis.",
+  "Ton secteur mérite une analyse faite à la main.": "Your sector needs a manual analysis.",
   "Ce qu'on a": "What we have",
   "On n'a pas de données Keyword Planner validées pour ce métier dans notre base instantanée. Alexander fait l'analyse à la main avec les mêmes données réelles Google. Aucun délai automatique n'est garanti — on te recontacte avec un plan concret.": "We don't have validated Keyword Planner data for this trade in our instant database. Alexander does the analysis by hand with the same real Google data. No automatic turnaround time is guaranteed — we will get back to you with a concrete plan.",
   "Ton métier, ta zone et ton budget envisagé (déjà notés)": "Your trade, your area and your planned budget (already noted)",

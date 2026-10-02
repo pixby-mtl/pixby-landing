@@ -22,10 +22,16 @@
     a { color: #0463A6; }
     .back { display: inline-flex; align-items: center; gap: 6px; color: #0463A6; text-decoration: none; font-size: .85rem; font-weight: 600; margin-top: 48px; }
     @media (max-width: 600px) { .wrap { padding: 36px 20px; } h1 { font-size: 1.5rem; } }
+    .wrap { position: relative; }
+    .lang-switch { position: absolute; top: 24px; right: 24px; display: inline-flex; align-items: center; border: 1px solid #c5cdda; border-radius: 8px; overflow: hidden; font-size: .78rem; font-weight: 700; line-height: 1; }
+    .lang-switch a, .lang-switch span { padding: 8px 10px; text-decoration: none; color: #4a5568; }
+    .lang-switch a:hover { color: #0463A6; }
+    .lang-switch [aria-current] { background: #253858; color: #fff; }
   </style>
 </head>
 <body>
 <div class="wrap">
+  <span class="lang-switch"><a href="/politique-confidentialite.html" hreflang="fr-CA" lang="fr-CA" title="Français">FR</a><span aria-current="true" title="English">EN</span></span>
   <a class="logo" href="/en/"><img src="/assets/logo.png" alt="Pixby"></a>
   <h1>Privacy Policy</h1>
   <p class="date">Last updated: June 28, 2026</p>
