@@ -4,6 +4,9 @@
 > PME de services locales au Québec (toiture, plomberie, électricité,
 > rénovation). Fondée par Alexander Guanchez, qui gère chaque compte. Les
 > appels et les formulaires sont suivis séparément, avec un rapport mensuel.
+>
+> Pixby serves both French- and English-speaking local service businesses in
+> Quebec. French pages are at the site root; English pages are under /en/.
 
 ## Offre
 
@@ -30,6 +33,16 @@
 - [Tarifs](https://ads.pixby.ca/tarifs/): 750 $/mois + 1 000 $ de mise en place
 - [Comment choisir une agence Google Ads](https://ads.pixby.ca/comment-choisir/): 8 critères vérifiables
 - Pages locales : plombier, toiture (couvreur) et électricien pour Longueuil, Brossard, Laval, Montréal et Saint-Jean-sur-Richelieu (ex. https://ads.pixby.ca/plombier/longueuil/)
+
+## English pages (same offer, same pricing, same founder)
+
+- [Google Ads agency — home](https://ads.pixby.ca/en/): Google Ads management for local service businesses in Quebec
+- [Pricing](https://ads.pixby.ca/en/pricing/): 750 CAD/month + 1,000 CAD one-time onboarding; ad spend separate; minimum 3 months
+- [How to choose a Google Ads agency](https://ads.pixby.ca/en/how-to-choose-google-ads-agency/): 8 verifiable criteria
+- [Google Ads for roofing companies](https://ads.pixby.ca/en/roofing/)
+- [Google Ads for plumbers](https://ads.pixby.ca/en/plumbing/)
+- [Google Ads for electricians](https://ads.pixby.ca/en/electrician/)
+- Free online Audit (English interface of the same tool): https://ads.pixby.ca/audit/?lang=en
 
 ## Cas clients (données Google Ads réelles, avec leurs limites)
 

@@ -75,6 +75,11 @@
     .nav-logo img { height:46px; display:block; }
     .nav-phone { font-size:.86rem; font-weight:600; color:rgba(255,255,255,.65); text-decoration:none; }
     .nav-phone:hover { color:#fff; }
+    .nav-right { display:flex; align-items:center; gap:16px; }
+    .lang-switch { display:inline-flex; align-items:center; border:1px solid rgba(255,255,255,.3); border-radius:8px; overflow:hidden; font-size:.78rem; font-weight:700; line-height:1; }
+    .lang-switch a { padding:8px 10px; text-decoration:none; color:rgba(255,255,255,.72); }
+    .lang-switch a:hover { color:#fff; }
+    .lang-switch a[aria-current] { background:rgba(255,255,255,.18); color:#fff; }
 
     .wrap { max-width: 1080px; margin: 0 auto; padding: 118px 24px 80px; }
 
@@ -384,7 +389,10 @@
 <nav class="nav">
   <div class="nav-inner">
     <a class="nav-logo" href="../"><img src="../assets/logo.png" alt="Pixby"></a>
-    <a class="nav-phone" href="tel:4506343562">450-634-3562</a>
+    <div class="nav-right">
+      <span class="lang-switch" id="langSwitch"><a href="?lang=fr" data-lang="fr" hreflang="fr-CA" aria-current="true">FR</a><a href="?lang=en" data-lang="en" hreflang="en-CA">EN</a></span>
+      <a class="nav-phone" href="tel:4506343562">450-634-3562</a>
+    </div>
   </div>
 </nav>
 
@@ -1854,6 +1862,31 @@
       manualSubmitting = false;
     });
   });
+})();
+</script>
+<script>
+/* Sélecteur FR / EN — la localisation anglaise (assets/audit-i18n-en.js) est une
+   couche de présentation chargée seulement pour ?lang=en ou au clic sur EN. */
+(function(){
+  var sw = document.getElementById('langSwitch'); if (!sw) return;
+  var SRC = '../assets/audit-i18n-en.js';
+  function url(en){ var u = new URL(window.location.href); if (en) u.searchParams.set('lang','en'); else u.searchParams.delete('lang'); return u; }
+  function ready(cb){
+    if (window.__auditI18n) return cb();
+    var s = document.createElement('script'); s.src = SRC; s.onload = cb; document.body.appendChild(s);
+  }
+  function set(en){
+    try { history.replaceState(null, '', url(en)); } catch(e){}
+    if (en) ready(function(){ window.__auditI18n.enable(); }); else if (window.__auditI18n) window.__auditI18n.disable();
+  }
+  sw.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-lang]') : null; if (!a) return;
+    e.preventDefault(); set(a.getAttribute('data-lang') === 'en');
+  });
+  if (new URLSearchParams(window.location.search).get('lang') === 'en') {
+    document.write('<script src="' + SRC + '"><\/script>');
+    document.write('<script>window.__auditI18n && window.__auditI18n.enable();<\/script>');
+  }
 })();
 </script>
 </body>
