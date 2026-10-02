@@ -47,10 +47,19 @@ h2{font-family:var(--ff-d);font-size:clamp(1.3rem,3vw,1.7rem);margin-bottom:16px
 footer{background:var(--deep);color:var(--grey);padding:36px 0;font-size:.85rem;border-top:1px solid rgba(255,255,255,.08)}
 footer a{color:var(--grey)}
 .villes-f{margin-top:10px;line-height:2}
+.hdr-r{display:flex;align-items:center;gap:12px}
+
+.lang-switch{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.3);border-radius:8px;overflow:hidden;font-size:.78rem;font-weight:700;line-height:1;margin-right:2px}
+.lang-switch a,.lang-switch span{padding:8px 10px;text-decoration:none;color:rgba(255,255,255,.72)}
+.lang-switch a:hover{color:#fff}
+.lang-switch [aria-current]{background:rgba(255,255,255,.18);color:#fff}
+.nav-right .lang-switch{margin-right:-8px}
+@media (max-width:560px){.nav-right{gap:12px}.lang-switch a,.lang-switch span{padding:8px 8px}}
+@media (max-width:400px){.nav-inner{padding:0 16px}.nav-right{gap:8px}.nav-right .nav-cta{padding:12px 12px}.nav-right .lang-switch{margin-right:0}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><a class="logo" href="/">pixby<span>.</span></a><a class="h-cta" href="/audit/">Audit gratuit</a></div></header>
+<header><div class="wrap"><a class="logo" href="/">pixby<span>.</span></a><div class="hdr-r"><span class="lang-switch"><span aria-current="true" title="Français">FR</span><a href="/en/" hreflang="en-CA" lang="en-CA" title="English">EN</a></span><a class="h-cta" href="/audit/">Audit gratuit</a></div></div></header>
 
 <div class="hero"><div class="wrap">
 <div class="crumb"><a href="/">Accueil</a> › <a href="/toiture/">Couvreur</a> › Laval</div>
