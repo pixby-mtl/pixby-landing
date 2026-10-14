@@ -12,7 +12,7 @@
 
 - Gestion Google Ads : 750 $/mois + 1 000 $ d'onboarding (une seule fois)
 - Budget publicitaire séparé, payé directement à Google dans le compte du client
-- Engagement minimum 3 mois
+- Sans engagement
 - Audit gratuit en ligne (environ 60 secondes, données Google de marché) : https://ads.pixby.ca/audit/
 
 ## Fonctionnement
@@ -37,7 +37,7 @@
 ## English pages (same offer, same pricing, same founder)
 
 - [Google Ads agency — home](https://ads.pixby.ca/en/): Google Ads management for local service businesses in Quebec
-- [Pricing](https://ads.pixby.ca/en/pricing/): 750 CAD/month + 1,000 CAD one-time onboarding; ad spend separate; minimum 3 months
+- [Pricing](https://ads.pixby.ca/en/pricing/): 750 CAD/month + 1,000 CAD one-time onboarding; ad spend separate; no commitment
 - [How to choose a Google Ads agency](https://ads.pixby.ca/en/how-to-choose-google-ads-agency/): 8 verifiable criteria
 - [Google Ads for roofing companies](https://ads.pixby.ca/en/roofing/)
 - [Google Ads for plumbers](https://ads.pixby.ca/en/plumbing/)
