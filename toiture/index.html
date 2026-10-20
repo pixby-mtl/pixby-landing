@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Ads pour compagnies de toiture au Québec | Pixby</title>
-  <meta name="description" content="Pixby gère les campagnes Google Ads des couvreurs au Québec : des appels de soumission exclusifs, pas des leads partagés. Audit gratuit en ligne.">
+  <meta name="description" content="Pixby gère les campagnes Google Ads Search des couvreurs au Québec : demandes de soumission et appels exclusifs, coût par prospect mesuré. Audit gratuit.">
   <link rel="canonical" href="https://ads.pixby.ca/toiture/">
 <link rel="alternate" hreflang="fr-CA" href="https://ads.pixby.ca/toiture/">
 <link rel="alternate" hreflang="en-CA" href="https://ads.pixby.ca/en/roofing/">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ads.pixby.ca/toiture/">
   <meta property="og:title" content="Google Ads pour compagnies de toiture au Québec | Pixby">
-  <meta property="og:description" content="Des appels de soumission exclusifs pour ta compagnie de toiture — pas des leads partagés. Audit gratuit en ligne.">
+  <meta property="og:description" content="Pixby gère les campagnes Google Ads Search des couvreurs au Québec : demandes de soumission et appels exclusifs, coût par prospect mesuré. Audit gratuit.">
   <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
   <meta property="og:locale" content="fr_CA">
   <meta property="og:site_name" content="Pixby">
@@ -21,7 +21,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Google Ads pour compagnies de toiture | Pixby">
-  <meta name="twitter:description" content="Des appels de soumission exclusifs pour couvreurs au Québec. Audit gratuit en ligne.">
+  <meta name="twitter:description" content="Pixby gère les campagnes Google Ads Search des couvreurs au Québec : demandes de soumission et appels exclusifs, coût par prospect mesuré. Audit gratuit.">
   <meta name="twitter:image" content="https://ads.pixby.ca/assets/og-image.jpg">
 
   <!-- Favicon -->
@@ -337,7 +337,21 @@
       /* Pricing */
       .price-card { padding: 28px 20px; }
 
-      /* FAQ */
+      /* CTA / appel : data-placement → événement dataLayer + GA4 (phone_cta_click pour tel:) */
+  document.querySelectorAll('[data-placement]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var placement = el.getAttribute('data-placement');
+      var isCall = el.href && el.href.indexOf('tel:') === 0;
+      var eventName = isCall ? 'phone_cta_click' : 'audit_cta_click';
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: eventName, cta_location: placement, placement: placement });
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, { event_category: 'cta', event_label: placement });
+      }
+    });
+  });
+
+  /* FAQ */
       .faq { margin-top: 32px; }
       .faq-q { font-size: .9rem; padding: 18px 16px; }
 
@@ -677,10 +691,20 @@
     .footer-info a:hover { color: rgba(255,255,255,.75); }
 
     /* ── MOBILE FLOAT ── */
+        .hero-cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 4px 0 24px; }
+    .btn-hero-main { display: inline-flex; align-items: center; justify-content: center; background: var(--orange); color: #fff; font-weight: 700; font-size: 1rem; font-family: var(--ff-b); padding: 16px 28px; border-radius: 12px; text-decoration: none; min-height: 52px; box-shadow: 0 4px 16px rgba(245,93,53,.25); transition: transform .15s, box-shadow .15s; }
+    .btn-hero-main:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,93,53,.32); }
+    .hero-call { display: inline-flex; align-items: center; min-height: 48px; color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none; border: 1.5px solid rgba(255,255,255,.35); border-radius: 12px; padding: 0 20px; transition: border-color .2s, background .2s; }
+    .hero-call:hover, .hero-call:focus-visible { border-color: #fff; background: rgba(255,255,255,.08); }
+    .nav-phone { min-height: 44px; min-width: 44px; justify-content: center; }
+    @media (max-width: 400px) { .nav-right .nav-cta { font-size: .72rem; padding: 12px 9px; white-space: nowrap; } }
+    @media (max-width: 360px) { .nav-phone { display: none; } }
+    @media (max-width: 480px) { .hero-cta-row { flex-direction: column; align-items: stretch; } .btn-hero-main { width: 100%; } .hero-call { justify-content: center; } }
     .float-cta { display: none; }
     @media (max-width: 680px) {
-      .float-cta { display: block; position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 300; }
-      .float-cta a { display: block; background: var(--orange); color: white; text-align: center; padding: 17px; border-radius: 13px; font-weight: 700; font-size: .97rem; text-decoration: none; box-shadow: 0 8px 28px rgba(245,93,53,.32); }
+      .float-cta { display: flex; gap: 10px; position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 300; }
+      .float-cta a { display: block; background: var(--orange); color: white; text-align: center; padding: 17px 10px; border-radius: 13px; font-weight: 700; font-size: .93rem; text-decoration: none; box-shadow: 0 8px 28px rgba(245,93,53,.32); flex: 1 1 auto; }
+      .float-cta a.float-call { flex: 0 0 auto; background: #fff; color: #253858; padding: 17px 18px; box-shadow: 0 8px 28px rgba(0,0,0,.22); }
     }
 
     /* ── ICONS ── */
@@ -704,8 +728,7 @@
 @media (max-width:400px){.nav-inner{padding:0 16px}.nav-right{gap:8px}.nav-right .nav-cta{padding:12px 12px}.nav-right .lang-switch{margin-right:0}}
 </style>
 
-  <script type="application/ld+json">
-{
+  <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@type": "Service",
  "@id": "https://ads.pixby.ca/toiture/#service",
@@ -714,13 +737,47 @@
  "provider": {
   "@id": "https://ads.pixby.ca/#organization"
  },
- "areaServed": {
-  "@type": "AdministrativeArea",
-  "name": "Québec"
- },
- "url": "https://ads.pixby.ca/toiture/"
-}
-</script>
+ "areaServed": [
+  {
+   "@type": "AdministrativeArea",
+   "name": "Québec"
+  },
+  {
+   "@type": "City",
+   "name": "Longueuil"
+  },
+  {
+   "@type": "City",
+   "name": "Brossard"
+  },
+  {
+   "@type": "City",
+   "name": "Laval"
+  },
+  {
+   "@type": "City",
+   "name": "Montréal"
+  },
+  {
+   "@type": "City",
+   "name": "Saint-Jean-sur-Richelieu"
+  }
+ ],
+ "url": "https://ads.pixby.ca/toiture/",
+ "description": "Gestion de campagnes Google Ads Search pour les couvreurs du Québec : appels, demandes de soumission et contrats potentiels, avec le coût de chaque prospect mesuré. Aucun nombre de leads garanti.",
+ "offers": {
+  "@type": "Offer",
+  "priceCurrency": "CAD",
+  "priceSpecification": {
+   "@type": "UnitPriceSpecification",
+   "price": "750",
+   "priceCurrency": "CAD",
+   "unitText": "MONTH"
+  },
+  "description": "Gestion Google Ads : 750 $/mois + 1 000 $ d'onboarding (une seule fois). Budget publicitaire séparé, payé directement à Google. Sans engagement.",
+  "url": "https://ads.pixby.ca/tarifs/"
+ }
+}</script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -764,12 +821,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <img src="../assets/logo.png" alt="Pixby — Agence Google Ads Montréal" width="160" height="52">
     </a>
     <div class="nav-right">
-      <a href="tel:4506343562" class="nav-phone">
+      <a href="tel:4506343562" class="nav-phone" aria-label="Appeler Pixby au 450-634-3562" data-placement="metier_nav_phone">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.06 2.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
         <span class="txt">450-634-3562</span>
       </a>
       <span class="lang-switch"><span aria-current="true" title="Français">FR</span><a href="/en/roofing/" hreflang="en-CA" lang="en-CA" title="English">EN</a></span>
-      <a href="/audit/" class="nav-cta">Audit gratuit →</a>
+      <a href="/audit/" class="nav-cta" data-placement="metier_nav">Voir mon potentiel →</a>
     </div>
   </div>
 </nav>
@@ -793,16 +850,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <h1>
-        Des propriétaires de ta région cherchent un couvreur sur Google. <span class="grad">Sois visible au moment où ils cherchent.</span>
+        Vos prochains clients vous cherchent déjà sur Google. <span class="grad">Faites en sorte qu'ils trouvent votre entreprise de toiture.</span>
       </h1>
 
       <p class="hero-sub">
-        Pixby gère tes campagnes Google Ads pour que les demandes de soumission arrivent chez toi — des réfections complètes plutôt que des réparations à rabais. Compagnies de toiture au Québec.</p>
+        Pixby gère les campagnes Google Ads Search des couvreurs du Québec pour générer des appels, des demandes de soumission et des contrats potentiels, avec le coût de chaque prospect mesuré. Aucun nombre de leads n'est garanti.</p>
+
+      <div class="hero-cta-row">
+        <a href="/audit/" class="btn-hero-main" data-placement="metier_hero_text">Voir mon potentiel de clients →</a>
+        <a href="tel:4506343562" class="hero-call" data-placement="metier_hero_call">Ou appelez-nous : 450-634-3562</a>
+      </div>
 
       <div class="hero-stats">
         <div class="hero-stat">
           <div class="n">100%</div>
-          <div class="lbl">Budget dans ton compte</div>
+          <div class="lbl">Budget dans votre compte</div>
         </div>
         <div class="hero-stat">
           <div class="n">0</div>
@@ -817,20 +879,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="hero-form-card" id="audit">
       <div class="hero-form-head">
-        <h2>Sais-tu combien te coûte chaque prospect en toiture ?</h2>
+        <h2>Savez-vous combien vous coûte chaque prospect en toiture ?</h2>
         <p>Pas le clic : l'appel ou le formulaire qui arrive vraiment.</p>
       </div>
 
       <div class="f-row" style="border:none;">
         <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; margin:4px 0 22px;">
-          <li style="display:flex;gap:8px;align-items:flex-start;font-size:.92rem;"><svg class="ic" style="width:15px;height:15px;color:var(--green);flex-shrink:0;margin-top:3px;"><use href="#i-check"/></svg>Recherches Google réelles dans ta région</li>
-          <li style="display:flex;gap:8px;align-items:flex-start;font-size:.92rem;"><svg class="ic" style="width:15px;height:15px;color:var(--green);flex-shrink:0;margin-top:3px;"><use href="#i-check"/></svg>Prix du clic et potentiel de leads pour ton secteur</li>
-          <li style="display:flex;gap:8px;align-items:flex-start;font-size:.92rem;"><svg class="ic" style="width:15px;height:15px;color:var(--green);flex-shrink:0;margin-top:3px;"><use href="#i-check"/></svg>Déjà sur Google Ads ? On regarde ce que ton compte actuel donne vraiment</li>
+          <li style="display:flex;gap:8px;align-items:flex-start;font-size:.92rem;"><svg class="ic" style="width:15px;height:15px;color:var(--green);flex-shrink:0;margin-top:3px;"><use href="#i-check"/></svg>Recherches Google réelles dans votre région</li>
+          <li style="display:flex;gap:8px;align-items:flex-start;font-size:.92rem;"><svg class="ic" style="width:15px;height:15px;color:var(--green);flex-shrink:0;margin-top:3px;"><use href="#i-check"/></svg>Prix du clic et potentiel de leads pour votre secteur</li>
+          <li style="display:flex;gap:8px;align-items:flex-start;font-size:.92rem;"><svg class="ic" style="width:15px;height:15px;color:var(--green);flex-shrink:0;margin-top:3px;"><use href="#i-check"/></svg>Déjà sur Google Ads ? On regarde ce que votre compte actuel donne vraiment</li>
         </ul>
       </div>
 
       <a class="btn-submit" id="auditCta" href="/audit/" style="display:block;text-align:center;text-decoration:none;">
-        Lancer mon audit gratuit →
+        Voir mon potentiel de clients →
       </a>
       <p class="f-privacy"><svg class="ic" style="width:11px;height:11px;margin-right:3px;"><use href="#i-lock"/></svg>Confidentiel · Zéro vente · 60 secondes · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
     </div>
@@ -877,23 +939,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="s s-off">
   <div class="s-inner">
     <span class="eyebrow reveal">Le problème</span>
-    <h2 class="ttl reveal">Ça te sonne des cloches&nbsp;?</h2>
-    <p class="sub reveal">Deux situations à vérifier : tu paies pour des clics dont tu ignores le résultat, ou tu dépends de plateformes qui partagent la même demande entre plusieurs couvreurs.</p>
+    <h2 class="ttl reveal">Cela vous dit quelque chose&nbsp;?</h2>
+    <p class="sub reveal">Deux situations à vérifier : vous payez pour des clics dont vous ignorez le résultat, ou vous dépendez de plateformes qui partagent la même demande entre plusieurs couvreurs.</p>
     <div class="pain-grid">
       <div class="pain-card reveal">
         <div class="pain-ico"><svg class="ic"><use href="#i-banknote"/></svg></div>
-        <h3>L'été tu refuses des jobs. L'hiver, le téléphone est mort.</h3>
-        <p>Une campagne te donne un levier que tu contrôles : tu peux viser le printemps et l'automne, et choisir tes contrats plutôt que de prendre ce qui reste.</p>
+        <h3>L'été vous refusez des jobs. L'hiver, le téléphone est mort.</h3>
+        <p>Une campagne vous donne un levier que vous contrôlez : vous pouvez viser le printemps et l'automne, et choisir vos contrats plutôt que de prendre ce qui reste.</p>
       </div>
       <div class="pain-card reveal reveal-delay-1">
         <div class="pain-ico"><svg class="ic"><use href="#i-trend-down"/></svg></div>
         <h3>Les leads partagés vont à plusieurs couvreurs</h3>
-        <p>Sur les plateformes de soumissions, la même demande peut être envoyée à plusieurs entreprises, et la concurrence se joue alors souvent sur le prix. Avec ta propre campagne, le client t'appelle directement.</p>
+        <p>Sur les plateformes de soumissions, la même demande peut être envoyée à plusieurs entreprises, et la concurrence se joue alors souvent sur le prix. Avec votre propre campagne, le client vous appelle directement.</p>
       </div>
       <div class="pain-card reveal reveal-delay-2">
         <div class="pain-ico"><svg class="ic"><use href="#i-help"/></svg></div>
-        <h3>T'as essayé Google Ads, pis ça a coûté cher pour rien</h3>
-        <p>Sans suivi des conversions, tu ne sais pas quelles recherches produisent des appels. On suit chaque appel et chaque formulaire séparément — tu vois d'où vient chaque dollar.</p>
+        <h3>Vous avez essayé Google Ads, et ça a coûté cher pour rien</h3>
+        <p>Sans suivi des conversions, vous ne savez pas quelles recherches produisent des appels. On suit chaque appel et chaque formulaire séparément — vous voyez d'où vient chaque dollar.</p>
       </div>
     </div>
   </div>
@@ -904,11 +966,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="s-inner">
     <span class="eyebrow reveal">Notre méthode</span>
     <h2 class="ttl reveal">Simple, transparent, <span class="grad-t">mesurable</span></h2>
-    <p class="sub reveal" style="margin:0 auto;">Pas de magie — une méthode rigoureuse que tu comprends à chaque étape.</p>
+    <p class="sub reveal" style="margin:0 auto;">Pas de magie — une méthode rigoureuse que vous comprenez à chaque étape.</p>
 
     <div class="founder-block reveal">
       <div class="founder-ring">
-        <img src="../assets/alexander-headshot.jpg" alt="Alexander Guanchez, fondateur de Pixby" onerror="this.parentElement.style.background='#e8ecf0'">
+        <img width="640" height="800" loading="lazy" decoding="async" src="../assets/alexander-headshot.jpg" alt="Alexander Guanchez, fondateur de Pixby" onerror="this.parentElement.style.background='#e8ecf0'">
       </div>
       <p class="founder-name">Alexander Guanchez</p>
       <p class="founder-role">Fondateur · Pixby</p>
@@ -917,8 +979,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="steps">
       <div class="step reveal">
         <div class="step-n">1</div>
-        <h3>Audit de ton compte, une fois l'accès obtenu</h3>
-        <p>Avec ton accord, on analyse ton Google Ads existant — ou on repart de zéro — pour voir concrètement ce qui doit changer.</p>
+        <h3>Audit de votre compte, une fois l'accès obtenu</h3>
+        <p>Avec votre accord, on analyse votre Google Ads existant — ou on repart de zéro — pour voir concrètement ce qui doit changer.</p>
       </div>
       <div class="step reveal reveal-delay-1">
         <div class="step-n">2</div>
@@ -928,7 +990,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="step reveal reveal-delay-2">
         <div class="step-n">3</div>
         <h3>Leads + rapport mensuel</h3>
-        <p>L'objectif : des appels et des demandes suivis, provenant de Google Ads, pour ton service. Le 1er du mois, un rapport clair avec les vrais chiffres.</p>
+        <p>L'objectif : des appels et des demandes suivis, provenant de Google Ads, pour votre service. Le 1er du mois, un rapport clair avec les vrais chiffres.</p>
       </div>
     </div>
   </div>
@@ -942,7 +1004,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nums-grid">
       <div class="num-card reveal">
         <div class="num-big n-t">100%</div>
-        <div class="num-lbl">budget dans ton compte</div>
+        <div class="num-lbl">budget dans votre compte</div>
         <div class="num-src">Jamais dans nos poches</div>
       </div>
       <div class="num-card reveal reveal-delay-1">
@@ -962,27 +1024,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ ROI TOITURE ════════════════════════════════════════════════ -->
 <section class="s">
   <div class="s-inner" style="text-align:center;">
-    <span class="eyebrow reveal">Fais le calcul</span>
-    <h2 class="ttl reveal">Un contrat signé, <span class="grad-t">c'est à toi de le chiffrer</span></h2>
-    <p class="sub reveal" style="margin:0 auto 44px;">Pas de chiffres de marché ici : tu connais la valeur de tes contrats mieux que nous. Voici comment poser le calcul :</p>
+    <span class="eyebrow reveal">Faites le calcul</span>
+    <h2 class="ttl reveal">Un contrat signé, <span class="grad-t">c'est à vous de le chiffrer</span></h2>
+    <p class="sub reveal" style="margin:0 auto 44px;">Pas de chiffres de marché ici : vous connaissez la valeur de vos contrats mieux que nous. Voici comment poser le calcul :</p>
     <div class="reveal" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;">
       <div style="flex:1;min-width:220px;max-width:300px;background:#f8fafc;border:2px solid #e8edf5;border-radius:22px;padding:36px 28px;">
-        <div style="font-family:var(--ff-d);font-size:2.4rem;font-weight:800;color:var(--blue);letter-spacing:-.03em;">Ta marge</div>
-        <div style="font-weight:700;color:var(--dark);margin-top:6px;">Ce que te rapporte une réfection</div>
-        <div style="font-size:.85rem;color:#8a9ab0;margin-top:4px;">La valeur que tu connais déjà</div>
+        <div style="font-family:var(--ff-d);font-size:2.4rem;font-weight:800;color:var(--blue);letter-spacing:-.03em;">Votre marge</div>
+        <div style="font-weight:700;color:var(--dark);margin-top:6px;">Ce que vous rapporte une réfection</div>
+        <div style="font-size:.85rem;color:#8a9ab0;margin-top:4px;">La valeur que vous connaissez déjà</div>
       </div>
       <div style="flex:1;min-width:220px;max-width:300px;background:#f8fafc;border:2px solid #e8edf5;border-radius:22px;padding:36px 28px;">
         <div style="font-family:var(--ff-d);font-size:2.4rem;font-weight:800;color:var(--teal);letter-spacing:-.03em;">750&nbsp;$ + pub</div>
-        <div style="font-weight:700;color:var(--dark);margin-top:6px;">Ton coût mensuel</div>
+        <div style="font-weight:700;color:var(--dark);margin-top:6px;">Votre coût mensuel</div>
         <div style="font-size:.85rem;color:#8a9ab0;margin-top:4px;">Gestion Pixby (750 $/mois) + budget pub séparé</div>
       </div>
       <div style="flex:1;min-width:220px;max-width:300px;background:#f8fafc;border:2px solid #e8edf5;border-radius:22px;padding:36px 28px;">
         <div style="font-family:var(--ff-d);font-size:2.4rem;font-weight:800;color:var(--orange);letter-spacing:-.03em;">Coût ÷ marge</div>
         <div style="font-weight:700;color:var(--dark);margin-top:6px;">Seuil à atteindre</div>
-        <div style="font-size:.85rem;color:#8a9ab0;margin-top:4px;">Le nombre à viser pour couvrir tes coûts</div>
+        <div style="font-size:.85rem;color:#8a9ab0;margin-top:4px;">Le nombre à viser pour couvrir vos coûts</div>
       </div>
     </div>
-    <p class="note reveal" style="margin-top:28px;">Ce calcul ne garantit aucun résultat : il donne un objectif. L'Audit Pixby utilise les données Google de ton marché pour estimer la demande avant que tu t'engages.</p>
+    <p class="note reveal" style="margin-top:28px;">Ce calcul ne garantit aucun résultat : il donne un objectif. L'Audit Pixby utilise les données Google de votre marché pour estimer la demande avant que vous vous engagiez.</p>
   </div>
 </section>
 
@@ -991,7 +1053,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="s-inner">
     <span class="eyebrow reveal">Cas client réel</span>
     <h2 class="ttl reveal">Un compte réel, avec ses limites.</h2>
-    <p class="sub reveal">On ne montre que ce qu'on peut prouver. Ce client Pixby répare des électroménagers : ce n'est pas ton secteur, et ses résultats ne prédisent pas les tiens. Voici ce qui a été mesuré dans son compte Google Ads, géré par Pixby depuis mai 2026.</p>
+    <p class="sub reveal">On ne montre que ce qu'on peut prouver. Ce client Pixby répare des électroménagers : ce n'est pas votre secteur, et ses résultats ne prédisent pas les vôtres. Voici ce qui a été mesuré dans son compte Google Ads, géré par Pixby depuis mai 2026.</p>
 
     <div class="case-featured reveal">
       <div class="case-featured-inner">
@@ -1027,7 +1089,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ NICHES ═════════════════════════════════════════════════════ -->
 <section class="s s-off">
   <div class="s-inner">
-    <span class="eyebrow reveal">C'est pour toi si…</span>
+    <span class="eyebrow reveal">C'est pour vous si…</span>
     <h2 class="ttl reveal">On travaille avec des couvreurs<br>qui veulent <span class="grad-t">choisir leurs contrats</span></h2>
     <p class="sub reveal">On n'accepte pas tout le monde. Licence RBQ en règle, travail prouvé, et l'ambition de remplir le carnet avec des contrats payants — pas juste d'être occupé.</p>
     <div class="niche-photos reveal">
@@ -1035,7 +1097,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="img-placeholder" id="toiture-ph" style="height:230px;width:100%;display:flex;">
           <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-toiture.jpg</span>
         </div>
-        <img src="../assets/photo-toiture.jpg" alt="Entrepreneur en toiture au Québec"
+        <img width="1280" height="1920" loading="lazy" decoding="async" src="../assets/photo-toiture.jpg" alt="Entrepreneur en toiture au Québec"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('toiture-ph').style.display='none'">
       </div>
@@ -1043,7 +1105,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="img-placeholder" id="electromenager-ph" style="height:230px;width:100%;display:flex;">
           <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">hero-analytics.jpg</span>
         </div>
-        <img src="../assets/hero-analytics.jpg" alt="Suivi des conversions Google Ads en temps réel"
+        <img width="1400" height="933" loading="lazy" decoding="async" src="../assets/hero-analytics.jpg" alt="Suivi des conversions Google Ads"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electromenager-ph').style.display='none'">
       </div>
@@ -1062,11 +1124,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ MID CTA ════════════════════════════════════════════════════ -->
 <section class="s s-dark mid-cta" id="audit2">
   <div class="s-inner">
-    <span class="eyebrow eyebrow-w reveal">Passe à l'action</span>
-    <h2 class="ttl ttl-w reveal">Prêt à savoir combien de soumissions<br>Google Ads peut t'amener&nbsp;?</h2>
-    <p class="sub sub-w reveal" style="margin:0 auto 44px;">Diagnostic en ligne à partir des données Google de ton marché. Sans engagement.</p>
+    <span class="eyebrow eyebrow-w reveal">Passez à l'action</span>
+    <h2 class="ttl ttl-w reveal">Prêt à savoir combien de soumissions<br>Google Ads peut vous amener&nbsp;?</h2>
+    <p class="sub sub-w reveal" style="margin:0 auto 44px;">Diagnostic en ligne à partir des données Google de votre marché. Sans engagement.</p>
     <div class="mid-cta-btns reveal">
-      <a href="/audit/" class="btn-main">Lancer mon audit gratuit →</a>
+      <a href="/audit/" class="btn-main">Voir mon potentiel de clients →</a>
       <a href="tel:4506343562" class="btn-sec">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.06 2.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
         450-634-3562
@@ -1080,7 +1142,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="s-inner" style="text-align:center;">
     <span class="eyebrow reveal">Tarifs</span>
     <h2 class="ttl reveal">Transparent. <span class="grad-t">Sans surprise.</span></h2>
-    <p class="sub reveal" style="margin:0 auto 48px;">Ton budget pub va directement dans ton compte Google Ads — jamais dans nos poches. Nos frais couvrent uniquement notre expertise.</p>
+    <p class="sub reveal" style="margin:0 auto 48px;">Votre budget pub va directement dans votre compte Google Ads — jamais dans nos poches. Nos frais couvrent uniquement notre expertise.</p>
 
     <div class="price-simple reveal" style="
       display:inline-flex; flex-direction:column; align-items:center;
@@ -1096,7 +1158,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div style="width:100%; border-top:1px solid #e2e8f0; padding-top:28px; margin-bottom:32px;">
         <div style="font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#b0bcc8; margin-bottom:16px;">Inclus dans chaque mandat</div>
         <ul style="list-style:none; text-align:left; display:flex; flex-direction:column; gap:10px;">
-          <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Création ou audit complet de ta campagne</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Création ou audit complet de votre campagne</li>
           <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Suivi des conversions — appels + formulaires</li>
           <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Optimisation continue et rapport mensuel</li>
           <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Accès direct à Alex — texto ou email</li>
@@ -1109,7 +1171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div style="font-size:.77rem; color:#8a9ab0; margin-top:4px;">Couvre l'audit, la structure, le tracking et la mise en ligne</div>
       </div>
 
-      <a href="/audit/" class="p-btn sol" style="width:100%; padding:16px; font-size:.95rem; border-radius:14px;">Lancer mon audit gratuit →</a>
+      <a href="/audit/" class="p-btn sol" style="width:100%; padding:16px; font-size:.95rem; border-radius:14px;">Voir mon potentiel de clients →</a>
     </div>
 
     <p class="note" style="margin-top:28px;">Sans engagement · Budget pub toujours séparé · Facturation avant le début du mois</p>
@@ -1122,14 +1184,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="eyebrow reveal" style="display:block;text-align:center;">Questions fréquentes</span>
     <h2 class="ttl reveal" style="text-align:center;">On répond franchement</h2>
     <div class="faq">
-      <div class="faq-item reveal"><button class="faq-q">J'ai déjà trop de jobs l'été. Pourquoi je paierais pour de la pub ? <span class="faq-arr">▾</span></button><div class="faq-a">Justement. La pub ne sert pas à te noyer en juillet : elle peut servir à remplir le printemps, l'automne et à bâtir ton carnet d'hiver. Si les demandes rentrent à l'année, tu peux choisir les contrats payants (réfections complètes plutôt que petites réparations) au lieu de prendre ce qui reste.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">C'est quoi la différence avec les plateformes de soumissions ? <span class="faq-arr">▾</span></button><div class="faq-a">Sur les plateformes de leads partagés, la même demande peut être envoyée à plusieurs entreprises. Avec ta propre campagne Google Ads, le client voit ton entreprise et appelle ton numéro ; sa demande n'est pas revendue. C'est ta marque qui grossit, pas celle de la plateforme.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">C'est quoi la différence avec une grande agence ? <span class="faq-arr">▾</span></button><div class="faq-a">Chez Pixby, Alexander gère personnellement chaque compte : tu sais qui travaille sur ton compte et tu peux le joindre directement. Pour comparer les options (grande agence, freelance, petite agence), voir <a href="/comment-choisir/">notre guide de critères à vérifier</a>.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Ça marche si j'ai jamais fait de Google Ads ? <span class="faq-arr">▾</span></button><div class="faq-a">Encore mieux. On repart de zéro avec la bonne structure et on installe le suivi des conversions (appels + formulaires) avant de dépenser le premier dollar, pour que tu voies ce que la campagne produit.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">J'ai déjà trop de jobs l'été. Pourquoi je paierais pour de la pub ? <span class="faq-arr">▾</span></button><div class="faq-a">Justement. La pub ne sert pas à vous noyer en juillet : elle peut servir à remplir le printemps, l'automne et à bâtir votre carnet d'hiver. Si les demandes rentrent à l'année, vous pouvez choisir les contrats payants (réfections complètes plutôt que petites réparations) au lieu de prendre ce qui reste.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">C'est quoi la différence avec les plateformes de soumissions ? <span class="faq-arr">▾</span></button><div class="faq-a">Sur les plateformes de leads partagés, la même demande peut être envoyée à plusieurs entreprises. Avec votre propre campagne Google Ads, le client voit votre entreprise et appelle votre numéro ; sa demande n'est pas revendue. C'est votre marque qui grossit, pas celle de la plateforme.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">C'est quoi la différence avec une grande agence ? <span class="faq-arr">▾</span></button><div class="faq-a">Chez Pixby, Alexander gère personnellement chaque compte : vous savez qui travaille sur votre compte et vous pouvez le joindre directement. Pour comparer les options (grande agence, freelance, petite agence), voir <a href="/comment-choisir/">notre guide de critères à vérifier</a>.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Ça marche si j'ai jamais fait de Google Ads ? <span class="faq-arr">▾</span></button><div class="faq-a">Encore mieux. On repart de zéro avec la bonne structure et on installe le suivi des conversions (appels + formulaires) avant de dépenser le premier dollar, pour que vous voyiez ce que la campagne produit.</div></div>
       <div class="faq-item reveal"><button class="faq-q">Combien de temps avant de voir des leads ? <span class="faq-arr">▾</span></button><div class="faq-a">Les premières semaines servent à collecter des données et à optimiser. Le délai avant d'obtenir des demandes varie selon le marché, le budget et la campagne.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Qu'est-ce qui arrive si les résultats ne sont pas là ? <span class="faq-arr">▾</span></button><div class="faq-a">On s'ajuste. On t'explique exactement ce qui se passe et ce qu'on change. On ne disparaît pas derrière des rapports. Si après 3 mois de bonne foi les résultats ne sont pas là, on te le dira — et on te recommandera d'arrêter plutôt que de continuer à prendre ton argent.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Le budget pub, c'est en plus de vos frais ? <span class="faq-arr">▾</span></button><div class="faq-a">Absolument. Nos frais d'agence (750 $/mois) couvrent notre temps et notre expertise. Le budget pub va directement dans ton compte Google Ads — Pixby n'y touche jamais. Tu vois chaque dollar dépensé dans ton compte.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Vous acceptez tout le monde ? <span class="faq-arr">▾</span></button><div class="faq-a">Non. On accepte seulement les PME locales avec un service prouvé, un engagement sérieux. Si ton produit n'est pas bon ou si tu n'es pas prêt à investir, Google Ads ne te sauvera pas — et on préfère te le dire avant de commencer.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Qu'est-ce qui arrive si les résultats ne sont pas là ? <span class="faq-arr">▾</span></button><div class="faq-a">On s'ajuste. On vous explique exactement ce qui se passe et ce qu'on change. On ne disparaît pas derrière des rapports. Si après 3 mois de bonne foi les résultats ne sont pas là, on vous le dira — et on vous recommandera d'arrêter plutôt que de continuer à prendre votre argent.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Le budget pub, c'est en plus de vos frais ? <span class="faq-arr">▾</span></button><div class="faq-a">Absolument. Nos frais d'agence (750 $/mois) couvrent notre temps et notre expertise. Le budget pub va directement dans votre compte Google Ads — Pixby n'y touche jamais. Vous voyez chaque dollar dépensé dans votre compte.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Vous acceptez tout le monde ? <span class="faq-arr">▾</span></button><div class="faq-a">Non. On accepte seulement les PME locales avec un service prouvé, un engagement sérieux. Si votre produit n'est pas bon ou si vous n'êtes pas prêt à investir, Google Ads ne vous sauvera pas — et on préfère vous le dire avant de commencer.</div></div>
     </div>
   </div>
 </section>
@@ -1137,10 +1199,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ FINAL CTA ══════════════════════════════════════════════════ -->
 <section class="s s-deep fcta">
   <div class="s-inner">
-    <h2 class="reveal">Sois visible quand<br>on cherche un couvreur dans ta région.</h2>
-    <p class="reveal">Un audit gratuit en ligne, à partir des données Google de ton marché. Sans pression, réponse franche — même si c'est non.</p>
+    <h2 class="reveal">Soyez visible quand<br>on cherche un couvreur dans votre région.</h2>
+    <p class="reveal">Un audit gratuit en ligne, à partir des données Google de votre marché. Sans pression, réponse franche — même si c'est non.</p>
     <div class="fcta-btns reveal">
-      <a href="/audit/" class="btn-main">Lancer mon audit gratuit →</a>
+      <a href="/audit/" class="btn-main">Voir mon potentiel de clients →</a>
       <a href="tel:4506343562" class="btn-sec"><svg class="ic" style="width:15px;height:15px;"><use href="#i-phone"/></svg> 450-634-3562</a>
     </div>
   </div>
@@ -1161,7 +1223,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="float-cta">
-  <a href="/audit/">Audit gratuit — Réserver →</a>
+  <a href="tel:4506343562" class="float-call" data-placement="metier_float_call" aria-label="Appeler Pixby au 450-634-3562">Appeler</a>
+  <a href="/audit/" data-placement="metier_float_cta">Voir mon potentiel de clients →</a>
 </div>
 
 <!-- ═══ JS ══════════════════════════════════════════════════════════ -->
@@ -1203,6 +1266,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }
     });
   }
+
+  /* CTA / appel : data-placement → événement dataLayer + GA4 (phone_cta_click pour tel:) */
+  document.querySelectorAll('[data-placement]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var placement = el.getAttribute('data-placement');
+      var isCall = el.href && el.href.indexOf('tel:') === 0;
+      var eventName = isCall ? 'phone_cta_click' : 'audit_cta_click';
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: eventName, cta_location: placement, placement: placement });
+      if (typeof gtag === 'function') {
+        gtag('event', eventName, { event_category: 'cta', event_label: placement });
+      }
+    });
+  });
 
   /* FAQ */
   document.querySelectorAll('.faq-q').forEach(function(b) {

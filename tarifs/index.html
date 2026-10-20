@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarifs — Gestion Google Ads | Pixby</title>
-<meta name="description" content="Gestion Google Ads pour PME au Québec : 750 $/mois + 1 000 $ de mise en place. Suivi des appels, tableau de bord en temps réel, alertes automatiques inclus. Sans surprise.">
+<title>Tarifs — Gestion Google Ads pour PME locales | Pixby</title>
+<meta name="description" content="Gestion Google Ads pour PME au Québec : 750 $/mois + 1 000 $ de mise en place, budget pub séparé, sans engagement. Suivi des appels et rapport mensuel.">
 <link rel="canonical" href="https://ads.pixby.ca/tarifs/">
 <link rel="alternate" hreflang="fr-CA" href="https://ads.pixby.ca/tarifs/">
 <link rel="alternate" hreflang="en-CA" href="https://ads.pixby.ca/en/pricing/">
@@ -17,7 +17,10 @@
 {
  "@context": "https://schema.org",
  "@type": "Service",
- "name": "Gestion de campagnes Google Ads",
+ "@id": "https://ads.pixby.ca/tarifs/#service",
+ "name": "Gestion de campagnes Google Ads Search",
+ "serviceType": "Gestion Google Ads pour PME locales",
+ "url": "https://ads.pixby.ca/tarifs/",
  "provider": {
   "@id": "https://ads.pixby.ca/#organization"
  },
@@ -26,7 +29,13 @@
   "@type": "Offer",
   "price": "750",
   "priceCurrency": "CAD",
-  "description": "Gestion mensuelle Google Ads — 750 $/mois + 1 000 $ de mise en place initiale. Sans engagement."
+  "priceSpecification": {
+   "@type": "UnitPriceSpecification",
+   "price": "750",
+   "priceCurrency": "CAD",
+   "unitCode": "MON"
+  },
+  "description": "Gestion mensuelle Google Ads — 750 $/mois + 1 000 $ de mise en place initiale. Budget publicitaire séparé, payé directement à Google. Sans engagement."
  }
 }
 </script>
@@ -72,14 +81,59 @@ footer a{color:var(--grey)}
 .nav-right .lang-switch{margin-right:-8px}
 @media (max-width:560px){.nav-right{gap:12px}.lang-switch a,.lang-switch span{padding:8px 8px}}
 @media (max-width:400px){.nav-inner{padding:0 16px}.nav-right{gap:8px}.nav-right .nav-cta{padding:12px 12px}.nav-right .lang-switch{margin-right:0}}
+.h-call{color:#fff;text-decoration:none;font-weight:600;font-size:.9rem;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+.hero-call{display:inline-flex;align-items:center;min-height:48px;color:#fff;font-weight:700;text-decoration:none;border:1.5px solid rgba(255,255,255,.35);border-radius:12px;padding:0 20px;margin-top:18px}
+.hero-call:hover,.hero-call:focus-visible{border-color:#fff;background:rgba(255,255,255,.08)}
+.float-cta{display:none}
+@media (max-width:560px){.h-call{display:none}.h-cta{padding:10px 12px;font-size:.82rem}}
+@media (max-width:680px){body{padding-bottom:92px}.float-cta{display:flex;gap:10px;position:fixed;bottom:16px;left:16px;right:16px;z-index:300}.float-cta a{display:block;flex:1 1 auto;background:#F55D35;color:#fff;text-align:center;padding:17px 10px;border-radius:13px;font-weight:700;font-size:.93rem;text-decoration:none;box-shadow:0 8px 28px rgba(245,93,53,.32)}.float-cta a.float-call{flex:0 0 auto;background:#fff;color:#253858;padding:17px 18px;box-shadow:0 8px 28px rgba(0,0,0,.22)}}
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+  {
+   "@type": "ListItem",
+   "position": 1,
+   "name": "Accueil",
+   "item": "https://ads.pixby.ca/"
+  },
+  {
+   "@type": "ListItem",
+   "position": 2,
+   "name": "Tarifs",
+   "item": "https://ads.pixby.ca/tarifs/"
+  }
+ ]
+}
+</script>
+<!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KQLNBJ99');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google Analytics 4 — G-RH9Z0XC8WV -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RH9Z0XC8WV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RH9Z0XC8WV', { 'page_location': window.location.href });
+  </script>
 </head>
 <body>
-<header><div class="wrap"><a class="logo" href="/">pixby<span>.</span></a><div class="hdr-r"><span class="lang-switch"><span aria-current="true" title="Français">FR</span><a href="/en/pricing/" hreflang="en-CA" lang="en-CA" title="English">EN</a></span><a class="h-cta" href="/audit/">Audit gratuit</a></div></div></header>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQLNBJ99"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<header><div class="wrap"><a class="logo" href="/">pixby<span>.</span></a><div class="hdr-r"><span class="lang-switch"><span aria-current="true" title="Français">FR</span><a href="/en/pricing/" hreflang="en-CA" lang="en-CA" title="English">EN</a></span><a class="h-call" href="tel:4506343562" aria-label="Appeler Pixby au 450-634-3562" data-placement="header_phone">450-634-3562</a><a class="h-cta" href="/audit/" data-placement="header_cta">Voir mon potentiel →</a></div></div></header>
 
 <div class="hero"><div class="wrap">
 <h1>Un prix. Tout inclus.</h1>
-<p>Pas de forfaits compliqués, pas de frais cachés. Tu sais exactement ce que tu paies et ce que tu reçois.</p>
+<p>Pas de forfaits compliqués, pas de frais cachés. Vous savez exactement ce que vous payez et ce que vous recevez.</p>
+<a class="hero-call" href="tel:4506343562" data-placement="hero_call">Ou appelez-nous : 450-634-3562</a>
 </div></div>
 
 <div class="wrap"><div class="price-card">
@@ -87,13 +141,12 @@ footer a{color:var(--grey)}
 <div class="p-main">750 $<small>/mois</small></div>
 <div class="p-setup">+ 1 000 $ de mise en place (une fois)</div>
 <ul class="inclus">
-<li><strong>Gestion complète de ta campagne Google Ads</strong> — structure, mots-clés, annonces, optimisation continue, par le fondateur</li>
-<li>Suivi de tes appels : tu sais quelle annonce a fait sonner le téléphone</li>
-<li>Tableau de bord en temps réel, accessible en tout temps</li>
-<li>Alerte automatique si quelque chose casse — on le sait avant toi</li>
+<li><strong>Gestion complète de votre campagne Google Ads</strong> — structure, mots-clés, annonces, optimisation continue, par le fondateur</li>
+<li>Suivi de vos appels : vous savez quelle annonce a fait sonner le téléphone</li>
+<li>Rapport mensuel clair, le 1er du mois</li>
 </ul>
-<a class="cta" href="/audit/">Commencer par l'audit gratuit →</a>
-<p class="note" style="margin-top:16px">Sans engagement. Ton budget publicitaire est séparé et payé directement à Google, dans ton compte — il t'appartient.</p>
+<a class="cta" href="/audit/">Voir mon potentiel de clients →</a>
+<p class="note" style="margin-top:16px">Sans engagement. Votre budget publicitaire est séparé et payé directement à Google, dans votre compte — il vous appartient.</p>
 </div></div>
 
 
@@ -120,15 +173,15 @@ footer a{color:var(--grey)}
 </div></section>
 
 <section style="background:var(--offwhite)"><div class="wrap">
-<h2>Ton budget publicitaire</h2>
-<p>Le budget média est séparé des frais Pixby. Le montant approprié dépend notamment de la demande Google, de la zone ciblée et de la concurrence. L'Audit Pixby sert à évaluer ces éléments avant de décider du budget. Il va à 100 % dans <em>ton</em> compte Google Ads — Pixby n'y touche jamais. Si on arrête de travailler ensemble, le compte et son historique restent à toi.</p>
-<p style="margin-top:12px">Besoin de plus de volume plus tard (plusieurs zones, plusieurs services) ? On ajuste l'entente à ce moment-là — pas de vente forcée au départ.</p>
+<h2>Votre budget publicitaire</h2>
+<p>Le budget média est séparé des frais Pixby. Le montant approprié dépend notamment de la demande Google, de la zone ciblée et de la concurrence. L'Audit Pixby sert à évaluer ces éléments avant de décider du budget. Il va à 100 % dans <em>votre</em> compte Google Ads — Pixby n'y touche jamais. Si nous arrêtons de travailler ensemble, le compte et son historique restent à vous.</p>
+<p style="margin-top:12px">Besoin de plus de volume plus tard (plusieurs zones, plusieurs services) ? Nous ajustons l'entente à ce moment-là — pas de vente forcée au départ.</p>
 </div></section>
 
 <section><div class="wrap" style="text-align:center">
-<h2>Est-ce que ça vaut la peine pour ton marché ?</h2>
-<p>L'audit gratuit te répond franchement — même si la réponse est non.</p>
-<a class="cta" href="/audit/">Lancer mon audit gratuit →</a>
+<h2>Est-ce que ça vaut la peine pour votre marché ?</h2>
+<p>L'audit gratuit vous répond franchement — même si la réponse est non.</p>
+<a class="cta" href="/audit/">Voir mon potentiel de clients →</a>
 </div></section>
 
 <footer><div class="wrap">
@@ -136,5 +189,12 @@ footer a{color:var(--grey)}
 <div style="margin-top:10px;line-height:2"><strong>Secteurs desservis :</strong> <a href="/plombier/longueuil/">Longueuil</a> · <a href="/plombier/brossard/">Brossard</a> · <a href="/plombier/laval/">Laval</a> · <a href="/plombier/montreal/">Montréal</a> · <a href="/plombier/saint-jean/">Saint-Jean-sur-Richelieu</a></div>
 <div style="margin-top:8px"><a href="/">Accueil</a> · <a href="/audit/">Audit gratuit</a> · <a href="/comment-choisir/">Comment choisir son agence</a> · <a href="/politique-confidentialite.html">Confidentialité</a></div>
 </div></footer>
+<div class="float-cta">
+<a href="tel:4506343562" class="float-call" data-placement="mobile_float_call" aria-label="Appeler Pixby au 450-634-3562">Appeler</a>
+<a href="/audit/" data-placement="mobile_float_cta">Voir mon potentiel de clients →</a>
+</div>
+<script>
+document.querySelectorAll('[data-placement]').forEach(function(el){el.addEventListener('click',function(){var p=el.getAttribute('data-placement');var call=(el.getAttribute('href')||'').indexOf('tel:')===0;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:call?'phone_cta_click':'audit_cta_click',cta_location:p,placement:p});});});
+</script>
 </body>
 </html>

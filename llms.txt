@@ -8,6 +8,27 @@
 > Pixby serves both French- and English-speaking local service businesses in
 > Quebec. French pages are at the site root; English pages are under /en/.
 
+Dernière mise à jour : 2026-10-20
+
+## Services
+
+- Gestion de campagnes Google Ads Search (annonces sur Google quand quelqu'un cherche le service) pour PME de services locales au Québec
+- Suivi séparé des appels et des formulaires, rapport mensuel
+- Audit gratuit en ligne pour voir la demande Google de votre marché avant de dépenser
+
+## Zone desservie
+
+- Québec : Montréal, Longueuil, Brossard, Laval, Saint-Jean-sur-Richelieu et leurs régions
+
+## Réponses courtes
+
+- Combien coûte Pixby ? 750 $/mois + 1 000 $ d'onboarding une seule fois. Le budget publicitaire est séparé et payé directement à Google.
+- Y a-t-il un engagement ? Non, l'offre standard est sans engagement.
+- Garantissez-vous un nombre de leads ? Non. Pixby ne garantit aucun nombre d'appels, de demandes ou de contrats; les résultats sont mesurés et rapportés.
+- Qui gère le compte ? Le fondateur, Alexander Guanchez.
+- À qui appartient le compte Google Ads ? Au client, avec son historique, même si la collaboration prend fin.
+- Comment démarrer ? Audit gratuit : https://ads.pixby.ca/audit/ ou téléphone 450-634-3562.
+
 ## Offre
 
 - Gestion Google Ads : 750 $/mois + 1 000 $ d'onboarding (une seule fois)
@@ -60,6 +81,6 @@
 
 ## Contact
 
-- Téléphone : +1 450-634-3562
+- Téléphone : +1 450-634-3562 (450-634-3562)
 - Courriel : admin@pixby.ca
 - Zone desservie : Québec (pages locales : Longueuil, Brossard, Laval, Montréal, Saint-Jean-sur-Richelieu)

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixby — Agence Google Ads Montréal | PME locales au Québec</title>
-  <meta name="description" content="Pixby gère tes campagnes Google Ads et t'aide à savoir ce que te coûte chaque prospect (appel ou formulaire). PME locales au Québec. Lance ton audit gratuit en ligne — sans engagement.">
+  <title>Agence Google Ads Montréal pour PME locales | Pixby</title>
+  <meta name="description" content="Vos prochains clients vous cherchent déjà sur Google. Pixby gère vos campagnes Google Ads Search pour PME locales. Voyez votre potentiel de clients, gratuit.">
   <link rel="canonical" href="https://ads.pixby.ca/">
 <link rel="alternate" hreflang="fr-CA" href="https://ads.pixby.ca/">
 <link rel="alternate" hreflang="en-CA" href="https://ads.pixby.ca/en/">
@@ -12,8 +12,8 @@
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ads.pixby.ca/">
-  <meta property="og:title" content="Pixby — Agence Google Ads Montréal | PME locales au Québec">
-  <meta property="og:description" content="Combien te coûte réellement un prospect ? Pixby gère tes campagnes Google Ads pour des PME locales au Québec. Audit gratuit en ligne, sans engagement.">
+  <meta property="og:title" content="Agence Google Ads Montréal pour PME locales | Pixby">
+  <meta property="og:description" content="Vos prochains clients vous cherchent déjà sur Google. Pixby gère vos campagnes Google Ads Search pour PME locales. Voyez votre potentiel de clients, gratuit.">
   <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
   <meta property="og:locale" content="fr_CA">
   <meta property="og:site_name" content="Pixby">
@@ -244,6 +244,13 @@
       text-underline-offset: 3px; opacity: .8;
     }
     .hero-link-sec:hover { opacity: 1; }
+    .hero-call {
+      display: inline-flex; align-items: center; min-height: 48px; color: var(--cc-hi); font-weight: 700;
+      font-size: .95rem; text-decoration: none; border: 1.5px solid rgba(255,255,255,.35);
+      border-radius: 12px; padding: 0 20px; transition: border-color .2s, background .2s;
+    }
+    .hero-call:hover, .hero-call:focus-visible { border-color: #fff; background: rgba(255,255,255,.08); }
+    .nav-phone { min-height: 44px; min-width: 44px; justify-content: center; }
     .hero-reassurance { font-size: .82rem; color: var(--cc-lo); opacity: .8; }
 
     .hero-scroll-hint {
@@ -767,8 +774,9 @@
     /* ── MOBILE FLOAT ── */
     .float-cta { display: none; }
     @media (max-width: 680px) {
-      .float-cta { display: block; position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 300; }
-      .float-cta a { display: block; background: var(--orange); color: white; text-align: center; padding: 17px; border-radius: 13px; font-weight: 700; font-size: .97rem; text-decoration: none; box-shadow: 0 8px 28px rgba(245,93,53,.32); }
+      .float-cta { display: flex; gap: 10px; position: fixed; bottom: 16px; left: 16px; right: 16px; z-index: 300; }
+      .float-cta a { display: block; background: var(--orange); color: white; text-align: center; padding: 17px 10px; border-radius: 13px; font-weight: 700; font-size: .93rem; text-decoration: none; box-shadow: 0 8px 28px rgba(245,93,53,.32); flex: 1 1 auto; }
+      .float-cta a.float-call { flex: 0 0 auto; background: #fff; color: #253858; padding: 17px 18px; box-shadow: 0 8px 28px rgba(0,0,0,.22); }
     }
 
     /* ── ICONS ── */
@@ -795,47 +803,130 @@
   <script type="application/ld+json">
 {
  "@context": "https://schema.org",
- "@type": "Organization",
- "@id": "https://ads.pixby.ca/#organization",
- "name": "Pixby",
- "url": "https://ads.pixby.ca/",
- "logo": {
-  "@type": "ImageObject",
-  "url": "https://ads.pixby.ca/assets/logo.png",
-  "width": 800,
-  "height": 800
- },
- "description": "Agence Google Ads pour PME locales au Québec : gestion de campagnes, suivi des appels et des formulaires, rapport mensuel.",
- "telephone": "+14506343562",
- "email": "admin@pixby.ca",
- "founder": {
-  "@type": "Person",
-  "name": "Alexander Guanchez"
- },
- "areaServed": [
+ "@graph": [
   {
-   "@type": "AdministrativeArea",
-   "name": "Québec"
+   "@type": [
+    "Organization",
+    "ProfessionalService"
+   ],
+   "@id": "https://ads.pixby.ca/#organization",
+   "name": "Pixby",
+   "url": "https://ads.pixby.ca/",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "https://ads.pixby.ca/assets/logo.png",
+    "width": 800,
+    "height": 800
+   },
+   "description": "Agence Google Ads pour PME locales au Québec : gestion de campagnes Google Ads Search pour générer des appels et des demandes de soumission, suivi des appels et des formulaires, rapport mensuel.",
+   "telephone": "+14506343562",
+   "email": "admin@pixby.ca",
+   "founder": {
+    "@type": "Person",
+    "name": "Alexander Guanchez",
+    "@id": "https://ads.pixby.ca/#alexander-guanchez"
+   },
+   "areaServed": [
+    {
+     "@type": "AdministrativeArea",
+     "name": "Québec"
+    },
+    {
+     "@type": "City",
+     "name": "Montréal"
+    },
+    {
+     "@type": "City",
+     "name": "Longueuil"
+    },
+    {
+     "@type": "City",
+     "name": "Brossard"
+    },
+    {
+     "@type": "City",
+     "name": "Laval"
+    },
+    {
+     "@type": "City",
+     "name": "Saint-Jean-sur-Richelieu"
+    }
+   ],
+   "image": "https://ads.pixby.ca/assets/og-image.jpg",
+   "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Montréal",
+    "addressRegion": "QC",
+    "addressCountry": "CA"
+   },
+   "knowsLanguage": [
+    "fr-CA",
+    "en-CA"
+   ],
+   "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+14506343562",
+    "contactType": "sales",
+    "email": "admin@pixby.ca",
+    "availableLanguage": [
+     "French",
+     "English"
+    ],
+    "areaServed": "CA-QC"
+   },
+   "makesOffer": {
+    "@id": "https://ads.pixby.ca/#service"
+   }
   },
   {
-   "@type": "City",
-   "name": "Montréal"
+   "@type": "WebSite",
+   "@id": "https://ads.pixby.ca/#website",
+   "url": "https://ads.pixby.ca/",
+   "name": "Pixby",
+   "inLanguage": "fr-CA",
+   "publisher": {
+    "@id": "https://ads.pixby.ca/#organization"
+   }
   },
   {
-   "@type": "City",
-   "name": "Longueuil"
+   "@type": "Service",
+   "@id": "https://ads.pixby.ca/#service",
+   "serviceType": "Gestion de campagnes Google Ads Search",
+   "name": "Gestion Google Ads pour PME locales",
+   "provider": {
+    "@id": "https://ads.pixby.ca/#organization"
+   },
+   "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Québec"
+   },
+   "audience": {
+    "@type": "BusinessAudience",
+    "name": "PME de services locales"
+   },
+   "description": "Création, gestion et optimisation de campagnes Google Ads Search, suivi des appels et des formulaires, rapport mensuel. Budget publicitaire payé directement à Google. Sans engagement. Aucun nombre de leads garanti.",
+   "offers": {
+    "@type": "Offer",
+    "priceCurrency": "CAD",
+    "price": "750",
+    "priceSpecification": {
+     "@type": "UnitPriceSpecification",
+     "price": "750",
+     "priceCurrency": "CAD",
+     "unitText": "MONTH"
+    },
+    "description": "750 $ par mois de gestion + 1 000 $ de frais d'onboarding une seule fois. Budget publicitaire séparé.",
+    "url": "https://ads.pixby.ca/tarifs/"
+   }
   },
   {
-   "@type": "City",
-   "name": "Brossard"
-  },
-  {
-   "@type": "City",
-   "name": "Laval"
-  },
-  {
-   "@type": "City",
-   "name": "Saint-Jean-sur-Richelieu"
+   "@type": "Person",
+   "@id": "https://ads.pixby.ca/#alexander-guanchez",
+   "name": "Alexander Guanchez",
+   "jobTitle": "Fondateur",
+   "worksFor": {
+    "@id": "https://ads.pixby.ca/#organization"
+   }
   }
  ]
 }
@@ -850,7 +941,7 @@
    "name": "Je travaille déjà avec une agence. Est-ce utile ?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Oui. On commence par comprendre ce que tu mesures et ce que tu veux améliorer. La vérification du compte se fait ensuite avec ton accord."
+    "text": "Oui. On commence par comprendre ce que vous mesurez et ce que vous voulez améliorer. La vérification du compte se fait ensuite avec votre accord."
    }
   },
   {
@@ -858,7 +949,7 @@
    "name": "Je n'ai jamais lancé Google Ads. Par où commencer ?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Par la demande, le budget et ce qu'un client peut te rapporter. L'audit t'aide à cadrer cette décision."
+    "text": "Par la demande, le budget et ce qu'un client peut vous rapporter. L'audit vous aide à cadrer cette décision."
    }
   },
   {
@@ -866,7 +957,7 @@
    "name": "Est-ce que l'audit en ligne analyse déjà mon compte ?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Le diagnostic en ligne utilise tes réponses et les données disponibles sur ton marché. Une analyse de ton compte nécessite une étape supplémentaire."
+    "text": "Le diagnostic en ligne utilise vos réponses et les données disponibles sur votre marché. Une analyse de votre compte nécessite une étape supplémentaire."
    }
   },
   {
@@ -874,7 +965,7 @@
    "name": "Est-ce que je dois réserver un appel ?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Tu peux commencer par le diagnostic. Si tu veux aller plus loin, un échange de 30 minutes permet de revoir ta situation."
+    "text": "Vous pouvez commencer par le diagnostic. Si vous voulez aller plus loin, un échange de 30 minutes permet de revoir votre situation."
    }
   }
  ]
@@ -923,12 +1014,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <img src="assets/logo.png" alt="Pixby — Agence Google Ads Montréal" width="160" height="52">
     </a>
     <div class="nav-right">
-      <a href="tel:4506343562" class="nav-phone">
+      <a href="tel:4506343562" class="nav-phone" aria-label="Appeler Pixby au 450-634-3562" data-placement="nav_phone">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.06 2.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
         <span class="txt">450-634-3562</span>
       </a>
       <span class="lang-switch"><span aria-current="true" title="Français">FR</span><a href="/en/" hreflang="en-CA" lang="en-CA" title="English">EN</a></span>
-      <a href="/audit/" class="nav-cta" data-placement="nav">Audit gratuit →</a>
+      <a href="/audit/" class="nav-cta" data-placement="nav">Voir mon potentiel →</a>
     </div>
   </div>
 </nav>
@@ -936,7 +1027,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ HERO ═══════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="assets/hero-bg.jpg" alt="" aria-hidden="true">
+    <img src="assets/hero-bg.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async">
   </div>
 
   <div class="hero-inner">
@@ -946,22 +1037,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="hero-kicker-txt">Gestion Google Ads · PME du Québec</span>
       </div>
 
-      <p class="hero-intro">Combien te coûte réellement un prospect&nbsp;?</p>
-
-      <h1>
-        Des prospects Google Ads <span class="grad">avec leur coût réel mesuré.</span>
+            <h1>
+        Vos prochains clients vous cherchent déjà sur Google. <span class="grad">Faites en sorte qu'ils trouvent votre entreprise.</span>
       </h1>
 
       <p class="hero-sub">
-        Pixby gère tes campagnes Google Ads avec un objectif clair : savoir ce que te coûte chaque prospect, appel ou formulaire. Commence par ton audit gratuit pour voir ce qu'il faut mesurer et améliorer.
+        Pixby gère les campagnes Google Ads Search des PME locales du Québec pour générer des appels, des demandes de soumission et des contrats potentiels, avec le coût de chaque prospect mesuré. Commencez par voir le potentiel de clients dans votre marché.
       </p>
 
       <div class="hero-cta-row">
-        <a href="/audit/" class="btn-hero-main" id="auditCtaText" data-placement="homepage_hero_text">Lancer mon audit gratuit →</a>
-        <a href="#resultats" class="hero-link-sec">Voir les résultats</a>
+        <a href="/audit/" class="btn-hero-main" id="auditCtaText" data-placement="homepage_hero_text">Voir mon potentiel de clients →</a>
+        <a href="tel:4506343562" class="hero-call" data-placement="homepage_hero_call">Ou appelez-nous : 450-634-3562</a>
       </div>
 
-      <p class="hero-reassurance">Gratuit · Sans engagement · Pour les PME du Québec</p>
+      <p class="hero-reassurance">Audit gratuit · Sans engagement · Aucun résultat garanti, des chiffres mesurés · <a href="#resultats" class="hero-link-sec">Voir des résultats réels</a></p>
     </div>
 
     <div class="hero-form-card" id="audit">
@@ -981,7 +1070,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="econ-row econ-final"><span>Coût par prospect</span><b class="econ-final-n">(budget pub + gestion) ÷ prospects (appels + formulaires)</b></div>
 
       <a class="btn-submit" id="auditCta" href="/audit/" data-placement="homepage_hero_panel" style="display:block;text-align:center;text-decoration:none;">
-        Lancer mon audit gratuit →
+        Voir mon potentiel de clients →
       </a>
       <p class="f-privacy"><svg class="ic" style="width:11px;height:11px;margin-right:3px;"><use href="#i-lock"/></svg>Confidentiel · Sans engagement · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
     </div>
@@ -998,28 +1087,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="path-grid">
     <a href="/audit/?parcours=existant" class="path-card reveal" data-placement="path_selector_existant" id="pathExistant">
       <div class="path-card-icon"><svg class="ic" style="width:22px;height:22px;"><use href="#i-chart"/></svg></div>
-      <h3>Tu fais déjà Google Ads&nbsp;? Encore mieux.</h3>
-      <p>Réponds à quelques questions sur ton compte actuel. La vérification réelle de ton compte vient ensuite, avec ton accord.</p>
+      <h3>Vous faites déjà Google Ads&nbsp;? Encore mieux.</h3>
+      <p>Répondez à quelques questions sur votre compte actuel. La vérification réelle de votre compte vient ensuite, avec votre accord.</p>
       <span class="path-link">Faire mon diagnostic →</span>
     </a>
     <a href="/audit/?parcours=demarrage" class="path-card reveal" data-placement="path_selector_demarrage" id="pathDemarrage">
       <div class="path-card-icon"><svg class="ic" style="width:22px;height:22px;"><use href="#i-target"/></svg></div>
-      <h3>Pas encore sur Ads&nbsp;? Vérifie la demande avant de dépenser.</h3>
-      <p>Évalue la demande et le budget avant de te lancer.</p>
+      <h3>Pas encore sur Ads&nbsp;? Vérifiez la demande avant de dépenser.</h3>
+      <p>Évaluez la demande et le budget avant de vous lancer.</p>
       <span class="path-link">Évaluer mon marché →</span>
     </a>
   </div>
 
   <div class="path-alt">
-    <p class="path-alt-txt"><strong>Tu veux parler directement&nbsp;?</strong><span class="path-alt-sub">Passe l'Audit et choisis un créneau pour discuter de ta situation.</span></p>
+    <p class="path-alt-txt"><strong>Vous voulez parler directement&nbsp;?</strong><span class="path-alt-sub">Passez l'audit et choisissez un créneau pour discuter de votre situation.</span></p>
     <button type="button" class="p-btn out" id="dbToggleBtn" data-placement="homepage_direct_booking" aria-expanded="false" aria-controls="directBookingPanel" style="display:inline-block; width:auto; padding:13px 26px;">Réserver un rendez-vous</button>
 
     <div class="direct-booking-panel" id="directBookingPanel" hidden>
       <form id="dbForm" novalidate>
-        <div class="f-row"><label for="dbPrenom">Ton prénom *</label><input type="text" id="dbPrenom" autocomplete="given-name"><p class="f-privacy" id="dbPrenomErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Ton prénom est requis.</p></div>
+        <div class="f-row"><label for="dbPrenom">Votre prénom *</label><input type="text" id="dbPrenom" autocomplete="given-name"><p class="f-privacy" id="dbPrenomErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Votre prénom est requis.</p></div>
         <div class="f-row"><label for="dbEmail">Courriel *</label><input type="email" id="dbEmail" autocomplete="email"><p class="f-privacy" id="dbEmailErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Un courriel valide est requis.</p></div>
         <div class="f-row"><label for="dbTel">Téléphone (optionnel)</label><input type="tel" id="dbTel" placeholder="514-000-0000" autocomplete="tel"></div>
-        <div class="f-row"><label for="dbEntreprise">Nom de ton entreprise (optionnel)</label><input type="text" id="dbEntreprise" autocomplete="organization"></div>
+        <div class="f-row"><label for="dbEntreprise">Nom de votre entreprise (optionnel)</label><input type="text" id="dbEntreprise" autocomplete="organization"></div>
         <button type="submit" class="btn-submit" id="dbSubmitBtn">Envoyer et choisir un créneau →</button>
         <p class="f-privacy" id="dbSubmitErr" style="display:none;color:#ef4444;"></p>
         <p class="f-privacy">🔒 Confidentiel · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
@@ -1027,7 +1116,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="f-success" id="dbSuccessMsg">
         <div class="ico">✅</div>
         <h3 id="dbSuccessTitle">Coordonnées envoyées</h3>
-        <p id="dbSuccessText">Choisis maintenant ton créneau pour confirmer ton rendez-vous.</p>
+        <p id="dbSuccessText">Choisissez maintenant votre créneau pour confirmer votre rendez-vous.</p>
         <a class="btn-submit" id="dbCalendlyLink" href="#" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;margin-top:10px;">Choisir mon heure →</a>
       </div>
     </div>
@@ -1069,26 +1158,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="s s-off">
   <div class="s-inner">
     <span class="eyebrow reveal">Le problème</span>
-    <h2 class="ttl reveal">Ça te sonne des cloches&nbsp;?</h2>
+    <h2 class="ttl reveal">Ça vous dit quelque chose&nbsp;?</h2>
     <p class="sub reveal">Trois points à vérifier dans un compte Google Ads qui ne rapporte pas ce qu'il devrait.</p>
     <div class="pain-grid">
       <div class="pain-card reveal">
         <div class="pain-num">01</div>
         <div class="pain-ico"><svg class="ic"><use href="#i-banknote"/></svg></div>
-        <h3>Tu paies pour des clics qui ne valent rien</h3>
-        <p>Si tes annonces apparaissent pour des recherches trop larges, tu paies pour des visiteurs qui cherchent autre chose que ce que tu offres.</p>
+        <h3>Vous payez pour des clics qui ne valent rien</h3>
+        <p>Si vos annonces apparaissent pour des recherches trop larges, vous payez pour des visiteurs qui cherchent autre chose que ce que vous offrez.</p>
       </div>
       <div class="pain-card reveal reveal-delay-1">
         <div class="pain-num">02</div>
         <div class="pain-ico"><svg class="ic"><use href="#i-trend-down"/></svg></div>
-        <h3>Ta campagne n'est pas ajustée en continu</h3>
+        <h3>Votre campagne n'est pas ajustée en continu</h3>
         <p>Les recherches, les concurrents et les enchères changent. Une campagne qui n'est pas revue régulièrement continue de dépenser sans s'adapter.</p>
       </div>
       <div class="pain-card reveal reveal-delay-2">
         <div class="pain-num">03</div>
         <div class="pain-ico"><svg class="ic"><use href="#i-help"/></svg></div>
-        <h3>Personne ne t'explique ce qui se passe vraiment</h3>
-        <p>Si tes rapports sont difficiles à lire et que tu ne sais pas ce que te coûte chaque prospect, il manque une mesure claire du coût par appel et par formulaire.</p>
+        <h3>Personne ne vous explique ce qui se passe vraiment</h3>
+        <p>Si vos rapports sont difficiles à lire et que vous ne savez pas ce que vous coûte chaque prospect, il manque une mesure claire du coût par appel et par formulaire.</p>
       </div>
     </div>
   </div>
@@ -1099,11 +1188,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="s-inner">
     <span class="eyebrow reveal">Notre méthode</span>
     <h2 class="ttl reveal">Simple, transparent, <span class="grad-t">mesurable</span></h2>
-    <p class="sub reveal" style="margin:0 auto;">Pas de magie — une méthode rigoureuse que tu comprends à chaque étape.</p>
+    <p class="sub reveal" style="margin:0 auto;">Pas de magie — une méthode rigoureuse que vous comprenez à chaque étape.</p>
 
     <div class="founder-block reveal">
       <div class="founder-ring">
-        <img src="assets/alexander-headshot.jpg" alt="Alexander Guanchez, fondateur de Pixby" onerror="this.parentElement.style.background='#e8ecf0'">
+        <img width="640" height="800" loading="lazy" decoding="async" src="assets/alexander-headshot.jpg" alt="Alexander Guanchez, fondateur de Pixby" onerror="this.parentElement.style.background='#e8ecf0'">
       </div>
       <p class="founder-name">Alexander Guanchez</p>
       <p class="founder-role">Fondateur · Pixby</p>
@@ -1112,8 +1201,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="steps">
       <div class="step reveal">
         <div class="step-n">1</div>
-        <h3>Audit de ton compte, une fois l'accès obtenu</h3>
-        <p>Après le rendez-vous et avec ton accord, on analyse ton Google Ads existant — ou on repart de zéro — pour voir concrètement ce qui doit changer.</p>
+        <h3>Audit de votre compte, une fois l'accès obtenu</h3>
+        <p>Après le rendez-vous et avec votre accord, on analyse votre Google Ads existant — ou on repart de zéro — pour voir concrètement ce qui doit changer.</p>
       </div>
       <div class="step reveal reveal-delay-1">
         <div class="step-n">2</div>
@@ -1123,7 +1212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="step reveal reveal-delay-2">
         <div class="step-n">3</div>
         <h3>Leads + rapport mensuel</h3>
-        <p>L'objectif : des appels et des demandes suivis, provenant de Google Ads, pour ton service. Le 1er du mois, un rapport clair avec les vrais chiffres.</p>
+        <p>L'objectif : des appels et des demandes suivis, provenant de Google Ads, pour votre service. Le 1er du mois, un rapport clair avec les vrais chiffres.</p>
       </div>
     </div>
   </div>
@@ -1137,7 +1226,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nums-grid">
       <div class="num-card reveal">
         <div class="num-big n-t">100%</div>
-        <div class="num-lbl">budget dans ton compte</div>
+        <div class="num-lbl">budget dans votre compte</div>
         <div class="num-src">Jamais dans nos poches</div>
       </div>
       <div class="num-card reveal reveal-delay-1">
@@ -1189,7 +1278,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="case-right">
           <span class="case-photo-tag">Illustration</span>
-          <img src="assets/photo-electromenager.jpg" alt="Illustration — réparation d'électroménagers (photo non contractuelle, pas le technicien réel)">
+          <img width="1400" height="933" loading="lazy" decoding="async" src="assets/photo-electromenager.jpg" alt="Illustration — réparation d'électroménagers (photo non contractuelle, pas le technicien réel)">
         </div>
       </div>
     </div>
@@ -1222,7 +1311,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="case-right">
           <span class="case-photo-tag">Illustration</span>
-          <img src="assets/photo-toiture.jpg" alt="Illustration — couvreur en toiture (photo non contractuelle, pas l'entrepreneur réel)">
+          <img width="1280" height="1920" loading="lazy" decoding="async" src="assets/photo-toiture.jpg" alt="Illustration — couvreur en toiture (photo non contractuelle, pas l'entrepreneur réel)">
         </div>
       </div>
     </div>
@@ -1233,7 +1322,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="s s-off" id="rapport-exemple">
   <div class="s-inner">
     <span class="eyebrow reveal">Rapport mensuel</span>
-    <h2 class="ttl reveal">À quoi ressemble ton rapport.</h2>
+    <h2 class="ttl reveal">À quoi ressemble votre rapport.</h2>
     <p class="sub reveal">Un vrai rapport de septembre 2026 d’un client Pixby, anonymisé. Court, clair, sans jargon.</p>
     <div class="reveal" style="max-width:720px;margin:28px auto 0;background:#fff;border:1px solid #e5e9f0;border-radius:16px;padding:28px 28px 22px;box-shadow:0 8px 30px rgba(15,23,42,.06);">
       <div style="font-size:.78rem;color:#98a2b3;margin-bottom:14px;">Septembre 2026 · client anonymisé · montants en $ CA, avant taxes</div>
@@ -1249,7 +1338,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ NICHES ═════════════════════════════════════════════════════ -->
 <section class="s s-off">
   <div class="s-inner">
-    <span class="eyebrow reveal">C'est pour toi si…</span>
+    <span class="eyebrow reveal">C'est pour vous si…</span>
     <h2 class="ttl reveal">On travaille avec des PME locales<br>qui veulent <span class="grad-t">croître</span></h2>
     <p class="sub reveal">On n'accepte pas tout le monde. On se spécialise dans les entreprises locales au Québec qui ont un service prouvé et qui veulent plus de clients — pas juste plus de clics.</p>
     <div class="niche-photos reveal">
@@ -1257,7 +1346,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="img-placeholder" id="toiture-ph" style="height:230px;width:100%;display:flex;">
           <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-toiture.jpg</span>
         </div>
-        <img src="assets/photo-toiture.jpg" alt="Entrepreneur en toiture au Québec"
+        <img width="1280" height="1920" loading="lazy" decoding="async" src="assets/photo-toiture.jpg" alt="Entrepreneur en toiture au Québec"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('toiture-ph').style.display='none'">
       </div>
@@ -1265,7 +1354,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="img-placeholder" id="electromenager-ph" style="height:230px;width:100%;display:flex;">
           <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-electromenager.jpg</span>
         </div>
-        <img src="assets/photo-electromenager.jpg" alt="Technicien en réparation d'électroménagers — PME locale au Québec"
+        <img width="1400" height="933" loading="lazy" decoding="async" src="assets/photo-electromenager.jpg" alt="Technicien en réparation d'électroménagers — PME locale au Québec"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electromenager-ph').style.display='none'">
       </div>
@@ -1290,11 +1379,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ MID CTA ════════════════════════════════════════════════════ -->
 <section class="s s-dark mid-cta" id="audit2">
   <div class="s-inner">
-    <span class="eyebrow eyebrow-w reveal">Passe à l'action</span>
-    <h2 class="ttl ttl-w reveal">Prêt à estimer la demande<br>Google pour ton service&nbsp;?</h2>
-    <p class="sub sub-w reveal" style="margin:0 auto 44px;">Une estimation de la demande réelle sur ton marché — pas un résultat garanti. Diagnostic en ligne gratuit, en quelques minutes.</p>
+    <span class="eyebrow eyebrow-w reveal">Passez à l'action</span>
+    <h2 class="ttl ttl-w reveal">Prêt à estimer la demande<br>Google pour votre service&nbsp;?</h2>
+    <p class="sub sub-w reveal" style="margin:0 auto 44px;">Une estimation de la demande réelle sur votre marché — pas un résultat garanti. Diagnostic en ligne gratuit, en quelques minutes.</p>
     <div class="mid-cta-btns reveal">
-      <a href="/audit/" class="btn-main" data-placement="mid_cta">Lancer mon audit gratuit →</a>
+      <a href="/audit/" class="btn-main" data-placement="mid_cta">Voir mon potentiel de clients →</a>
       <a href="tel:4506343562" class="btn-sec">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.06 2.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
         450-634-3562
@@ -1307,8 +1396,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="s" id="tarifs">
   <div class="s-inner" style="text-align:center;">
     <span class="eyebrow reveal">Tarifs</span>
-    <h2 class="ttl reveal">Ton budget pub. Nos frais. <span class="grad-t">Deux lignes distinctes.</span></h2>
-    <p class="sub reveal" style="margin:0 auto 48px;">Le budget est versé dans ton compte Google Ads. Les frais Pixby couvrent le travail de gestion convenu.</p>
+    <h2 class="ttl reveal">Votre budget pub. Nos frais. <span class="grad-t">Deux lignes distinctes.</span></h2>
+    <p class="sub reveal" style="margin:0 auto 48px;">Le budget est versé dans votre compte Google Ads. Les frais Pixby couvrent le travail de gestion convenu.</p>
 
     <div class="price-simple reveal" style="
       display:inline-flex; flex-direction:column; align-items:center;
@@ -1324,7 +1413,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div style="width:100%; border-top:1px solid #e2e8f0; padding-top:28px; margin-bottom:32px;">
         <div style="font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#b0bcc8; margin-bottom:16px;">Inclus dans chaque mandat</div>
         <ul style="list-style:none; text-align:left; display:flex; flex-direction:column; gap:10px;">
-          <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Création ou audit complet de ta campagne</li>
+          <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Création ou audit complet de votre campagne</li>
           <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Suivi des conversions — appels + formulaires</li>
           <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Optimisation continue et rapport mensuel</li>
           <li style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#4a5568;"><span style="color:var(--teal);font-weight:700;flex-shrink:0;">✓</span>Accès direct à Alex — texto ou email</li>
@@ -1337,7 +1426,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div style="font-size:.77rem; color:#8a9ab0; margin-top:4px;">Couvre l'audit, la structure, le tracking et la mise en ligne</div>
       </div>
 
-      <a href="/audit/" class="p-btn sol" style="width:100%; padding:16px; font-size:.95rem; border-radius:14px;" data-placement="pricing_cta">Vérifier si Pixby convient à mon entreprise →</a>
+      <a href="/audit/" class="p-btn sol" style="width:100%; padding:16px; font-size:.95rem; border-radius:14px;" data-placement="pricing_cta">Voir mon potentiel de clients →</a>
     </div>
 
     <p class="note" style="margin-top:28px;">Budget publicitaire séparé · Sans engagement · Facturation avant le début du mois</p>
@@ -1350,10 +1439,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="eyebrow reveal" style="display:block;text-align:center;">Questions fréquentes</span>
     <h2 class="ttl reveal" style="text-align:center;">On répond franchement</h2>
     <div class="faq">
-      <div class="faq-item reveal"><button class="faq-q">Je travaille déjà avec une agence. Est-ce utile ? <span class="faq-arr">▾</span></button><div class="faq-a">Oui. On commence par comprendre ce que tu mesures et ce que tu veux améliorer. La vérification du compte se fait ensuite avec ton accord.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Je n'ai jamais lancé Google Ads. Par où commencer ? <span class="faq-arr">▾</span></button><div class="faq-a">Par la demande, le budget et ce qu'un client peut te rapporter. L'audit t'aide à cadrer cette décision.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Est-ce que l'audit en ligne analyse déjà mon compte ? <span class="faq-arr">▾</span></button><div class="faq-a">Le diagnostic en ligne utilise tes réponses et les données disponibles sur ton marché. Une analyse de ton compte nécessite une étape supplémentaire.</div></div>
-      <div class="faq-item reveal"><button class="faq-q">Est-ce que je dois réserver un appel ? <span class="faq-arr">▾</span></button><div class="faq-a">Tu peux commencer par le diagnostic. Si tu veux aller plus loin, un échange de 30 minutes permet de revoir ta situation.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Je travaille déjà avec une agence. Est-ce utile ? <span class="faq-arr">▾</span></button><div class="faq-a">Oui. On commence par comprendre ce que vous mesurez et ce que vous voulez améliorer. La vérification du compte se fait ensuite avec votre accord.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Je n'ai jamais lancé Google Ads. Par où commencer ? <span class="faq-arr">▾</span></button><div class="faq-a">Par la demande, le budget et ce qu'un client peut vous rapporter. L'audit vous aide à cadrer cette décision.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Est-ce que l'audit en ligne analyse déjà mon compte ? <span class="faq-arr">▾</span></button><div class="faq-a">Le diagnostic en ligne utilise vos réponses et les données disponibles sur votre marché. Une analyse de votre compte nécessite une étape supplémentaire.</div></div>
+      <div class="faq-item reveal"><button class="faq-q">Est-ce que je dois réserver un appel ? <span class="faq-arr">▾</span></button><div class="faq-a">Vous pouvez commencer par le diagnostic. Si vous voulez aller plus loin, un échange de 30 minutes permet de revoir votre situation.</div></div>
     </div>
   </div>
 </section>
@@ -1361,10 +1450,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ FINAL CTA ══════════════════════════════════════════════════ -->
 <section class="s s-deep fcta">
   <div class="s-inner">
-    <h2 class="reveal">Commence par savoir ce que te coûte chaque prospect.</h2>
-    <p class="reveal">Déjà sur Google Ads ou prêt à te lancer, ton premier pas est le même : clarifier les chiffres.</p>
+    <h2 class="reveal">Commencez par savoir ce que vous coûte chaque prospect.</h2>
+    <p class="reveal">Déjà sur Google Ads ou prêt à vous lancer, votre premier pas est le même : clarifier les chiffres.</p>
     <div class="fcta-btns reveal">
-      <a href="/audit/" class="btn-main" data-placement="final_cta">Lancer mon audit gratuit →</a>
+      <a href="/audit/" class="btn-main" data-placement="final_cta">Voir mon potentiel de clients →</a>
       <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" class="btn-sec" data-placement="final_cta_booking"><svg class="ic" style="width:15px;height:15px;"><use href="#i-phone"/></svg> Parler à Alex — 30 min</a>
     </div>
   </div>
@@ -1385,7 +1474,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 
 <div class="float-cta">
-  <a href="/audit/" data-placement="mobile_float_cta">Audit gratuit — Lancer →</a>
+  <a href="tel:4506343562" class="float-call" data-placement="mobile_float_call" aria-label="Appeler Pixby au 450-634-3562">Appeler</a>
+  <a href="/audit/" data-placement="mobile_float_cta">Voir mon potentiel de clients →</a>
 </div>
 
 <!-- ═══ JS ══════════════════════════════════════════════════════════ -->
@@ -1422,7 +1512,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     el.addEventListener('click', function() {
       var placement = el.getAttribute('data-placement');
       var isBooking = el.href && el.href.indexOf('calendly.com') > -1;
-      var eventName = isBooking ? 'booking_click' : 'audit_cta_click';
+      var isCall = el.href && el.href.indexOf('tel:') === 0;
+      var eventName = isBooking ? 'booking_click' : (isCall ? 'phone_cta_click' : 'audit_cta_click');
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: eventName, cta_location: placement, placement: placement });
       if (typeof gtag === 'function') {
@@ -1508,7 +1599,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       window.dataLayer.push({ event: 'booking_completed', cta_location: 'homepage_direct_booking', booking_id: DB_BOOKING_ID });
       var title = document.getElementById('dbSuccessTitle'), text = document.getElementById('dbSuccessText');
       if (title) title.textContent = 'Rendez-vous confirmé';
-      if (text) text.textContent = 'Alexander a reçu ta réservation — à bientôt.';
+      if (text) text.textContent = 'Alexander a reçu votre réservation — à bientôt.';
     }
   });
 
@@ -1550,6 +1641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       fetch(DB_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) })
         .then(function(res){
           if (!res.ok) throw new Error('HTTP ' + res.status);
+          if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'homepage_direct_booking' });
           window.dataLayer.push({ event:'lead_submitted', cta_location:'homepage_direct_booking', booking_id: DB_BOOKING_ID });
 
           dbForm.style.display = 'none';

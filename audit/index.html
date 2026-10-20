@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audit Google Ads — Pixby | Ton marché réel au Québec</title>
-  <meta name="description" content="Un prédiagnostic si tu fais déjà Google Ads, une étude de demande si tu n'en fais pas encore. Données réelles Google, sans jargon.">
+  <title>Audit Google Ads — Pixby | Votre marché réel au Québec</title>
+  <meta name="description" content="Un prédiagnostic si vous faites déjà Google Ads, une étude de demande si vous n'en faites pas encore. Données réelles Google, sans jargon.">
   <link rel="canonical" href="https://ads.pixby.ca/audit/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ads.pixby.ca/audit/">
-  <meta property="og:title" content="Tes Google Ads peuvent-ils te rapporter des clients rentables ?">
-  <meta property="og:description" content="Prédiagnostic ou étude de demande, selon où tu en es. Données réelles Google, Québec.">
+  <meta property="og:title" content="Vos Google Ads peuvent-ils vous rapporter des clients rentables ?">
+  <meta property="og:description" content="Prédiagnostic ou étude de demande, selon où vous en êtes. Données réelles Google, Québec.">
   <meta property="og:image" content="https://ads.pixby.ca/assets/og-image.jpg">
   <meta property="og:locale" content="fr_CA">
   <meta property="og:site_name" content="Pixby">
@@ -166,6 +166,10 @@
     }
     .btn:hover:not(:disabled) { background:var(--orange-dk); transform:translateY(-1px); box-shadow:0 8px 24px rgba(245,93,53,.3); }
     .btn:disabled { opacity:.5; cursor:default; }
+    .call-alt { margin-top:14px; font-size:.9rem; color:rgba(255,255,255,.7); }
+    .call-alt a { color:#fff; font-weight:700; text-decoration:underline; text-underline-offset:3px; display:inline-block; padding:10px 2px; }
+    .gate-card .call-alt { color:#666; }
+    .gate-card .call-alt a { color:#253858; }
     .btn-ghost { background:transparent; box-shadow:none; color:rgba(255,255,255,.55); font-weight:600; padding:16px 10px; }
     .btn-ghost:hover:not(:disabled) { background:transparent; color:#fff; transform:none; box-shadow:none; }
     .btn-hint { font-size:.8rem; color:rgba(255,255,255,.4); margin-top:14px; }
@@ -369,6 +373,9 @@
       .res-head { flex-direction:column; }
     }
   </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"Audit Google Ads gratuit — Pixby","url":"https://ads.pixby.ca/audit/","inLanguage":"fr-CA","description":"Prédiagnostic Google Ads ou étude de demande pour une PME locale du Québec, basés sur les données de marché de Google Keyword Planner. Sans promesse de résultat.","isPartOf":{"@type":"WebSite","name":"Pixby","url":"https://ads.pixby.ca/"},"publisher":{"@type":"Organization","name":"Pixby","url":"https://ads.pixby.ca/","telephone":"+1-450-634-3562"},"mainEntity":{"@type":"WebApplication","name":"Audit Pixby — potentiel de clients Google Ads","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://ads.pixby.ca/audit/","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"},"provider":{"@type":"Organization","name":"Pixby","url":"https://ads.pixby.ca/"}}}
+  </script>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQLNBJ99" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -391,7 +398,7 @@
     <a class="nav-logo" href="../"><img src="../assets/logo.png" alt="Pixby"></a>
     <div class="nav-right">
       <span class="lang-switch" id="langSwitch"><a href="?lang=fr" data-lang="fr" hreflang="fr-CA" aria-current="true">FR</a><a href="?lang=en" data-lang="en" hreflang="en-CA">EN</a></span>
-      <a class="nav-phone" href="tel:4506343562">450-634-3562</a>
+      <a class="nav-phone" href="tel:4506343562" aria-label="Appeler Pixby au 450-634-3562" data-phone-cta="audit_header">450-634-3562</a>
     </div>
   </div>
 </nav>
@@ -400,8 +407,8 @@
 
   <div id="heroTop">
     <div class="badge"><span class="dot"></span>Audit gratuit · Données réelles Google</div>
-    <h1 id="mainH1">Tes Google Ads peuvent-ils te rapporter des <span class="hl">clients rentables</span> ?</h1>
-    <p class="sub" id="mainSub">Réponds à quelques questions. On regarde tes vraies données de marché au Québec — gratuit.</p>
+    <h1 id="mainH1">Vos Google Ads peuvent-ils vous rapporter des <span class="hl">clients rentables</span> ?</h1>
+    <p class="sub" id="mainSub">Répondez à quelques questions. On regarde vos vraies données de marché au Québec — gratuit.</p>
   </div>
 
   <button id="backBtn" type="button">← Retour</button>
@@ -411,7 +418,7 @@
   <!-- STEP 0 — Google Ads actuellement ? -->
   <section class="step-section active" id="step0">
     <div class="panel">
-      <div class="q-label"><span class="q-num">1</span>Fais-tu déjà de la publicité Google Ads ?</div>
+      <div class="q-label"><span class="q-num">1</span>Faites-vous déjà de la publicité Google Ads ?</div>
       <div class="choice-stack">
         <button class="choice-big" data-ads="oui">Je fais déjà Google Ads <span class="arrow">→</span></button>
         <button class="choice-big" data-ads="non">Je veux savoir si ça vaut la peine <span class="arrow">→</span></button>
@@ -422,22 +429,22 @@
   <!-- INTRO BRANCHE A — déjà sur Ads -->
   <section class="step-section" id="stepIntroA">
     <div class="badge-soft badge" style="display:inline-flex;">Prédiagnostic gratuit · Aucun accès au compte à cette étape</div>
-    <h2 class="q-title">Sais-tu combien te coûte chaque prospect grâce à Google Ads ?</h2>
-    <p class="q-sub">Fais le point sur ce que tu mesures. Puis vérifie avec Alexander les chiffres et les priorités de ton compte.</p>
+    <h2 class="q-title">Savez-vous combien vous coûte chaque prospect grâce à Google Ads ?</h2>
+    <p class="q-sub">Faites le point sur ce que vous mesurez. Puis vérifiez avec Alexander les chiffres et les priorités de votre compte.</p>
     <div class="step-actions"><button class="btn" id="introANext">Continuer →</button></div>
   </section>
 
   <!-- INTRO BRANCHE B — pas encore sur Ads -->
   <section class="step-section" id="stepIntroB">
-    <h2 class="q-title">Avant d'investir, vérifie la demande et le coût maximum d'un client rentable.</h2>
-    <p class="q-sub">Quelques questions sur ton métier et ta zone, puis on regarde ce que Google montre vraiment — sans promesse de rentabilité tant que les chiffres ne sont pas validés.</p>
+    <h2 class="q-title">Avant d'investir, vérifiez la demande et le coût maximum d'un client rentable.</h2>
+    <p class="q-sub">Quelques questions sur votre métier et votre zone, puis on regarde ce que Google montre vraiment — sans promesse de rentabilité tant que les chiffres ne sont pas validés.</p>
     <div class="step-actions"><button class="btn" id="introBNext">Continuer →</button></div>
   </section>
 
   <!-- STEP MÉTIER -->
   <section class="step-section" id="stepMetier">
     <div class="panel">
-      <div class="q-label"><span class="q-num">2</span>Ton métier</div>
+      <div class="q-label"><span class="q-num">2</span>Votre métier</div>
       <div class="metier-grid" id="metierGrid">
         <button class="m-card" data-m="toiture"><svg><use href="#i-roof"/></svg>Toiture</button>
         <button class="m-card" data-m="plomberie"><svg><use href="#i-drop"/></svg>Plomberie</button>
@@ -456,8 +463,8 @@
   <!-- STEP RÉGION -->
   <section class="step-section" id="stepRegion">
     <div class="panel">
-      <div class="q-label"><span class="q-num">3</span>Ta région</div>
-      <p class="q-sub" style="margin-bottom:14px;">Sert à préparer ton dossier — les volumes affichés restent des données Québec tant qu'on n'a pas assez de données locales.</p>
+      <div class="q-label"><span class="q-num">3</span>Votre région</div>
+      <p class="q-sub" style="margin-bottom:14px;">Sert à préparer votre dossier — les volumes affichés restent des données Québec tant qu'on n'a pas assez de données locales.</p>
       <div class="region-row" id="regionRow">
         <button class="r-pill" data-r="mtl">Grand Montréal</button>
         <button class="r-pill" data-r="rs">Rive-Sud (Longueuil, Brossard)</button>
@@ -474,7 +481,7 @@
   <!-- STEP BUDGET ACTUEL (branche OUI) -->
   <section class="step-section" id="stepBudgetActuel">
     <div class="panel">
-      <div class="q-label"><span class="q-num">4</span>Ton budget Google Ads actuel</div>
+      <div class="q-label"><span class="q-num">4</span>Votre budget Google Ads actuel</div>
       <div class="choice-row" id="budgetActuelRow">
         <button class="choice-pill" data-v="lt1000">Moins de 1 000 $</button>
         <button class="choice-pill" data-v="1000-2000">1 000 – 2 000 $</button>
@@ -489,7 +496,7 @@
   <!-- STEP BUDGET POTENTIEL (branche NON) -->
   <section class="step-section" id="stepBudgetPotentiel">
     <div class="panel">
-      <div class="q-label"><span class="q-num">4</span>Budget pub que tu considérerais / mois</div>
+      <div class="q-label"><span class="q-num">4</span>Budget pub que vous considéreriez / mois</div>
       <div class="slider-box">
         <div class="slider-val"><span id="budgetVal">1 000</span> $ <small>/ mois</small></div>
         <input type="range" id="budget" min="500" max="5000" step="100" value="1000">
@@ -500,20 +507,20 @@
   <!-- STEP ÉCONOMIE DU CONTRAT (branche NON) — valeur minimale rapide (P1.3 progressive disclosure) -->
   <section class="step-section" id="stepEconomie">
     <div class="panel">
-      <div class="q-label"><span class="q-num">5</span>L'économie de ton contrat</div>
-      <p class="q-sub" style="margin-bottom:20px;">Avec juste ces deux chiffres, on calcule déjà ta marge disponible par client et ton coût d'acquisition maximum (break-even) — aucun taux de conversion à deviner. Tout reste modifiable après, sans recommencer.</p>
+      <div class="q-label"><span class="q-num">5</span>L'économie de votre contrat</div>
+      <p class="q-sub" style="margin-bottom:20px;">Avec juste ces deux chiffres, on calcule déjà votre marge disponible par client et votre coût d'acquisition maximum (break-even) — aucun taux de conversion à deviner. Tout reste modifiable après, sans recommencer.</p>
 
       <div class="f-row" style="max-width:320px;">
         <label for="simV">Valeur moyenne du premier contrat, avant taxes ($)</label>
         <input type="number" id="simV" inputmode="decimal" min="0" placeholder="Ex. 3000" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
-        <p class="f-error" id="simVErr">Entre une valeur de contrat supérieure à 0 $, ou laisse vide.</p>
+        <p class="f-error" id="simVErr">Entrez une valeur de contrat supérieure à 0 $, ou laissez vide.</p>
       </div>
       <button class="btn btn-ghost" id="simVUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas encore</button>
 
       <div class="f-row" style="max-width:320px;">
         <label for="simM">Marge contributive après coûts de réalisation (%, facultatif)</label>
         <input type="number" id="simM" inputmode="decimal" min="0" max="100" placeholder="Ex. 40" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
-        <p class="f-error" id="simMErr">Entre une marge entre 0 et 100 %, ou laisse vide.</p>
+        <p class="f-error" id="simMErr">Entrez une marge entre 0 et 100 %, ou laissez vide.</p>
       </div>
       <button class="btn btn-ghost" id="simMUnknown" type="button" style="padding:8px 0; margin-bottom:14px;">Je ne sais pas ma marge</button>
 
@@ -527,7 +534,7 @@
   <section id="scan" aria-live="polite">
     <div class="scan-ring"></div>
     <div class="scan-step" id="ss1"><span class="chk">✓</span>Compilation des données Keyword Planner (Québec)…</div>
-    <div class="scan-step" id="ss2"><span class="chk">✓</span>Préparation de ton résumé…</div>
+    <div class="scan-step" id="ss2"><span class="chk">✓</span>Préparation de votre résumé…</div>
   </section>
 
   <!-- RÉSULTATS -->
@@ -545,34 +552,35 @@
     <!-- GATE -->
     <div id="gate" style="display:none;">
       <div class="gate-card">
-        <h3 id="gateTitle">Prépare ton rendez-vous avec Alexander.</h3>
-        <p>Ces informations servent à préparer et confirmer ton rendez-vous.</p>
+        <h3 id="gateTitle">Préparez votre rendez-vous avec Alexander.</h3>
+        <p>Ces informations servent à préparer et confirmer votre rendez-vous.</p>
         <div class="submit-error" id="gateSubmitError" role="alert"></div>
         <form id="gateForm" novalidate>
           <div class="f-row">
-            <label for="gPrenom">Ton prénom *</label>
+            <label for="gPrenom">Votre prénom *</label>
             <input type="text" id="gPrenom" placeholder="Alexandre" autocomplete="given-name" required>
-            <p class="f-error" id="gPrenomErr">Ton prénom est requis.</p>
+            <p class="f-error" id="gPrenomErr">Votre prénom est requis.</p>
           </div>
           <div class="f-row">
-            <label for="gEntreprise">Nom de ton entreprise *</label>
+            <label for="gEntreprise">Nom de votre entreprise *</label>
             <input type="text" id="gEntreprise" placeholder="Ex. Toiture ABC" autocomplete="organization" required>
-            <p class="f-error" id="gEntrepriseErr">Le nom de ton entreprise est requis.</p>
+            <p class="f-error" id="gEntrepriseErr">Le nom de votre entreprise est requis.</p>
           </div>
           <div class="f-row">
             <label for="gEmail">Courriel *</label>
-            <input type="email" id="gEmail" placeholder="toi@tonentreprise.ca" autocomplete="email" required>
+            <input type="email" id="gEmail" placeholder="vous@votreentreprise.ca" autocomplete="email" required>
             <p class="f-error" id="gEmailErr">Un courriel valide est requis.</p>
           </div>
           <div class="f-row">
             <label for="gTel">Téléphone (optionnel à cette étape)</label>
             <input type="tel" id="gTel" placeholder="514-000-0000" autocomplete="tel">
           </div>
-          <div class="f-row"><label for="gSite">Site web (optionnel)</label><input type="text" id="gSite" placeholder="tonentreprise.ca" autocomplete="url"></div>
+          <div class="f-row"><label for="gSite">Site web (optionnel)</label><input type="text" id="gSite" placeholder="votreentreprise.ca" autocomplete="url"></div>
 
           <button class="btn" type="submit" id="gateBtn" style="width:100%; margin-top:8px;">Envoyer →</button>
           <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
         </form>
+        <p class="call-alt">Vous préférez parler à quelqu’un ? <a href="tel:4506343562" data-phone-cta="audit_gate">Appeler le 450-634-3562</a></p>
       </div>
     </div>
 
@@ -586,10 +594,11 @@
       <div class="cal-cta">
         <a class="btn" id="calBtn" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Choisir mon heure — 30 min →</a>
         <p>Gratuit · Sans engagement</p>
-        <p class="cal-fallback" id="calFallback">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvre-le dans un nouvel onglet</a>.</p>
+        <p class="cal-fallback" id="calFallback">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvrez-le dans un nouvel onglet</a>.</p>
       </div>
     </div>
 
+    <p class="call-alt">Une question sur ces résultats ? <a href="tel:4506343562" data-phone-cta="audit_results">Appeler le 450-634-3562</a></p>
     <p class="disclaimer" id="disclaimerText"></p>
   </section>
 
@@ -597,7 +606,7 @@
   <section id="manual" aria-live="polite">
     <div class="res-head">
       <div>
-        <h2>Ton secteur mérite une analyse faite à la main.</h2>
+        <h2>Votre secteur mérite une analyse faite à la main.</h2>
         <p id="manualSub"></p>
       </div>
       <button class="edit-answers" id="editAnswersBtnManual" type="button">Modifier mes réponses</button>
@@ -608,45 +617,45 @@
       <div class="summary-grid" id="manualSummaryGrid"></div>
     </div>
 
-    <p class="limit-note">On n'a pas de données Keyword Planner validées pour ce métier dans notre base instantanée. Alexander fait l'analyse à la main avec les mêmes données réelles Google. Aucun délai automatique n'est garanti — on te recontacte avec un plan concret.</p>
+    <p class="limit-note">On n'a pas de données Keyword Planner validées pour ce métier dans notre base instantanée. Alexander fait l'analyse à la main avec les mêmes données réelles Google. Aucun délai automatique n'est garanti — on vous recontacte avec un plan concret.</p>
 
     <div class="agenda">
       <h4>Avant de réserver</h4>
       <ul>
-        <li>Ton métier, ta zone et ton budget envisagé (déjà notés)</li>
-        <li>Ce qu'on doit vérifier pour ton secteur précis</li>
+        <li>Votre métier, votre zone et votre budget envisagé (déjà notés)</li>
+        <li>Ce qu'on doit vérifier pour votre secteur précis</li>
         <li>La prochaine action concrète</li>
       </ul>
       <p class="mode">Rendez-vous : appel téléphonique de 30 minutes.</p>
     </div>
     <div class="cal-cta">
       <a class="btn" id="calBtnManual" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Choisir mon heure — 30 min →</a>
-      <p class="cal-fallback" id="calFallbackManual">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvre-le dans un nouvel onglet</a>.</p>
+      <p class="cal-fallback" id="calFallbackManual">Le calendrier ne s'est pas chargé. <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener">Ouvrez-le dans un nouvel onglet</a>.</p>
     </div>
 
     <div id="manualFormWrap">
       <div class="gate-card" style="margin-top:10px;">
-        <h3>Pas prêt à réserver ? Laisse tes infos.</h3>
-        <p>On te recontacte avec l'analyse — mêmes règles : ces informations servent à préparer le suivi, aucune inscription marketing implicite.</p>
+        <h3>Pas prêt à réserver ? Laissez vos infos.</h3>
+        <p>On vous recontacte avec l'analyse — mêmes règles : ces informations servent à préparer le suivi, aucune inscription marketing implicite.</p>
         <div class="submit-error" id="manualSubmitError" role="alert"></div>
         <form id="manualForm" novalidate>
           <div class="f-row">
-            <label for="mPrenom">Ton prénom *</label>
+            <label for="mPrenom">Votre prénom *</label>
             <input type="text" id="mPrenom" placeholder="Alexandre" required>
-            <p class="f-error" id="mPrenomErr">Ton prénom est requis.</p>
+            <p class="f-error" id="mPrenomErr">Votre prénom est requis.</p>
           </div>
           <div class="f-row">
-            <label for="mEntreprise">Nom de ton entreprise *</label>
+            <label for="mEntreprise">Nom de votre entreprise *</label>
             <input type="text" id="mEntreprise" placeholder="Ex. Nettoyage ABC" required>
-            <p class="f-error" id="mEntrepriseErr">Le nom de ton entreprise est requis.</p>
+            <p class="f-error" id="mEntrepriseErr">Le nom de votre entreprise est requis.</p>
           </div>
           <div class="f-row">
             <label for="mEmail">Courriel *</label>
-            <input type="email" id="mEmail" placeholder="toi@tonentreprise.ca" required>
+            <input type="email" id="mEmail" placeholder="vous@votreentreprise.ca" required>
             <p class="f-error" id="mEmailErr">Un courriel valide est requis.</p>
           </div>
           <div class="f-row"><label for="mTel">Téléphone (optionnel)</label><input type="tel" id="mTel" placeholder="514-000-0000"></div>
-          <div class="f-row"><label for="mMetierDetail">Précision sur ton métier (optionnel)</label><input type="text" id="mMetierDetail" placeholder="Ex. assèchement, décontamination…"></div>
+          <div class="f-row"><label for="mMetierDetail">Précision sur votre métier (optionnel)</label><input type="text" id="mMetierDetail" placeholder="Ex. assèchement, décontamination…"></div>
           <button class="btn" type="submit" id="manualBtn" style="width:100%;">Envoyer →</button>
           <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
         </form>
@@ -654,7 +663,7 @@
       <div id="manualOk" style="display:none; text-align:center; padding:20px 0 6px;">
         <div style="font-size:2rem;">✓</div>
         <h3 style="margin:8px 0 4px;">Reçu !</h3>
-        <p style="font-size:.9rem; color:#666;">Alexander te recontacte pour la suite.</p>
+        <p style="font-size:.9rem; color:#666;">Alexander vous recontacte pour la suite.</p>
       </div>
     </div>
   </section>
@@ -669,19 +678,19 @@
     <h2 style="font-family:var(--ff-d); font-weight:800; font-size:1.4rem; margin-bottom:20px;">Comment fonctionne cet audit Google Ads gratuit</h2>
 
     <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Ce que l'audit analyse</h3>
-    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Selon que tu fais déjà de la publicité Google Ads ou non, l'outil pose quelques questions sur ton métier, ta zone et ton budget, puis regarde les données réelles de demande (recherches mensuelles et enchères) pour ton secteur dans Google Keyword Planner. Si tu fais déjà des Google Ads, l'audit montre la demande et le coût réels de ton marché, puis identifie 3 points à vérifier dans ton compte (intention des recherches achetées, qualité de la mesure des appels/formulaires, budget potentiellement mal ciblé). Si tu n'en fais pas encore, il calcule combien de clients signés par mois suffiraient à couvrir ton budget envisagé, à partir de la valeur et de la marge de ton contrat moyen.</p>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Selon que vous faites déjà de la publicité Google Ads ou non, l'outil pose quelques questions sur votre métier, votre zone et votre budget, puis regarde les données réelles de demande (recherches mensuelles et enchères) pour votre secteur dans Google Keyword Planner. Si vous faites déjà des Google Ads, l'audit montre la demande et le coût réels de votre marché, puis identifie 3 points à vérifier dans votre compte (intention des recherches achetées, qualité de la mesure des appels/formulaires, budget potentiellement mal ciblé). Si vous n'en faites pas encore, il calcule combien de clients signés par mois suffiraient à couvrir votre budget envisagé, à partir de la valeur et de la marge de votre contrat moyen.</p>
 
     <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Sources de données</h3>
-    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Les volumes de recherche et plages d'enchères viennent directement de l'API Google Ads (Keyword Planner), pour la ville la plus précise disponible dans ta région — sinon un repère à l'échelle du Québec, toujours indiqué comme tel. Le seul chiffre calculé par Pixby est le nombre de clients signés par mois nécessaires pour couvrir ton budget Ads et les frais de gestion, à partir de la valeur de contrat et de la marge que tu déclares toi-même.</p>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Les volumes de recherche et plages d'enchères viennent directement de l'API Google Ads (Keyword Planner), pour la ville la plus précise disponible dans votre région — sinon un repère à l'échelle du Québec, toujours indiqué comme tel. Le seul chiffre calculé par Pixby est le nombre de clients signés par mois nécessaires pour couvrir votre budget Ads et les frais de gestion, à partir de la valeur de contrat et de la marge que vous déclarez vous-même.</p>
 
     <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Limites</h3>
-    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Cet audit ne devine jamais de taux de conversion (clic → lead → client) : ce chiffre varie trop d'une entreprise à l'autre pour être fiable sans données réelles. Il ne remplace pas non plus un audit de ton compte Google Ads existant — sans y accéder, impossible de savoir si tes campagnes, tes mots-clés ou ton tracking de conversions sont bien configurés. C'est un prédiagnostic basé sur la demande du marché, pas une garantie de résultat.</p>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Cet audit ne devine jamais de taux de conversion (clic → lead → client) : ce chiffre varie trop d'une entreprise à l'autre pour être fiable sans données réelles. Il ne remplace pas non plus un audit de votre compte Google Ads existant — sans y accéder, impossible de savoir si vos campagnes, vos mots-clés ou votre tracking de conversions sont bien configurés. C'est un prédiagnostic basé sur la demande du marché, pas une garantie de résultat.</p>
 
     <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Diagnostic externe vs audit de compte en lecture seule</h3>
-    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Le diagnostic ci-dessus se fait sans jamais accéder à ton compte Google Ads. Si tu es déjà annonceur, tu pourras ensuite donner un accès en <strong>lecture seule</strong> (aucune modification possible) pour qu'Alexander regarde tes vraies campagnes avant le rendez-vous — c'est toujours facultatif, réserver un appel ne demande jamais cet accès.</p>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); margin-bottom:20px; max-width:700px;">Le diagnostic ci-dessus se fait sans jamais accéder à votre compte Google Ads. Si vous êtes déjà annonceur, vous pourrez ensuite donner un accès en <strong>lecture seule</strong> (aucune modification possible) pour qu'Alexander regarde vos vraies campagnes avant le rendez-vous — c'est toujours facultatif, réserver un appel ne demande jamais cet accès.</p>
 
     <h3 style="font-family:var(--ff-d); font-weight:700; font-size:1.05rem; margin-bottom:8px;">Confidentialité</h3>
-    <p style="font-size:.92rem; color:rgba(255,255,255,.65); max-width:700px;">Les réponses données dans l'audit et, si tu les laisses, tes coordonnées, servent uniquement à préparer ton rendez-vous avec Alexander — voir la <a href="../politique-confidentialite.html">politique de confidentialité</a>. Rien n'est vendu à des tiers ni utilisé pour du démarchage automatisé.</p>
+    <p style="font-size:.92rem; color:rgba(255,255,255,.65); max-width:700px;">Les réponses données dans l'audit et, si vous les laissez, vos coordonnées, servent uniquement à préparer votre rendez-vous avec Alexander — voir la <a href="../politique-confidentialite.html">politique de confidentialité</a>. Rien n'est vendu à des tiers ni utilisé pour du démarchage automatisé.</p>
   </section>
 
 </div>
@@ -775,6 +784,10 @@
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
   }
+  document.addEventListener('click', function(ev){
+    var a = ev.target.closest && ev.target.closest('[data-phone-cta]');
+    if (a) dl({ event:'phone_cta_click', cta_location: a.getAttribute('data-phone-cta') });
+  });
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
   /* ============================================================
@@ -1125,11 +1138,11 @@
      regionKwList() peut remplacer une ville sans donnees suffisantes par
      le repere Quebec au complet, ce qui n'est plus une donnee locale. */
   function demandLabel(){
-    return calc.regionMatched ? 'Demande estimée — ' + (REGIONS[sel.r] || 'ta zone') : 'Repère Québec (province)';
+    return calc.regionMatched ? 'Demande estimée — ' + (REGIONS[sel.r] || 'votre zone') : 'Repère Québec (province)';
   }
 
   function srcTag(type){
-    var labels = { declare:'Déclaré par toi', calc:'Calcul Pixby', google:'Google Keyword Planner', account:'Compte Google Ads réel', estimate:'Estimation interne Pixby — non vérifiée', forecast:'Prévision Google Ads (modèle)' };
+    var labels = { declare:'Déclaré par vous', calc:'Calcul Pixby', google:'Google Keyword Planner', account:'Compte Google Ads réel', estimate:'Estimation interne Pixby — non vérifiée', forecast:'Prévision Google Ads (modèle)' };
     return '<span class="src-tag ' + type + '">' + labels[type] + '</span>';
   }
 
@@ -1159,16 +1172,16 @@
      3 questions seulement (métier/zone/budget). Verdict basé sur la
      demande réelle du marché, jamais sur l'état du compte (pas d'accès).
      Aucune donnée de mesure/leads collectée — le risque de mesure devient
-     un des 3 points "à vérifier dans ton compte", pas une question posée.
+     un des 3 points "à vérifier dans votre compte", pas une question posée.
      ============================================================ */
   function buildFindingsA(){
     var hasDemand = calc.kws.length > 0 && calc.volTot > 0;
-    var metierTxt = (sel.metierLabel || 'ton service').toLowerCase();
-    var zoneTxt = REGIONS[sel.r] || 'ta zone';
-    var budgetTxt = BUDGET_LABELS[sel.budgetActuel] || 'ton budget actuel';
+    var metierTxt = (sel.metierLabel || 'votre service').toLowerCase();
+    var zoneTxt = REGIONS[sel.r] || 'votre zone';
+    var budgetTxt = BUDGET_LABELS[sel.budgetActuel] || 'votre budget actuel';
     var primary = hasDemand
-      ? 'Il existe une demande Google active pour ' + metierTxt + ' dans ' + zoneTxt + '. Avec ' + budgetTxt + ', ton enjeu n’est pas de savoir s’il existe des recherches : c’est de vérifier si ton compte capte les bonnes intentions au bon coût.'
-      : 'Les données Google ne montrent pas un volume clair pour ' + metierTxt + ' dans ' + zoneTxt + ' avec les termes vérifiés — à regarder de plus près avec les vrais mots-clés de ton compte.';
+      ? 'Il existe une demande Google active pour ' + metierTxt + ' dans ' + zoneTxt + '. Avec ' + budgetTxt + ', votre enjeu n’est pas de savoir s’il existe des recherches : c’est de vérifier si votre compte capte les bonnes intentions au bon coût.'
+      : 'Les données Google ne montrent pas un volume clair pour ' + metierTxt + ' dans ' + zoneTxt + ' avec les termes vérifiés — à regarder de plus près avec les vrais mots-clés de votre compte.';
     var opportunities = [
       'Intention des recherches réellement achetées',
       'Qualité de la mesure des appels et formulaires',
@@ -1188,10 +1201,10 @@
   }
 
   /* 3 points courts, formulés "à vérifier dans ton compte" — jamais
-     "ton compte a ce problème" (aucun accès compte à ce stade). */
+     "votre compte a ce problème" (aucun accès compte à ce stade). */
   function renderOpportunitiesHtml(items){
     return '<div class="cards-3">' + items.map(function(t,i){
-      return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>À vérifier dans ton compte</dt><dd>' + esc(t) + '</dd></dl></div>';
+      return '<div class="action-card"><div class="num">' + (i+1) + '</div><dl><dt>À vérifier dans votre compte</dt><dd>' + esc(t) + '</dd></dl></div>';
     }).join('') + '</div>';
   }
 
@@ -1208,15 +1221,15 @@
     if (v == null) return '';
     return '<div class="card"><div class="eyebrow">Valeur de contrat ' + srcTag('declare') + '</div>' +
       '<div class="tile-val" style="font-size:1.3rem;">' + fmtMoney(v) + '</div>' +
-      '<div class="tile-sub">Ta valeur déclarée.</div></div>';
+      '<div class="tile-sub">Votre valeur déclarée.</div></div>';
   }
 
   /* Carte contenant UNIQUEMENT des donnees reellement issues de Google
      Keyword Planner, pour la region la plus precise disponible (ville) —
      repli sur la province si la ville n'a pas de donnees suffisantes. */
   function marketSectionHtml(){
-    var zoneLabel = calc.regionMatched ? (REGIONS[sel.r] || 'ta zone') : 'Québec';
-    return '<div class="card"><div class="eyebrow">Ton marché — Google Keyword Planner ' + srcTag('google') + '</div>' +
+    var zoneLabel = calc.regionMatched ? (REGIONS[sel.r] || 'votre zone') : 'Québec';
+    return '<div class="card"><div class="eyebrow">Votre marché — Google Keyword Planner ' + srcTag('google') + '</div>' +
       '<div class="tiles" style="margin-bottom:14px;">' +
         '<div class="tile t1"><div class="tile-tag">Mots-clés commerciaux (' + esc(zoneLabel) + ')</div><div class="tile-val" id="tVol" style="font-size:1.3rem;"></div><div class="tile-sub">Recherches réelles Google pour ces termes précis — pas une expansion automatique, pour éviter tout bruit (marques, hors-sujet).</div></div>' +
       '</div>' +
@@ -1329,9 +1342,9 @@
     } else if (demandLimited) {
       primary = 'Google détecte une demande limitée pour ce marché avec ce niveau de budget — le potentiel mérite d’être validé avant d’investir davantage.';
     } else if (clientsBreakEven != null) {
-      primary = 'À tes chiffres, ' + (clientsBreakEven === 1 ? '1 client signé par mois suffirait' : clientsBreakEven + ' clients signés par mois suffiraient') + ' à couvrir environ ' + fmtMoney(investissementMensuel) + ' d’investissement récurrent Google Ads + Pixby.';
+      primary = 'À vos chiffres, ' + (clientsBreakEven === 1 ? '1 client signé par mois suffirait' : clientsBreakEven + ' clients signés par mois suffiraient') + ' à couvrir environ ' + fmtMoney(investissementMensuel) + ' d’investissement récurrent Google Ads + Pixby.';
     } else {
-      primary = 'Il y a de la demande réelle dans ton marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Ta valeur de contrat et ta marge restent à établir pour connaître ton seuil de rentabilité.';
+      primary = 'Il y a de la demande réelle dans votre marché (' + fmtCount(calc.volTot) + ' recherches/mois sur les termes vérifiés). Votre valeur de contrat et votre marge restent à établir pour connaître votre seuil de rentabilité.';
     }
 
     return { primary:primary, verdict:verdict,
@@ -1357,7 +1370,7 @@
     if (!data.forecast) return '';
     var f = data.forecast;
     return '<div class="card" style="opacity:.85;"><div class="eyebrow" style="font-size:.68rem;">Ce que Google prévoit pour ce budget ' + srcTag('forecast') + '</div>' +
-      '<p class="limit-note" style="margin-bottom:8px;">Palier ' + fmt(f.budgetTier) + ' $/mois (le plus proche de ton budget de ' + fmt(sel.budget) + ' $/mois), ' + esc(calc.regionMatched ? (REGIONS[sel.r]||'ta zone') : 'Québec province') + ' : ~' + fmtCount(f.clicks) + ' clics, ~' + fmtMoney(f.cost) + ' dépensé, CPC moyen ' + money(f.avgCpc) + '.</p>' +
+      '<p class="limit-note" style="margin-bottom:8px;">Palier ' + fmt(f.budgetTier) + ' $/mois (le plus proche de votre budget de ' + fmt(sel.budget) + ' $/mois), ' + esc(calc.regionMatched ? (REGIONS[sel.r]||'votre zone') : 'Québec province') + ' : ~' + fmtCount(f.clicks) + ' clics, ~' + fmtMoney(f.cost) + ' dépensé, CPC moyen ' + money(f.avgCpc) + '.</p>' +
       '<p class="limit-note">Modèle Google, pas une garantie — le nombre de leads ou de clients qui en sortiraient reste inconnu tant qu’un test réel n’a pas été fait.</p></div>';
   }
 
@@ -1366,8 +1379,8 @@
     if (!tVol) return;
     tVol.textContent = calc.kws.length + (calc.kws.length > 1 ? ' mots-clés vérifiés' : ' mot-clé vérifié');
     document.getElementById('provinceNote').textContent = calc.regionMatched
-      ? 'Donnée disponible pour ' + (REGIONS[sel.r] || 'ta zone') + ' (ville la plus précise disponible dans Keyword Planner).'
-      : 'Donnée disponible : Québec (province). Repère utilisé faute de données suffisantes pour ' + (REGIONS[sel.r] || 'ta zone') + ' — ta zone reste enregistrée pour l’étude.';
+      ? 'Donnée disponible pour ' + (REGIONS[sel.r] || 'votre zone') + ' (ville la plus précise disponible dans Keyword Planner).'
+      : 'Donnée disponible : Québec (province). Repère utilisé faute de données suffisantes pour ' + (REGIONS[sel.r] || 'votre zone') + ' — votre zone reste enregistrée pour l’étude.';
     document.getElementById('kwSrc').textContent = 'Estimations basées sur les données Google Ads Keyword Planner (' + KW_AS_OF + ').';
     var tb = document.querySelector('#kwTable tbody'); tb.innerHTML = '';
     calc.kws.forEach(function(k){
@@ -1388,13 +1401,13 @@
   function readOnlyOfferHtml(){
     return '<div class="card">' +
       '<div class="eyebrow">Optionnel — avant le rendez-vous</div>' +
-      '<p class="q-sub" style="margin-bottom:14px;">Tu veux qu’on vérifie ce qui se passe réellement dans ton compte ? Les deux choix sont corrects.</p>' +
+      '<p class="q-sub" style="margin-bottom:14px;">Vous voulez qu’on vérifie ce qui se passe réellement dans votre compte ? Les deux choix sont corrects.</p>' +
       '<div class="choice-row" id="readOnlyRow">' +
         '<button type="button" class="choice-pill" data-v="sans_acces">Rendez-vous sans donner accès</button>' +
         '<button type="button" class="choice-pill" data-v="acces_readonly">Donner un accès en lecture seule</button>' +
       '</div>' +
       '<div id="readOnlyInstructions" style="display:none; margin-top:14px; font-size:.85rem; color:rgba(255,255,255,.65); line-height:1.5;">' +
-        'Dans Google Ads → Outils et paramètres → Accès et sécurité → Ajouter un utilisateur, invite <strong>admin@pixby.ca</strong> avec le rôle <strong>Lecture seule</strong>. Aucun changement n’est possible sur ton compte avec cet accès — Alexander regarde seulement, avant le rendez-vous.' +
+        'Dans Google Ads → Outils et paramètres → Accès et sécurité → Ajouter un utilisateur, invitez <strong>admin@pixby.ca</strong> avec le rôle <strong>Lecture seule</strong>. Aucun changement n’est possible sur votre compte avec cet accès — Alexander regarde seulement, avant le rendez-vous.' +
       '</div>' +
     '</div>';
   }
@@ -1438,7 +1451,7 @@
         methodologyAccordionHtml(calc.kws.length ? marketSectionHtml() : '');
       populateMarketSection();
       document.getElementById('agendaList').innerHTML =
-        '<li>Ce qu’on doit regarder dans ton compte</li>' +
+        '<li>Ce qu’on doit regarder dans votre compte</li>' +
         '<li>Les prochaines actions concrètes</li>';
     } else {
       var findingsB = buildFindingsB();
@@ -1449,7 +1462,7 @@
         (findingsB.clientsBreakEven != null ? '<p class="limit-note" style="margin:10px 0 14px;">Onboarding initial Pixby de 1 000 $ non inclus.</p>' : '') +
         methodologyAccordionHtml(methodoInner);
       document.getElementById('agendaList').innerHTML =
-        '<li>Ce que tes chiffres montrent (ci-dessus)</li>' +
+        '<li>Ce que vos chiffres montrent (ci-dessus)</li>' +
         '<li>Le budget test et les critères d’arrêt avant de dépenser</li>';
       populateMarketSection();
     }
@@ -1471,13 +1484,13 @@
     compute();
     document.getElementById('scan').style.display = 'none';
     document.getElementById('results').style.display = 'block';
-    document.getElementById('resTitle').textContent = sel.hasAds === 'oui' ? 'Ton prédiagnostic' : 'Ton marché, avant d’investir';
-    document.getElementById('resSub').textContent = 'Basé sur tes réponses' + (sel.hasAds === 'oui' ? ' — aucune donnée de compte consultée.' : '.');
+    document.getElementById('resTitle').textContent = sel.hasAds === 'oui' ? 'Votre prédiagnostic' : 'Votre marché, avant d’investir';
+    document.getElementById('resSub').textContent = 'Basé sur vos réponses' + (sel.hasAds === 'oui' ? ' — aucune donnée de compte consultée.' : '.');
 
     renderResultsBody();
 
     var ctaLabel = 'Prendre rendez-vous avec Pixby';
-    var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans ton compte.' : '30 minutes, gratuit — on regarde ensemble si Google Ads a du sens pour toi.';
+    var ctaSub = sel.hasAds === 'oui' ? '30 minutes, gratuit — on regarde ce qui se passe vraiment dans votre compte.' : '30 minutes, gratuit — on regarde ensemble si Google Ads a du sens pour vous.';
     var ctaWrap = document.createElement('div');
     ctaWrap.style.textAlign = 'center';
     ctaWrap.style.margin = '22px 0';
@@ -1492,7 +1505,7 @@
       (sel.hasAds === 'oui'
         ? 'Aucun nombre de leads ou de clients n’est projeté ici tant qu’un audit réel du compte n’a pas été fait. '
         : 'La prévision Google Ads, quand elle est affichée, est un modèle de Google (clics/coût/CPC pour un budget donné) — pas une garantie de résultat, et elle ne projette aucun lead ni client. ') +
-      'La zone affichée est la ville la plus précise disponible dans Keyword Planner pour ta région choisie; à défaut de données suffisantes, le repère provincial (Québec) est utilisé et clairement indiqué.';
+      'La zone affichée est la ville la plus précise disponible dans Keyword Planner pour votre région choisie; à défaut de données suffisantes, le repère provincial (Québec) est utilisé et clairement indiqué.';
 
     dl({ event:'audit_results_viewed' });
     window.scrollTo(0,0);
@@ -1510,7 +1523,7 @@
     document.querySelectorAll('.step-section').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById('scan').style.display = 'none';
     document.getElementById('manual').style.display = 'block';
-    document.getElementById('manualSub').textContent = 'Mêmes données réelles Google que le reste du site — analysées à la main pour ton métier.';
+    document.getElementById('manualSub').textContent = 'Mêmes données réelles Google que le reste du site — analysées à la main pour votre métier.';
     document.getElementById('manualSummaryGrid').innerHTML =
       '<div><div class="k">Métier</div><div class="v">' + esc(sel.metierLabel) + '</div></div>' +
       '<div><div class="k">Zone</div><div class="v">' + esc(REGIONS[sel.r] || '') + '</div></div>' +
@@ -1606,7 +1619,7 @@
     if (state === 'submitting') { btn.disabled = true; btn.textContent = 'Envoi en cours…'; err.style.display = 'none'; }
     else if (state === 'error') {
       btn.disabled = false; btn.textContent = 'Réessayer →';
-      err.innerHTML = (message || 'La demande n’a pas pu être envoyée.') + ' Réessaie, ou <a href="' + trackedCalendlyUrl() + '" target="_blank" rel="noopener">réserve directement ton rendez-vous</a>.';
+      err.innerHTML = (message || 'La demande n’a pas pu être envoyée.') + ' Réessayez, ou <a href="' + trackedCalendlyUrl() + '" target="_blank" rel="noopener">réservez directement votre rendez-vous</a>.';
       err.style.display = 'block';
     } else if (state === 'idle') { btn.disabled = false; btn.textContent = 'Envoyer →'; err.style.display = 'none'; }
   }
