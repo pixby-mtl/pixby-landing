@@ -570,6 +570,10 @@
       background: var(--deep); display: flex; align-items: center; justify-content: center; padding: 40px;
     }
     .case-right img { width: 100%; border-radius: var(--r-md); }
+    @media (min-width: 561px) {
+      .case-right img[src*="photo-electromenager"] { height: 180px; object-fit: cover; }
+      .case-right img[src*="photo-toiture"] { height: 405px; object-fit: cover; object-position: center 35%; }
+    }
     @media (max-width: 840px) { .case-featured-inner { grid-template-columns: 1fr; } .case-right { padding: 24px; } .case-left { padding: 32px 24px; } }
     @media (max-width: 560px) {
       .case-right { padding: 0; background: #0b1623; }
@@ -1093,24 +1097,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="eyebrow reveal">C'est pour vous si…</span>
     <h2 class="ttl reveal">On travaille avec des électriciens<br>qui veulent <span class="grad-t">des appels suivis</span></h2>
     <p class="sub reveal">On n'accepte pas tout le monde. Licence CMEQ en règle, travail prouvé, et l'ambition de remplir le carnet avec des contrats payants — pas juste d'être occupé.</p>
-    <div class="niche-photos reveal">
-      <div>
-        <div class="img-placeholder" id="toiture-ph" style="height:230px;width:100%;display:flex;">
-          <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-electricien.jpg</span>
-        </div>
-        <img width="1280" height="851" decoding="async" src="../assets/photo-electricien.jpg" alt="Maître électricien au Québec"
-             style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
-             onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('toiture-ph').style.display='none'">
-      </div>
-      <div>
-        <div class="img-placeholder" id="electromenager-ph" style="height:230px;width:100%;display:flex;">
-          <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">hero-analytics.jpg</span>
-        </div>
-        <img width="1400" height="933" decoding="async" src="../assets/hero-analytics.jpg" alt="Suivi des conversions Google Ads"
-             style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
-             onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electromenager-ph').style.display='none'">
-      </div>
-    </div>
     <div class="niche-wrap mt-md">
       <div class="niche"><svg class="ic"><use href="#i-zap"/></svg> Panneau électrique</div>
       <div class="niche"><svg class="ic"><use href="#i-zap"/></svg> Borne de recharge</div>

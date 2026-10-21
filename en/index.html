@@ -639,6 +639,10 @@
       position: relative;
     }
     .case-right img { width: 100%; border-radius: var(--r-md); display: block; }
+    @media (min-width: 561px) {
+      .case-right img[src*="photo-electromenager"] { height: 180px; object-fit: cover; }
+      .case-right img[src*="photo-toiture"] { height: 405px; object-fit: cover; object-position: center 35%; }
+    }
     .case-photo-tag {
       position: absolute; top: 12px; right: 12px; z-index: 1;
       font-size: .65rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;

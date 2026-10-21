@@ -557,6 +557,10 @@
       background: var(--deep); display: flex; align-items: center; justify-content: center; padding: 40px;
     }
     .case-right img { width: 100%; border-radius: var(--r-md); }
+    @media (min-width: 561px) {
+      .case-right img[src*="photo-electromenager"] { height: 180px; object-fit: cover; }
+      .case-right img[src*="photo-toiture"] { height: 405px; object-fit: cover; object-position: center 35%; }
+    }
     @media (max-width: 840px) { .case-featured-inner { grid-template-columns: 1fr; } .case-right { padding: 24px; } .case-left { padding: 32px 24px; } }
     @media (max-width: 560px) {
       .case-right { padding: 0; background: #0b1623; }

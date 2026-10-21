@@ -645,6 +645,10 @@
       position: relative;
     }
     .case-right img { width: 100%; border-radius: var(--r-md); display: block; }
+    @media (min-width: 561px) {
+      .case-right img[src*="photo-electromenager"] { height: 180px; object-fit: cover; }
+      .case-right img[src*="photo-toiture"] { height: 405px; object-fit: cover; object-position: center 35%; }
+    }
     .case-photo-tag {
       position: absolute; top: 12px; right: 12px; z-index: 1;
       font-size: .65rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
@@ -1342,24 +1346,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="eyebrow reveal">C'est pour vous si…</span>
     <h2 class="ttl reveal">On travaille avec des PME locales<br>qui veulent <span class="grad-t">croître</span></h2>
     <p class="sub reveal">On n'accepte pas tout le monde. On se spécialise dans les entreprises locales au Québec qui ont un service prouvé et qui veulent plus de clients — pas juste plus de clics.</p>
-    <div class="niche-photos reveal">
-      <div>
-        <div class="img-placeholder" id="toiture-ph" style="height:230px;width:100%;display:flex;">
-          <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-toiture.jpg</span>
-        </div>
-        <img width="1280" height="1920" decoding="async" src="assets/photo-toiture.jpg" alt="Entrepreneur en toiture au Québec"
-             style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
-             onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('toiture-ph').style.display='none'">
-      </div>
-      <div>
-        <div class="img-placeholder" id="electromenager-ph" style="height:230px;width:100%;display:flex;">
-          <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-electromenager.jpg</span>
-        </div>
-        <img width="1400" height="933" decoding="async" src="assets/photo-electromenager.jpg" alt="Technicien en réparation d'électroménagers — PME locale au Québec"
-             style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
-             onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electromenager-ph').style.display='none'">
-      </div>
-    </div>
     <div class="niche-wrap mt-md">
       <div class="niche"><svg class="ic"><use href="#i-home"/></svg> Toiture</div>
       <div class="niche"><svg class="ic"><use href="#i-wrench"/></svg> Plomberie</div>
