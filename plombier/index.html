@@ -57,6 +57,7 @@
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :where(img[width][height]) { height: auto; }
 
     :root {
       --blue:      #0463A6;
@@ -685,7 +686,7 @@
     /* ── FOOTER ── */
     .footer { background: var(--deep); padding: 48px 32px; border-top: 1px solid rgba(255,255,255,.05); }
     .footer-inner { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
-    .footer-logo img { height: 30px; filter: brightness(0) invert(1); opacity: .4; }
+    .footer-logo img { height: 52px; width: auto; filter: brightness(0) invert(1); opacity: .4; }
     .footer-info { font-size: .79rem; color: rgba(255,255,255,.35); line-height: 1.85; }
     .footer-info a { color: rgba(255,255,255,.38); text-decoration: none; transition: color .18s; }
     .footer-info a:hover { color: rgba(255,255,255,.75); }
@@ -1097,7 +1098,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="img-placeholder" id="toiture-ph" style="height:230px;width:100%;display:flex;">
           <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">photo-electromenager.jpg</span>
         </div>
-        <img width="1400" height="933" loading="lazy" decoding="async" src="../assets/photo-electromenager.jpg" alt="Technicien en intervention — PME locale au Québec"
+        <img width="1400" height="933" decoding="async" src="../assets/photo-electromenager.jpg" alt="Technicien en intervention — PME locale au Québec"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('toiture-ph').style.display='none'">
       </div>
@@ -1105,7 +1106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="img-placeholder" id="electromenager-ph" style="height:230px;width:100%;display:flex;">
           <span class="ph-ico"><svg class="ic" style="width:28px;height:28px;color:#8a9ab0;stroke-width:1.5;"><use href="#i-camera"/></svg></span><span class="ph-name">hero-analytics.jpg</span>
         </div>
-        <img width="1400" height="933" loading="lazy" decoding="async" src="../assets/hero-analytics.jpg" alt="Suivi des conversions Google Ads"
+        <img width="1400" height="933" decoding="async" src="../assets/hero-analytics.jpg" alt="Suivi des conversions Google Ads"
              style="display:none;width:100%;height:230px;object-fit:cover;border-radius:var(--r-lg);"
              onerror="this.style.display='none'" onload="this.style.display='block';document.getElementById('electromenager-ph').style.display='none'">
       </div>
@@ -1211,7 +1212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="footer-inner">
-    <div class="footer-logo"><img src="../assets/logo.png" alt="Pixby" width="110" height="30"></div>
+    <div class="footer-logo"><img src="../assets/logo.png" alt="Pixby" width="52" height="52"></div>
     <div class="footer-info">
       <strong style="color:rgba(255,255,255,.6);">Pixby</strong> · Agence Google Ads Montréal · PME locales au Québec<br>
       <a href="mailto:admin@pixby.ca">admin@pixby.ca</a> · <a href="tel:4506343562">450-634-3562</a> · Montréal, QC, Canada<br>
