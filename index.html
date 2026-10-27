@@ -1052,6 +1052,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="hero-cta-row">
         <a href="/audit/" class="btn-hero-main" id="auditCtaText" data-placement="homepage_hero_text">Voir mon potentiel de clients →</a>
+        <a href="#directBookingPanel" class="hero-call" id="heroDirectBtn" data-placement="homepage_hero_direct" style="font-weight:700;">Ou réservez un rendez-vous (2 min)</a>
         <a href="tel:4506343562" class="hero-call" data-placement="homepage_hero_call">Ou appelez-nous : 450-634-3562</a>
       </div>
 
@@ -1551,6 +1552,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         dbPanel.setAttribute('hidden', '');
         dbToggleBtn.setAttribute('aria-expanded', 'false');
       }
+    });
+  }
+
+  var heroDirectBtn = document.getElementById('heroDirectBtn');
+  if (heroDirectBtn && dbPanel && dbToggleBtn) {
+    heroDirectBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      dbPanel.removeAttribute('hidden');
+      dbToggleBtn.setAttribute('aria-expanded', 'true');
+      dbPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var first = document.getElementById('dbPrenom');
+      if (first) setTimeout(function(){ first.focus({ preventScroll: true }); }, 400);
     });
   }
 
