@@ -1051,34 +1051,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </p>
 
       <div class="hero-cta-row">
-        <a href="/audit/" class="btn-hero-main" id="auditCtaText" data-placement="homepage_hero_text">Voir mon potentiel de clients →</a>
-        <a href="#directBookingPanel" class="hero-call" id="heroDirectBtn" data-placement="homepage_hero_direct" style="font-weight:700;">Ou réservez un rendez-vous (2 min)</a>
+        <a href="#audit" class="btn-hero-main" id="auditCtaText" data-placement="homepage_hero_text">Réserver un rendez-vous gratuit →</a>
         <a href="tel:4506343562" class="hero-call" data-placement="homepage_hero_call">Ou appelez-nous : 450-634-3562</a>
       </div>
 
-      <p class="hero-reassurance">Audit gratuit · Sans engagement · Aucun résultat garanti, des chiffres mesurés · <a href="#resultats" class="hero-link-sec">Voir des résultats réels</a></p>
+      <p class="hero-reassurance">Appel gratuit · Sans engagement · Aucun résultat garanti, des chiffres mesurés · <a href="#resultats" class="hero-link-sec">Voir des résultats réels</a></p>
     </div>
 
     <div class="hero-form-card" id="audit">
       <div class="hero-form-head">
-        <h2>Le vrai calcul, c'est le coût par prospect</h2>
-        <p>Pas le coût par clic : le coût de chaque appel ou formulaire.</p>
+        <h2>Réservez un appel de 30 minutes</h2>
+        <p>Laissez vos coordonnées, puis choisissez l'heure qui vous convient. Sans audit, sans engagement.</p>
       </div>
-
-      <div class="econ-flow">
-        <div class="econ-step"><b>Budget pub</b><span>+ gestion</span></div>
-        <div class="econ-arrow">→</div>
-        <div class="econ-step"><b>Clics</b><span>Google Ads</span></div>
-        <div class="econ-arrow">→</div>
-        <div class="econ-step"><b>Demandes</b><span>appels/formulaires</span></div>
+      <div id="directBookingPanel">
+      <form id="dbForm" novalidate>
+        <div class="f-row"><label for="dbPrenom">Votre prénom *</label><input type="text" id="dbPrenom" autocomplete="given-name"><p class="f-privacy" id="dbPrenomErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Votre prénom est requis.</p></div>
+        <div class="f-row"><label for="dbEmail">Courriel *</label><input type="email" id="dbEmail" autocomplete="email"><p class="f-privacy" id="dbEmailErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Un courriel valide est requis.</p></div>
+        <div class="f-row"><label for="dbTel">Téléphone (optionnel)</label><input type="tel" id="dbTel" placeholder="514-000-0000" autocomplete="tel"></div>
+        <div class="f-row"><label for="dbEntreprise">Nom de votre entreprise (optionnel)</label><input type="text" id="dbEntreprise" autocomplete="organization"></div>
+        <button type="submit" class="btn-submit" id="dbSubmitBtn">Envoyer et choisir un créneau →</button>
+        <p class="f-privacy" id="dbSubmitErr" style="display:none;color:#ef4444;"></p>
+        <p class="f-privacy">🔒 Confidentiel · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
+      </form>
+      <div class="f-success" id="dbSuccessMsg">
+        <div class="ico">✅</div>
+        <h3 id="dbSuccessTitle">Coordonnées envoyées</h3>
+        <p id="dbSuccessText">Choisissez maintenant votre créneau pour confirmer votre rendez-vous.</p>
+        <a class="btn-submit" id="dbCalendlyLink" href="#" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;margin-top:10px;">Choisir mon heure →</a>
       </div>
-
-      <div class="econ-row econ-final"><span>Coût par prospect</span><b class="econ-final-n">(budget pub + gestion) ÷ prospects (appels + formulaires)</b></div>
-
-      <a class="btn-submit" id="auditCta" href="/audit/" data-placement="homepage_hero_panel" style="display:block;text-align:center;text-decoration:none;">
-        Voir mon potentiel de clients →
-      </a>
-      <p class="f-privacy"><svg class="ic" style="width:11px;height:11px;margin-right:3px;"><use href="#i-lock"/></svg>Confidentiel · Sans engagement · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
+      </div>
     </div>
   </div>
 
@@ -1103,29 +1104,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p>Évaluez la demande et le budget avant de vous lancer.</p>
       <span class="path-link">Évaluer mon marché →</span>
     </a>
-  </div>
-
-  <div class="path-alt">
-    <p class="path-alt-txt"><strong>Vous voulez parler directement&nbsp;?</strong><span class="path-alt-sub">Passez l'audit et choisissez un créneau pour discuter de votre situation.</span></p>
-    <button type="button" class="p-btn out" id="dbToggleBtn" data-placement="homepage_direct_booking" aria-expanded="false" aria-controls="directBookingPanel" style="display:inline-block; width:auto; padding:13px 26px;">Réserver un rendez-vous</button>
-
-    <div class="direct-booking-panel" id="directBookingPanel" hidden>
-      <form id="dbForm" novalidate>
-        <div class="f-row"><label for="dbPrenom">Votre prénom *</label><input type="text" id="dbPrenom" autocomplete="given-name"><p class="f-privacy" id="dbPrenomErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Votre prénom est requis.</p></div>
-        <div class="f-row"><label for="dbEmail">Courriel *</label><input type="email" id="dbEmail" autocomplete="email"><p class="f-privacy" id="dbEmailErr" style="display:none;text-align:left;color:#ef4444;margin:4px 0 0;">Un courriel valide est requis.</p></div>
-        <div class="f-row"><label for="dbTel">Téléphone (optionnel)</label><input type="tel" id="dbTel" placeholder="514-000-0000" autocomplete="tel"></div>
-        <div class="f-row"><label for="dbEntreprise">Nom de votre entreprise (optionnel)</label><input type="text" id="dbEntreprise" autocomplete="organization"></div>
-        <button type="submit" class="btn-submit" id="dbSubmitBtn">Envoyer et choisir un créneau →</button>
-        <p class="f-privacy" id="dbSubmitErr" style="display:none;color:#ef4444;"></p>
-        <p class="f-privacy">🔒 Confidentiel · <a href="politique-confidentialite.html">Politique de confidentialité</a></p>
-      </form>
-      <div class="f-success" id="dbSuccessMsg">
-        <div class="ico">✅</div>
-        <h3 id="dbSuccessTitle">Coordonnées envoyées</h3>
-        <p id="dbSuccessText">Choisissez maintenant votre créneau pour confirmer votre rendez-vous.</p>
-        <a class="btn-submit" id="dbCalendlyLink" href="#" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;margin-top:10px;">Choisir mon heure →</a>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1552,18 +1530,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         dbPanel.setAttribute('hidden', '');
         dbToggleBtn.setAttribute('aria-expanded', 'false');
       }
-    });
-  }
-
-  var heroDirectBtn = document.getElementById('heroDirectBtn');
-  if (heroDirectBtn && dbPanel && dbToggleBtn) {
-    heroDirectBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      dbPanel.removeAttribute('hidden');
-      dbToggleBtn.setAttribute('aria-expanded', 'true');
-      dbPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      var first = document.getElementById('dbPrenom');
-      if (first) setTimeout(function(){ first.focus({ preventScroll: true }); }, 400);
     });
   }
 
