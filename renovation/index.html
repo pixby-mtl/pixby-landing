@@ -842,6 +842,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="hero-cta-row">
         <a href="/audit/" class="btn-hero-main" data-placement="metier_hero_text">Voir mon potentiel de clients →</a>
         <a href="tel:4506343562" class="hero-call" data-placement="metier_hero_call">Ou appelez-nous : 450-634-3562</a>
+        <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" class="btn-sec" data-placement="metier_hero_booking"><svg class="ic" style="width:15px;height:15px;"><use href="#i-phone"/></svg> Parler à Alex — 30 min</a>
       </div>
 
       <div class="hero-stats">
@@ -1169,6 +1170,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="fcta-btns reveal">
       <a href="/audit/" class="btn-main">Voir mon potentiel de clients →</a>
       <a href="tel:4506343562" class="btn-sec"><svg class="ic" style="width:15px;height:15px;"><use href="#i-phone"/></svg> 450-634-3562</a>
+      <a href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" class="btn-sec" data-placement="metier_final_cta_booking"><svg class="ic" style="width:15px;height:15px;"><use href="#i-phone"/></svg> Parler à Alex — 30 min</a>
     </div>
   </div>
 </section>
@@ -1236,8 +1238,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.querySelectorAll('[data-placement]').forEach(function(el) {
     el.addEventListener('click', function() {
       var placement = el.getAttribute('data-placement');
+      var isBooking = el.href && el.href.indexOf('calendly.com') > -1;
       var isCall = el.href && el.href.indexOf('tel:') === 0;
-      var eventName = isCall ? 'phone_cta_click' : 'audit_cta_click';
+      var eventName = isBooking ? 'booking_click' : (isCall ? 'phone_cta_click' : 'audit_cta_click');
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: eventName, cta_location: placement, placement: placement });
       if (typeof gtag === 'function') {

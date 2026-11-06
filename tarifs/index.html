@@ -134,6 +134,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h1>Un prix. Tout inclus.</h1>
 <p>Pas de forfaits compliqués, pas de frais cachés. Vous savez exactement ce que vous payez et ce que vous recevez.</p>
 <a class="hero-call" href="tel:4506343562" data-placement="hero_call">Ou appelez-nous : 450-634-3562</a>
+<a class="hero-call" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" data-placement="hero_booking" style="margin-left:10px">Parler à Alex — 30 min</a>
 </div></div>
 
 <div class="wrap"><div class="price-card">
@@ -182,6 +183,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2>Est-ce que ça vaut la peine pour votre marché ?</h2>
 <p>L'audit gratuit vous répond franchement — même si la réponse est non.</p>
 <a class="cta" href="/audit/">Voir mon potentiel de clients →</a>
+<a class="cta" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" data-placement="final_cta_booking" style="margin-left:10px">Parler à Alex — 30 min</a>
 </div></section>
 
 <footer><div class="wrap">
@@ -194,7 +196,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a href="/audit/" data-placement="mobile_float_cta">Voir mon potentiel de clients →</a>
 </div>
 <script>
-document.querySelectorAll('[data-placement]').forEach(function(el){el.addEventListener('click',function(){var p=el.getAttribute('data-placement');var call=(el.getAttribute('href')||'').indexOf('tel:')===0;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:call?'phone_cta_click':'audit_cta_click',cta_location:p,placement:p});});});
+document.querySelectorAll('[data-placement]').forEach(function(el){el.addEventListener('click',function(){var p=el.getAttribute('data-placement');var call=(el.getAttribute('href')||'').indexOf('tel:')===0;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:((el.getAttribute('href')||'').indexOf('calendly.com')>-1)?'booking_click':(call?'phone_cta_click':'audit_cta_click'),cta_location:p,placement:p});});});
 </script>
 </body>
 </html>

@@ -157,6 +157,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h1>Google Ads management pricing</h1>
 <p>No complicated plans, no hidden fees. You know exactly what you pay and what you get. No lead volume is guaranteed.</p>
 <a class="hero-call" href="tel:4506343562" data-placement="hero_call">Or call us: 450-634-3562</a>
+<a class="hero-call" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" data-placement="hero_booking" style="margin-left:10px">Talk to Alex — 30 min</a>
 </div></div>
 
 <div class="wrap"><div class="price-card">
@@ -204,6 +205,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2>Is it worth it for your market?</h2>
 <p>The free Audit gives you a straight answer — even if the answer is no.</p>
 <a class="cta" href="/audit/?lang=en" data-placement="page_cta">See my client potential →</a>
+<a class="cta" href="https://calendly.com/admin-pixby/30min" target="_blank" rel="noopener" data-placement="final_cta_booking" style="margin-left:10px">Talk to Alex — 30 min</a>
 </div></section>
 
 <footer><div class="wrap">
@@ -216,7 +218,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a href="/audit/?lang=en" data-placement="mobile_float_cta">See my client potential →</a>
 </div>
 <script>
-document.querySelectorAll('[data-placement]').forEach(function(el){el.addEventListener('click',function(){var p=el.getAttribute('data-placement');var call=(el.getAttribute('href')||'').indexOf('tel:')===0;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:call?'phone_cta_click':'audit_cta_click',cta_location:p,placement:p});});});
+document.querySelectorAll('[data-placement]').forEach(function(el){el.addEventListener('click',function(){var p=el.getAttribute('data-placement');var call=(el.getAttribute('href')||'').indexOf('tel:')===0;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:((el.getAttribute('href')||'').indexOf('calendly.com')>-1)?'booking_click':(call?'phone_cta_click':'audit_cta_click'),cta_location:p,placement:p});});});
 </script>
 </body>
 </html>
