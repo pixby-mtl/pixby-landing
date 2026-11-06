@@ -1505,7 +1505,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
      evenements dataLayer). N'invente aucun score/tier/signal : ce
      parcours ne passe jamais par le scoring de l'audit.
      ============================================================ */
-  var DB_WEBHOOK = 'https://formsubmit.co/ajax/admin@pixby.ca';
+  var DB_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
   var DB_CALENDLY_URL = 'https://calendly.com/admin-pixby/30min';
   var DB_BOOKING_ID = (function(){
     try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
@@ -1600,22 +1600,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         company_name: entEl.value.trim(),
         form_name: 'homepage-direct-booking',
         page_source: window.location.href,
-        booking_id: DB_BOOKING_ID,
-        _subject: 'Nouveau lead Pixby — homepage-direct-booking',
-        _template: 'table',
-        _captcha: 'false'
+        booking_id: DB_BOOKING_ID
       };
 
       window.dataLayer = window.dataLayer || [];
-      fetch(DB_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, keepalive:true, body: JSON.stringify(payload) })
+      fetch(DB_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) })
         .then(function(res){
           if (!res.ok) throw new Error('HTTP ' + res.status);
-          return res.clone().json().catch(function(){ return null; }).then(function(j){
-            if (j && (j.success === false || j.success === 'false')) throw new Error('FormSubmit refusé');
-            return res;
-          });
-        })
-        .then(function(res){
           if (typeof gtag === 'function') gtag('event','generate_lead',{ event_category:'formulaire', event_label:'homepage_direct_booking' });
           window.dataLayer.push({ event:'lead_submitted', cta_location:'homepage_direct_booking', booking_id: DB_BOOKING_ID });
 

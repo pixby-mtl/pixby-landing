@@ -530,29 +530,6 @@
     </div>
   </section>
 
-  <!-- STEP COURRIEL — juste avant la compilation : prénom + courriel seulement -->
-  <section class="step-section" id="stepEmail">
-    <div class="panel">
-      <div class="q-label"><span class="q-num">✉</span>Où on vous envoie votre diagnostic ?</div>
-      <form id="emailCaptureForm" novalidate>
-        <div class="f-row" style="max-width:320px;">
-          <label for="ecPrenom">Votre prénom *</label>
-          <input type="text" id="ecPrenom" autocomplete="given-name" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
-          <p class="f-error" id="ecPrenomErr">Votre prénom est requis.</p>
-        </div>
-        <div class="f-row" style="max-width:320px;">
-          <label for="ecEmail">Courriel *</label>
-          <input type="email" id="ecEmail" autocomplete="email" style="background:var(--glass); border-color:var(--glass-b); color:#fff;">
-          <p class="f-error" id="ecEmailErr">Un courriel valide est requis.</p>
-        </div>
-        <div class="step-actions">
-          <button class="btn" type="submit" id="emailCaptureBtn">Voir mon diagnostic →</button>
-        </div>
-        <p class="f-privacy">🔒 Confidentiel · <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
-      </form>
-    </div>
-  </section>
-
   <!-- SCAN -->
   <section id="scan" aria-live="polite">
     <div class="scan-ring"></div>
@@ -778,7 +755,7 @@
     dentiste:{mtl:{750:{c:247.7,s:750.0,p:3.03},1500:{c:495.6,s:1500.0,p:3.03},2500:{c:825.7,s:2499.9,p:3.03},4000:{c:1321.2,s:3999.9,p:3.03}},rs:{750:{c:238.5,s:750.0,p:3.14},1500:{c:476.7,s:1500.0,p:3.15},2500:{c:795.1,s:2499.9,p:3.14},4000:{c:1271.2,s:3999.9,p:3.15}},lav:{750:{c:241.5,s:750.0,p:3.11},1500:{c:483.0,s:1500.0,p:3.11},2500:{c:802.5,s:2499.9,p:3.12},4000:{c:1287.9,s:3999.9,p:3.11}},qc:{750:{c:265.3,s:750.0,p:2.83},1500:{c:532.2,s:1500.0,p:2.82},2500:{c:884.4,s:2499.9,p:2.83},4000:{c:985.5,s:2777.51,p:2.82}},gat:{750:{c:176.1,s:425.86,p:2.42},1500:{c:177.9,s:430.68,p:2.42},2500:{c:177.9,s:430.68,p:2.42},4000:{c:177.9,s:430.68,p:2.42}},sher:{750:{c:163.8,s:262.6,p:1.6},1500:{c:163.8,s:262.6,p:1.6},2500:{c:163.8,s:263.65,p:1.61},4000:{c:163.8,s:262.6,p:1.6}},tout:{750:{c:290.9,s:750.0,p:2.58},1500:{c:582.0,s:1500.0,p:2.58},2500:{c:969.6,s:2499.9,p:2.58},4000:{c:1551.4,s:3999.9,p:2.58}}}
   };
   var REGIONS = { mtl:"Grand Montréal", rs:"Rive-Sud (Longueuil, Brossard)", lav:"Laval / Rive-Nord", qc:"Québec / Lévis", gat:"Gatineau", sher:"Sherbrooke", autre:"Autre région", tout:"Tout le Québec" };
-  var WEBHOOK = 'https://formsubmit.co/ajax/admin@pixby.ca';
+  var WEBHOOK = 'https://services.leadconnectorhq.com/hooks/nOKP2se5Yu47dcgLrUmm/webhook-trigger/2ecf69df-873d-401d-aa69-91881c08edc7';
   var CALENDLY_URL = 'https://calendly.com/admin-pixby/30min';
   var AUDIT_VERSION = 'audit-v5-final-2026-09-26';
 
@@ -871,8 +848,8 @@
      parcours manuel (métier hors base instantanée, voir shouldSkip).
      ============================================================ */
   function buildSequence(){
-    if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel','stepEmail'];
-    return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel','stepEconomie','stepEmail'];
+    if (sel.hasAds === 'oui') return ['stepIntroA','stepMetier','stepRegion','stepBudgetActuel'];
+    return ['stepIntroB','stepMetier','stepRegion','stepBudgetPotentiel','stepEconomie'];
   }
   function shouldSkip(id){
     if (id === 'stepEconomie') return sel.manualPath;
@@ -1089,48 +1066,6 @@
   document.getElementById('economieNext').addEventListener('click', function(){
     var firstInvalid = validateEconomieFields();
     if (firstInvalid) { document.getElementById(firstInvalid).focus(); return; }
-    nextStep();
-  });
-
-  /* ============================================================
-     STEP COURRIEL (avant la compilation) — prénom + courriel.
-     Émet audit_email_captured (contexte dl() + step) et transmet un lead
-     partiel via submitLead() — MÊME webhook que #gateForm, form_name distinct
-     'audit-p0-partial', clé d'idempotence PROPRE (sinon le lead complet
-     suivant serait dédoublonné). Fire-and-forget : un échec réseau ne
-     bloque jamais le parcours. Un seul envoi par courriel (retour/édition).
-     ============================================================ */
-  var partialSentFor = null, prefilled = {};
-  document.getElementById('emailCaptureForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var firstInvalidEc = validateRequired([
-      { id:'ecPrenom', err:'ecPrenomErr' },
-      { id:'ecEmail', err:'ecEmailErr', type:'email' }
-    ]);
-    if (firstInvalidEc) { document.getElementById(firstInvalidEc).focus(); return; }
-    var prenom = document.getElementById('ecPrenom').value.trim();
-    var courriel = document.getElementById('ecEmail').value.trim();
-    if (partialSentFor !== courriel.toLowerCase()) {
-      partialSentFor = courriel.toLowerCase();
-      dl({ event:'audit_email_captured', step:'stepEmail' });
-      var pk;
-      try { pk = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : null; } catch(err){ pk = null; }
-      submitLead({
-        first_name: prenom, email: courriel,
-        type_entreprise: sel.m, metier_label: sel.metierLabel,
-        region: REGIONS[sel.r] || '', budget_declare: budgetSummaryLabel(),
-        has_google_ads: sel.hasAds,
-        page_source: window.location.href, form_name: 'audit-p0-partial',
-        idempotency_key: pk || ('partial_' + Date.now() + '_' + Math.random().toString(36).slice(2))
-      }).catch(function(err){
-        dl({ event:'lead_submit_failed', error: String(err && err.message || err), form_name:'audit-p0-partial' });
-      });
-    }
-    /* Préremplit les formulaires suivants (seulement si vides) */
-    [['gPrenom',prenom],['gEmail',courriel],['mPrenom',prenom],['mEmail',courriel]].forEach(function(p){
-      var el = document.getElementById(p[0]);
-      if (el && (!el.value || el.value === prefilled[p[0]])) { el.value = p[1]; prefilled[p[0]] = p[1]; }
-    });
     nextStep();
   });
 
@@ -1675,14 +1610,9 @@
     payload.audit_id = AUDIT_ID;
     payload.audit_version = AUDIT_VERSION;
     payload.parcours = sel.hasAds || 'inconnu';
-    payload.idempotency_key = payload.idempotency_key || generateIdempotencyKey();
-    payload._subject = 'Nouveau lead Pixby — ' + (payload.form_name || 'audit');
-    payload._template = 'table';
-    payload._captcha = 'false';
-    var res = await fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
+    payload.idempotency_key = generateIdempotencyKey();
+    var res = await fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body: JSON.stringify(payload) });
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    var j = null; try { j = await res.clone().json(); } catch(e){}
-    if (j && (j.success === false || j.success === 'false')) throw new Error('FormSubmit: ' + (j.message || 'refusé'));
     return res;
   }
 
